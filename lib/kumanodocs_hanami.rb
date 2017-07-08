@@ -1,0 +1,2 @@
+module KumanodocsHanami
+end
