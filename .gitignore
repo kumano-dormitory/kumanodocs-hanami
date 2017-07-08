@@ -1,3 +1,9 @@
-/db/*.sqlite
+#Ignore bundler config
+/.bundle
+
+#Ignore bundler gems
+/vendor
+
+#Ignore other files
 /public/assets*
 /tmp
