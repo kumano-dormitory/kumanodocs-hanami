@@ -4,7 +4,7 @@ meeting_rep = MeetingRepository.new
 author_rep = AuthorRepository.new
 article_rep = ArticleRepository.new
 
-[2016, 2017].each do |year|
+[2017].each do |year|
   (1..12).each do |month|
     [5, 20].each do |day|
       date = Date.new(year, month, day)
