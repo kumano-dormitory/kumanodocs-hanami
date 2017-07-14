@@ -1,0 +1,12 @@
+<ul>
+<% meetings.each do |meeting| %>
+  <li>
+    <%= meeting.date %>
+    <ul>
+    <% meeting.articles.each do |article| %>
+      <li><%= article.title %></li>
+    <% end %>
+    </ul>
+  </li>
+<% end %>
+</ul>
