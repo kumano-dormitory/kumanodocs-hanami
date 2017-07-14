@@ -10,3 +10,7 @@ end
 
 task default: :test
 task spec: :test
+
+task seed: :environment do
+  require_relative 'db/seed'
+end
