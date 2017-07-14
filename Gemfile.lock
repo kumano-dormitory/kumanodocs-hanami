@@ -46,6 +46,8 @@ GEM
       dry-equalizer (~> 0.2)
       dry-logic (~> 0.4, >= 0.4.0)
       dry-types (~> 0.11.0)
+    faker (1.8.4)
+      i18n (~> 0.5)
     hanami (1.0.0)
       bundler (~> 1.13)
       concurrent-ruby (~> 1.0)
@@ -92,6 +94,7 @@ GEM
     http_router (0.11.2)
       rack (>= 1.0.0)
       url_mount (~> 0.2.1)
+    i18n (0.8.6)
     ice_nine (0.11.2)
     inflecto (0.0.2)
     mail (2.6.6)
@@ -151,6 +154,7 @@ PLATFORMS
 DEPENDENCIES
   capybara
   dotenv (~> 2.0)
+  faker
   hanami (~> 1.0)
   hanami-model (~> 1.0)
   minitest
