@@ -8,6 +8,7 @@ gem 'hanami-model', '~> 1.0'
 gem 'tzinfo'
 
 gem 'pg'
+gem 'sass'
 
 group :development do
   # Code reloading
