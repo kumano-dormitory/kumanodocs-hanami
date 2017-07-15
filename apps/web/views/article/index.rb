@@ -1,4 +1,4 @@
-module Web::Views::Meeting
+module Web::Views::Article
   class Index
     include Web::View
   end

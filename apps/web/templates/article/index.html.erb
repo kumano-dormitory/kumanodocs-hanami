@@ -1,9 +1,9 @@
 <ul>
-<% meetings.each do |meeting| %>
+<% articles_by_meeting.each do |meeting, articles| %>
   <li>
     <%= meeting.date %>
     <ul>
-    <% meeting.articles.each do |article| %>
+    <% articles.each do |article| %>
       <li><a href='<%= routes.article_path(id: article.id) %>'><%= article.title %></a></li>
     <% end %>
     </ul>
