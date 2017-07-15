@@ -4,7 +4,7 @@
     <%= meeting.date %>
     <ul>
     <% meeting.articles.each do |article| %>
-      <li><%= article.title %></li>
+      <li><a href='<%= routes.article_path(id: article.id) %>'><%= article.title %></a></li>
     <% end %>
     </ul>
   </li>
