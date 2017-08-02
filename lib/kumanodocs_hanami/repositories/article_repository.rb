@@ -9,6 +9,11 @@ class ArticleRepository < Hanami::Repository
       .map { |meeting_id, articles| [MeetingRepository.new.find(meeting_id), articles] }
   end
 
+  def by_meeting(id)
+    articles.
+      where(meeting_id: id).to_a
+  end
+
   def with_author(id)
     aggregate(:author).where(id: id).map_to(Article).one
   end
