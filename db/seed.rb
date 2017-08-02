@@ -17,11 +17,10 @@ end
 
 meeting_rep.all.sample(10).each do |meeting|
   rand(2..5).times do
-    author = author_rep.create(name: Faker::Name.name)
+    author = author_rep.create(name: Faker::Name.name, crypt_password: Faker::Internet.password)
     article_rep.create(
       title: Faker::Lorem.sentence,
       body: Faker::Lorem.paragraphs.inject(&:+),
-      crypt_password: Faker::Internet.password,
       author_id: author.id,
       meeting_id: meeting.id
     )
