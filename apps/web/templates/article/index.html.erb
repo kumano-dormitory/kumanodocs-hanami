@@ -1,12 +1,17 @@
-<ul>
-<% articles_by_meeting.each do |meeting, articles| %>
-  <li>
-    <%= meeting.date %>
-    <ul>
-    <% articles.each do |article| %>
-      <li><a href='<%= routes.article_path(id: article.id) %>'><%= article.title %></a></li>
-    <% end %>
-    </ul>
-  </li>
-<% end %>
-</ul>
+<div>
+  <a href='<%= routes.new_article_path %>'>新規作成</a>
+</div>
+<div>
+  <ul>
+  <% articles_by_meeting.each do |meeting, articles| %>
+    <li>
+      <%= meeting.date %>
+      <ul>
+      <% articles.each do |article| %>
+        <li><a href='<%= routes.article_path(id: article.id) %>'><%= article.title %></a></li>
+      <% end %>
+      </ul>
+    </li>
+  <% end %>
+  </ul>
+</div>
