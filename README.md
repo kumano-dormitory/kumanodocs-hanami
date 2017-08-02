@@ -13,3 +13,11 @@ $ bundle exec rake seed
 ```
 
 And then, open [http://localhost:2300](http://localhost:2300).
+
+## Lint
+
+Rubocop is ready to used!
+
+```shell-session
+$ bundle exec rubocop
+```
