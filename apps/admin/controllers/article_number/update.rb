@@ -1,4 +1,4 @@
-module Admin::Controllers::Number
+module Admin::Controllers::ArticleNumber
   class Update
     include Admin::Action
 

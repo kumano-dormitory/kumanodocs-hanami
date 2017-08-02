@@ -1,4 +1,4 @@
-module Admin::Controllers::Number
+module Admin::Controllers::ArticleNumber
   class Edit
     include Admin::Action
     expose :articles
