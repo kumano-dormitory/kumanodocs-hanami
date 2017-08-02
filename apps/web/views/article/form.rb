@@ -45,7 +45,7 @@ module Web::Views::Article
 
         div do
           label '本文', for: :body
-          text_field :body
+          text_area :body
         end
 
         submit '投稿'
