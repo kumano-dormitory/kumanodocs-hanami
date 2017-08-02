@@ -1,4 +1,4 @@
-module Admin::Controllers::Status
+module Admin::Controllers::ArticleStatus
   class Edit
     include Admin::Action
     expose :articles

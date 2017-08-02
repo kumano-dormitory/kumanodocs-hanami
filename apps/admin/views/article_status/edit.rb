@@ -1,4 +1,4 @@
-module Admin::Views::Status
+module Admin::Views::ArticleStatus
   class Edit
     include Admin::View
   end
