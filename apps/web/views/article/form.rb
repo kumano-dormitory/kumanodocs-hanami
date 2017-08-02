@@ -34,12 +34,12 @@ module Web::Views::Article
 
           div do
             label 'パスワード', for: :password
-            text_field :password
+            password_field :password
           end
 
           div do
             label 'パスワード（確認）', for: :password_confirmation
-            text_field :password_confirmation
+            password_field :password_confirmation
           end
         end
 
