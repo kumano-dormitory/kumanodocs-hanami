@@ -3,7 +3,7 @@ class ArticleRepository < Hanami::Repository
     belongs_to :author
   end
 
-  def by_meeting
+  def group_by_meeting
     articles.to_a
       .group_by { |article| article.meeting_id }
       .map { |meeting_id, articles| [MeetingRepository.new.find(meeting_id), articles] }

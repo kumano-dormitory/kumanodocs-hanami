@@ -8,7 +8,7 @@ module Web::Controllers::Article
     end
 
     def call(params)
-      @articles_by_meeting = @article_repository.by_meeting
+      @articles_by_meeting = @article_repository.group_by_meeting
     end
   end
 end
