@@ -3,12 +3,13 @@ module Web::Controllers::Article
     include Web::Action
     expose :meetings, :categories
 
-    def initialize(meeting_repository: MeetingRepository.new, category_repository: CategoryRepository.new)
+    def initialize(meeting_repository: MeetingRepository.new,
+                   category_repository: CategoryRepository.new)
       @meeting_repository = meeting_repository
       @category_repository = category_repository
     end
 
-    def call(params)
+    def call(_params)
       @meetings = @meeting_repository.in_time
       @categories = @category_repository.all
     end

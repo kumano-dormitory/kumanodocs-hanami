@@ -2,7 +2,6 @@ module Admin::Controllers::ArticleStatus
   class Update
     include Admin::Action
 
-    def call(params)
-    end
+    def call(params) end
   end
 end
