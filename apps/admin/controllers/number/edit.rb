@@ -1,5 +1,5 @@
-module Admin::Controllers::Prepare
-  class Select
+module Admin::Controllers::Number
+  class Edit
     include Admin::Action
     expose :articles
 

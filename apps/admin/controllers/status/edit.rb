@@ -1,5 +1,5 @@
-module Admin::Controllers::Prepare
-  class Arrange
+module Admin::Controllers::Status
+  class Edit
     include Admin::Action
     expose :articles
 

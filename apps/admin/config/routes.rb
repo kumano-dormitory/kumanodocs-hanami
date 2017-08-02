@@ -3,5 +3,5 @@
 #
 # Example:
 # get '/hello', to: ->(env) { [200, {}, ['Hello from Hanami!']] }
-get '/meeting/:id/prepare/arrange', to: 'prepare#arrange'
-get '/meeting/:id/prepare/select', to: 'prepare#select'
+get '/meeting/:id/articles/number/edit', to: 'number#edit'
+get '/meeting/:id/articles/status/edit', to: 'status#edit'
