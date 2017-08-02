@@ -1,48 +1,8 @@
+require_relative './form'
+
 module Web::Views::Article
   class New
     include Web::View
-
-    def form(meetings, categories)
-      meetings_for_select = meetings.map { |meeting| [meeting.date, meeting.id] }.to_h
-
-      form_for :article, routes.articles_path, method: :put do
-        div do
-          label  '日程', for: :meeting_id
-          select :meeting_id, meetings_for_select
-        end
-
-        div do
-          label '議案の種別', for: 'article_categories'
-          div id: 'article_categories' do
-            categories.each do |category|
-              check_box :categories, name: 'article[categories][]', value: category.id, id: "category_#{category.id}"
-              label     category.name, for: "category_#{category.id}"
-            end
-          end
-        end
-
-        div do
-          label 'タイトル', for: :title
-          text_field :title
-        end
-
-        div do
-          label '本文', for: :body
-          text_field :body
-        end
-
-        div do
-          label 'パスワード', for: :password
-          password_field :password
-        end
-
-        div do
-          label 'パスワード（確認）', for: :password_confirm
-          password_field :password_confirm
-        end
-
-        submit '投稿'
-      end
-    end
+    include Form
   end
 end
