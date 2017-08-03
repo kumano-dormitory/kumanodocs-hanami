@@ -1,10 +1,10 @@
 require 'spec_helper'
 require_relative '../../../../apps/admin/views/status/update'
 
-describe Admin::Views::Status::Update do
+describe Admin::Views::ArticleStatus::Update do
   let(:exposures) { Hash[foo: 'bar'] }
   let(:template)  { Hanami::View::Template.new('apps/admin/templates/status/update.html.erb') }
-  let(:view)      { Admin::Views::Status::Update.new(template, exposures) }
+  let(:view)      { Admin::Views::ArticleStatus::Update.new(template, exposures) }
   let(:rendered)  { view.render }
 
   it 'exposes #foo' do

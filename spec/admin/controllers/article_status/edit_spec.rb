@@ -1,8 +1,8 @@
 require 'spec_helper'
 require_relative '../../../../apps/admin/controllers/prepare/select'
 
-describe Admin::Controllers::Prepare::Select do
-  let(:action) { Admin::Controllers::Prepare::Select.new }
+describe Admin::Controllers::ArticleStatus::Edit do
+  let(:action) { Admin::Controllers::ArticleStatus::Edit.new }
   let(:params) { Hash[] }
 
   it 'is successful' do

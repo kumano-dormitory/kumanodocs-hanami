@@ -1,8 +1,8 @@
 require 'spec_helper'
 require_relative '../../../../apps/admin/controllers/prepare/arrange'
 
-describe Admin::Controllers::Prepare::Arrange do
-  let(:action) { Admin::Controllers::Prepare::Arrange.new }
+describe Admin::Controllers::ArticleNumber::Edit do
+  let(:action) { Admin::Controllers::ArticleNumber::Edit.new }
   let(:params) { Hash[] }
 
   it 'is successful' do

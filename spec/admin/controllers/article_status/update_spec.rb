@@ -1,8 +1,8 @@
 require 'spec_helper'
 require_relative '../../../../apps/admin/controllers/status/update'
 
-describe Admin::Controllers::Status::Update do
-  let(:action) { Admin::Controllers::Status::Update.new }
+describe Admin::Controllers::ArticleStatus::Update do
+  let(:action) { Admin::Controllers::ArticleStatus::Update.new }
   let(:params) { Hash[] }
 
   it 'is successful' do
