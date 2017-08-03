@@ -21,4 +21,11 @@ class MeetingRepository < Hanami::Repository
       .limit(10)
       .to_a
   end
+
+  def order_by_date
+    meetings
+      .order(:date)
+      .reverse
+      .to_a
+  end
 end

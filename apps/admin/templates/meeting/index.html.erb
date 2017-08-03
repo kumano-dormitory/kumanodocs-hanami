@@ -1,0 +1,9 @@
+<p><a href='<%= routes.root_path %>'>Admin top page(this page)</a></p>
+
+<div>
+  <ul>
+    <% meetings.each do |meeting| %>
+      <li><a href='# path to admin meeting#show'><%= meeting.date %></a></li>
+    <% end %>
+  </ul>
+</div>
