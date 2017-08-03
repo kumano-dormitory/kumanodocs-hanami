@@ -1,5 +1,5 @@
 require 'spec_helper'
-require_relative '../../../../apps/admin/views/status/update'
+require_relative '../../../../apps/admin/views/article_status/update'
 
 describe Admin::Views::ArticleStatus::Update do
   let(:exposures) { Hash[foo: 'bar'] }

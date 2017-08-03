@@ -1,5 +1,5 @@
 require 'spec_helper'
-require_relative '../../../../apps/admin/controllers/number/update'
+require_relative '../../../../apps/admin/controllers/article_number/update'
 
 describe Admin::Controllers::ArticleNumber::Update do
   let(:action) { Admin::Controllers::ArticleNumber::Update.new }
