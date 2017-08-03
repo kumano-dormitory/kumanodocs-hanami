@@ -3,7 +3,7 @@
 <div>
   <ul>
     <% meetings.each do |meeting| %>
-      <li><a href='# path to admin meeting#show'><%= meeting.date %></a></li>
+      <li><a href='<%= routes.meeting_path(id: meeting.id) %>'><%= meeting.date %></a></li>
     <% end %>
   </ul>
 </div>
