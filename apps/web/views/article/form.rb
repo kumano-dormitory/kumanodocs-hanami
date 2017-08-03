@@ -15,8 +15,9 @@ module Web::Views::Article
           label '議案の種別', for: 'article_categories'
           div id: 'article_categories' do
             categories.each do |category|
-              check_box :categories, name: 'article[categories][]', value: category.id, id: "category_#{category.id}"
-              label     category.name, for: "category_#{category.id}"
+              check_box :categories, name: 'article[categories][]',
+                                     value: category.id, id: "category_#{category.id}"
+              label category.name, for: "category_#{category.id}"
             end
           end
         end
