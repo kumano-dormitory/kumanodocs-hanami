@@ -4,4 +4,6 @@
 # Example:
 # get '/hello', to: ->(env) { [200, {}, ['Hello from Hanami!']] }
 root to: 'article#index'
-resources :article
+resources :article do
+  resource :lock, only: [:new, :create]
+end
