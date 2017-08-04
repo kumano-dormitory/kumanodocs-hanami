@@ -1,4 +1,4 @@
-#require 'faker'
+# require 'faker'
 
 meeting_rep = MeetingRepository.new
 author_rep = AuthorRepository.new
@@ -10,7 +10,7 @@ category_rep = CategoryRepository.new
     [5, 20].each do |day|
       date = Date.new(year, month, day)
       deadline = Time.new(year, month, day, 22)
-      meeting = meeting_rep.create(date: date, deadline: deadline)
+      meeting_rep.create(date: date, deadline: deadline)
     end
   end
 end
@@ -30,5 +30,5 @@ end
 [
   { name: '周知', require_content: false },
   { name: '議論', require_content: false },
-  { name: '採決', require_content: true  },
+  { name: '採決', require_content: true  }
 ].each { |props| category_rep.create(props) }

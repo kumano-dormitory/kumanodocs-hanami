@@ -16,7 +16,7 @@ And then, open [http://localhost:2300](http://localhost:2300).
 
 ## Lint
 
-Rubocop is ready to used!
+Rubocop is ready to use!
 
 ```shell-session
 $ bundle exec rubocop

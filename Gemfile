@@ -2,19 +2,19 @@ source 'https://rubygems.org'
 
 ruby '~> 2.4.1'
 
-gem 'rake'
-gem 'hanami',       '~> 1.0'
+gem 'hanami', '~> 1.0'
 gem 'hanami-model', github: 'hanami/model', branch: 'develop'
-gem 'tzinfo'
 
 gem 'pg'
+gem 'rake'
 gem 'sass'
+gem 'tzinfo'
 
 group :development do
   # Code reloading
   # See: http://hanamirb.org/guides/projects/code-reloading
-  gem 'shotgun'
   gem 'rubocop'
+  gem 'shotgun'
 end
 
 group :test, :development do
@@ -23,8 +23,8 @@ group :test, :development do
 end
 
 group :test do
-  gem 'minitest'
   gem 'capybara'
+  gem 'minitest'
 end
 
 group :production do
