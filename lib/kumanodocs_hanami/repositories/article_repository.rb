@@ -3,6 +3,10 @@ class ArticleRepository < Hanami::Repository
     belongs_to :author
   end
 
+  def update_number(params_hash)
+    update(params_hash['article_id'], number: params_hash['number'])
+  end
+
   def group_by_meeting
     articles.to_a
             .group_by { |article| article.meeting_id }
