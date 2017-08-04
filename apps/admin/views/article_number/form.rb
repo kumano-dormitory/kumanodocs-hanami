@@ -17,7 +17,7 @@ module Admin::Views::ArticleNumber
                                             max: max,
                                             step: 1,
                                             value: value,
-                                            name: "meeting[articles][][article_number]",
+                                            name: "meeting[articles][][number]",
                                             id: "meeting-articles-#{idx}-number"
               hidden_field :article_id, name: "meeting[articles][][article_id]",
                                         value: article.id
