@@ -2,7 +2,6 @@ module Admin::Controllers::ArticleStatus
   class Update
     include Admin::Action
     expose :meeting
-    expose :articles
 
     params do
       required(:meeting).schema do
@@ -24,8 +23,7 @@ module Admin::Controllers::ArticleStatus
         end
         redirect_to routes.meeting_path(id: params[:id])
       else
-        @meeting = @meeting_repo.find(params[:id])
-        @articles = @article_repo.by_meeting(params[:id])
+        @meeting = @meeting_repo.find_with_articles(params[:id])
       end
     end
   end
