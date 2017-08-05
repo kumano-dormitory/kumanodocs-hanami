@@ -13,7 +13,7 @@ class ArticleRepository < Hanami::Repository
     articles.where(meeting_id: id).to_a
   end
 
-  def with_author(id)
+  def find_with_author(id)
     aggregate(:author).where(id: id).map_to(Article).one
   end
 end
