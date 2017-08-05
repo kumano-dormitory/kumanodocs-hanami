@@ -8,7 +8,7 @@ module Web::Controllers::Article
     end
 
     def call(params)
-      @article = @article_repository.find(params[:id])
+      @article = @article_repository.find_with_author(params[:id])
     end
   end
 end
