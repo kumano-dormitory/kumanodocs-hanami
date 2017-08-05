@@ -2,6 +2,7 @@ module Web::Views::Article
   module Form
     def form_create(meetings, categories)
       meetings_for_select = meetings.map { |meeting| [meeting.date, meeting.id] }.to_h
+      categories_for_select = categories.map { |category| [category.name, category.id] }.to_h
 
       form_for :article,
                routes.articles_path,
@@ -12,14 +13,8 @@ module Web::Views::Article
         end
 
         div do
-          label '議案の種別', for: 'article_categories'
-          div id: 'article_categories' do
-            categories.each do |category|
-              check_box :categories, name: 'article[categories][]',
-                                     value: category.id, id: "category_#{category.id}"
-              label category.name, for: "category_#{category.id}"
-            end
-          end
+          label '議案の種別', for: 'categories'
+          select :categories, categories_for_select, multiple: true
         end
 
         div do
