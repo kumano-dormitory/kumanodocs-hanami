@@ -1,6 +1,6 @@
 module Web::Views::Article
   module Form
-    def form(meetings, categories)
+    def form_create(meetings, categories)
       meetings_for_select = meetings.map { |meeting| [meeting.date, meeting.id] }.to_h
 
       form_for :article,
