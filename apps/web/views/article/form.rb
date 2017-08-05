@@ -54,8 +54,8 @@ module Web::Views::Article
       values = article.nil? ? {} : { article: article }
 
       form_for :article,
-               routes.articles_path,
-               method: :put,
+               routes.article_path(id: params[:id]),
+               method: :patch,
                values: values do
         div do
           label  '日程', for: :meeting_id
