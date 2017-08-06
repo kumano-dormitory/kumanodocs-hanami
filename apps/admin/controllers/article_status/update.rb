@@ -5,7 +5,14 @@ module Admin::Controllers::ArticleStatus
 
     params do
       required(:meeting).schema do
-        required(:articles) { array? { each { hash? }}}
+        required(:articles) do
+          array? do
+            each do
+              hash?
+              # FIX ME: hash?　中身までバリデーションをする
+            end
+          end
+        end
       end
     end
 
