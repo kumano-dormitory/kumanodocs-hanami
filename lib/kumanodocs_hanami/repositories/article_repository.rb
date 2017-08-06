@@ -3,6 +3,14 @@ class ArticleRepository < Hanami::Repository
     belongs_to :author
   end
 
+  def update_status(articles_status)
+    articles_status.each do |status|
+      checked = !status['checked'].nil?
+      printed = !status['printed'].nil?
+      update(status['article_id'], checked: checked, printed: printed)
+    end
+  end
+
   def group_by_meeting
     articles.to_a
             .group_by { |article| article.meeting_id }

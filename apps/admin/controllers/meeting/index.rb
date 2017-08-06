@@ -1,14 +1,14 @@
-module Admin::Controllers::ArticleStatus
-  class Edit
+module Admin::Controllers::Meeting
+  class Index
     include Admin::Action
-    expose :meeting
+    expose :meetings
 
     def initialize(meeting_repo: MeetingRepository.new)
       @meeting_repo = meeting_repo
     end
 
     def call(params)
-      @meeting = @meeting_repo.find_with_articles(params[:id])
+      @meetings = @meeting_repo.desc_by_date
     end
   end
 end

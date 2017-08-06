@@ -1,0 +1,8 @@
+<h1><%= meeting.date %></h1>
+<div>
+  <p>Actions</p>
+  <ul>
+    <li><a href='<%= routes.edit_article_status_path(id: meeting.id) %>'>Edit article status</a></li>
+    <li><a href='<%= routes.edit_article_number_path(id: meeting.id) %>'>Edit article number</a></li>
+  </ul>
+</div>
