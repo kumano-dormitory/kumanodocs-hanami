@@ -20,7 +20,12 @@ class ArticleRepository < Hanami::Repository
 
   def add_categories(article, datas)
     datas.map! { |data| data.merge!(article_id: article.id) }
-    create(datas)
+    ArticleCategoryRepository.new.create(datas)
     return nil
+  end
+
+  def update_categories(article, datas)
+    assoc(:article_categories, article).delete
+    add_categories(article, datas)
   end
 end
