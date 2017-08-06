@@ -1,6 +1,7 @@
 class ArticleRepository < Hanami::Repository
   associations do
     belongs_to :author
+    has_many :article_categories
   end
 
   def group_by_meeting
@@ -15,5 +16,11 @@ class ArticleRepository < Hanami::Repository
 
   def find_with_author(id)
     aggregate(:author).where(id: id).map_to(Article).one
+  end
+
+  def add_categories(article, datas)
+    datas.map! { |data| data.merge!(article_id: article.id) }
+    create(datas)
+    return nil
   end
 end

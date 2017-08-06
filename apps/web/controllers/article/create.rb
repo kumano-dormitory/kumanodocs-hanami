@@ -20,14 +20,11 @@ module Web::Controllers::Article
     def initialize(meeting_repo: MeetingRepository.new,
                    category_repo: CategoryRepository.new,
                    article_repo: ArticleRepository.new,
-                   author_repo: AuthorRepository.new,
-                   article_category_repo: ArticleCategoryRepository.new)
-
+                   author_repo: AuthorRepository.new)
       @meeting_repo = meeting_repo
       @category_repo = category_repo
       @article_repo = article_repo
       @author_repo = author_repo
-      @article_category_repo = article_category_repo
     end
 
     def call(params)
@@ -38,7 +35,7 @@ module Web::Controllers::Article
         )
         article_params = params[:article].to_h.merge(author_id: author.id)
         article = @article_repo.create(article_params)
-        @article_category_repo.attach_categories(article.id, params[:article][:categories])
+        @article_repo.add_categories(article, params[:article][:categories])
 
         redirect_to routes.article_path(id: article.id)
       else
