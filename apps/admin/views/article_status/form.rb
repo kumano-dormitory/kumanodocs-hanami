@@ -13,14 +13,14 @@ module Admin::Views::ArticleStatus
               div do
                 check_box :checked, name: "meeting[articles][][checked]",
                                     id: "meeting-articles-#{idx}-checked",
-                                    value: 'true',
+                                    value: true,
                                     checked: article.checked
                 label 'checked'
               end
               div do
                 check_box :printed, name: "meeting[articles][][printed]",
                                     id: "meeting-articles-#{idx}-printed",
-                                    value: 'true',
+                                    value: true,
                                     checked: article.printed
                 label 'printed'
               end
