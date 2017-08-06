@@ -3,8 +3,10 @@ class ArticleRepository < Hanami::Repository
     belongs_to :author
   end
 
-  def update_number(params_hash)
-    update(params_hash['article_id'], number: params_hash['number'])
+  def update_number(articles_number)
+    articles_number.each do |article_attr|
+      update(article_attr['article_id'], number: article_attr['number'])
+    end
   end
 
   def update_status(articles_status)

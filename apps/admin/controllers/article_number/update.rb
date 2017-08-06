@@ -17,11 +17,9 @@ module Admin::Controllers::ArticleNumber
     end
 
     def call(params)
-      Hanami.logger.info params[:meeting].inspect
       if params.valid?
-        params[:meeting][:articles].each do |params_hash|
-          @article_repo.update_number(params_hash)
-        end
+        articles_number = params[:meeting][:articles]
+        @article_repo.update_number(articles_number)
         redirect_to routes.meeting_path(id: params[:id])
       else
         @meeting = @meeting_repo.find(params[:id])
