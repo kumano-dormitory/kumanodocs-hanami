@@ -11,18 +11,17 @@ module Admin::Views::ArticleNumber
         articles.each_with_index do |article, idx|
           value = article.number
           div do
-            label article.title
-            div do
-              label 'article number'
-              number_field :article_number, min: 1,
-                                            max: max,
-                                            step: 1,
-                                            value: value,
-                                            name: "meeting[articles][][number]",
-                                            id: "meeting-articles-#{idx}-number"
-              hidden_field :article_id, name: "meeting[articles][][article_id]",
-                                        value: article.id
-            end
+            label article.title, for: "meeting-articles-#{idx}-article_id"
+            hidden_field :article_id, name: "meeting[articles][][article_id]",
+                                      id: "meeting-articles-#{idx}-article_id",
+                                      value: article.id
+            label 'article number', for: "meeting-articles-#{idx}-number"
+            number_field :article_number, name: "meeting[articles][][number]",
+                                          id: "meeting-articles-#{idx}-number",
+                                          min: 1,
+                                          max: max,
+                                          step: 1,
+                                          value: value
           end
         end
 
