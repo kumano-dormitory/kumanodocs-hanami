@@ -30,7 +30,7 @@ class MeetingRepository < Hanami::Repository
       .to_a
   end
 
-  def order_by_date
+  def desc_by_date
     meetings
       .order(:date)
       .reverse

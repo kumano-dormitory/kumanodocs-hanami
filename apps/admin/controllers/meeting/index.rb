@@ -8,7 +8,7 @@ module Admin::Controllers::Meeting
     end
 
     def call(params)
-      @meetings = @meeting_repo.order_by_date
+      @meetings = @meeting_repo.desc_by_date
     end
   end
 end
