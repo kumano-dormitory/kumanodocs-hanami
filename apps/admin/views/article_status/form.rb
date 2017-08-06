@@ -2,7 +2,7 @@ module Admin::Views::ArticleStatus
   module Form
     def form(meeting)
       form_for :meeting,
-               routes.update_article_status_path(id: meeting.id),
+               routes.article_status_path(id: meeting.id),
                method: :patch do
 
         meeting.articles.each_with_index do |article, idx|
