@@ -1,6 +1,7 @@
 module Admin::Views::ArticleNumber
   module Form
     def form(meeting, articles)
+      return if articles.nil? || articles.count == 0
       max = articles.count
 
       form_for :meeting,
