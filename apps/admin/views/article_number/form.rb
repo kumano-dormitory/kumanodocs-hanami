@@ -5,7 +5,7 @@ module Admin::Views::ArticleNumber
       max = articles.count
 
       form_for :meeting,
-               routes.update_article_number_path(id: meeting.id),
+               routes.article_number_path(id: meeting.id),
                method: :patch do
 
         articles.each_with_index do |article, idx|
