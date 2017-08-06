@@ -1,14 +1,14 @@
 module Admin::Views::ArticleNumber
   module Form
-    def form(meeting, articles)
-      return if articles.nil? || articles.count == 0
-      max = articles.count
+    def form(meeting)
+      return if meeting.articles.nil? || meeting.articles.count == 0
+      max = meeting.articles.count
 
       form_for :meeting,
                routes.article_number_path(id: meeting.id),
                method: :patch do
 
-        articles.each_with_index do |article, idx|
+        meeting.articles.each_with_index do |article, idx|
           value = article.number
           div do
             label article.title, for: "meeting-articles-#{idx}-article_id"

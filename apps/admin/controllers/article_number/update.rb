@@ -22,8 +22,7 @@ module Admin::Controllers::ArticleNumber
         @article_repo.update_number(articles_number)
         redirect_to routes.meeting_path(id: params[:id])
       else
-        @meeting = @meeting_repo.find(params[:id])
-        @articles = @article_repo.by_meeting(params[:id])
+        @meeting = @meeting_repo.find_with_articles(params[:id])
       end
     end
   end
