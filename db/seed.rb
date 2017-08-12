@@ -32,3 +32,10 @@ end
   { name: '議論', require_content: false },
   { name: '採決', require_content: true  }
 ].each { |props| category_rep.create(props) }
+
+categories = category_rep.all
+article_rep.all.each do |article|
+  cates = categories.sample(rand(1..2))
+  datas = cates.map { |c| { category_id: c.id } }
+  article_rep.add_categories(article, datas)
+end
