@@ -20,6 +20,9 @@ class ArticleRepository < Hanami::Repository
   end
 
   def add_categories(article, datas)
+    # datas.each { |data| assoc(:article_cateogries, article).add(data) }
+    # とも書けるが、SQLの数が増えるので以下のように書いている。
+    # assoc(:article_cateogries, article).add(datas)のように書けたらいいのに。
     datas.map! { |data| data.merge!(article_id: article.id) }
     ArticleCategoryRepository.new.create(datas)
     return nil
