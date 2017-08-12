@@ -52,11 +52,18 @@ module Web::Views::Article
       meetings_for_select = meetings.map { |meeting| [meeting.date, meeting.id] }.to_h
       categories_for_select = categories.map { |category| [category.name, category.id] }.to_h
       values = article.nil? ? {} : { article: article }
+      article_categories_selected = article&.article_categories&.map(&:category_id)
 
       form_for :article,
                routes.article_path(id: params[:id]),
                method: :patch,
                values: values do
+        unless params.valid?
+          div do
+            params.errors.to_s
+          end
+        end
+
         div do
           label  '日程', for: :meeting_id
           select :meeting_id, meetings_for_select
@@ -64,7 +71,10 @@ module Web::Views::Article
 
         div do
           label '議案の種別', for: 'categories'
-          select :categories, categories_for_select, multiple: true
+          select :categories, categories_for_select, multiple: true,
+                                                     options: {
+                                                       selected: article_categories_selected
+                                                     }
         end
 
         div do
