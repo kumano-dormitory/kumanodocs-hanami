@@ -16,7 +16,7 @@ module Web::Controllers::Article::Lock
 
     # article_idとpasswordを受け取り、passwordが正しければarticle_lock_keyを設定する
     def call(params)
-      article = @article_repo.find_with_author(params[:article_id])
+      article = @article_repo.find_with_relations(params[:article_id])
       if article.author.authenticate(params[:author][:password])
         lock_key = @author_repo.lock(article.author_id, params[:password])
         cookies[:article_lock_key] = lock_key

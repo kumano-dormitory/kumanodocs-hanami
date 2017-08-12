@@ -14,7 +14,7 @@ module Web::Controllers::Article
     def call(params)
       @meetings = @meeting_repo.in_time
       @categories = @category_repo.all
-      @article = @article_repo.find_with_author(params[:id])
+      @article = @article_repo.find_with_relations(params[:id])
     end
   end
 end
