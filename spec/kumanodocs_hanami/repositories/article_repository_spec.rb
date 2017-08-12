@@ -7,40 +7,28 @@ describe ArticleRepository do
   let(:author_repo) { AuthorRepository.new }
   let(:ac_repo) { ArticleCategoryRepository.new }
 
-  before do
-    meeting_date = Date.today + 30
-    meeting = meeting_repo.create(date: meeting_date, deadline: (meeting_date - 2).to_time)
-    category_repo.create(5.times.map { { name: Faker::Cat.name } })
-    author_repo.create(5.times.map { { name: Faker::Name.name, crypt_password: Faker::Internet.password } })
+  let(:article) { create(:article) }
+  let(:categories) { create_list(:category, 5) }
 
-    article_params = author_repo.all.map do |author|
-      {
-        title: Faker::Book.title,
-        body: Faker::Lorem.paragraphs.join,
-        author_id: author.id,
-        meeting_id: meeting.id
-      }
-    end
-    article_repo.create(article_params)
+  it 'categoryを追加できること' do
+    datas = categories.sample(2).map { |category| { category_id: category.id } }
+    article_repo.add_categories(article, datas)
+    
+    _article = article_repo.find_with_relations(article.id)
+    _article.article_categories.size.must_equal 2
   end
 
-  it 'categoryを追加/更新できること' do
-    article = article_repo.all.sample
-    categories = category_repo.all.sample(2)
+  it 'categoryを更新できること' do
+    datas = categories.sample(3).map { |category| { category_id: category.id } }
+    article_repo.update_categories(article, datas)
     
-    # 追加
-    article_repo.add_categories(
-      article,
-      categories.map { |category| { category_id: category.id } }
-    )
-    ac_repo.all.count.must_equal categories.count
+    _article = article_repo.find_with_relations(article.id)
+    _article.article_categories.size.must_equal 3
+  end
 
-    # 更新
-    categories = category_repo.all.sample(3)
-    article_repo.update_categories(
-      article,
-      categories.map { |category| { category_id: category.id } }
-    )
-    ac_repo.all.count.must_equal categories.count
+  it 'authorとcategoryを一緒に読み込めること' do
+    aggr_article = article_repo.find_with_relations(article.id)
+    aggr_article.article_categories.wont_be_nil
+    aggr_article.author.wont_be_nil
   end
 end

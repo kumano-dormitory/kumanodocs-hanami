@@ -14,8 +14,9 @@ class ArticleRepository < Hanami::Repository
     articles.where(meeting_id: id).to_a
   end
 
-  def find_with_author(id)
-    aggregate(:author).where(id: id).map_to(Article).one
+  def find_with_relations(id)
+    aggregate(:article_categories, :author)
+      .where(id: id).map_to(Article).one
   end
 
   def add_categories(article, datas)
