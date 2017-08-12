@@ -25,7 +25,9 @@ class ArticleRepository < Hanami::Repository
   end
 
   def update_categories(article, datas)
-    assoc(:article_categories, article).delete
-    add_categories(article, datas)
+    transaction do
+      assoc(:article_categories, article).delete
+      add_categories(article, datas)
+    end
   end
 end
