@@ -19,7 +19,7 @@ module Admin::Controllers::ArticleNumber
     def call(params)
       if params.valid?
         articles_number = params[:meeting][:articles]
-        @article_repo.update_number(articles_number)
+        @article_repo.update_number(params[:id], articles_number)
         redirect_to routes.meeting_path(id: params[:id])
       else
         @meeting = @meeting_repo.find_with_articles(params[:id])
