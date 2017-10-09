@@ -2,7 +2,6 @@ module Admin::Controllers::ArticleNumber
   class Update
     include Admin::Action
     expose :meeting
-    expose :articles
 
     params do
       required(:meeting).schema do
