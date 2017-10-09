@@ -5,11 +5,8 @@ class ArticleRepository < Hanami::Repository
 
   def update_number(articles_number)
     articles_number.each do |article_attr|
-      if !article_attr['number'].eql?("")
-        update(article_attr['article_id'], number: article_attr['number'])
-      else
-        update(article_attr['article_id'], number: nil)
-      end
+      num = article_attr['number'].eql?("") ? nil : article_attr['number']
+      update(article_attr['article_id'], number: num)
     end
   end
 
