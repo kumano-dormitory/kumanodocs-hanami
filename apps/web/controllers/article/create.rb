@@ -21,7 +21,6 @@ module Web::Controllers::Article
                    category_repo: CategoryRepository.new,
                    article_repo: ArticleRepository.new,
                    author_repo: AuthorRepository.new)
-
       @meeting_repo = meeting_repo
       @category_repo = category_repo
       @article_repo = article_repo
@@ -34,9 +33,10 @@ module Web::Controllers::Article
           params[:article][:author][:name],
           params[:article][:author][:password]
         )
-
         article_params = params[:article].to_h.merge(author_id: author.id)
         article = @article_repo.create(article_params)
+        @article_repo.add_categories(article, params[:article][:categories])
+
         redirect_to routes.article_path(id: article.id)
       else
         @meetings = @meeting_repo.in_time

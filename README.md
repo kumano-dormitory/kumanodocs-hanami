@@ -21,3 +21,12 @@ Rubocop is ready to use!
 ```shell-session
 $ bundle exec rubocop
 ```
+
+## Test
+
+Test is written in RSpec. To run test:
+
+```shell-session
+$ HANAMI_ENV=test bundle exec hanami db prepare
+$ bundle exec rake test
+```

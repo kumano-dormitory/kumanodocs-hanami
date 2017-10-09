@@ -3,12 +3,12 @@ module Web::Controllers::Article
     include Web::Action
     expose :article
 
-    def initialize(article_repository: ArticleRepository.new)
-      @article_repository = article_repository
+    def initialize(article_repo: ArticleRepository.new)
+      @article_repo = article_repo
     end
 
     def call(params)
-      @article = @article_repository.find(params[:id])
+      @article = @article_repo.find_with_relations(params[:id])
     end
   end
 end

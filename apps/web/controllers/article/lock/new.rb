@@ -8,7 +8,7 @@ module Web::Controllers::Article::Lock
     end
 
     def call(params)
-      article = @article_repo.with_author(params[:article_id])
+      article = @article_repo.find_with_relations(params[:article_id])
       @locked = article.author.locked?
     end
   end
