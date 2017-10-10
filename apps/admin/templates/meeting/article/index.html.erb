@@ -1,0 +1,10 @@
+<% articles.each do |article| %>
+  <div class="article">
+    <h1>
+      <a href="<%= routes.meeting_article_path(meeting_id: article.meeting_id, id: article.id) %>">
+        <%= article.title %>
+      </a>
+    </h1>
+    <p><%= article.body %></p>
+  </div>
+<% end %>
