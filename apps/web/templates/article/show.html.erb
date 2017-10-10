@@ -1,4 +1,10 @@
 <h1><%= article.title %></h1>
+<a href="<%= routes.edit_article_path(article.id) %>">編集</a>
+<%=
+  form_for :article, routes.article_path(article.id), method: :delete, class: "delete_article" do
+    submit '削除'
+  end
+%>
 <h2><%= article.author.name %></h2>
 <% article.categories.each do |category| %>
   <h2><%= category.name %></h2>
