@@ -2,6 +2,7 @@ module Admin::Controllers::Meeting
   module Article
     class New
       include Admin::Action
+      expose :meetings, :categories
 
       def initialize(meeting_repo: MeetingRepository.new,
                      category_repo: CategoryRepository.new)
@@ -10,6 +11,8 @@ module Admin::Controllers::Meeting
       end
 
       def call(params)
+        @meetings = @meeting_repo.in_time
+        @categories = @category_repo.all
       end
     end
   end
