@@ -8,6 +8,8 @@ module Admin::Controllers::Meeting
       end
 
       def call(params)
+        @article_repo.delete(params[:id])
+        redirect_to routes.meeting_articles_path(meeting_id: params[:meeting_id])
       end
     end
   end
