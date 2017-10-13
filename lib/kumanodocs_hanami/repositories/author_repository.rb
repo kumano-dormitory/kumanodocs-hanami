@@ -11,4 +11,8 @@ class AuthorRepository < Hanami::Repository
     update(id, lock_key: lock_key)
     lock_key
   end
+
+  def release_lock(id)
+    update(id, lock_key: nil)
+  end
 end

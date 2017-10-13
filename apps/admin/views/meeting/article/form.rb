@@ -49,11 +49,13 @@ module Admin::Views::Meeting
         end
       end
 
-      def form_for_update(meetings, categories, article = nil)
+      def form_for_update(meetings, categories, hash = {})
+        article = hash[:article]
         meetings_for_select = meetings.map { |meeting| [meeting.date, meeting.id] }.to_h
         categories_for_select = categories.map { |category| [category.name, category.id] }.to_h
         values = article.nil? ? {} : { article: article }
         article_categories_selected = article&.article_categories&.map(&:category_id)
+        get_lock = hash[:confirm_update] ? true : false
 
         form_for :article,
                  routes.meeting_article_path(meeting_id: params[:meeting_id], id: params[:id]),
@@ -93,6 +95,10 @@ module Admin::Views::Meeting
           div do
             label '本文', for: :body
             text_area :body
+          end
+
+          div do
+            hidden_field :get_lock, value: get_lock
           end
 
           submit '保存'
