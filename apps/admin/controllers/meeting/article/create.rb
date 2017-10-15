@@ -16,6 +16,7 @@ module Admin::Controllers::Meeting
           end
           required(:body).filled(:str?)
         end
+        required(:meeting_id).filled(:int?)
       end
 
       def initialize(meeting_repo: MeetingRepository.new,
@@ -39,7 +40,7 @@ module Admin::Controllers::Meeting
           category_params = params[:article][:categories].map { |category_id| { category_id: category_id } }
           @article_repo.add_categories(article, category_params)
 
-          redirect_to routes.meeting_articles_path(meeting_id: params[:meeting_id])
+          redirect_to routes.meeting_article_path(meeting_id: params[:meeting_id], id: article.id)
         else
           @meetings = @meeting_repo.in_time
           @categories = @category_repo.all
