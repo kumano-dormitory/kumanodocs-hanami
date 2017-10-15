@@ -17,6 +17,11 @@ describe Admin::Controllers::ArticleNumber::Update do
 
     response = action.call(params)
     response[0].must_equal 302
+
+    article_params.each_with_index do |hash, index|
+      _article = article_repo.find(hash['article_id'].to_i)
+      _article.number.must_equal numbers[index].to_i
+    end
   end
 
   it 'is rejected' do
