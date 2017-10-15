@@ -13,6 +13,10 @@ describe Admin::Controllers::ArticleStatus::Update do
   it 'is successful' do
     response = action.call(params)
     response[0].must_equal 302
+
+    _article = article_repo.find(article.id)
+    _article.checked.must_equal !article_param['checked'].nil?
+    _article.printed.must_equal !article_param['printed'].nil?
   end
 
   it 'is rejected' do
