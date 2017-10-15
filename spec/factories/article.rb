@@ -4,6 +4,9 @@ FactoryGirl.define do
     body  { Faker::Lorem.paragraphs.join }
     author_id { create(:author).id }
     meeting_id { create(:meeting).id }
+    number { nil }
+    checked { false }
+    printed { false }
 
     initialize_with { new(attributes) }
 
