@@ -16,6 +16,7 @@ module Admin::Controllers::Meeting
           end
           required(:body).filled(:str?)
         end
+        required(:meeting_id).filled(:int?)
       end
 
       def initialize(meeting_repo: MeetingRepository.new,
