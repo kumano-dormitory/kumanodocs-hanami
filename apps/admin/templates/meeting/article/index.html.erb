@@ -2,7 +2,7 @@
   <div class="article">
     <h1>
       <a href="<%= routes.meeting_article_path(meeting_id: article.meeting_id, id: article.id) %>">
-        <%= article.title %>
+        (<%= article.number.nil? ? '番号なし' : article.number %>) <%= article.title %>
       </a>
     </h1>
     <p><%= article.body %></p>
