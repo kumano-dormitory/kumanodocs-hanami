@@ -28,6 +28,7 @@ module Admin::Controllers::ArticleNumber
         required(:meeting).schema do
           required(:articles) { unique_array? { each { int_values? }}}
         end
+        required(:id).filled(:int?)
       end
     }
 
@@ -51,6 +52,7 @@ module Admin::Controllers::ArticleNumber
         redirect_to routes.meeting_path(id: params[:id])
       else
         @meeting = @meeting_repo.find_with_articles(params[:id])
+        self.status = 422
       end
     end
   end
