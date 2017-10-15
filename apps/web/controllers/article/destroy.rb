@@ -1,14 +1,14 @@
 module Web::Controllers::Article
-  class Show
+  class Destroy
     include Web::Action
-    expose :article
 
     def initialize(article_repo: ArticleRepository.new)
       @article_repo = article_repo
     end
 
     def call(params)
-      @article = @article_repo.find_with_relations(params[:id])
+      @article_repo.delete(params[:id])
+      redirect_to routes.articles_path
     end
   end
 end

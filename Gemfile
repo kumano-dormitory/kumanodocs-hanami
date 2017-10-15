@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 ruby '~> 2.4.1'
 
+gem 'activesupport'
 gem 'hanami', '~> 1.0'
 gem 'hanami-model', github: 'hanami/model', branch: 'develop'
 
@@ -24,6 +25,7 @@ end
 
 group :test do
   gem 'capybara'
+  gem 'factory_girl'
   gem 'minitest'
 end
 
