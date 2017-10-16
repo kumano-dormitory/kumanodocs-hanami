@@ -15,6 +15,7 @@ module Admin::Controllers::Meeting
           required(:body).filled(:str?)
           required(:get_lock).filled(:bool?)
         end
+        required(:id).filled(:int?)
       end
 
       def initialize(meeting_repo: MeetingRepository.new,
