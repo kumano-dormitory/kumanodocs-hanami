@@ -6,6 +6,8 @@ module Admin::Controllers::Meeting::Article::Lock
       required(:author).schema do
         required(:password).filled(:str?)
       end
+      required(:meeting_id).filled(:int?)
+      required(:article_id).filled(:int?)
     end
 
     def initialize(article_repo: ArticleRepository.new,
