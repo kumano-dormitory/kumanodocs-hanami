@@ -20,7 +20,10 @@ class ArticleRepository < Hanami::Repository
   end
 
   def by_meeting(id)
-    articles.where(meeting_id: id).to_a
+    _articles = articles.where(meeting_id: id).to_a
+    _articles.sort_by { |article|
+      article.number.nil? ? 10000 : article.number
+    }
   end
 
   def find_with_relations(id)
