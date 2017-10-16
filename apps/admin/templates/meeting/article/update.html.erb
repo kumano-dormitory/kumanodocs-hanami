@@ -1,0 +1,4 @@
+<% if confirm_update %>
+  <p>同じ議案を他の人が編集中の可能性があります。それでも良い場合は保存をしてください。</p>
+<% end %>
+<%= form_for_update(meetings, categories, confirm_update: confirm_update) %>

@@ -4,7 +4,11 @@
 # Example:
 # get '/hello', to: ->(env) { [200, {}, ['Hello from Hanami!']] }
 root to: 'meeting#index'
-resources :meeting, only: %i[index show]
+resources :meeting, only: %i[index show] do
+  resources :article do
+    resource :lock, only: %i[new create]
+  end
+end
 get '/meeting/:id/articles/number/edit', to: 'article_number#edit', as: :edit_article_number
 patch '/meeting/:id/articles/number/', to: 'article_number#update', as: :article_number
 get '/meeting/:id/articles/status/edit', to: 'article_status#edit', as: :edit_article_status
