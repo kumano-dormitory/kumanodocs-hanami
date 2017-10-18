@@ -1,4 +1,7 @@
 class ArticleRepository < Hanami::Repository
+
+  DEFAULT_ARTICLE_NUMBER = 10000
+
   associations do
     belongs_to :author
     has_many :article_categories
@@ -20,10 +23,8 @@ class ArticleRepository < Hanami::Repository
   end
 
   def by_meeting(id)
-    _articles = articles.where(meeting_id: id).to_a
-    _articles.sort_by { |article|
-      article.number.nil? ? 10000 : article.number
-    }
+    articles_of_meeting = articles.where(meeting_id: id).to_a
+    articles_of_meeting.sort_by { |article| article.number || DEFAULT_ARTICLE_NUMBER }
   end
 
   def find_with_relations(id)
