@@ -7,11 +7,7 @@
   end
 %>
 <ul>
-  <li>
-    <% article.categories.each do |category| %>
-      <%= decorated_category_name(category) %>
-    <% end %>
-  </li>
+  <li><%= decorated_categorys_name(article.categories) %></li>
   <li><%= meeting.date %></li>
   <li><%= article.author.name %></li>
   <li>number : <%= article.number %></li>
