@@ -9,7 +9,7 @@
 <ul>
   <li>
     <% article.categories.each do |category| %>
-      <%= "【#{category.name}】" %>
+      <%= decorated_category_name(category) %>
     <% end %>
   </li>
   <li><%= meeting.date %></li>

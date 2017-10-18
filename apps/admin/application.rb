@@ -268,6 +268,7 @@ module Admin
         include Hanami::Helpers
         include Admin::Assets::Helpers
         include Admin::Helpers::ArticleHelper
+        include Admin::Helpers::CategoryHelper
       end
     end
 
