@@ -1,7 +1,7 @@
 module Admin
   module Helpers
     module CategoryHelper
-      def decorated_categorys_name(categories)
+      def decorated_categories_name(categories)
         ret = ""
         article.categories.each do |category|
           ret += " 【#{category.name}】"
