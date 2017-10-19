@@ -3,7 +3,7 @@ module Admin
     module CategoryHelper
       def decorated_categories_name(categories)
         ret = ""
-        article.categories.each do |category|
+        categories.each do |category|
           ret += " 【#{category.name}】"
         end
         ret
