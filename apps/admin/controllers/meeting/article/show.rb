@@ -3,10 +3,8 @@ module Admin::Controllers::Meeting
     class Show
       include Admin::Action
       expose :article
-      expose :meeting
 
-      def initialize(article_repo: ArticleRepository.new,
-                     meeting_repo: MeetingRepository.new)
+      def initialize(article_repo: ArticleRepository.new)
         @article_repo = article_repo
       end
 
