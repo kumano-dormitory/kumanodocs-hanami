@@ -9,6 +9,15 @@ class ArticleRepository < Hanami::Repository
     has_many :categories, through: :article_categories
   end
 
+  def update_number(meeting_id, articles_number)
+    # numberをnilで初期化してからupdateする
+    articles.where(meeting_id: meeting_id).update(number: nil)
+    articles_number.each do |article_attr|
+      num = article_attr['number'].eql?("") ? nil : article_attr['number']
+      update(article_attr['article_id'], number: num)
+    end
+  end
+
   def update_status(articles_status)
     articles_status.each do |status|
       checked = !status['checked'].nil?

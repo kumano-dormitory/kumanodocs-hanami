@@ -13,11 +13,16 @@ class MeetingRepository < Hanami::Repository
   end
 
   def find_with_articles(meeting_id)
-    aggregate(:articles)
+    meeting = aggregate(:articles)
       .meetings
       .where(id: meeting_id)
       .as(Meeting)
       .one
+    # articlesの順序をnumberでソート
+    meeting.articles.sort_by!{ |article|
+      article.number.nil? ? 10000 : article.number.to_i
+    }
+    meeting
   end
 
   # 締め切り前の議案一覧
