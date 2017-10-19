@@ -1,0 +1,17 @@
+<h1><%= article.title %></h1>
+<a href="<%= routes.edit_meeting_article_path(meeting_id: article.meeting_id, id: article.id) %>">編集</a>
+<%=
+  form_for :article, routes.meeting_article_path(meeting_id: article.meeting_id, id: article.id),
+      method: :delete, class: "delete_article" do
+    submit '削除'
+  end
+%>
+<ul>
+  <li><%= decorated_categories_name(article.categories) %></li>
+  <li><%= article.meeting.date %></li>
+  <li><%= article.author.name %></li>
+  <li>number : <%= article.number %></li>
+  <li>checked : <%= article.checked %></li>
+  <li>printed : <%= article.printed %></li>
+</ul>
+<p><%= article.body %></p>
