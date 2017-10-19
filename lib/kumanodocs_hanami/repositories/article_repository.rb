@@ -3,6 +3,7 @@ class ArticleRepository < Hanami::Repository
   DEFAULT_ARTICLE_NUMBER = 10000
 
   associations do
+    belongs_to :meeting
     belongs_to :author
     has_many :article_categories
     has_many :categories, through: :article_categories
@@ -28,7 +29,7 @@ class ArticleRepository < Hanami::Repository
   end
 
   def find_with_relations(id)
-    article = aggregate(:article_categories, :author, :categories)
+    article = aggregate(:article_categories, :meeting, :author, :categories)
                 .where(id: id).map_to(Article).one
   end
 
