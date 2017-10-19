@@ -2,11 +2,7 @@ module Admin
   module Helpers
     module CategoryHelper
       def decorated_categories_name(categories)
-        ret = ""
-        categories.each do |category|
-          ret += " 【#{category.name}】"
-        end
-        ret
+        categories.map { |category| " 【#{category.name}】 " }.join
       end
     end
   end
