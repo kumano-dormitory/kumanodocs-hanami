@@ -1,4 +1,7 @@
 class MeetingRepository < Hanami::Repository
+
+  DEFAULT_ARTICLE_NUMBER = 10000
+
   associations do
     has_many :articles
   end
@@ -13,11 +16,14 @@ class MeetingRepository < Hanami::Repository
   end
 
   def find_with_articles(meeting_id)
-    aggregate(:articles)
+    meeting = aggregate(:articles)
       .meetings
       .where(id: meeting_id)
       .as(Meeting)
       .one
+    # articlesの順序をnumberでソート
+    meeting.articles.sort_by!{ |article| article.number || DEFAULT_ARTICLE_NUMBER }
+    meeting
   end
 
   # 締め切り前の議案一覧
