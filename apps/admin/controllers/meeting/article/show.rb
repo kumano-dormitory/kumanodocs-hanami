@@ -8,12 +8,10 @@ module Admin::Controllers::Meeting
       def initialize(article_repo: ArticleRepository.new,
                      meeting_repo: MeetingRepository.new)
         @article_repo = article_repo
-        @meeting_repo = meeting_repo
       end
 
       def call(params)
         @article = @article_repo.find_with_relations(params[:id])
-        @meeting = @meeting_repo.find(params[:meeting_id])
       end
     end
   end
