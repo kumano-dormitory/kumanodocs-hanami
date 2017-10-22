@@ -1,7 +1,4 @@
 class MeetingRepository < Hanami::Repository
-
-  DEFAULT_ARTICLE_NUMBER = 10000
-
   associations do
     has_many :articles
   end
