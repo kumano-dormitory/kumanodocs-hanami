@@ -10,10 +10,12 @@ class ArticleRepository < Hanami::Repository
   end
 
   def update_number(meeting_id, articles_number)
-    # データペースのUNIQUE制約にひっかからないようにすべてnilで初期化する
-    articles.where(meeting_id: meeting_id).update(number: nil)
-    articles_number.each do |article_attr|
-      update(article_attr['article_id'], number: article_attr['number'])
+    transaction do
+      # データペースのUNIQUE制約にひっかからないようにすべてnilで初期化する
+      articles.where(meeting_id: meeting_id).update(number: nil)
+      articles_number.each do |article_attr|
+        update(article_attr['article_id'], number: article_attr['number'])
+      end
     end
   end
 
