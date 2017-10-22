@@ -30,14 +30,10 @@ module Admin::Controllers::Meeting
 
       def call(params)
         if params.valid?
-          author = @author_repo.create_with_plain_password(
-            params[:article][:author][:name],
-            params[:article][:author][:password]
-          )
-          article_params = params[:article].to_h.merge(author_id: author.id)
-          article = @article_repo.create(article_params)
+          author_params = params[:article][:author]
           category_params = params[:article][:categories].map { |category_id| { category_id: category_id } }
-          @article_repo.add_categories(article, category_params)
+          article_params = params[:article]
+          article = @article_repo.create_with_related_entities(author_params, category_params, article_params)
 
           redirect_to routes.meeting_article_path(meeting_id: article.meeting_id, id: article.id)
         else
