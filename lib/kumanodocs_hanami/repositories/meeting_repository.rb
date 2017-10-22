@@ -13,12 +13,11 @@ class MeetingRepository < Hanami::Repository
   end
 
   def find_with_articles(meeting_id)
-    meeting = aggregate(:articles)
+    aggregate(:articles)
       .meetings
       .where(id: meeting_id)
       .as(Meeting)
       .one
-    meeting
   end
 
   # 締め切り前の議案一覧
