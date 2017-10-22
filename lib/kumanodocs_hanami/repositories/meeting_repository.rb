@@ -21,8 +21,6 @@ class MeetingRepository < Hanami::Repository
       .where(id: meeting_id)
       .as(Meeting)
       .one
-    # articlesの順序をnumberでソート
-    meeting.articles.sort_by!{ |article| article.number || DEFAULT_ARTICLE_NUMBER }
     meeting
   end
 
