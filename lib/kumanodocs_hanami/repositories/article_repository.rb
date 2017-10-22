@@ -10,7 +10,7 @@ class ArticleRepository < Hanami::Repository
   end
 
   def update_number(meeting_id, articles_number)
-    # numberをnilで初期化してからupdateする
+    # データペースのUNIQUE制約にひっかからないようにすべてnilで初期化する
     articles.where(meeting_id: meeting_id).update(number: nil)
     articles_number.each do |article_attr|
       num = article_attr['number'].eql?("") ? nil : article_attr['number']
