@@ -5,10 +5,10 @@ describe Meeting do
   it 'sorted_articlesでソートが正しく行われていること' do
     numbers = [1, 2, 3].shuffle
     articles = [
-      create(:article, number: numbers[0]),
-      create(:article, number: numbers[1]),
-      create(:article, number: numbers[2]),
-      create(:article, number: nil)
+      Article.new(number: numbers[0]),
+      Article.new(number: numbers[1]),
+      Article.new(number: numbers[2]),
+      Article.new(number: numbers[3])
     ]
     meeting = Meeting.new(articles: articles)
     sorted_articles = meeting.sorted_articles
