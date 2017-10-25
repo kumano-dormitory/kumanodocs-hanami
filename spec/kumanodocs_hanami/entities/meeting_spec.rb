@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Meeting do
   # place your tests here
-  it 'sorted_articlesでソートが正しく行われていること' do
+  it 'articles_for_webでソートが正しく行われていること' do
     numbers = [1, 2, 3, nil].shuffle
     articles = [
       Article.new(number: numbers[0]),
@@ -11,8 +11,8 @@ describe Meeting do
       Article.new(number: numbers[3])
     ]
     meeting = Meeting.new(articles: articles)
-    sorted_articles = meeting.sorted_articles
+    articles_for_web = meeting.articles_for_web
     expected_numbers = [1, 2, 3, nil]
-    sorted_articles.map(&:number).must_equal expected_numbers
+    articles_for_web.map(&:number).must_equal expected_numbers
   end
 end
