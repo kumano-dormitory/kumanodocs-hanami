@@ -33,7 +33,7 @@ module Admin::Controllers::Meeting
         if params.valid?
           author_params = params[:article][:author]
           category_params = params[:article][:categories].map { |category_id| { category_id: category_id } }
-          article_params = params[:article]
+          article_params = params[:article].except(:author, :categories)
           article = @article_repo.create_with_related_entities(author_params, category_params, article_params)
 
           redirect_to routes.meeting_article_path(meeting_id: article.meeting_id, id: article.id)
