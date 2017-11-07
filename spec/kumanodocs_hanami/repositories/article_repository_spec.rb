@@ -1,19 +1,19 @@
 require 'spec_helper'
 
 describe ArticleRepository do
-  def assert_update_articles_number(test_numbers)
-    meeting_id = articles.first.meeting_id
-    meeting_with_articles = meeting_repo.find_with_articles(meeting_id)
-    max = meeting_with_articles.articles.count
-    numbers = test_numbers.shuffle
-    articles_number = meeting_with_articles.articles.map.with_index do |article, index|
-      {'article_id' => article.id, 'number' => numbers[index]}
+  def assert_update_articles_number(meeting_id, test_numbers)
+    meeting = meeting_repo.find_with_articles(meeting_id)
+    shuffled_numbers = test_numbers.shuffle
+
+    articles_number = meeting.articles.zip(shuffled_numbers).map do |article, number|
+      {'article_id' => article.id, 'number' => number}
     end
     article_repo.update_number(meeting_id, articles_number)
-    meeting_repo.find_with_articles(meeting_id).articles.each_with_index do |article, index|
-      article.number.must_equal numbers[index]
-    end
 
+    # 議案の番号が正しく変更されていることを確認
+    meeting_repo.find_with_articles(meeting_id).articles.zip(shuffled_numbers).map do |article, number|
+      article.number.must_equal number
+    end
   end
 
   let(:meeting_repo) { MeetingRepository.new }
@@ -50,8 +50,8 @@ describe ArticleRepository do
   end
 
   it 'article_numberの変更ができること' do
-    assert_update_articles_number([1, 2, 3, 4, 5])
-    assert_update_articles_number([1, 2, 3, nil, nil])
-    assert_update_articles_number([nil, nil, nil, nil, nil])
+    assert_update_articles_number(meeting.id, [1, 2, 3, 4, 5])
+    assert_update_articles_number(meeting.id, [1, 2, 3, nil, nil])
+    assert_update_articles_number(meeting.id, [nil, nil, nil, nil, nil])
   end
 end
