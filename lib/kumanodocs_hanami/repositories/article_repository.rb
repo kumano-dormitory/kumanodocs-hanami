@@ -13,6 +13,7 @@ class ArticleRepository < Hanami::Repository
     transaction do
       # データベースのUNIQUE制約にひっかからないようにすべてnilで初期化する
       articles.where(meeting_id: meeting_id).update(number: nil)
+      # TODO: meetingに含まれないarticleが改変されることを防ぐ
       articles_number.each do |article_attr|
         update(article_attr['article_id'], number: article_attr['number'])
       end
