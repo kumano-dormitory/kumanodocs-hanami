@@ -1,6 +1,21 @@
 require 'spec_helper'
 
 describe ArticleRepository do
+  def assert_update_articles_number(test_numbers)
+    meeting_id = articles.first.meeting_id
+    meeting_with_articles = meeting_repo.find_with_articles(meeting_id)
+    max = meeting_with_articles.articles.count
+    numbers = test_numbers.shuffle
+    articles_number = meeting_with_articles.articles.map.with_index do |article, index|
+      {'article_id' => article.id, 'number' => numbers[index]}
+    end
+    article_repo.update_number(meeting_id, articles_number)
+    meeting_repo.find_with_articles(meeting_id).articles.each_with_index do |article, index|
+      article.number.must_equal numbers[index]
+    end
+
+  end
+
   let(:meeting_repo) { MeetingRepository.new }
   let(:category_repo) { CategoryRepository.new }
   let(:article_repo) { ArticleRepository.new }
@@ -8,6 +23,7 @@ describe ArticleRepository do
   let(:ac_repo) { ArticleCategoryRepository.new }
 
   let(:article) { create(:article) }
+  let(:articles) { create_list(:article, 5, meeting_id: meeting.id) }
   let(:categories) { create_list(:category, 5) }
   let(:meeting) { create(:meeting) }
 
@@ -34,17 +50,8 @@ describe ArticleRepository do
   end
 
   it 'article_numberの変更ができること' do
-    meeting_id = meeting.id
-    create_list(:article, 5, meeting_id: meeting_id)
-    meeting_with_articles = meeting_repo.find_with_articles(meeting_id)
-    max = meeting_with_articles.articles.count
-    numbers = [*1..max].shuffle
-    articles_number = meeting_with_articles.articles.map.with_index do |article, index|
-      {'article_id' => article.id, 'number' => numbers[index]}
-    end
-    article_repo.update_number(meeting_id, articles_number)
-    meeting_repo.find_with_articles(meeting_id).articles.each_with_index do |article, index|
-      article.number.must_equal numbers[index]
-    end
+    assert_update_articles_number([1, 2, 3, 4, 5])
+    assert_update_articles_number([1, 2, 3, nil, nil])
+    assert_update_articles_number([nil, nil, nil, nil, nil])
   end
 end
