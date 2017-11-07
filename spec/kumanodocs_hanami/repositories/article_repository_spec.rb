@@ -21,16 +21,12 @@ describe ArticleRepository do
   let(:article_repo) { ArticleRepository.new }
   let(:author_repo) { AuthorRepository.new }
   let(:ac_repo) { ArticleCategoryRepository.new }
-
   let(:article) { create(:article) }
-  let(:articles) { create_list(:article, 5, meeting_id: meeting.id) }
   let(:categories) { create_list(:category, 5) }
-  let(:meeting) { create(:meeting) }
 
   it 'categoryを追加できること' do
     datas = categories.sample(2).map { |category| { category_id: category.id } }
     article_repo.add_categories(article, datas)
-
     _article = article_repo.find_with_relations(article.id)
     _article.article_categories.size.must_equal 2
   end
@@ -50,8 +46,23 @@ describe ArticleRepository do
   end
 
   it 'article_numberの変更ができること' do
+    # 順序番号が変更前には全てnilの場合
+    meeting = create(:meeting)
+    create_list(:article, 5, meeting_id: meeting.id, number: nil)
     assert_update_articles_number(meeting.id, [1, 2, 3, 4, 5])
-    assert_update_articles_number(meeting.id, [1, 2, 3, nil, nil])
-    assert_update_articles_number(meeting.id, [nil, nil, nil, nil, nil])
+
+    # 順序番号が変更前には一部がnilである場合
+    meeting = create(:meeting)
+    [1, 2, 3, nil, nil].shuffle.each do |number|
+      create(:article, meeting_id: meeting.id, number: number)
+    end
+    assert_update_articles_number(meeting.id, [1, 2, 3, 4, 5])
+
+    # 順序番号が変更前には全てnilではない場合
+    meeting = create(:meeting)
+    [1, 2, 3, 4, 5].shuffle.each do |number|
+      create(:article, meeting_id: meeting.id, number: number)
+    end
+    assert_update_articles_number(meeting.id, [1, 2, 3, 4, 5])
   end
 end
