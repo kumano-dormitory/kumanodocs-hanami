@@ -17,7 +17,7 @@ describe Admin::Controllers::Meeting::Article::Edit do
     response = action.call(params)
 
     article_repo.verify.must_equal true
-
+    action.article.must_equal article
     response[0].must_equal 200
   end
 end
