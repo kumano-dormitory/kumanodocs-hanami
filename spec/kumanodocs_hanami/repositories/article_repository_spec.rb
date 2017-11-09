@@ -7,8 +7,8 @@ describe ArticleRepository do
       create(:article, meeting_id: meeting.id, number: number)
     end
     meeting = meeting_repo.find_with_articles(meeting.id)
-    shuffled_numbers = test_numbers.shuffle
 
+    shuffled_numbers = test_numbers.shuffle
     articles_number = meeting.articles.zip(shuffled_numbers).map do |article, number|
       {'article_id' => article.id, 'number' => number}
     end
