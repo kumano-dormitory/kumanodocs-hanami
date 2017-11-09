@@ -15,7 +15,8 @@ describe ArticleRepository do
     article_repo.update_number(meeting.id, articles_number)
 
     # 議案の番号が正しく変更されていることを確認
-    meeting_repo.find_with_articles(meeting.id).articles.zip(shuffled_numbers).map do |article, number|
+    target_articles = meeting_repo.find_with_articles(meeting.id).articles
+    target_articles.zip(shuffled_numbers).map do |article, number|
       article.number.must_equal number
     end
   end
