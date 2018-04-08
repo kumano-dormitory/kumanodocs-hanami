@@ -20,6 +20,16 @@ class ArticleRepository < Hanami::Repository
     end
   end
 
+  def create_with_related_entities(author_params, category_params, article_params)
+    author = AuthorRepository.new.create_with_plain_password(
+      author_params[:name],
+      author_params[:password]
+    )
+    article = create(article_params.merge(author_id: author.id))
+    add_categories(article, category_params)
+    article
+  end
+
   def update_status(articles_status)
     articles_status.each do |status|
       checked = !status['checked'].nil?
