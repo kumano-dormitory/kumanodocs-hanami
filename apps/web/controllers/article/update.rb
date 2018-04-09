@@ -30,9 +30,11 @@ module Web::Controllers::Article
       if params.valid?
         article = @article_repo.find(params[:id])
         category_datas = params[:article][:categories].map { |category_id| { category_id: category_id } }
+
         @article_repo.update_categories(article, category_datas)
         @author_repo.update(article.author_id, params[:article][:author])
         @article_repo.update(article.id, params[:article])
+
         redirect_to routes.article_path(id: params[:id])
       else
         @meetings = @meeting_repo.in_time

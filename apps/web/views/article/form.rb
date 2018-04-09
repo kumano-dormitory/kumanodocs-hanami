@@ -54,6 +54,8 @@ module Web::Views::Article
       values = article.nil? ? {} : { article: article }
       article_categories_selected = article&.article_categories&.map(&:category_id)
 
+      # form_for: http://hanamirb.org/guides/helpers/forms/
+      # valuesでエンティティを指定することで、フォームのデフォルトの値を自動で指定してくれる
       form_for :article,
                routes.article_path(id: params[:id]),
                method: :patch,
