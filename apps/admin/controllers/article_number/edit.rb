@@ -1,14 +1,14 @@
 module Admin::Controllers::ArticleNumber
   class Edit
     include Admin::Action
-    expose :articles
+    expose :meeting
 
-    def initialize(article_repo: ArticleRepository.new)
-      @article_repo = article_repo
+    def initialize(meeting_repo: MeetingRepository.new)
+      @meeting_repo = meeting_repo
     end
 
     def call(params)
-      @articles = @article_repo.by_meeting(params[:id])
+      @meeting = @meeting_repo.find_with_articles(params[:id])
     end
   end
 end
