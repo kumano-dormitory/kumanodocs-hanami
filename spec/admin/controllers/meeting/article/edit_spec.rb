@@ -8,7 +8,7 @@ describe Admin::Controllers::Meeting::Article::Edit do
 
   it 'is successful' do
     article_repo = MiniTest::Mock.new.expect(:find_with_relations, article, [article.id])
-    meeting_repo = MiniTest::Mock.new.expect(:in_time, [meeting])
+    meeting_repo = MiniTest::Mock.new.expect(:all, [meeting])
     category_repo = MiniTest::Mock.new.expect(:all, [Category.new(id: rand(1..5))])
 
     action = Admin::Controllers::Meeting::Article::Edit.new(article_repo: article_repo,
