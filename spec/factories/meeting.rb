@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :meeting do
     transient do
       date_trans { Date.today + 30 }
