@@ -21,6 +21,24 @@ describe ArticleRepository do
     end
   end
 
+  def assert_update_articles_status(meeting_id, articles, test_status)
+    articles_status = articles.zip(test_status).map do |article, status|
+      {
+        'article_id' => article.id,
+        'checked' => (status[:checked] ? true : nil),
+        'printed' => (status[:printed] ? true : nil)
+      }
+    end
+    article_repo.update_status(articles_status)
+
+    # 議案の状態が正しく変更されていることを確認
+    target_articles = meeting_repo.find_with_articles(meeting_id).articles
+    target_articles.zip(test_status).map do |article, status|
+      article.checked.must_equal status[:checked]
+      article.printed.must_equal status[:printed]
+    end
+  end
+
   let(:meeting_repo) { MeetingRepository.new }
   let(:category_repo) { CategoryRepository.new }
   let(:article_repo) { ArticleRepository.new }
@@ -39,7 +57,7 @@ describe ArticleRepository do
   it 'categoryを更新できること' do
     datas = categories.sample(3).map { |category| { category_id: category.id } }
     article_repo.update_categories(article, datas)
-    
+
     _article = article_repo.find_with_relations(article.id)
     _article.article_categories.size.must_equal 3
   end
@@ -65,5 +83,13 @@ describe ArticleRepository do
     meeting = create(:meeting)
     articles = create_articles(meeting.id, [1, 2, 3, 4, 5].shuffle)
     assert_update_articles_number(meeting.id, articles, [1, 2, 3, 4, 5])
+  end
+
+  it 'article_statusの変更ができること' do
+    meeting = create(:meeting)
+    test_status = (1..5).map{ {checked: [true, false].sample, printed: [true, false].sample} }
+    articles = create_list(:article, 5, meeting_id: meeting.id, checked: false, printed: false)
+
+    assert_update_articles_status(meeting.id, articles, test_status)
   end
 end
