@@ -35,7 +35,8 @@ module Web::Controllers::Article
         )
         article_params = params[:article].to_h.merge(author_id: author.id)
         article = @article_repo.create(article_params)
-        @article_repo.add_categories(article, params[:article][:categories])
+        category_params = params[:article][:categories].map { |id| { category_id: id } }
+        @article_repo.add_categories(article, category_params)
 
         redirect_to routes.article_path(id: article.id)
       else
