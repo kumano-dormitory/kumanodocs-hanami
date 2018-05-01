@@ -53,6 +53,7 @@ module Web::Views::Article
       categories_for_select = categories.map { |category| [category.name, category.id] }.to_h
       values = article.nil? ? {} : { article: article }
       article_categories_selected = article&.article_categories&.map(&:category_id)
+      meeting_selected = [article&.meeting_id]
 
       form_for :article,
                routes.article_path(id: params[:id]),
@@ -66,7 +67,7 @@ module Web::Views::Article
 
         div do
           label  '日程', for: :meeting_id
-          select :meeting_id, meetings_for_select
+          select :meeting_id, meetings_for_select, options: { selected: meeting_selected }
         end
 
         div do
