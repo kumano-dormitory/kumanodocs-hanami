@@ -97,5 +97,16 @@ module Web::Views::Article
         submit '保存'
       end
     end
+
+    def form_destroy(article)
+      form_for :article, routes.article_path(id: article.id), method: :delete, class: 'delete_article' do
+        div do
+          label 'パスワード', for: :password
+          password_field :password
+        end
+
+        submit '削除'
+      end
+    end
   end
 end
