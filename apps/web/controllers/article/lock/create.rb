@@ -18,9 +18,9 @@ module Web::Controllers::Article::Lock
     def call(params)
       article = @article_repo.find_with_relations(params[:article_id])
       if article.author.authenticate(params[:author][:password])
-        lock_key = @author_repo.lock(article.author_id, params[:password])
+        lock_key = @author_repo.lock(article.author_id, params[:author][:password])
         cookies[:article_lock_key] = lock_key
-        # redirect_to routes.edit_article_path(id: article.id)
+        redirect_to routes.edit_article_path(id: article.id)
       else
         self.status = 401
       end

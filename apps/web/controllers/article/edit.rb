@@ -12,9 +12,13 @@ module Web::Controllers::Article
     end
 
     def call(params)
-      @meetings = @meeting_repo.in_time
-      @categories = @category_repo.all
       @article = @article_repo.find_with_relations(params[:id])
+      if @article.author.locked? && @article.author.lock_key == cookies[:article_lock_key]
+        @meetings = @meeting_repo.in_time
+        @categories = @category_repo.all
+      else
+        redirect_to routes.new_article_lock_path(article_id: article.id)
+      end
     end
   end
 end
