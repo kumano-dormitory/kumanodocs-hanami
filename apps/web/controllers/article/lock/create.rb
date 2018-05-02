@@ -3,6 +3,7 @@ module Web::Controllers::Article::Lock
     include Web::Action
 
     params do
+      required(:article_id).filled(:int?)
       required(:author).schema do
         required(:password).filled(:str?)
       end
