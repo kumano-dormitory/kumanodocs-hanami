@@ -67,6 +67,13 @@ module Web::Views::Article
           end
         end
 
+        if get_lock
+          div do
+            label 'パスワード', for: :password
+            password_field :password
+          end
+        end
+
         div do
           label  '日程', for: :meeting_id
           select :meeting_id, meetings_for_select, options: { selected: meeting_selected }
