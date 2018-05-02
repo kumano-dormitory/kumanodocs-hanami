@@ -55,6 +55,7 @@ module Web::Views::Article
       values = article.nil? ? {} : { article: article }
       article_categories_selected = article&.article_categories&.map(&:category_id)
       get_lock = hash[:confirm_update] ? true : false
+      meeting_selected = [article&.meeting_id]
 
       form_for :article,
                routes.article_path(id: params[:id]),
@@ -68,7 +69,7 @@ module Web::Views::Article
 
         div do
           label  '日程', for: :meeting_id
-          select :meeting_id, meetings_for_select
+          select :meeting_id, meetings_for_select, options: { selected: meeting_selected }
         end
 
         div do
@@ -101,6 +102,17 @@ module Web::Views::Article
         end
 
         submit '保存'
+      end
+    end
+
+    def form_destroy(article)
+      form_for :article, routes.article_path(id: article.id), method: :delete, class: 'delete_article' do
+        div do
+          label 'パスワード', for: :password
+          password_field :password
+        end
+
+        submit '削除'
       end
     end
   end

@@ -1,12 +1,12 @@
 Dir[Hanami.root.join('spec/factories/*.rb')].each { |f| require f }
 
 class Minitest::Spec
-  include FactoryGirl::Syntax::Methods
+  include FactoryBot::Syntax::Methods
 end
 
 # Override Factory girl creation, in order to work with Repositories
 # This assumes all entity has an 'EntityRepository' class
-FactoryGirl.define do
+FactoryBot.define do
   to_create do |instance|
     repository = Object.const_get("#{instance.class}Repository").new
     repository.create(instance)
@@ -16,7 +16,7 @@ end
 # Overrides builtin Create strategy
 # This is responsible to return the persisted instance to :after_create callback
 # and returns the persisted entity when using :create method
-module FactoryGirl
+module FactoryBot
   module Strategy
     class Create
       attr_reader :evaluation

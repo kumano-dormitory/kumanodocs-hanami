@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :article_category do
     article_id { create(:article).id }
     category_id { create(:category).id }
