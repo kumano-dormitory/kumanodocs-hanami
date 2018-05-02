@@ -63,6 +63,36 @@ describe Web::Controllers::Article::Update do
     author_repo_mock.verify.must_equal true
   end
 
+  it 'is successful get lock' do
+    password = Faker::Internet.password
+    author = Author.new(id: rand(1..5), name: Faker::Name.name, crypt_password: Author.crypt(password))
+    article = Article.new(id: rand(1..5), author_id: author.id, author: author)
+    category_params = valid_params[:article][:categories].map{ |id| {category_id: id} }
+    params = valid_params.deep_merge({ article: { get_lock: true, password: password } })
+
+    article_repo_mock = MiniTest::Mock.new.expect(
+      :find_with_relations, article, [params[:id]]
+    ).expect(
+      :update_categories, nil, [article, category_params]
+    ).expect(
+      :update, nil, [article.id, params[:article]]
+    )
+    author_repo_mock = MiniTest::Mock.new.expect(
+      :update, nil, [author.id, params[:article][:author]]
+    ).expect(
+      :release_lock, nil, [author.id]
+    )
+    action = Web::Controllers::Article::Update.new(
+      article_repo: article_repo_mock,
+      author_repo: author_repo_mock
+    )
+    response = action.call(params)
+
+    response[0].must_equal 302
+    article_repo_mock.verify.must_equal true
+    author_repo_mock.verify.must_equal true
+  end
+
   it 'is rejected' do
     assert_invalid_params(article: { title: nil })
     assert_invalid_params(article: { body: nil })
