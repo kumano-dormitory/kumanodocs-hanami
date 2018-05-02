@@ -14,6 +14,7 @@ module Web::Controllers::Article
         end
         required(:body).filled(:str?)
         required(:get_lock).filled(:bool?)
+        optional(:password).filled(:str?)
       end
     end
 
@@ -30,7 +31,9 @@ module Web::Controllers::Article
     def call(params)
       if params.valid?
         article = @article_repo.find_with_relations(params[:id])
-        if article.author.lock_key == cookies[:article_lock_key] || params[:article][:get_lock]
+        if article.author.lock_key == cookies[:article_lock_key] \
+            || (params[:article][:get_lock] && article.author.authenticate(params[:article][:password]))
+
           category_params = params[:article][:categories].map{ |id| {category_id: id} }
           @article_repo.update_categories(article, category_params)
           @author_repo.update(article.author_id, params[:article][:author])
