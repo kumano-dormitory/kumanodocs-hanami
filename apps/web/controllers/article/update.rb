@@ -4,6 +4,7 @@ module Web::Controllers::Article
     expose :meetings, :categories, :confirm_update
 
     params do
+      required(:id).filled(:int?)
       required(:article).schema do
         required(:meeting_id).filled(:int?)
         required(:categories) { array? { min_size?(1) & each { int? } } }
