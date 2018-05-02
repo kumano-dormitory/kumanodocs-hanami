@@ -1,7 +1,7 @@
 module Web::Controllers::Article
   class Update
     include Web::Action
-    expose :meetings, :categories
+    expose :meetings, :categories, :confirm_update
 
     params do
       required(:article).schema do
@@ -12,8 +12,8 @@ module Web::Controllers::Article
           required(:name).filled(:str?)
         end
         required(:body).filled(:str?)
+        required(:get_lock).filled(:bool?)
       end
-
     end
 
     def initialize(article_repo: ArticleRepository.new,
@@ -28,18 +28,22 @@ module Web::Controllers::Article
 
     def call(params)
       if params.valid?
-        article = @article_repo.find(params[:id])
-        category_datas = params[:article][:categories].map { |category_id| { category_id: category_id } }
-        @article_repo.update_categories(article, category_datas)
-        @author_repo.update(article.author_id, params[:article][:author])
-        @article_repo.update(article.id, params[:article])
-        redirect_to routes.article_path(id: params[:id])
+        article = @article_repo.find_with_relations(params[:id])
+        if article.author.lock_key == cookies[:article_lock_key] || params[:article][:get_lock]
+          category_params = params[:article][:categories].map{ |id| {category_id: id} }
+          @article_repo.update_categories(article, category_params)
+          @author_repo.update(article.author_id, params[:article][:author])
+          @article_repo.update(article.id, params[:article])
+          @author_repo.release_lock(article.author_id)
+          redirect_to routes.article_path(id: article.id)
+        else
+          @confirm_update = true
+        end
       else
-        @meetings = @meeting_repo.in_time
-        @categories = @category_repo.all
-
         self.status = 422
       end
+      @meetings = @meeting_repo.in_time
+      @categories = @category_repo.all
     end
   end
 end
