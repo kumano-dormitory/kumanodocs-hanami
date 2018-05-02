@@ -3,8 +3,8 @@ source 'https://rubygems.org'
 ruby '~> 2.4.1'
 
 gem 'activesupport'
-gem 'hanami', '~> 1.0'
-gem 'hanami-model', github: 'hanami/model', branch: 'develop'
+gem 'hanami', '~> 1.2'
+gem 'hanami-model', '~> 1.2'
 
 gem 'pg'
 gem 'rake'
@@ -25,7 +25,7 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'factory_girl'
+  gem 'factory_bot'
   gem 'minitest'
 end
 
