@@ -1,0 +1,9 @@
+<p><a href='<%= routes.root_path %>'>Top Page</a></p>
+<h1>ブロック会議日程 一覧</h1>
+<div>
+  <ul>
+    <% meetings.each do |meeting| %>
+      <li><a href='<%= routes.meeting_path(id: meeting.id) %>'><%= meeting.date %></a></li>
+    <% end %>
+  </ul>
+</div>

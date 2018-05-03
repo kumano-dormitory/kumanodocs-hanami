@@ -18,7 +18,7 @@ module Web
       #
       # When you add new directories, remember to add them here.
       #
-      load_paths << %w[controllers views]
+      load_paths << %w[controllers helpers views]
 
       # Handle exceptions with HTTP statuses (true) or don't catch them (false).
       # Defaults to true.
@@ -267,6 +267,7 @@ module Web
       view.prepare do
         include Hanami::Helpers
         include Web::Assets::Helpers
+        include Web::Helpers::ArticleHelper
       end
     end
 
