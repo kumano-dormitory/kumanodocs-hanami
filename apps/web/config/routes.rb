@@ -7,4 +7,4 @@ root to: 'article#index'
 resources :article do
   resource :lock, only: [:new, :create]
 end
-resources :meeting, only: [:index]
+resources :meeting, only: [:index, :show]
