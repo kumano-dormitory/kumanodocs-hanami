@@ -1,12 +1,19 @@
-<h1><%= article.title %></h1>
+<p><a href='<%= routes.root_path %>'>Top Page</a></p>
+<h1><%= article_numbered_title(article) %></h1>
 <a href="<%= routes.edit_article_path(article.id) %>">編集</a>
 <%=
   form_for :article, routes.article_path(article.id), method: :delete, class: "delete_article" do
     submit '削除'
   end
 %>
-<h2><%= article.author.name %></h2>
-<% article.categories.each do |category| %>
-  <h2><%= category.name %></h2>
-<% end %>
+<h2>文責：<%= article.author.name %></h2>
+<h2>ブロック会議日時：<%= article.meeting.date %></h2>
+<h2>議案の種類</h2>
+<ul>
+  <% article.categories.each do |category| %>
+    <li><%= category.name %></li>
+  <% end %>
+</ul>
 <section><%= article.body %></section>
+<p>初版投稿日時：<%= article.created_at %></p>
+<p>最終更新日時：<%= article.updated_at %></p>

@@ -5,10 +5,10 @@
   <ul>
   <% articles_by_meeting.each do |meeting, articles| %>
     <li>
-      <%= meeting.date %>
+      <a href='<%= routes.meeting_path(id: meeting.id) %>'><%= meeting.date %></a>
       <ul>
       <% articles.each do |article| %>
-        <li><a href='<%= routes.article_path(id: article.id) %>'><%= article.title %></a></li>
+        <li><a href='<%= routes.article_path(id: article.id) %>'><%= article_numbered_title(article) %></a></li>
       <% end %>
       </ul>
     </li>
