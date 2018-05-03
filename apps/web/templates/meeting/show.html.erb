@@ -1,0 +1,18 @@
+<p><a href='<%= routes.root_path %>'>Top Page</a></p>
+<p><a href='<%= routes.meetings_path %>'>ブロック会議一覧へ戻る</a></p>
+<h1><%= meeting.date %></h1>
+<div>
+  <h2>議案一覧</h2>
+  <ul>
+  <% meeting.articles.each do |article| %>
+  <div class="article">
+    <h1>
+      <a href="<%= routes.article_path(id: article.id) %>">
+        <%= article_numbered_title(article) %>
+      </a>
+    </h1>
+    <p><%= article.body %></p>
+  </div>
+  <% end %>
+  </ul>
+</div>
