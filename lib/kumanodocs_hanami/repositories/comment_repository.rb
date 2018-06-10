@@ -7,4 +7,12 @@ class CommentRepository < Hanami::Repository
       .to_a
       .first
   end
+
+  def update_list(datas)
+    transaction do
+      datas.each do |data|
+        update(data[:id], data)
+      end
+    end
+  end
 end
