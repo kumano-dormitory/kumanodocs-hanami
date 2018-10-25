@@ -5,6 +5,10 @@ module Web::Views::Comment
       form_for :comments,
                routes.comments_path(meeting_id: meeting.id, block_id: block_id),
                method: :patch do
+        div do
+          label "パスワード"
+          password_field :password
+        end
 
         meeting.articles.each_with_index do |article, idx|
           comment_data = datas.find{ |data| data[:article_id] == article.id }

@@ -8,6 +8,14 @@ class CommentRepository < Hanami::Repository
       .first
   end
 
+  def create_list(datas)
+    transaction do
+      datas.each do |data|
+        create(data)
+      end
+    end
+  end
+
   def update_list(datas)
     transaction do
       datas.each do |data|
