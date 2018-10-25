@@ -17,3 +17,12 @@
 <section><%= article.body %></section>
 <p>初版投稿日時：<%= article.created_at %></p>
 <p>最終更新日時：<%= article.updated_at %></p>
+<% blocks.each do |block| %>
+  <% comment = article.comments.find{ |comment| comment.block_id == block.id } %>
+  <% unless comment.nil? %>
+    <div>
+      <p><%= block.name %>の議事録</p>
+      <p><%= comment.body %></p>
+    </div>
+  <% end %>
+<% end %>
