@@ -7,11 +7,23 @@
   end
 %>
 <ul>
-  <li><%= decorated_categories_name(article.categories) %></li>
-  <li><%= article.meeting.date %></li>
-  <li><%= article.author.name %></li>
-  <li>number : <%= article.number %></li>
+  <li>category : <%= decorated_categories_name(article.categories) %></li>
+  <li>meeting date : <%= article.meeting.date %></li>
+  <li>author : <%= article.author.name %></li>
+  <li>number : <%= article.number.nil? ? 'nil' : article.number %></li>
   <li>checked : <%= article.checked %></li>
   <li>printed : <%= article.printed %></li>
+  <li>created_at : <%= article.created_at %></li>
+  <li>updated_at : <%= article.updated_at %></li>
 </ul>
 <p><%= article.body %></p>
+
+<% blocks.each do |block| %>
+  <% comment = article.comments.find { |comment| comment.block_id == block.id } %>
+  <div>
+    <p><%= block.name %>の議事録
+      <a href='<%= routes.edit_comment_path(article_id: article.id, block_id: block.id) %>'>編集</a>
+    </p>
+    <p><%= comment.nil? ? 'なし' : comment.body %></p>
+  </div>
+<% end %>
