@@ -13,3 +13,4 @@ get '/meeting/:id/articles/status/edit', to: 'article_status#edit', as: :edit_ar
 patch '/meeting/:id/articles/status/', to: 'article_status#update', as: :article_status
 
 get '/article/:article_id/block/:block_id/comment/edit', to: 'meeting/article/comment#edit', as: :edit_comment
+patch '/article/:article_id/block/:block_id/comment/', to: 'meeting/article/comment#update', as: :comment
