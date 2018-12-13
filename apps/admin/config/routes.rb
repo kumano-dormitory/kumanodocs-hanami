@@ -14,3 +14,6 @@ patch '/meeting/:id/articles/status/', to: 'article_status#update', as: :article
 
 get '/article/:article_id/block/:block_id/comment/edit', to: 'meeting/article/comment#edit', as: :edit_comment
 patch '/article/:article_id/block/:block_id/comment/', to: 'meeting/article/comment#update', as: :comment
+
+# pdfをダウンロードするページ
+get '/meeting/:id/download', to: 'meeting#download', as: :download_meeting

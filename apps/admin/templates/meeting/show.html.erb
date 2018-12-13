@@ -9,5 +9,6 @@
                      method: :delete, class: "delete_meeting" do
               submit '削除' end %>
     </li>
+    <li><a href='<%= routes.download_meeting_path(id: meeting.id) %>'>Download latex code</a></li>
   </ul>
 </div>
