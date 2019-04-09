@@ -1,0 +1,14 @@
+<h1>検索結果― 『<%= keyword %>』</h1>
+
+<%= form_search(keyword) %>
+
+<% articles.each do |article| %>
+  <div class="article">
+    <h2>
+      <a href="<%= routes.article_path(id: article.id) %>">
+        <%= article_numbered_title(article) %>
+      </a>
+    </h2>
+    <p><%= article.body %></p>
+  </div>
+<% end %>
