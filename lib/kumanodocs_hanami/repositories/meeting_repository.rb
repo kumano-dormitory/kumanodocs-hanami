@@ -4,6 +4,7 @@ class MeetingRepository < Hanami::Repository
 
   associations do
     has_many :articles
+    has_many :tables, through: :articles
   end
 
   def for_articles
@@ -16,7 +17,7 @@ class MeetingRepository < Hanami::Repository
   end
 
   def find_with_articles(meeting_id)
-    meeting = aggregate(:articles)
+    meeting = aggregate(:articles, :tables)
                 .meetings
                 .where(id: meeting_id)
                 .as(Meeting)
