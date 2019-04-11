@@ -16,9 +16,14 @@ class ArticleRepository < Hanami::Repository
       Sequel.|(
         Sequel.ilike(:title, "%#{key}%"),
         Sequel.ilike(:body, "%#{key}%"),
+        Sequel.ilike(authors[:name], "%#{key}%")
       )
     }
-    aggregate(:author).where(Sequel.&(*keys))
+    aggregate(:author)
+      .articles
+      .select_append(authors[:name])
+      .join(authors)
+      .where(Sequel.&(*keys))
   end
 
   def update_number(meeting_id, articles_number)
