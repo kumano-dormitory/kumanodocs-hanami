@@ -8,6 +8,7 @@ class ArticleRepository < Hanami::Repository
     has_many :article_categories
     has_many :categories, through: :article_categories
     has_many :comments
+    has_many :tables
   end
 
   def update_number(meeting_id, articles_number)
@@ -56,7 +57,7 @@ class ArticleRepository < Hanami::Repository
   end
 
   def find_with_relations(id)
-    article = aggregate(:article_categories, :meeting, :author, :categories, :comments)
+    article = aggregate(:article_categories, :meeting, :author, :categories, :comments, :tables)
                 .where(id: id).map_to(Article).one
   end
 

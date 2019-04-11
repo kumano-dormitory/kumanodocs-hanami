@@ -17,6 +17,13 @@
 <section><%= article.body %></section>
 <p>初版投稿日時：<%= article.created_at %></p>
 <p>最終更新日時：<%= article.updated_at %></p>
+
+<% if !article.tables.nil? %>
+  <% article.tables.each do |table| %>
+    <%= render partial: 'shared/table', locals: {table: table} %>
+  <% end %>
+<% end %>
+
 <% blocks.each do |block| %>
   <% comment = article.comments.find{ |comment| comment.block_id == block.id } %>
   <% unless comment.nil? %>

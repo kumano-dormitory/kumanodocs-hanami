@@ -18,6 +18,12 @@
 </ul>
 <p><%= article.body %></p>
 
+<% if !article.tables.nil? then %>
+  <% article.tables.each do |table| %>
+    <%= render partial: 'shared/table', locals: {table: table} %>
+  <% end %>
+<% end %>
+
 <% blocks.each do |block| %>
   <% comment = article.comments.find { |comment| comment.block_id == block.id } %>
   <div>

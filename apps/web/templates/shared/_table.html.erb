@@ -1,0 +1,36 @@
+<% if table.data.length > 0 then %>
+<table>
+<caption><%= h table.caption %></caption>
+<% if table.data.length == 1 then %>
+<thead>
+</thead>
+<tbody>
+  <tr>
+    <% table.data[0].each do |data| %>
+    <td><%= h data %></td>
+    <% end %>
+  </tr>
+</tbody>
+
+<% else %>
+
+<thead>
+  <tr>
+    <% table.data[0].each do |data| %>
+    <th><%= h data %></th>
+    <% end %>
+  </tr>
+</thead>
+<tbody>
+  <% table.data[1..-1].each do |row| %>
+  <tr>
+    <% row.each do |data| %>
+    <td><%= h data %></td>
+    <% end %>
+  </tr>
+  <% end %>
+</tbody>
+
+<% end %>
+</table>
+<% end %>
