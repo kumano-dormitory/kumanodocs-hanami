@@ -36,7 +36,7 @@ class MeetingRepository < Hanami::Repository
   # nowを指定できるようにしてるのはテストしやすくするため
   def in_time(now: Time.now)
     meetings
-      .where('deadline > ?', now)
+      .where(Sequel.lit('deadline > ?', now))
       .order(:date)
       .limit(10)
       .to_a
