@@ -9,7 +9,7 @@ module Web::Controllers::Article
 
     def call(params)
       if ( params.nil? || params[:search_article].nil? || params[:search_article][:keywords].nil?)
-        @articles = @article_repo.all
+        @articles = @article_repo.search([''])
         @keywords = ""
       else
         @keywords = params[:search_article][:keywords]

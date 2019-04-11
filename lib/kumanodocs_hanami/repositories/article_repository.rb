@@ -21,9 +21,14 @@ class ArticleRepository < Hanami::Repository
     }
     aggregate(:author)
       .articles
-      .select_append(authors[:name])
+      .select_append(authors[:name], meetings[:date])
       .join(authors)
+      .join(meetings)
       .where(Sequel.&(*keys))
+      .order(meetings[:date].qualified.desc,
+        articles[:number].qualified.asc,
+        articles[:id].qualified.desc
+      )
   end
 
   def update_number(meeting_id, articles_number)
