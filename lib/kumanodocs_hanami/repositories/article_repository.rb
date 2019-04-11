@@ -11,6 +11,27 @@ class ArticleRepository < Hanami::Repository
     has_many :tables
   end
 
+  def search(keywords)
+    keys = keywords.map { |keyword|
+      key = articles.dataset.escape_like(keyword)
+      Sequel.|(
+        Sequel.ilike(:title, "%#{key}%"),
+        Sequel.ilike(:body, "%#{key}%"),
+        Sequel.ilike(authors[:name], "%#{key}%")
+      )
+    }
+    aggregate(:author)
+      .articles
+      .select_append(authors[:name], meetings[:date])
+      .join(authors)
+      .join(meetings)
+      .where(Sequel.&(*keys))
+      .order(meetings[:date].qualified.desc,
+        articles[:number].qualified.asc,
+        articles[:id].qualified.desc
+      )
+  end
+
   def update_number(meeting_id, articles_number)
     transaction do
       # データベースのUNIQUE制約にひっかからないようにすべてnilで初期化する
@@ -41,19 +62,17 @@ class ArticleRepository < Hanami::Repository
   end
 
   def group_by_meeting
-    articles.to_a
-            .group_by { |article| article.meeting_id }
-            .map { |meeting_id, articles|
-              # 議案番号でソートする
-              articles.sort_by!{ |article| article.number ||  DEFAULT_ARTICLE_NUMBER }
-              [MeetingRepository.new.find(meeting_id), articles]
-            }.sort_by{ |meeting, articles| meeting.date }
-            .reverse
+    articles.select_append(meetings[:date])
+      .join(meetings)
+      .order(meetings[:date].qualified.desc, articles[:number].asc(nulls: :last))
+      .to_a
+      .group_by { |article| article.meeting_id }
+      .map { |meeting_id, articles| [MeetingRepository.new.find(meeting_id), articles] }
   end
 
   def by_meeting(id)
-    articles_of_meeting = articles.where(meeting_id: id).to_a
-    articles_of_meeting.sort_by { |article| article.number || DEFAULT_ARTICLE_NUMBER }
+    articles.where(meeting_id: id)
+      .order(articles[:number].asc(nulls: :last))
   end
 
   def find_with_relations(id)

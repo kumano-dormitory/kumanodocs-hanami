@@ -122,5 +122,15 @@ module Web::Views::Article
         submit '削除'
       end
     end
+
+    def form_search(keyword)
+      form_for :search_article, routes.search_article_path, method: :get, values: {keyword: keyword} do
+        div do
+          label '検索キーワード', for: :keywords
+          text_field :keywords
+        end
+        submit '検索'
+      end
+    end
   end
 end
