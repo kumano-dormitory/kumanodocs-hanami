@@ -26,6 +26,12 @@ class MeetingRepository < Hanami::Repository
     meeting
   end
 
+  def find_with_printed_articles(meeting_id)
+    meeting = find_with_articles(meeting_id)
+    meeting.articles.select!{ |article| article.printed }
+    meeting
+  end
+
   # 締め切り前の議案一覧
   # nowを指定できるようにしてるのはテストしやすくするため
   def in_time(now: Time.now)

@@ -1,5 +1,6 @@
 <% if !meeting.nil? %>
-
+  <%= tex %>
+<% else #!meetig.nil? %>
 \documentclass[b5j,10pt]{ujarticle}
 \usepackage{listings}
 \usepackage{spverbatim}
@@ -29,6 +30,5 @@ breaklines=true
 
 \end{document}
 
-<% else #!meetig.nil? %>
 hogehogeo
 <% end #!meeting.ni? %>
