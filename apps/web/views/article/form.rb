@@ -126,8 +126,8 @@ module Web::Views::Article
     def form_search(keyword)
       form_for :search_article, routes.search_article_path, method: :get, values: {keyword: keyword} do
         div do
-          label '検索キーワード', for: :keyword
-          text_field :keyword
+          label '検索キーワード', for: :keywords
+          text_field :keywords
         end
         submit '検索'
       end

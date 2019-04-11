@@ -10,9 +10,12 @@ class ArticleRepository < Hanami::Repository
     has_many :comments
   end
 
-  def search(keyword)
-    key = articles.dataset.escape_like(keyword)
-    aggregate(:author).where{ body.ilike("%#{key}%") | title.ilike("%#{key}%") }
+  def search(keywords)
+    keys = keywords.map { |keyword|
+      key = articles.dataset.escape_like(keyword)
+      [Sequel.ilike(:title, "%#{key}%"), Sequel.ilike(:body, "%#{key}%")]
+    }.flatten
+    aggregate(:author).where(Sequel.|(*keys))
   end
 
   def update_number(meeting_id, articles_number)
