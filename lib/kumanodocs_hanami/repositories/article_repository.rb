@@ -61,19 +61,17 @@ class ArticleRepository < Hanami::Repository
   end
 
   def group_by_meeting
-    articles.to_a
-            .group_by { |article| article.meeting_id }
-            .map { |meeting_id, articles|
-              # 議案番号でソートする
-              articles.sort_by!{ |article| article.number ||  DEFAULT_ARTICLE_NUMBER }
-              [MeetingRepository.new.find(meeting_id), articles]
-            }.sort_by{ |meeting, articles| meeting.date }
-            .reverse
+    articles.select_append(meetings[:date])
+      .join(meetings)
+      .order(meetings[:date].qualified.desc, articles[:number].asc(nulls: :last))
+      .to_a
+      .group_by { |article| article.meeting_id }
+      .map { |meeting_id, articles| [MeetingRepository.new.find(meeting_id), articles] }
   end
 
   def by_meeting(id)
-    articles_of_meeting = articles.where(meeting_id: id).to_a
-    articles_of_meeting.sort_by { |article| article.number || DEFAULT_ARTICLE_NUMBER }
+    articles.where(meeting_id: id)
+      .order(articles[:number].asc(nulls: :last))
   end
 
   def find_with_relations(id)
