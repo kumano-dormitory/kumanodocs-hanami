@@ -1,0 +1,7 @@
+<h2><%= table.article.title %></h2>
+<p>文責者：<%= table.article.author.name %></p>
+
+<%= render partial: 'shared/table', locals: {table: table} %>
+
+<p>上記の表を削除しますか？</p>
+<%= form_destroy(table) %>
