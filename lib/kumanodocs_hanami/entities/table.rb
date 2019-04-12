@@ -2,6 +2,6 @@ require 'csv'
 
 class Table < Hanami::Entity
   def data
-    CSV.parse(csv)
+    CSV.parse(csv, col_sep: "\t")
   end
 end
