@@ -68,7 +68,7 @@ module Web
       #               See #scheme and #ssl?
       #   :httponly - Prevent JavaScript access (Boolean - true by default)
       #
-      cookies true
+      cookies path: '/'
       # or
       # cookies max_age: 300
 
