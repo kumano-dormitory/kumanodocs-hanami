@@ -20,6 +20,13 @@
 
 <% if !article.tables.nil? then %>
   <% article.tables.each do |table| %>
+    <a href="<%= routes.edit_meeting_article_table_path(meeting_id: article.meeting_id, article_id: article.id, id: table.id) %>">編集</a>
+    <%=
+      form_for :article, routes.meeting_article_table_path(meeting_id: article.meeting_id, article_id: article.id, id: table.id),
+          method: :delete, class: "delete_article" do
+        submit '削除'
+      end
+    %>
     <%= render partial: 'shared/table', locals: {table: table} %>
   <% end %>
 <% end %>
