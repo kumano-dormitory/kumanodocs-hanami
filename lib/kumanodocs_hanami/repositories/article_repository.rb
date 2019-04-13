@@ -70,6 +70,15 @@ class ArticleRepository < Hanami::Repository
       .map { |meeting_id, articles| [MeetingRepository.new.find(meeting_id), articles] }
   end
 
+  def before_deadline(date: Time.now)
+    articles
+      .select_append(meetings[:deadline])
+      .join(meetings)
+      .where(Sequel.lit('? > ?', meetings[:deadline].qualified, date))
+      .order(meetings[:deadline].desc, articles[:number].asc(nulls: :last))
+      .to_a
+  end
+
   def by_meeting(id)
     articles.where(meeting_id: id)
       .order(articles[:number].asc(nulls: :last))
