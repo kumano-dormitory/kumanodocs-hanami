@@ -14,6 +14,7 @@ module Web::Controllers::Article
           required(:password_confirmation).filled(:str?)
         end
         required(:body).filled(:str?)
+        optional(:vote_content).filled(:str?)
       end
     end
 
@@ -35,7 +36,15 @@ module Web::Controllers::Article
         )
         article_params = params[:article].to_h.merge(author_id: author.id)
         article = @article_repo.create(article_params)
-        category_params = params[:article][:categories].map { |id| { category_id: id } }
+        categories = params[:article][:categories].map { |id| @category_repo.find(id) }
+        # 採決項目の設定
+        category_params = categories.map { |category|
+          if category.require_content && category.name == '採決'
+            { category_id: category.id, extra_content: params[:article][:vote_content] }
+          else
+            { category_id: category.id, extra_content: nil }
+          end
+        }
         @article_repo.add_categories(article, category_params)
 
         redirect_to routes.article_path(id: article.id)
