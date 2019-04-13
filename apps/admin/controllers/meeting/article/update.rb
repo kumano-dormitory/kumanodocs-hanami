@@ -13,6 +13,7 @@ module Admin::Controllers::Meeting
             required(:name).filled(:str?)
           end
           required(:body).filled(:str?)
+          optional(:vote_content).filled(:str?)
         end
         required(:id).filled(:int?)
       end
@@ -30,7 +31,16 @@ module Admin::Controllers::Meeting
       def call(params)
         if params.valid?
           article = @article_repo.find(params[:id])
-          category_params = params[:article][:categories].map { |category_id| {category_id: category_id} }
+
+          categories = params[:article][:categories].map { |id| @category_repo.find(id) }
+          # 採決項目の設定
+          category_params = categories.map { |category|
+            if category.require_content && category.name == '採決'
+              { category_id: category.id, extra_content: params[:article][:vote_content] }
+            else
+              { category_id: category.id, extra_content: nil }
+            end
+          }
           @article_repo.update_categories(article, category_params)
           @author_repo.update(article.author_id, params[:article][:author])
           @article_repo.update(article.id, params[:article])

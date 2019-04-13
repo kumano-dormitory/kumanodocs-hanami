@@ -45,6 +45,11 @@ module Admin::Views::Meeting
             text_area :body
           end
 
+          div do
+            label '採決項目（議案種別に「採決」が含まれていない場合は保存されません）', for: :vote_content
+            text_area :vote_content
+          end
+
           submit '投稿'
         end
       end
@@ -55,6 +60,13 @@ module Admin::Views::Meeting
         values = article.nil? ? {} : { article: article }
         article_categories_selected = article&.article_categories&.map(&:category_id)
         meeting_selected = [article&.meeting_id]
+
+        # 採決項目があればvote_contentとして取り出す
+        vote_category = article&.categories&.select { |category| category.name == '採決' }.first
+        vote_content = unless vote_category.nil?
+          data = article&.article_categories&.select { |data| data.category_id == vote_category.id }.first
+          data&.extra_content
+        end
 
         form_for :article,
                  routes.meeting_article_path(meeting_id: params[:meeting_id], id: params[:id]),
@@ -94,6 +106,11 @@ module Admin::Views::Meeting
           div do
             label '本文', for: :body
             text_area :body
+          end
+
+          div do
+            label '採決項目（議案種別に「採決」が含まれていない場合には保存されません）', for: :vote_content
+            text_area :vote_content, vote_content
           end
 
           submit '保存'
