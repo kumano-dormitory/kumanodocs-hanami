@@ -44,6 +44,11 @@ module Web::Views::Article
           text_area :body
         end
 
+        div do
+          label '採決項目（議案の種別に「採決」が含まれていない場合には保存されません）', for: :vote_content
+          text_area :vote_content
+        end
+
         submit '投稿'
       end
     end
@@ -54,6 +59,14 @@ module Web::Views::Article
       categories_for_select = categories.map { |category| [category.name, category.id] }.to_h
       values = article.nil? ? {} : { article: article }
       article_categories_selected = article&.article_categories&.map(&:category_id)
+
+      # 採決項目があればvote_contentとして取り出す
+      vote_category = article&.categories&.select { |category| category.name == '採決' }.first
+      vote_content = unless vote_category.nil?
+        data = article&.article_categories&.select { |data| data.category_id == vote_category.id }.first
+        data&.extra_content
+      end
+
       get_lock = hash[:confirm_update] ? true : false
       meeting_selected = [article&.meeting_id]
 
@@ -102,6 +115,11 @@ module Web::Views::Article
         div do
           label '本文', for: :body
           text_area :body
+        end
+
+        div do
+          label '採決項目（議案の種別に「採決」が含まれていない場合には保存されません）', for: :vote_content
+          text_area :vote_content, vote_content
         end
 
         div do
