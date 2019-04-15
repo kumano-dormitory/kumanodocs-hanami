@@ -11,7 +11,7 @@ class ArticleRepository < Hanami::Repository
     has_many :tables
   end
 
-  def search(keywords)
+  def search(keywords, page=1, limit=20)
     keys = keywords.map { |keyword|
       key = articles.dataset.escape_like(keyword)
       Sequel.|(
@@ -20,7 +20,7 @@ class ArticleRepository < Hanami::Repository
         Sequel.ilike(authors[:name], "%#{key}%")
       )
     }
-    aggregate(:author)
+    aggregate(:author, :meeting)
       .articles
       .select_append(authors[:name], meetings[:date])
       .join(authors)
@@ -28,8 +28,24 @@ class ArticleRepository < Hanami::Repository
       .where(Sequel.&(*keys))
       .order(meetings[:date].qualified.desc,
         articles[:number].qualified.asc,
-        articles[:id].qualified.desc
+        articles[:id].qualified.desc)
+      .limit(limit)
+      .offset((page - 1) * limit)
+  end
+
+  def search_count(keywords)
+    keys = keywords.map { |keyword|
+      key = articles.dataset.escape_like(keyword)
+      Sequel.|(
+        Sequel.ilike(:title, "%#{key}%"),
+        Sequel.ilike(:body, "%#{key}%"),
+        Sequel.ilike(authors[:name], "%#{key}%")
       )
+    }
+    articles
+      .join(authors)
+      .where(Sequel.&(*keys))
+      .count
   end
 
   def update_number(meeting_id, articles_number)
