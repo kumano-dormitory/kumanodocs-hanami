@@ -11,5 +11,38 @@
     </h2>
     <p><%= article.body %></p>
     <p>文責者：<%= article.author.name %></p>
+    <p>ブロック会議：<%= article.meeting.date %></p>
   </div>
 <% end %>
+
+<ul>
+  <% if page - 1 > 0 %>
+    <li><a href="?page=<%= page - 1 %>&amp;search_article[keywords]=<%= hu keywords %>">前のページ</a></li>
+  <% else %>
+    <li>前のページ</li>
+  <% end %>
+  <% if page - 3 > 0 %>
+    <li><a href="?page=<%= page - 3 %>&amp;search_article[keywords]=<%= hu keywords %>"><%= page - 3 %></a></li>
+  <% end %>
+  <% if page - 2 > 0 %>
+    <li><a href="?page=<%= page - 2 %>&amp;search_article[keywords]=<%= hu keywords %>"><%= page - 2 %></a></li>
+  <% end %>
+  <% if page - 1 > 0 %>
+    <li><a href="?page=<%= page - 1 %>&amp;search_article[keywords]=<%= hu keywords %>"><%= page - 1 %></a></li>
+  <% end %>
+  <li><%= page %></li>
+  <% if page + 1 <= max_page %>
+    <li><a href="?page=<%= page + 1 %>&amp;search_article[keywords]=<%= hu keywords %>"><%= page + 1%></a></li>
+  <% end %>
+  <% if page + 2 <= max_page %>
+    <li><a href="?page=<%= page + 2 %>&amp;search_article[keywords]=<%= hu keywords %>"><%= page + 2 %></a></li>
+  <% end %>
+  <% if page + 3 <= max_page %>
+    <li><a href="?page=<%= page + 3 %>&amp;search_article[keywords]=<%= hu keywords %>"><%= page + 3 %></a></li>
+  <% end %>
+  <% if page + 1 <= max_page %>
+    <li><a href="?page=<%= page + 1 %>&amp;search_article[keywords]=<%= hu keywords %>">次のページ</a></li>
+  <% else %>
+    <li>次のページ</li>
+  <% end %>
+</ul>
