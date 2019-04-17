@@ -8,7 +8,7 @@
 <div>
   <h2>議案一覧</h2>
   <ul>
-  <% meeting.articles.each do |article| %>
+  <% meeting.articles[article_limit * (page - 1), article_limit].each do |article| %>
   <div class="article">
     <h1>
       <a href="<%= routes.article_path(id: article.id) %>">
@@ -20,3 +20,35 @@
   <% end %>
   </ul>
 </div>
+
+<ul>
+  <% if page - 1 > 0 %>
+    <li><a href="?page=<%= page - 1 %>">前のページ</a></li>
+  <% else %>
+    <li>前のページ</li>
+  <% end %>
+  <% if page - 3 > 0 %>
+    <li><a href="?page=<%= page - 3 %>"><%= page - 3 %></a></li>
+  <% end %>
+  <% if page - 2 > 0 %>
+    <li><a href="?page=<%= page - 2 %>"><%= page - 2 %></a></li>
+  <% end %>
+  <% if page - 1 > 0 %>
+    <li><a href="?page=<%= page - 1 %>"><%= page - 1 %></a></li>
+  <% end %>
+  <li><%= page %></li>
+  <% if page + 1 <= max_page %>
+    <li><a href="?page=<%= page + 1 %>"><%= page + 1%></a></li>
+  <% end %>
+  <% if page + 2 <= max_page %>
+    <li><a href="?page=<%= page + 2 %>"><%= page + 2 %></a></li>
+  <% end %>
+  <% if page + 3 <= max_page %>
+    <li><a href="?page=<%= page + 3 %>"><%= page + 3 %></a></li>
+  <% end %>
+  <% if page + 1 <= max_page %>
+    <li><a href="?page=<%= page + 1 %>">次のページ</a></li>
+  <% else %>
+    <li>次のページ</li>
+  <% end %>
+</ul>
