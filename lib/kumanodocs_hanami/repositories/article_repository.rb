@@ -11,7 +11,7 @@ class ArticleRepository < Hanami::Repository
     has_many :tables
   end
 
-  def search(keywords)
+  def search(keywords, page=1, limit=20)
     keys = keywords.map { |keyword|
       key = articles.dataset.escape_like(keyword)
       Sequel.|(
@@ -20,7 +20,7 @@ class ArticleRepository < Hanami::Repository
         Sequel.ilike(authors[:name], "%#{key}%")
       )
     }
-    aggregate(:author)
+    aggregate(:author, :meeting)
       .articles
       .select_append(authors[:name], meetings[:date])
       .join(authors)
@@ -28,8 +28,24 @@ class ArticleRepository < Hanami::Repository
       .where(Sequel.&(*keys))
       .order(meetings[:date].qualified.desc,
         articles[:number].qualified.asc,
-        articles[:id].qualified.desc
+        articles[:id].qualified.desc)
+      .limit(limit)
+      .offset((page - 1) * limit)
+  end
+
+  def search_count(keywords)
+    keys = keywords.map { |keyword|
+      key = articles.dataset.escape_like(keyword)
+      Sequel.|(
+        Sequel.ilike(:title, "%#{key}%"),
+        Sequel.ilike(:body, "%#{key}%"),
+        Sequel.ilike(authors[:name], "%#{key}%")
       )
+    }
+    articles
+      .join(authors)
+      .where(Sequel.&(*keys))
+      .count
   end
 
   def update_number(meeting_id, articles_number)
@@ -61,13 +77,16 @@ class ArticleRepository < Hanami::Repository
     end
   end
 
-  def group_by_meeting
-    articles.select_append(meetings[:date])
+  def group_by_meeting(limit = 10)
+    # TODO: articleをすべて取得してからsliceをかけるのは処理が遅い
+    # whereを使って、ある程度会議日程で絞ってからsliceをかけたほうが良い
+    ret = articles.select_append(meetings[:date])
       .join(meetings)
       .order(meetings[:date].qualified.desc, articles[:number].asc(nulls: :last))
       .to_a
       .group_by { |article| article.meeting_id }
       .map { |meeting_id, articles| [MeetingRepository.new.find(meeting_id), articles] }
+    ret.slice(0, limit)
   end
 
   def before_deadline(date: Time.now)
