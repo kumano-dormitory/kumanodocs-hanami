@@ -9,6 +9,7 @@ resources :meeting, only: %i[index show new create destroy] do
     resources :table, only: [:new, :create, :edit, :update, :destroy]
   end
 end
+resources :sessions, only: [:new, :create, :destroy]
 
 get '/meeting/:id/articles/number/edit', to: 'article_number#edit', as: :edit_article_number
 patch '/meeting/:id/articles/number/', to: 'article_number#update', as: :article_number
