@@ -77,13 +77,16 @@ class ArticleRepository < Hanami::Repository
     end
   end
 
-  def group_by_meeting
-    articles.select_append(meetings[:date])
+  def group_by_meeting(limit = 10)
+    # TODO: articleをすべて取得してからsliceをかけるのは処理が遅い
+    # whereを使って、ある程度会議日程で絞ってからsliceをかけたほうが良い
+    ret = articles.select_append(meetings[:date])
       .join(meetings)
       .order(meetings[:date].qualified.desc, articles[:number].asc(nulls: :last))
       .to_a
       .group_by { |article| article.meeting_id }
       .map { |meeting_id, articles| [MeetingRepository.new.find(meeting_id), articles] }
+    ret.slice(0, limit)
   end
 
   def before_deadline(date: Time.now)
