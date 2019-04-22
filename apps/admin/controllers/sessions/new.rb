@@ -8,5 +8,9 @@ module Admin::Controllers::Sessions
     def authenticate!
       # do nothing
     end
+
+    def navigation
+      @navigation = {login: true}
+    end
   end
 end

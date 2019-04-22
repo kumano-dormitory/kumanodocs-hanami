@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Admin</title>
+    <title>Web</title>
     <%= favicon %>
     <%= stylesheet 'application' %>
     <link rel="stylesheet" href="https://assets.ubuntu.com/v1/vanilla-framework-version-1.8.1.min.css" />
   </head>
   <body>
-    <header id="navigation" class="p-navigation" style="background-color: #ff9e80">
+    <header id="navigation" class="p-navigation" style="background-color: #e1f5fe">
       <div class="row">
         <div class="p-navigation__banner">
           <div class="p-navigation__logo">
-            <a class="p-navigation__link" href="/admin">
+            <a class="p-navigation__link" href="/">
               <img src="/assets/logo.png" alt="" class="p-navigation__image">
             </a>
           </div>
@@ -19,14 +19,19 @@
           <a href="#navigation-closed" class="p-navigation__toggle--close" title="close menu">Close menu</a>
         </div>
         <nav class="p-navigation__nav" role="menubar">
+          <form class="p-search-box" action="/article/search">
+            <input type="search" class="p-search-box__input" name="search_article[keywords]" placeholder="議案検索" required="">
+            <button type="reset" class="p-search-box__reset" alt="reset"><i class="p-icon--close"></i></button>
+            <button type="submit" class="p-search-box__button" alt="search"><i class="p-icon--search"></i></button>
+          </form>
           <span class="u-off-screen">
             <a href="#main-content">Jump to main content</a>
           </span>
           <ul class="p-navigation__links" role="menu">
-            <li class="p-navigation__link <%= navigation[:root] ? 'is-selected' : '' %>" role="menuitem"><a href="/admin">管理者向けトップページ</a></li>
-            <li class="p-navigation__link <%= navigation[:meeting] ? 'is-selected' : '' %>" role="menuitem"><a href="/admin/meeting">ブロック会議一覧</a></li>
-            <li class="p-navigation__link <%= navigation[:pdf] ? 'is-selected' : '' %>" role="menuitem"><a href="/">印刷用PDFダウンロード</a></li>
-            <li class="p-navigation__link" role="menuitem"><a href="/"><i class="p-icon--user"></i>ログアウト（一般向けページへ）</a></li>
+            <li class="p-navigation__link <%= navigation[:root] ? 'is-selected' : '' %>" role="menuitem"><a href="/">新着議案</a></li>
+            <li class="p-navigation__link <%= navigation[:meeting] ? 'is-selected' : '' %>" role="menuitem"><a href="/meeting">ブロック会議</a></li>
+            <li class="p-navigation__link <%= navigation[:new_article] ? 'is-selected' : '' %>" role="menuitem"><a href="/article/new">議案投稿</a></li>
+            <li class="p-navigation__link <%= navigation[:login] ? 'is-selected' : '' %>" role="menuitem"><a href="/admin"><i class="p-icon--user"></i></a></li>
           </ul>
         </nav>
       </div>
