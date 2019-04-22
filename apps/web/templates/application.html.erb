@@ -4,7 +4,7 @@
     <title>Web</title>
     <%= favicon %>
     <%= stylesheet 'application' %>
-    <link rel="stylesheet" href="https://assets.ubuntu.com/v1/vanilla-framework-version-1.8.0.min.css" />
+    <link rel="stylesheet" href="https://assets.ubuntu.com/v1/vanilla-framework-version-1.8.1.min.css" />
   </head>
   <body>
     <header id="navigation" class="p-navigation">
@@ -38,6 +38,48 @@
     </header>
 
     <div class="u-no-margin--top">
+      <% unless notifications.empty? %>
+        <% p notifications %>
+        <div class="p-strip--accent is-shallow">
+          <div class="row">
+            <div class="col-12">
+              <% if notifications[:error] %>
+                <div class="p-notification--negative">
+                  <p class="p-notification__response">
+                    <span class="p-notification__status"><%= notifications[:error][:status] %></span>
+                    <%= notifications[:error][:message] %>
+                  </p>
+                </div>
+              <% end %>
+              <% if notifications[:caution] %>
+                <div class="p-notification--caution">
+                  <p class="p-notification__response">
+                    <span class="p-notification__status"><%= notifications[:caution][:status] %></span>
+                    <%= notifications[:caution][:message] %>
+                  </p>
+                </div>
+              <% end %>
+              <% if notifications[:success] %>
+                <div class="p-notification--positive">
+                  <p class="p-notification__response">
+                    <span class="p-notification__status"><%= notifications[:success][:status] %></span>
+                    <%= notifications[:success][:message] %>
+                  </p>
+                </div>
+              <% end %>
+              <% if notifications[:info] %>
+                <div class="p-notification--information">
+                  <p class="p-notification__response">
+                    <span class="p-notification__status"><%= notifications[:info][:status] %></span>
+                    <%= notifications[:info][:message] %>
+                  </p>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
       <%= yield %>
     </div>
 
