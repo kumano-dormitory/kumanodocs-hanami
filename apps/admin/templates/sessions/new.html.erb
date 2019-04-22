@@ -1,15 +1,5 @@
-<%=
-  form_for :session, routes.sessions_path, method: :post do
-    div do
-      label 'ユーザー名', for: :name
-      text_field :name
-    end
-
-    div do
-      label 'パスワード', for: :password
-      password_field :password
-    end
-
-    submit 'ログイン'
-  end
-%>
+<div class="p-strip">
+  <div class="row">
+    <%= form %>
+  </div>
+</div>
