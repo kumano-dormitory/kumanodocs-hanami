@@ -32,6 +32,7 @@ module Web::Controllers::Table
                 caption: params[:table][:caption],
                 csv: params[:table][:tsv],
               )
+              flash[:notifications] = {success: {status: "Success:", message: "正常に表が議案に追加されました"}}
               redirect_to routes.article_path(id: params[:table][:article_id])
             end
           rescue CSV::MalformedCSVError
