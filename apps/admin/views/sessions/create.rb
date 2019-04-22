@@ -3,6 +3,7 @@ module Admin
     module Sessions
       class Create
         include Admin::View
+        layout :login
       end
     end
   end
