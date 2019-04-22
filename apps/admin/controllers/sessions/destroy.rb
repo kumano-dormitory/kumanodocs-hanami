@@ -4,7 +4,7 @@ module Admin::Controllers::Sessions
 
     def call(params)
       session[:user_id] = nil
-      redirect_to routes.new_session_path
+      redirect_to '/'
     end
   end
 end
