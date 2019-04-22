@@ -14,7 +14,7 @@ module Web::Controllers::Article
           required(:password_confirmation).filled(:str?)
         end
         required(:body).filled(:str?)
-        optional(:vote_content).filled(:str?)
+        optional(:vote_content).maybe(:str?)
       end
     end
 

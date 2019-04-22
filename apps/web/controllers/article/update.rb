@@ -13,7 +13,7 @@ module Web::Controllers::Article
           required(:name).filled(:str?)
         end
         required(:body).filled(:str?)
-        optional(:vote_content).filled(:str?)
+        optional(:vote_content).maybe(:str?)
         required(:get_lock).filled(:bool?)
         optional(:password).filled(:str?)
       end
