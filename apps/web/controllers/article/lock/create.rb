@@ -15,6 +15,7 @@ module Web::Controllers::Article::Lock
                    author_repo: AuthorRepository.new)
       @article_repo = article_repo
       @author_repo = author_repo
+      @notifications = {}
     end
 
     # article_idとpasswordを受け取り、passwordが正しければarticle_lock_keyを設定する
@@ -33,7 +34,12 @@ module Web::Controllers::Article::Lock
       end
       @for_table = !params[:table_id].nil?
       @table_id = params[:table_id]
+      @notifications = {error: {status: "Authentication Failed:", message: "パスワードが不正です. 正しいパスワードを入力してください"}}
       self.status = 401
+    end
+
+    def notifications
+      @notifications
     end
   end
 end

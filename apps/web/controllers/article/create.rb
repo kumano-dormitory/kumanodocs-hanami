@@ -26,6 +26,7 @@ module Web::Controllers::Article
       @category_repo = category_repo
       @article_repo = article_repo
       @author_repo = author_repo
+      @notifications = {}
     end
 
     def call(params)
@@ -46,14 +47,22 @@ module Web::Controllers::Article
           end
         }
         @article_repo.add_categories(article, category_params)
-
+        flash[:notifications] = {success: {status: "Success", message: "正常に議案が投稿されました"}}
         redirect_to routes.article_path(id: article.id)
       else
         @meetings = @meeting_repo.in_time
         @categories = @category_repo.all
-
+        @notifications = {error: {status: "Error:", message: "入力された項目に不備があり投稿できません. もう一度確認してください"}}
         self.status = 422
       end
+    end
+
+    def navigation
+      @navigation = {new_article: true}
+    end
+
+    def notifications
+      @notifications
     end
   end
 end

@@ -13,5 +13,9 @@ module Web::Controllers::Article
       @meetings = @meeting_repository.in_time
       @categories = @category_repository.all
     end
+
+    def navigation
+      @navigation = {new_article: true}
+    end
   end
 end

@@ -13,5 +13,9 @@ module Web::Controllers::Meeting
       @meeting = @meeting_repo.find_with_articles(params[:id])
       @max_page = (meeting.articles.length - 1) / @article_limit + 1
     end
+
+    def navigation
+      @navigation = {meeting: true}
+    end
   end
 end
