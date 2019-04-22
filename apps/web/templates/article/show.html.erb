@@ -1,41 +1,60 @@
-<p><a href='<%= routes.root_path %>'>Top Page</a></p>
-<h1><%= article_numbered_title(article) %></h1>
-<a href="<%= routes.edit_article_path(article.id) %>">編集</a>
-<%=
-  form_for :article, routes.article_path(article.id), method: :delete, class: "delete_article" do
-    submit '削除'
-  end
-%>
-<h2>文責：<%= article.author.name %></h2>
-<h2>ブロック会議日時：<%= article.meeting.date %></h2>
-<h2>議案の種類</h2>
-<ul>
-  <% article.categories.each do |category| %>
-    <li><%= category.name %></li>
-  <% end %>
-</ul>
-<section><%= article.body %></section>
-<p>初版投稿日時：<%= article.created_at %></p>
-<p>最終更新日時：<%= article.updated_at %></p>
+<div class="p-strip">
+  <div class="row">
+    <div class="col-12">
+      <h1><%= article_numbered_title(article) %></h1>
+      <div class="row">
+        <a class="p-button--positive" href="<%= routes.edit_article_path(article.id) %>">編集</a>
+        <%=
+        form_for :article, routes.article_path(article.id), method: :delete, class: "p-form p-form--inline" do
+          submit '削除', class: "p-button--negative"
+        end
+        %>
+      </div>
+      <dl>
+        <dt>文責者</dt>
+        <dd><%= article.author.name %></dd>
+        <dt>ブロック会議日時</dt>
+        <dd><a href="<%= routes.meeting_path(id: article.meeting_id) %>" class="p-button--base u-no-margin--bottom"><%= article.meeting.date %></a></dd>
+        <dt>議案の種別</dt>
+        <dd>
+          <ul class="p-inline-list--middot">
+            <% article.categories.each do |category| %>
+              <li class="p-inline-list__item"><%= category.name %></li>
+            <% end %>
+          </ul>
+        </dd>
+        <dt>本文</dt>
+        <dd>
+          <pre><%= article.body %></pre>
+        </dd>
+      </dl>
+      <ul class="p-list">
+        <li class="p-list__item">議案の初版投稿日時: <%= article.created_at %></li>
+        <li class="p-list__item">議案の最終更新日時: <%= article.updated_at %></li>
+      </ul>
 
-<% if !article.tables.nil? %>
-  <% article.tables.each do |table| %>
-    <a href="<%= routes.edit_table_path(table.id) %>">編集</a>
-    <%=
-      form_for :table, routes.table_path(table.id), method: :delete do
-        submit '削除'
-      end
-    %>
-    <%= render partial: 'shared/table', locals: {table: table} %>
-  <% end %>
-<% end %>
+      <% if !article.tables.nil? %>
+        <% article.tables.each do |table| %>
+          <%= render partial: 'shared/table', locals: {table: table, editable: true} %>
+        <% end %>
+      <% end %>
 
-<% blocks.each do |block| %>
-  <% comment = article.comments.find{ |comment| comment.block_id == block.id } %>
-  <% unless comment.nil? %>
-    <div>
-      <p><%= block.name %>の議事録</p>
-      <p><%= comment.body %></p>
+      <div class="p-strip">
+        <div class="row">
+          <div class="col-12">
+            <h4>議事録</h4>
+            <dl>
+              <% blocks.each do |block| %>
+              <% comment = article.comments.find{ |comment| comment.block_id == block.id } %>
+              <% unless comment.nil? %>
+                <dt><%= block.name %>の議事録</dt>
+                <dd><pre><%= comment.body %></pre></dd>
+              <% end %>
+              <% end %>
+            </dl>
+          </div>
+        </div>
+      </div>
     </div>
-  <% end %>
-<% end %>
+  </div>
+</div>

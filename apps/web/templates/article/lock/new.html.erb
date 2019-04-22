@@ -1,10 +1,18 @@
-<% if locked %>
-<p>
-  他の人がこの記事を編集中の可能性があります。
-  他の人が編集中である場合、その人の編集内容が失われることがあります。
-</p>
-<p>
-  それでもよければパスワードを入力して編集を開始してください。
-</p>
-<% end %>
-<%= form(for_table, table_id) %>
+<div class="p-strip">
+  <div class="row">
+    <div class="col-12">
+      <% if locked %>
+      <div class="p-notification--caution">
+        <p class="p-notification__response">
+          <span class="p-notification__status">Warning:</span>
+          他の人がこの記事を編集中の可能性があります。
+          他の人が編集中である場合、その人の編集内容が失われることがあります。<br/>
+          それでもよければパスワードを入力して編集を開始してください。
+        </p>
+      </div>
+      <% end %>
+      <p>議案のパスワードを入力してください</p>
+      <%= form(for_table, table_id) %>
+    </div>
+  </div>
+</div>
