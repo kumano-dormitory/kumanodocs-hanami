@@ -1,4 +1,17 @@
-<% if confirm_update %>
-  <p>同じ議案を他の人が編集中の可能性があります。それでも良い場合はパスワードを入力して保存をしてください。</p>
-<% end %>
-<%= form_update(meetings, categories, confirm_update: confirm_update) %>
+<div class="p-strip">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="u-no-margin">議案の編集</h2>
+      <% if confirm_update %>
+      <div class="p-notification--caution">
+        <p class="p-notification__response">
+          <span class="p-notification__status">Confirm：</span>
+          同じ議案を他の人が編集中の可能性があります。それでも良い場合はパスワードを入力して保存をしてください。
+        </p>
+      </div>
+      <% end %>
+
+      <%= form_update(meetings, categories, confirm_update: confirm_update) %>
+    </div>
+  </div>
+</div>
