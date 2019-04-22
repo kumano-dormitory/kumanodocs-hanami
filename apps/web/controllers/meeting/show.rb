@@ -1,17 +1,26 @@
 module Web::Controllers::Meeting
   class Show
     include Web::Action
-    expose :meeting, :page, :max_page, :article_limit
+    expose :meeting, :article, :blocks, :page, :max_page
 
-    def initialize(meeting_repo: MeetingRepository.new, article_limit: 10)
+    def initialize(meeting_repo: MeetingRepository.new,
+                   article_repo: ArticleRepository.new,
+                   block_repo: BlockRepository.new)
       @meeting_repo = meeting_repo
-      @article_limit = article_limit
+      @article_repo = article_repo
+      @block_repo = block_repo
     end
 
     def call(params)
-      @page = params[:page]&.to_i || 1
       @meeting = @meeting_repo.find_with_articles(params[:id])
-      @max_page = (meeting.articles.length - 1) / @article_limit + 1
+
+      @page = params[:page]&.to_i || 1
+      @page = 1 if @page <= 0
+      @page = @meeting.articles.length if @page > @meeting.articles.length
+
+      @article = @article_repo.find_with_relations(@meeting.articles[@page - 1].id)
+      @max_page = @meeting.articles.length
+      @blocks = @block_repo.all
     end
 
     def navigation
