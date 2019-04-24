@@ -1,12 +1,14 @@
 <% if table.data.length > 0 then %>
 <table>
 <caption><%= h table.caption %>
+    <% if editable %>
     <a href="<%= routes.edit_meeting_article_table_path(meeting_id: meeting_id, article_id: article_id, id: table.id) %>" class="p-button--positive">編集</a>
     <%=
       form_for :table, routes.meeting_article_table_path(meeting_id: meeting_id, article_id: article_id, id: table.id), method: :delete, class: "p-form p-form--inline" do
         submit '削除', class: "p-button--negative"
       end
     %>
+    <% end %>
 </caption>
 <% if table.data.length == 1 then %>
 <thead>
