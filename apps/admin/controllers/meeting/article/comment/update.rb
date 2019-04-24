@@ -19,6 +19,7 @@ module Admin::Controllers::Meeting
           @article_repo = article_repo
           @block_repo = block_repo
           @comment_repo = comment_repo
+          @notifications = {}
         end
 
         def call(params)
@@ -36,13 +37,19 @@ module Admin::Controllers::Meeting
               # 議事録のupdate
               @comment_repo.update(comment.id, props)
             end
+            flash[:notifications] = {success: {status: "Success:", message: "正常に議事録が編集されました"}}
             redirect_to routes.meeting_article_path(meeting_id: 0, id: params[:article_id])
           else
             @article = @article_repo.find(params[:article_id])
             @block = @block_repo.find(params[:block_id])
             @comment = @comment_repo.find(params[:article_id], params[:block_id])
+            @notifications = {error: {status: "Error:", message: "入力された項目に不備があります. もう一度確認してください"}}
             self.status = 422
           end
+        end
+
+        def notifications
+          @notifications
         end
       end
     end
