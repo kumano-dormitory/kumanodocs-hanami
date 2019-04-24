@@ -2,7 +2,7 @@ module Admin::Controllers::Meeting
   module Article
     class Create
       include Admin::Action
-      expose :meetings, :categories
+      expose :meeting, :categories
 
       params do
         required(:article).schema do
@@ -28,6 +28,7 @@ module Admin::Controllers::Meeting
         @article_repo = article_repo
         @category_repo = category_repo
         @author_repo = author_repo
+        @notifications = {}
       end
 
       def call(params)
@@ -46,13 +47,18 @@ module Admin::Controllers::Meeting
           article_params = params[:article].except(:author, :categories)
           article = @article_repo.create_with_related_entities(author_params, category_params, article_params)
 
+          flash[:notifications] = {success: {status: "Success", message: "正常に議案が作成されました"}}
           redirect_to routes.meeting_article_path(meeting_id: article.meeting_id, id: article.id)
         else
-          @meetings = @meeting_repo.in_time
+          @meeting = @meeting_repo.find(params[:meeting_id])
           @categories = @category_repo.all
-
+          @notifications = {error: {status: "Error:", message: "入力された項目に不備があります. もう一度確認してください"}}
           self.status = 422
         end
+      end
+      
+      def notifications
+        @notifications
       end
     end
   end

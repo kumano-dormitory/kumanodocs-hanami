@@ -13,7 +13,7 @@ module Admin::Controllers::Meeting
             required(:name).filled(:str?)
           end
           required(:body).filled(:str?)
-          optional(:vote_content).filled(:str?)
+          optional(:vote_content).maybe(:str?)
         end
         required(:id).filled(:int?)
       end
@@ -26,6 +26,7 @@ module Admin::Controllers::Meeting
         @article_repo = article_repo
         @category_repo = category_repo
         @author_repo = author_repo
+        @notifications = {}
       end
 
       def call(params)
@@ -44,13 +45,18 @@ module Admin::Controllers::Meeting
           @article_repo.update_categories(article, category_params)
           @author_repo.update(article.author_id, params[:article][:author])
           @article_repo.update(article.id, params[:article])
+          flash[:notifications] = {success: {status: "Success:", message: "正常に議案が編集されました"}}
           redirect_to routes.meeting_article_path(meeting_id: article.meeting_id, id: article.id)
         else
           @meetings = @meeting_repo.in_time
           @categories = @category_repo.all
-
+          @notifications = {error: {status: "Error:", message: "入力された項目に不備があります. もう一度確認してください"}}
           self.status = 422
         end
+      end
+      
+      def notifications
+        @notifications
       end
     end
   end
