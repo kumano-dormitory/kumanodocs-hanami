@@ -21,17 +21,24 @@ module Admin::Controllers::ArticleStatus
                    article_repo: ArticleRepository.new)
       @meeting_repo = meeting_repo
       @article_repo = article_repo
+      @notifications
     end
 
     def call(params)
       if params.valid?
         articles_status = params[:meeting][:articles]
         @article_repo.update_status(articles_status)
+        flash[:notifications] = {success: {status: "Success:", message: "正常に通常議案フラグの変更が行われました"}}
         redirect_to routes.meeting_path(id: params[:id])
       else
         @meeting = @meeting_repo.find_with_articles(params[:id])
+        @notifications = {error: {status: "Error:", message: "入力された項目に不備があります. もう一度確認してください"}}
         self.status = 422
       end
+    end
+
+    def notifications
+      @notifications
     end
   end
 end
