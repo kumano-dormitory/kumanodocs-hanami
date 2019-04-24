@@ -1,7 +1,11 @@
-<h2><%= table.article.title %></h2>
-<p>文責者：<%= table.article.author.name %></p>
+<div class="p-strip">
+  <div class="row">
+    <h2><%= table.article.title %></h2>
+    <p>文責者：<%= table.article.author.name %></p>
 
-<%= render partial: 'shared/table', locals: {table: table} %>
+    <%= render partial: 'shared/table', locals: {table: table, meeting_id: table.article.meeting_id, editable: false} %>
 
-<p>上記の表を削除しますか？</p>
-<%= form_destroy(table) %>
+    <p>上記の表を削除しますか？</p>
+    <%= form_destroy(table) %>
+  </div>
+</div>

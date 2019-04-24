@@ -42,7 +42,7 @@
 
       <% if !article.tables.nil? %>
         <% article.tables.each do |table| %>
-          <%= render partial: 'shared/table', locals: {table: table, meeting_id: article.meeting_id, article_id: article.id} %>
+          <%= render partial: 'shared/table', locals: {table: table, meeting_id: article.meeting_id, article_id: article.id, editable: true} %>
         <% end %>
       <% end %>
 

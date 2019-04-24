@@ -16,6 +16,7 @@ module Admin::Controllers::Meeting
 
         def initialize(table_repo: TableRepository.new)
           @table_repo = table_repo
+          @notifications = {}
         end
 
         def call(params)
@@ -28,13 +29,21 @@ module Admin::Controllers::Meeting
                 caption: params[:table][:caption],
                 csv: params[:table][:tsv]
               )
+              flash[:notifications] = {success: {status: "Success:", message: "正常に表が編集されました"}}
               redirect_to routes.meeting_article_path(
                             meeting_id: table.article.meeting_id,
                             id: table.article.id)
             rescue CSV::MalformedCSVError
+              @notifications = {error: {status: "Error:", message: "表データの形式が不正です. 正しく入力してください"}}
             end
+          else
+            @notifications = {error: {status: "Error:", message: "入力された項目に不備があります. もう一度確認してください"}}
           end
           self.status = 422
+        end
+
+        def notifications
+          @notifications
         end
       end
     end
