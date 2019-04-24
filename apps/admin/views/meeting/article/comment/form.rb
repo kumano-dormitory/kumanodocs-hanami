@@ -6,11 +6,11 @@ module Admin::Views::Meeting
 
           form_for :comment,
                    routes.comment_path(article_id: article_id, block_id: block_id),
-                   method: :patch do
+                   method: :patch, class: "p-form" do
             div do
-              text_area :body, "#{comment.nil? ? '' : comment.body}"
+              text_area :body, "#{comment.nil? ? '' : comment.body}", rows: 15
             end
-            submit '確定'
+            submit '確定', class: "p-button--positive"
           end
         end
       end
