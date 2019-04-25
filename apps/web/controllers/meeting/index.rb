@@ -10,5 +10,9 @@ module Web::Controllers::Meeting
     def call(params)
       @meetings = @meeting_repo.desc_by_date
     end
+
+    def navigation
+      @navigation = {meeting: true}
+    end
   end
 end

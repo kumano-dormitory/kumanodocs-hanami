@@ -6,19 +6,19 @@ module Admin::Views::Meeting
 
           form_for :table,
                    routes.meeting_article_tables_path(meeting_id: article.meeting_id, article_id: article.id),
-                   method: :post do
+                   method: :post, class: "p-form" do
 
             div do
               label '題名', for: :caption
-              text_field :caption
+              text_field :caption, required: ""
             end
 
             div do
               label '表データ', for: :tsv
-              text_area :tsv
+              text_area :tsv, rows: 20, required: ""
             end
 
-            submit '表を追加'
+            submit '表を追加', class: "p-button--positive"
           end
         end
 
@@ -32,19 +32,20 @@ module Admin::Views::Meeting
                       id: table.id
                    ),
                    method: :patch,
+                   class: "p-form",
                    values: values do
 
             div do
               label '題名', for: :caption
-              text_field :caption
+              text_field :caption, required: ""
             end
 
             div do
               label '表データ', for: :tsv
-              text_area :tsv
+              text_area :tsv, required: ""
             end
 
-            submit '表を更新'
+            submit '表を更新', class: "p-button--positive"
           end
         end
 
@@ -61,7 +62,7 @@ module Admin::Views::Meeting
               hidden_field :confirm, value: true
             end
 
-            submit 'この表を削除'
+            submit 'この表を削除', class: "p-button--negative"
           end
         end
       end

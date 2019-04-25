@@ -1,9 +1,16 @@
-<p><a href='<%= routes.root_path %>'>Admin top page(this page)</a></p>
-<p><a href='<%= routes.new_meeting_path %>'>ブロック会議日程を新規作成</a></p>
-<div>
-  <ul>
-    <% meetings.each do |meeting| %>
-      <li><a href='<%= routes.meeting_path(id: meeting.id) %>'><%= meeting.date %></a></li>
-    <% end %>
-  </ul>
+<div class="p-strip">
+  <div class="row">
+    <h2>管理者向けページ</h2>
+    <p><a href="<%= routes.new_meeting_path %>" class="p-button--positive">ブロック会議日程を新たに作成</a></p>
+  </div>
+  <div class="row">
+    <h3>ブロック会議一覧</h3>
+    <ul class="p-list--divided">
+      <% meetings.each do |meeting| %>
+      <li class="p-list__item"><a href='<%= routes.meeting_path(id: meeting.id) %>' class="p-button--base u-no-margin--bottom">
+        <h4><%= meeting.date %>のブロック会議</h4>
+      </a></li>
+      <% end %>
+    </ul>
+  </div>
 </div>

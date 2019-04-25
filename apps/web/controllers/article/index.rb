@@ -10,5 +10,9 @@ module Web::Controllers::Article
     def call(_params)
       @articles_by_meeting = @article_repo.group_by_meeting
     end
+
+    def navigation
+      @navigation = {root: true}
+    end
   end
 end

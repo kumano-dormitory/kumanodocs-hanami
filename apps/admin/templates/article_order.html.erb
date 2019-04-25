@@ -4,6 +4,15 @@
     <title>Admin</title>
     <%= favicon %>
     <link rel="stylesheet" href="https://assets.ubuntu.com/v1/vanilla-framework-version-1.8.1.min.css" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <!-- 議案の並び替え、順序データ送信 -->
+    <%= javascript 'article_order' %>
+    <style>
+      .ui-state-highlight { height: 3rem; }
+    </style>
   </head>
   <body>
     <header id="navigation" class="p-navigation" style="background-color: #ff9e80">
@@ -22,9 +31,9 @@
             <a href="#main-content">Jump to main content</a>
           </span>
           <ul class="p-navigation__links" role="menu">
-            <li class="p-navigation__link <%= navigation[:root] ? 'is-selected' : '' %>" role="menuitem"><a href="/admin">管理者向けトップページ</a></li>
-            <li class="p-navigation__link <%= navigation[:meeting] ? 'is-selected' : '' %>" role="menuitem"><a href="/admin/meeting">ブロック会議一覧</a></li>
-            <li class="p-navigation__link <%= navigation[:pdf] ? 'is-selected' : '' %>" role="menuitem"><a href="/">印刷用PDFダウンロード</a></li>
+            <li class="p-navigation__link" role="menuitem"><a href="/admin">管理者向けトップページ</a></li>
+            <li class="p-navigation__link" role="menuitem"><a href="/admin/meeting">ブロック会議一覧</a></li>
+            <li class="p-navigation__link" role="menuitem"><a href="/">印刷用PDFダウンロード</a></li>
             <li class="p-navigation__link" role="menuitem"><a href="/admin/logout"><i class="p-icon--user"></i>ログアウト（一般向けページへ）</a></li>
           </ul>
         </nav>

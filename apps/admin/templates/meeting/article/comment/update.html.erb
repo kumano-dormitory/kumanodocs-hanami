@@ -1,4 +1,8 @@
-<h1><%= article.title %>への議事録の編集</h1>
-<p>ブロック : <%= block.name %></p>
+<div class="p-strip">
+  <div class="row">
+    <h2><%= article.title %>への議事録の編集</h2>
+    <h3>ブロック : <%= block.name %></h3>
 
-<%= form_update(article.id, block.id, comment) %>
+    <%= form_update(article.id, block.id, comment) %>
+  </div>
+</div>
