@@ -10,6 +10,7 @@ gem 'pg'
 gem 'rake'
 gem 'sass'
 gem 'tzinfo'
+gem 'bcrypt'
 
 group :development do
   # Code reloading
