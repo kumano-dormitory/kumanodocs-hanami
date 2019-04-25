@@ -36,6 +36,7 @@ module Admin::Controllers::ArticleNumber
                    article_repo: ArticleRepository.new)
       @meeting_repo = meeting_repo
       @article_repo = article_repo
+      @notifications = {}
     end
 
     def call(params)
@@ -49,11 +50,18 @@ module Admin::Controllers::ArticleNumber
         end
 
         @article_repo.update_number(params[:id], articles_number)
+        flash[:notifications] = {success: {status: "Success:", message: "正常に議案順序が保存されました"}}
         redirect_to routes.meeting_path(id: params[:id])
       else
+        p params
         @meeting = @meeting_repo.find_with_articles(params[:id])
+        @notifications = {error: {status: "Error:", message: "指定された順序に不備があります. もう一度確認してください"}}
         self.status = 422
       end
+    end
+
+    def notifications
+      @notifications
     end
   end
 end
