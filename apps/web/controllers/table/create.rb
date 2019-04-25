@@ -15,8 +15,10 @@ module Web::Controllers::Table
     end
 
     def initialize(article_repo: ArticleRepository.new,
+                   author_repo: AuthorRepository.new,
                    table_repo: TableRepository.new)
       @article_repo = article_repo
+      @author_repo = author_repo
       @table_repo = table_repo
     end
 
@@ -32,6 +34,8 @@ module Web::Controllers::Table
                 caption: params[:table][:caption],
                 csv: params[:table][:tsv],
               )
+              @author_repo.release_lock(article.author_id)
+              flash[:notifications] = {success: {status: "Success:", message: "正常に表が議案に追加されました"}}
               redirect_to routes.article_path(id: params[:table][:article_id])
             end
           rescue CSV::MalformedCSVError

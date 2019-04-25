@@ -1,5 +1,6 @@
 require 'hanami/helpers'
 require 'hanami/assets'
+require_relative './controllers/base'
 require_relative './controllers/authentication'
 
 module Admin
@@ -236,7 +237,7 @@ module Admin
         frame-ancestors 'self';
         base-uri 'self';
         default-src 'none';
-        script-src 'self';
+        script-src 'self' https://ajax.googleapis.com/ajax/libs/;
         connect-src 'self';
         img-src 'self' https: data:;
         style-src 'self' 'unsafe-inline' https:;
@@ -259,6 +260,7 @@ module Admin
       controller.prepare do
         # include MyAuthentication # included in all the actions
         # before :authenticate!    # run an authentication before callback
+        include Admin::BaseController
         include Admin::Authentication
       end
 

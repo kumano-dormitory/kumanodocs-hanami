@@ -5,6 +5,7 @@ module Web::Controllers::Article
 
     def initialize(article_repo: ArticleRepository.new)
       @article_repo = article_repo
+      @notifications = {}
     end
 
     def call(params)
@@ -15,9 +16,14 @@ module Web::Controllers::Article
           @article_repo.delete(params[:id])
           redirect_to routes.articles_path
         else
+          @notifications = {error: {status: "Authentication Failed:", message: "パスワードが間違っています. 正しいパスワードを入力してください"}}
           self.status = 401
         end
       end
+    end
+
+    def notifications
+      @notifications
     end
   end
 end

@@ -18,6 +18,7 @@ module Web::Controllers::Comment
                    comment_repo: CommentRepository.new)
       @meeting_repo = meeting_repo
       @comment_repo = comment_repo
+      @notifications = {}
     end
 
     def call(params)
@@ -48,11 +49,13 @@ module Web::Controllers::Comment
             comment = @comment_repo.find(article.id, params[:block_id])
             { article_id: article.id, comment: comment&.body }
           end
+          @notifications = {error: {status: "Authentication Failed:", message: "議事録のパスワードが間違っています. 正しいパスワードを入力してください. また、今回が初めての投稿の場合は既に議事録が投稿されています"}}
           self.status = 422
         else
           # 正常終了
           @comment_repo.create_list(create_datas) unless create_datas.empty?
           @comment_repo.update_list(update_datas) unless update_datas.empty?
+          flash[:notifications] = {success: {status: "Success", message: "正常に議事録が投稿されました"}}
           redirect_to routes.root_path
         end
       else
@@ -62,8 +65,13 @@ module Web::Controllers::Comment
           comment = @comment_repo.find(article.id, params[:block_id])
           { article_id: article.id, comment: comment&.body }
         end
+        @notifications = {error: {status: "Error:", message: "入力された項目に不備があります. もう一度確認してください"}}
         self.status = 422
       end
+    end
+
+    def notifications
+      @notifications
     end
   end
 end

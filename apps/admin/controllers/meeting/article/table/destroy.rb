@@ -20,6 +20,7 @@ module Admin::Controllers::Meeting
           if params.valid?
             if params[:table][:confirm]
               @table_repo.delete(table.id)
+              flash[:notifications] = {success: {status: "Success:", message: "正常に表が削除されました"}}
               redirect_to routes.meeting_article_path(
                             meeting_id: table.article.meeting_id,
                             id: table.article.id)

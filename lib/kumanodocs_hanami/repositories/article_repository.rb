@@ -100,7 +100,7 @@ class ArticleRepository < Hanami::Repository
 
   def by_meeting(id)
     articles.where(meeting_id: id)
-      .order(articles[:number].asc(nulls: :last))
+      .order(articles[:number].asc(nulls: :last), articles[:id].asc)
   end
 
   def find_with_relations(id)

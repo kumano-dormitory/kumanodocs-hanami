@@ -13,18 +13,30 @@ module Web::Controllers::Table
 
     def initialize(table_repo: TableRepository.new)
       @table_repo = table_repo
+      @notifications = {}
     end
 
     def call(params)
-      if params.valid?
-        @table = @table_repo.find_with_relations(params[:id])
+      @table = @table_repo.find_with_relations(params[:id])
 
+      if params.valid?
         if !params.dig(:table, :confirm).nil? && params.dig(:table, :confirm)
-          @table_repo.delete(params[:id])
-          redirect_to routes.article_path(id: table.article_id)
-        else
+          if @table.article.author.authenticate(params[:table][:article_passwd])
+            @table_repo.delete(params[:id])
+            redirect_to routes.article_path(id: table.article_id)
+          else
+            @notifications = {error: {status: "Authentication Failed:", message: "パスワードが間違っています. 正しいパスワードを入力してください"}}
+            self.status = 401
+          end
         end
+      else
+        @notifications = {error: {status: "Error:", message: "入力された項目に不備があります. もう一度確認してください"}}
+        self.status = 422
       end
+    end
+
+    def notifications
+      @notifications
     end
   end
 end

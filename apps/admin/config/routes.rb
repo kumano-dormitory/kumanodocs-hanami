@@ -10,6 +10,7 @@ resources :meeting, only: %i[index show new create destroy] do
   end
 end
 resources :sessions, only: [:new, :create, :destroy]
+get '/logout', to: 'sessions#destroy' # aタグのリンクからログアウトできるように定義
 
 get '/meeting/:id/articles/number/edit', to: 'article_number#edit', as: :edit_article_number
 patch '/meeting/:id/articles/number/', to: 'article_number#update', as: :article_number

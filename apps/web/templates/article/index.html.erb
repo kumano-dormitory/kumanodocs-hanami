@@ -1,17 +1,64 @@
-<div>
-  <a href='<%= routes.new_article_path %>'>新規作成</a>
+<div class="p-strip--light is-shallow">
+  <div class="row">
+    <h1 class="p-heading--stylized">新資料システム</h1>
+    <a href="#" class="p-button--neutral u-no-margin--bottom">利用方法</a>
+  </div>
 </div>
-<div>
-  <ul>
-  <% articles_by_meeting.each do |meeting, articles| %>
-    <li>
-      <a href='<%= routes.meeting_path(id: meeting.id) %>'><%= meeting.date %></a>
-      <ul>
-      <% articles.each do |article| %>
-        <li><a href='<%= routes.article_path(id: article.id) %>'><%= article_numbered_title(article) %></a></li>
+<div class="p-strip is-shallow is-bordered">
+  <div class="row">
+    <h2>議事録作成</h2>
+    <ul class="p-inline-list">
+      <li class="p-inline-list__item">
+        <a href='<%= routes.edit_comment_path(meeting_id: 10, block_id: 1) %>' class="p-button--brand">A1</a>
+      </li>
+      <li class="p-inline-list__item">
+        <a href='<%= routes.edit_comment_path(meeting_id: 10, block_id: 2) %>' class="p-button--brand">A2</a>
+      </li>
+      <li class="p-inline-list__item">
+        <a href='<%= routes.edit_comment_path(meeting_id: 10, block_id: 3) %>' class="p-button--brand">A3</a>
+      </li>
+      <li class="p-inline-list__item">
+        <a href='<%= routes.edit_comment_path(meeting_id: 10, block_id: 4) %>' class="p-button--brand">A4</a>
+      </li>
+      <li class="p-inline-list__item">
+        <a href='<%= routes.edit_comment_path(meeting_id: 10, block_id: 5) %>' class="p-button--brand">B12</a>
+      </li>
+      <li class="p-inline-list__item">
+        <a href='<%= routes.edit_comment_path(meeting_id: 10, block_id: 6) %>' class="p-button--brand">B3</a>
+      </li>
+      <li class="p-inline-list__item">
+        <a href='<%= routes.edit_comment_path(meeting_id: 10, block_id: 7) %>' class="p-button--brand">B4</a>
+      </li>
+      <li class="p-inline-list__item">
+        <a href='<%= routes.edit_comment_path(meeting_id: 10, block_id: 8) %>' class="p-button--brand">C12</a>
+      </li>
+      <li class="p-inline-list__item">
+        <a href='<%= routes.edit_comment_path(meeting_id: 10, block_id: 9) %>' class="p-button--brand">C34</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="p-strip">
+  <div class="row">
+    <div class="col-12">
+      <ul class="p-list">
+      <% articles_by_meeting.each do |meeting, articles| %>
+        <li class="p-list__item">
+          <div class="p-card">
+            <h1 class="p-card__title"><a href='<%= routes.meeting_path(id: meeting.id) %>' class="p-link--strong"><%= meeting.date %>のブロック会議</a></h1>
+            <hr>
+            <div class="p-card__content">
+              <ul class="p-list--divided">
+              <% articles.each do |article| %>
+                <li class="p-list__item"><a href='<%= routes.article_path(id: article.id) %>' class="p-button--base u-no-margin"><%= article_numbered_title(article) %></a></li>
+              <% end %>
+              </ul>
+            </div>
+          </div>
+        </li>
       <% end %>
       </ul>
-    </li>
-  <% end %>
-  </ul>
+    </div>
+  </div>
 </div>
