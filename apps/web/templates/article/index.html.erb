@@ -50,8 +50,8 @@
             <hr>
             <div class="p-card__content">
               <ul class="p-list--divided">
-              <% articles.each do |article| %>
-                <li class="p-list__item"><a href='<%= routes.article_path(id: article.id) %>' class="p-button--base u-no-margin"><%= article_numbered_title(article) %></a></li>
+              <% articles.each_with_index do |article, idx| %>
+                <li class="p-list__item"><a href='<%= routes.meeting_path(id: meeting.id) %>?page=<%= idx + 1 %>' class="p-button--base u-no-margin"><%= article_numbered_title(article) %></a></li>
               <% end %>
               </ul>
             </div>

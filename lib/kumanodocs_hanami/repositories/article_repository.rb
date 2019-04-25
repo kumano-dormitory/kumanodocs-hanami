@@ -82,7 +82,7 @@ class ArticleRepository < Hanami::Repository
     # whereを使って、ある程度会議日程で絞ってからsliceをかけたほうが良い
     ret = articles.select_append(meetings[:date])
       .join(meetings)
-      .order(meetings[:date].qualified.desc, articles[:number].asc(nulls: :last))
+      .order(meetings[:date].qualified.desc, articles[:number].asc(nulls: :last), articles[:id].asc)
       .to_a
       .group_by { |article| article.meeting_id }
       .map { |meeting_id, articles| [MeetingRepository.new.find(meeting_id), articles] }

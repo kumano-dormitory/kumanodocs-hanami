@@ -17,13 +17,12 @@ class MeetingRepository < Hanami::Repository
   end
 
   def find_with_articles(meeting_id)
-    meeting = aggregate(:articles, :tables)
-                .meetings
+    meeting = meetings
                 .where(id: meeting_id)
-                .as(Meeting)
+                .map_to(Meeting)
                 .one
-    meeting.articles.sort_by!{ |article| article.number || DEFAULT_ARTICLE_NUMBER }
-    meeting
+    articles = ArticleRepository.new.by_meeting(meeting_id).to_a
+    Meeting.new(meeting.to_h.merge(articles: articles))
   end
 
   def find_with_printed_articles(meeting_id)
