@@ -1,6 +1,24 @@
 <div class="p-strip">
   <div class="row">
-    <h1><%= meeting.date %>のブロック会議</h1>
+    <div class="u-hide--small">
+      <h1><%= meeting.date %>のブロック会議</h1>
+    </div>
+    <div class="u-hide--large u-hide--medium">
+      <h2 class="u-no-margin--bottom"><%= meeting.date %>のブロック会議</h2>
+      <span class="p-contextual-menu--left" style="width:100%;">
+          <a href="#" class="p-button--neutral p-contextual-menu__toggle" aria-controls="#menu" aria-expanded="false" aria-haspopup="true">議案の一覧を表示</a>
+          <span class="p-contextual-menu__dropdown" id="menu" aria-hidden="true" aria-label="submenu" style="max-width:32rem;">
+            <span class="p-contextual-menu__group">
+              <% meeting.articles.each_with_index do |article, i| %>
+                <a href="<%= routes.meeting_path(id: meeting.id) %>?page=<%= i + 1 %>" class="p-contextual-menu__link" style="margin:3px;">
+                  <%= article_numbered_title(article) %>
+                </a>
+              <% end %>
+            </span>
+          </span>
+      </span>
+      <%= javascript 'contextual_menu' %>
+    </div>
   </div>
 
   <div class="row p-divider">
