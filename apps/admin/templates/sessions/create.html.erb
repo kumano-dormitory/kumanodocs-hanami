@@ -1,0 +1,16 @@
+<p>ユーザー名またはパスワードが間違っています</p>
+<%=
+  form_for :session, routes.sessions_path, method: :post do
+    div do
+      label 'ユーザー名', for: :name
+      text_field :name
+    end
+
+    div do
+      label 'パスワード', for: :password
+      password_field :password
+    end
+
+    submit 'ログイン'
+  end
+%>
