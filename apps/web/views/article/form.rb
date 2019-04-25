@@ -136,7 +136,7 @@ module Web::Views::Article
                 p class: "p-form-validation__message", role: "alert" do
                   if params.errors.dig(:article, :author, :password_confirmation).include?("must be filled")
                     strong "この項目は必須です"
-                  elsif params.errors.dig(:article, :author, :password_confirmation).include?("must be equal to pass")
+                  elsif params.errors.dig(:article, :author, :password_confirmation).at(0)&.include?("must be equal to")
                     strong "入力されたパスワードが一致しませんでした. もう一度入力してください"
                   else
                     "入力が不正です　文字列を入力してください"
