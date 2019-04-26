@@ -25,7 +25,7 @@ module Web
 
     def after_deadline?(now: Time.now)
       recent_meeting = MeetingRepository.new.find_most_recent
-      recent_meeting.deadline < now
+      now.between?(recent_meeting.deadline, recent_meeting.date.to_time + (60 * 60 * 22))
     end
   end
 end
