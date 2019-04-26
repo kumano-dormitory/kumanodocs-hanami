@@ -5,7 +5,7 @@ module Admin::Controllers::Meeting
     params do
       required(:meeting).schema do
         required(:date).filled(:date?)
-        required(:deadline).filled
+        required(:deadline).filled(:date_time?)
       end
     end
 
@@ -16,7 +16,11 @@ module Admin::Controllers::Meeting
 
     def call(params)
       if params.valid?
-        @meeting_repo.create(params[:meeting])
+        meeting_attr = {
+          date: params[:meeting][:date],
+          deadline: params[:meeting][:deadline].to_s.gsub(/\+00:00/, "+09:00")
+        }
+        @meeting_repo.create(meeting_attr)
 
         flash[:notifications] = {success: {status: "Success:", message: "正常にブロック会議日程が作成されました"}}
         redirect_to routes.meetings_path
