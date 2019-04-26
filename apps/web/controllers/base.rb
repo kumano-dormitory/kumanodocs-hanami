@@ -28,5 +28,16 @@ module Web
       recent_meeting = MeetingRepository.new.find_most_recent
       now.between?(recent_meeting.deadline, recent_meeting.date.to_time + (60 * 60 * 22))
     end
+
+    def during_meeting?(meeting: MeetingRepository.new.find_most_recent, now: Time.now)
+      if meeting&.date then
+        date = meeting.date
+        start_at = Time.new(date.year, date.mon, date.day, 21,45,0,"+09:00")
+        end_at = Time.new(date.year, date.mon, date.day, 12,0,0,"+09:00") + (60 * 60 * 24)
+        now.between?(start_at, end_at)
+      else
+        false
+      end
+    end
   end
 end
