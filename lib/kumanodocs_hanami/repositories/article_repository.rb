@@ -77,11 +77,10 @@ class ArticleRepository < Hanami::Repository
     end
   end
 
-  def group_by_meeting(limit = 10)
-    # TODO: articleをすべて取得してからsliceをかけるのは処理が遅い
-    # whereを使って、ある程度会議日程で絞ってからsliceをかけたほうが良い
+  def group_by_meeting(limit = 10, today: Date.today)
     ret = articles.select_append(meetings[:date])
       .join(meetings)
+      .where(Sequel.lit('? > ?', meetings[:date].qualified, today << 3))
       .order(meetings[:date].qualified.desc, articles[:number].asc(nulls: :last), articles[:id].asc)
       .to_a
       .group_by { |article| article.meeting_id }
