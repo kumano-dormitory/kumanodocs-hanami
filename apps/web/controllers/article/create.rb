@@ -31,30 +31,70 @@ module Web::Controllers::Article
 
     def call(params)
       if params.valid?
-        author = @author_repo.create_with_plain_password(
-          params[:article][:author][:name],
-          params[:article][:author][:password]
-        )
-        article_params = params[:article].to_h.merge(author_id: author.id)
-        article = @article_repo.create(article_params)
-        categories = params[:article][:categories].map { |id| @category_repo.find(id) }
-        # 採決項目の設定
-        category_params = categories.map { |category|
-          if category.require_content && category.name == '採決'
-            { category_id: category.id, extra_content: params[:article][:vote_content] }
+        meeting = @meeting_repo.find(params[:article][:meeting_id])
+        if after_deadline?
+          # 追加議案の投稿受理期間
+          if meeting.id == @meeting_repo.find_most_recent&.id
+            # 正常な保存処理
+            save(params, checked: false)
           else
-            { category_id: category.id, extra_content: nil }
+            # 指定されたブロック会議が追加議案を受理するブロック会議ではない場合
+            @meetings = [@meeting_repo.find_most_recent]
+            @notifications = {error: {status: "Error:", message: "現在は追加議案のみ投稿を受け付けています. 議案を投稿しようとしたブロック会議は追加議案を受け付けていない可能性があります. 次のブロック会議以降のブロック会議に議案を投稿したい場合は、次のブロック会議が終了してから議案を投稿してください."}}
           end
-        }
-        @article_repo.add_categories(article, category_params)
-        flash[:notifications] = {success: {status: "Success", message: "正常に議案が投稿されました"}}
-        redirect_to routes.article_path(id: article.id)
+        else
+          # 通常議案の投稿受理期間
+          if meeting.deadline > Time.now
+            # 正常な保存処理
+            save(params, checked: true)
+          else
+            # meeting.deadline <= Time.now
+            # 指定されたmeetingが締め切り後の場合→追加議案にならば投稿できるならメッセージ表示
+            if meeting.date >= Date.today
+              @meetings = [@meeting_repo.find_most_recent]
+              @notifications = {error: {status: "Error:", message: "議案を投稿しようとしたブロック会議は既に締め切り日時を過ぎています. 追加議案として投稿することは可能ですのでもう一度投稿してください."}}
+            else
+              @meetings = @meeting_repo.in_time
+              @notifications = {error: {status: "Error:", message: "議案を投稿しようとしたブロック会議は既に締め切り日時を過ぎています. 投稿できません."}}
+            end
+          end
+        end
       else
+        # invalid params
         @meetings = @meeting_repo.in_time
-        @categories = @category_repo.all
         @notifications = {error: {status: "Error:", message: "入力された項目に不備があり投稿できません. もう一度確認してください"}}
-        self.status = 422
       end
+      @categories = @category_repo.all
+      self.status = 422
+    end
+
+    private
+    def save(params, checked: false)
+      author = @author_repo.create_with_plain_password(
+        params[:article][:author][:name],
+        params[:article][:author][:password]
+      )
+      article_params = params[:article].to_h.merge(author_id: author.id, checked: checked)
+      article = @article_repo.create(article_params)
+      categories = params[:article][:categories].map { |id| @category_repo.find(id) }
+      # 採決項目の設定
+      category_params = categories.map { |category|
+        if category.require_content && category.name == '採決'
+          { category_id: category.id, extra_content: params[:article][:vote_content] }
+        else
+          { category_id: category.id, extra_content: nil }
+        end
+      }
+      @article_repo.add_categories(article, category_params)
+      if checked
+        flash[:notifications] = {success: {status: "Success", message: "正常に議案が投稿されました"}}
+      else
+        flash[:notifications] = {
+          success: {status: "Success", message: "正常に議案が追加議案として投稿されました"},
+          caution: {status: "注意：", message: "議案は追加議案として投稿されました. 通常議案として扱って欲しい正当な理由がある場合は資料委員会に相談してください."}
+        }
+      end
+      redirect_to routes.article_path(id: article.id)
     end
 
     def navigation
