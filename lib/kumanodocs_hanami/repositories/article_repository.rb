@@ -97,6 +97,7 @@ class ArticleRepository < Hanami::Repository
       .to_a
   end
 
+  # 注意： 前日にブロック会議がある場合、そのブロック会議に含まれる未チェック議案を返す
   def not_checked_for_next_meeting(now: Time.now)
     meeting = MeetingRepository.new.find_most_recent(today: now)
     articles
