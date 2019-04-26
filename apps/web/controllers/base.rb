@@ -22,5 +22,10 @@ module Web
       end
       @notifications
     end
+
+    def after_deadline?(now: Time.now)
+      recent_meeting = MeetingRepository.new.find_most_recent
+      recent_meeting.deadline < now
+    end
   end
 end

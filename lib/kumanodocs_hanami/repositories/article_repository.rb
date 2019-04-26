@@ -94,7 +94,15 @@ class ArticleRepository < Hanami::Repository
       .select_append(meetings[:deadline])
       .join(meetings)
       .where(Sequel.lit('? > ?', meetings[:deadline].qualified, date))
-      .order(meetings[:deadline].desc, articles[:number].asc(nulls: :last), articles[:id].asc)
+      .order(meetings[:deadline].asc, articles[:number].asc(nulls: :last), articles[:id].asc)
+      .to_a
+  end
+
+  def not_checked_for_next_meeting(now: Time.now)
+    meeting = MeetingRepository.new.find_most_recent(now: now)
+    articles
+      .where(meeting_id: meeting.id, checked: false)
+      .order(articles[:number].asc(nulls: :last), articles[:id].asc)
       .to_a
   end
 
