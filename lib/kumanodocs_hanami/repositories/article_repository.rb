@@ -94,7 +94,7 @@ class ArticleRepository < Hanami::Repository
       .select_append(meetings[:deadline])
       .join(meetings)
       .where(Sequel.lit('? > ?', meetings[:deadline].qualified, date))
-      .order(meetings[:deadline].desc, articles[:number].asc(nulls: :last))
+      .order(meetings[:deadline].desc, articles[:number].asc(nulls: :last), articles[:id].asc)
       .to_a
   end
 
