@@ -14,15 +14,7 @@ module Web::Controllers::Article
 
       # 議事録作成リンクの表示
       @next_meeting = @meeting_repo.find_most_recent
-      @during_meeting = if @next_meeting&.date then
-        date = @next_meeting.date
-        start_at = Time.new(date.year, date.mon, date.day, 21,45,0,"+09:00")
-        end_at = Time.new(date.year, date.mon, date.day, 12,0,0,"+09:00") + (60 * 60 * 24)
-        Time.now.between?(start_at, end_at)
-      else
-        false
-      end
-      p @meeting_repo.find_most_recent
+      @during_meeting = during_meeting?
     end
 
     def navigation

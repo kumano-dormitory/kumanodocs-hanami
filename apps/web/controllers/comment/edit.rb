@@ -19,13 +19,8 @@ module Web::Controllers::Comment
       end
 
       # 議事録の編集が可能な時間か判定
-      date = @meeting&.date
-      if date
-        start_at = Time.new(date.year, date.mon, date.day, 21,45,0,"+09:00")
-        end_at = Time.new(date.year, date.mon, date.day, 12,0,0,"+09:00") + (60 * 60 * 24)
-        unless Time.now.between?(start_at, end_at)
-          @notifications = {caution: {status: "注意:", message: "ブロック会議の開催中ではないため、議事録を投稿できない可能性があります"}}
-        end
+      if !during_meeting?(meeting: @meeting)
+        @notifications = {caution: {status: "注意:", message: "ブロック会議の開催中ではないため、議事録を投稿できない可能性があります"}}
       end
     end
 

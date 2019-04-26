@@ -29,15 +29,8 @@ module Web::Controllers::Comment
         authentication_err = false
 
         # 議事録が投稿できるブロック会議が判定
-        not_during_meeting_err = false
-        date = @meeting&.date
-        if date
-          start_at = Time.new(date.year, date.mon, date.day, 21,45,0,"+09:00")
-          end_at = Time.new(date.year, date.mon, date.day, 12,0,0,"+09:00") + (60 * 60 * 24)
-          unless Time.now.between?(start_at, end_at)
-            not_during_meeting_err = true
-          end
-        end
+        not_during_meeting_err = !during_meeting?(meeting: @meeting)
+
         # 議事録データの取り出し
         params[:meeting][:articles].each do |data|
           props = {article_id: data['article_id'], block_id: params[:block_id], body: data['comment']}
