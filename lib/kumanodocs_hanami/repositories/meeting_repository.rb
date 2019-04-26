@@ -46,9 +46,10 @@ class MeetingRepository < Hanami::Repository
       .to_a
   end
 
-  def desc_by_date
+  def desc_by_date(limit: nil)
     meetings
       .order(:date)
+      .limit(limit)
       .reverse
       .to_a
   end
