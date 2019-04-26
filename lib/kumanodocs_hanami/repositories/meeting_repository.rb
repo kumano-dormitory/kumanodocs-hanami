@@ -31,6 +31,11 @@ class MeetingRepository < Hanami::Repository
     meeting
   end
 
+  # 直近のブロック会議を返す（締め切りではなく日付で直近）
+  def find_most_recent(now: Time.now)
+    meetings.where(Sequel.lit('date > ?', now)).order{date.asc}.first
+  end
+
   # 締め切り前の議案一覧
   # nowを指定できるようにしてるのはテストしやすくするため
   def in_time(now: Time.now)
