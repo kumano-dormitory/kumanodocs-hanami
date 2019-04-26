@@ -18,7 +18,9 @@ module Web::Controllers::Meeting
       @page = 1 if @page <= 0
       @page = @meeting.articles.length if @page > @meeting.articles.length
 
-      @article = @article_repo.find_with_relations(@meeting.articles[@page - 1].id)
+      if @meeting.articles.length > 0 # ブロック会議に議案が存在する場合
+        @article = @article_repo.find_with_relations(@meeting.articles[@page - 1].id)
+      end
       @max_page = @meeting.articles.length
       @blocks = @block_repo.all
     end
