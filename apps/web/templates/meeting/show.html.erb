@@ -21,6 +21,7 @@
     </div>
   </div>
 
+  <% if article %>
   <div class="row row-wide p-divider">
     <div class="col-9 p-divider__block">
       <h3><%= article_formatted_title(article) %></h3>
@@ -115,5 +116,6 @@
 
 
   </div>
+  <% end # if article %>
 </div>
 </main>

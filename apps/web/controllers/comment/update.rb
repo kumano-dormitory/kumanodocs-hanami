@@ -22,10 +22,23 @@ module Web::Controllers::Comment
     end
 
     def call(params)
+      @meeting = @meeting_repo.find_with_articles(params[:meeting_id])
       if params.valid?
         create_datas = []
         update_datas = []
         authentication_err = false
+
+        # 議事録が投稿できるブロック会議が判定
+        not_during_meeting_err = false
+        date = @meeting&.date
+        if date
+          start_at = Time.new(date.year, date.mon, date.day, 21,45,0,"+09:00")
+          end_at = Time.new(date.year, date.mon, date.day, 12,0,0,"+09:00") + (60 * 60 * 24)
+          unless Time.now.between?(start_at, end_at)
+            not_during_meeting_err = true
+          end
+        end
+        # 議事録データの取り出し
         params[:meeting][:articles].each do |data|
           props = {article_id: data['article_id'], block_id: params[:block_id], body: data['comment']}
           comment = @comment_repo.find(props[:article_id], props[:block_id])
@@ -42,12 +55,18 @@ module Web::Controllers::Comment
             end
           end
         end
-        if authentication_err
-          @meeting = @meeting_repo.find_with_articles(params[:meeting_id])
+        # 制御処理
+        if not_during_meeting_err # ブロック会議中ではないため投稿不可
+          @notifications = {error: {status: "Error:", message: "ブロック会議の開催中ではないため、議事録を投稿できません"}}
+          @comment_datas = params[:meeting][:articles].map do |data|
+            { article_id: data['article_id'].to_i, comment: data['comment'] }
+          end
           @block_id = params[:block_id]
-          @comment_datas = @meeting.articles.map do |article|
-            comment = @comment_repo.find(article.id, params[:block_id])
-            { article_id: article.id, comment: comment&.body }
+          self.status = 422
+        elsif authentication_err # 議事録のパスワードエラー
+          @block_id = params[:block_id]
+          @comment_datas = params[:meeting][:articles].map do |data|
+            { article_id: data['article_id'].to_i, comment: data['comment'] }
           end
           @notifications = {error: {status: "Authentication Failed:", message: "議事録のパスワードが間違っています. 正しいパスワードを入力してください. また、今回が初めての投稿の場合は既に議事録が投稿されています"}}
           self.status = 422
@@ -59,11 +78,10 @@ module Web::Controllers::Comment
           redirect_to routes.root_path
         end
       else
-        @meeting = @meeting_repo.find_with_articles(params[:meeting_id])
+        # invalid params
         @block_id = params[:block_id]
-        @comment_datas = @meeting.articles.map do |article|
-          comment = @comment_repo.find(article.id, params[:block_id])
-          { article_id: article.id, comment: comment&.body }
+        @comment_datas = params[:meeting][:articles]&.map do |data|
+          { article_id: data['article_id'].to_i, comment: data['comment'] }
         end
         @notifications = {error: {status: "Error:", message: "入力された項目に不備があります. もう一度確認してください"}}
         self.status = 422
