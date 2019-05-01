@@ -48,13 +48,13 @@ module Admin::Controllers::Meeting
           flash[:notifications] = {success: {status: "Success:", message: "正常に議案が編集されました"}}
           redirect_to routes.meeting_article_path(meeting_id: article.meeting_id, id: article.id)
         else
-          @meetings = @meeting_repo.in_time
+          @meetings = @meeting_repo.desc_by_date
           @categories = @category_repo.all
           @notifications = {error: {status: "Error:", message: "入力された項目に不備があります. もう一度確認してください"}}
           self.status = 422
         end
       end
-      
+
       def notifications
         @notifications
       end
