@@ -57,6 +57,35 @@ module Admin::Views::Meeting
             end
           end
 
+          if !params.valid? && params.errors.dig(:article, :checked)
+            div class: "p-form__group p-form-validation is-error u-vertically-center" do
+              label '資料委員会のチェック済みか(スイッチがオンの場合は通常議案、オフの場合は追加議案)', for: :checked, class: "p-form__label u-align-text--right"
+              div class: "p-form__control" do
+                label '', for: :checked do
+                  check_box :checked, class: "p-switch", checked: true
+                  div '', class: "p-switch__slider"
+                end
+                p class: "p-form-validation__message", role: "alert" do
+                  if params.errors.dig(:article, :checked).include?("must be filled")
+                    strong "この項目は必須です"
+                  else
+                    "入力が不正です"
+                  end
+                end
+              end
+            end
+          else
+            div class: "p-form__group u-vertically-center" do
+              label '資料委員会のチェック済みか(スイッチがオンの場合は通常議案、オフの場合は追加議案)', for: :checked, class: "p-form__label u-align-text--right"
+              div class: "p-form__control" do
+                label '', for: :checked do
+                  check_box :checked, class: "p-switch", checked: true
+                  div '', class: "p-switch__slider"
+                end
+              end
+            end
+          end
+
           if !params.valid? && params.errors.dig(:article, :title)
             div class: "p-form__group p-form-validation is-error" do
               label 'タイトル', for: :title, class: "p-form__label u-align-text--right"
