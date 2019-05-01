@@ -13,7 +13,7 @@ module Admin::Controllers::Meeting
       end
 
       def call(params)
-        @meetings = @meeting_repo.all
+        @meetings = @meeting_repo.desc_by_date
         @categories = @category_repo.all
         @article = @article_repo.find_with_relations(params[:id])
       end
