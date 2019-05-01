@@ -235,7 +235,6 @@ module Admin::Views::Meeting
       def form_for_update(meetings, categories, article = nil)
         meetings_for_select = meetings.map { |meeting| [meeting.date, meeting.id] }.to_h
         categories_for_select = categories.map { |category| [category.name, category.id] }.to_h
-        values = article.nil? ? {} : { article: article }
         article_categories_selected = article&.article_categories&.map(&:category_id)
         meeting_selected = [article&.meeting_id]
 
@@ -244,7 +243,9 @@ module Admin::Views::Meeting
         vote_content = unless vote_category.nil?
           data = article&.article_categories&.select { |data| data.category_id == vote_category.id }.first
           data&.extra_content
-        end
+        else '' end
+
+        values = article.nil? ? {} : { article: article.to_h.merge(vote_content: vote_content) }
 
         form_for :article,
                  routes.meeting_article_path(meeting_id: params[:meeting_id], id: params[:id]),
@@ -384,7 +385,7 @@ module Admin::Views::Meeting
             div class: "p-form__group p-form-validation is-error" do
               label '採決項目（議案の種別に「採決」が含まれていない場合には保存されません）', for: :vote_content, class: "p-form__label u-align-text--right"
               div class: "p-form__control" do
-                text_area :vote_content, vote_content, rows: 5, class: "p-form-validation__input", 'aria-invalid': "true"
+                text_area :vote_content, rows: 5, class: "p-form-validation__input", 'aria-invalid': "true"
                 p class: "p-form-validation__message", role: "alert" do
                   if params.errors.dig(:article, :vote_content).include?("must be filled")
                     strong "この項目は必須です"
@@ -398,7 +399,7 @@ module Admin::Views::Meeting
             div class: "p-form__group" do
               label '採決項目（議案の種別に「採決」が含まれていない場合には保存されません）', for: :vote_content, class: "p-form__label u-align-text--right"
               div class: "p-form__control" do
-                text_area :vote_content, vote_content, rows: 5
+                text_area :vote_content, rows: 5
               end
             end
           end
