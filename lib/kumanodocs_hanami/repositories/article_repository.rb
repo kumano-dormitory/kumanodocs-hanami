@@ -77,12 +77,11 @@ class ArticleRepository < Hanami::Repository
     end
   end
 
-  def group_by_meeting(limit = 10)
-    # TODO: articleをすべて取得してからsliceをかけるのは処理が遅い
-    # whereを使って、ある程度会議日程で絞ってからsliceをかけたほうが良い
+  def group_by_meeting(limit = 10, today: Date.today)
     ret = articles.select_append(meetings[:date])
       .join(meetings)
-      .order(meetings[:date].qualified.desc, articles[:number].asc(nulls: :last))
+      .where(Sequel.lit('? > ?', meetings[:date].qualified, today << 3))
+      .order(meetings[:date].qualified.desc, articles[:number].asc(nulls: :last), articles[:id].asc)
       .to_a
       .group_by { |article| article.meeting_id }
       .map { |meeting_id, articles| [MeetingRepository.new.find(meeting_id), articles] }
@@ -94,7 +93,16 @@ class ArticleRepository < Hanami::Repository
       .select_append(meetings[:deadline])
       .join(meetings)
       .where(Sequel.lit('? > ?', meetings[:deadline].qualified, date))
-      .order(meetings[:deadline].desc, articles[:number].asc(nulls: :last))
+      .order(meetings[:deadline].asc, articles[:number].asc(nulls: :last), articles[:id].asc)
+      .to_a
+  end
+
+  # 注意： 前日にブロック会議がある場合、そのブロック会議に含まれる未チェック議案を返す
+  def not_checked_for_next_meeting(now: Time.now)
+    meeting = MeetingRepository.new.find_most_recent(today: now)
+    articles
+      .where(meeting_id: meeting.id, checked: false)
+      .order(articles[:number].asc(nulls: :last), articles[:id].asc)
       .to_a
   end
 

@@ -8,7 +8,7 @@ module Web::Controllers::Meeting
     end
 
     def call(params)
-      @meetings = @meeting_repo.desc_by_date
+      @meetings = @meeting_repo.desc_by_date(limit: 20)
     end
 
     def navigation

@@ -7,6 +7,7 @@ module Web::Controllers::Comment
                    comment_repo: CommentRepository.new)
       @meeting_repo = meeting_repo
       @comment_repo = comment_repo
+      @notifications = {}
     end
 
     def call(params)
@@ -16,6 +17,15 @@ module Web::Controllers::Comment
         comment = @comment_repo.find(article.id, params[:block_id])
         { article_id: article.id, comment: comment&.body }
       end
+
+      # 議事録の編集が可能な時間か判定
+      if !during_meeting?(meeting: @meeting)
+        @notifications = {caution: {status: "注意:", message: "ブロック会議の開催中ではないため、議事録を投稿できない可能性があります"}}
+      end
+    end
+
+    def notifications
+      @notifications
     end
   end
 end

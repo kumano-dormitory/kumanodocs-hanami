@@ -27,7 +27,7 @@ module Web::Views::Comment
         end
 
         meeting.articles.each_with_index do |article, idx|
-          comment_data = datas.find{ |data| data[:article_id] == article.id }
+          comment_data = datas&.find{ |data| data[:article_id] == article.id }
 
           div do
             div do

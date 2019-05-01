@@ -17,19 +17,23 @@ class MeetingRepository < Hanami::Repository
   end
 
   def find_with_articles(meeting_id)
-    meeting = aggregate(:articles, :tables)
-                .meetings
+    meeting = meetings
                 .where(id: meeting_id)
-                .as(Meeting)
+                .map_to(Meeting)
                 .one
-    meeting.articles.sort_by!{ |article| article.number || DEFAULT_ARTICLE_NUMBER }
-    meeting
+    articles = ArticleRepository.new.by_meeting(meeting_id).to_a
+    Meeting.new(meeting.to_h.merge(articles: articles))
   end
 
   def find_with_printed_articles(meeting_id)
     meeting = find_with_articles(meeting_id)
     meeting.articles.select!{ |article| article.printed }
     meeting
+  end
+
+  # 直近のブロック会議を返す（締め切りではなく日付で直近、前日のブロック会議も含まれる）
+  def find_most_recent(today: Date.today)
+    meetings.where(Sequel.lit('date >= ?', today - 1)).order{date.asc}.first
   end
 
   # 締め切り前の議案一覧
@@ -42,9 +46,10 @@ class MeetingRepository < Hanami::Repository
       .to_a
   end
 
-  def desc_by_date
+  def desc_by_date(limit: nil)
     meetings
       .order(:date)
+      .limit(limit)
       .reverse
       .to_a
   end
