@@ -1,10 +1,18 @@
 <div class="p-strip">
   <div class="row row-wide">
     <div class="u-hide--small">
-      <h1><%= meeting.date %>のブロック会議</h1>
+      <h1>
+        <%= meeting.date %>のブロック会議
+        <% if meeting.deadline > Time.now %>
+        <small>(議案投稿の締め切り日時 : <%= meeting.deadline %>)</small>
+        <% end %>
+      </h1>
     </div>
     <div class="u-hide--large u-hide--medium">
       <h2 class="u-no-margin--bottom"><%= meeting.date %>のブロック会議</h2>
+      <% if meeting.deadline > Time.now %>
+        <p>議案投稿の締め切り日時 : <%= meeting.deadline %></p>
+      <% end %>
       <span class="p-contextual-menu--left" style="width:100%;">
           <a href="#" class="p-button--neutral p-contextual-menu__toggle" aria-controls="#menu" aria-expanded="false" aria-haspopup="true">議案の一覧を表示</a>
           <span class="p-contextual-menu__dropdown" id="menu" aria-hidden="true" aria-label="submenu" style="max-width:32rem;">
