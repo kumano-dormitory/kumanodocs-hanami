@@ -8,6 +8,7 @@ module Admin::Controllers::Meeting
         required(:article).schema do
           required(:meeting_id).filled(:int?)
           required(:categories) { array? { min_size?(1) & each { int? } } }
+          required(:checked).filled(:bool?)
           required(:title).filled(:str?)
           required(:author).schema do
             required(:name).filled(:str?)
