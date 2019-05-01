@@ -25,6 +25,7 @@
   <div class="row row-wide p-divider">
     <div class="col-9 p-divider__block">
       <h3><%= article_formatted_title(article) %></h3>
+      <% if editable %>
       <div class="row">
         <a class="p-button--positive" href="<%= routes.edit_article_path(article.id) %>">編集</a>
         <%=
@@ -33,6 +34,7 @@
         end
         %>
       </div>
+      <% end %>
       <dl>
         <dt>文責者</dt>
         <dd><%= article.author.name %></dd>
@@ -54,7 +56,7 @@
 
       <% if !article.tables.nil? %>
         <% article.tables.each do |table| %>
-          <%= render partial: 'shared/table', locals: {table: table, editable: true} %>
+          <%= render partial: 'shared/table', locals: {table: table, editable: editable} %>
         <% end %>
       <% end %>
 
