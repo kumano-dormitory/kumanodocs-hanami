@@ -62,7 +62,7 @@ module Web::Views::Article
           div class: "p-form__group p-form-validation is-error" do
             label 'タイトル', for: :title, class: "p-form__label u-align-text--right"
             div class: "p-form__control" do
-              text_field :title, class: "p-form-validation__input", 'aria-invalid': "true"
+              text_field :title, class: "p-form-validation__input", 'aria-invalid': "true", required: ""
               p class: "p-form-validation__message", role: "alert" do
                 if params.errors.dig(:article, :title).include?("must be filled")
                   strong "この項目は必須です"
@@ -74,7 +74,7 @@ module Web::Views::Article
           end
         else
           div class: "p-form__group" do
-            label 'タイトル', for: :title, class: "p-form__label u-align-text--right"
+            label 'タイトル', for: :title, class: "p-form__label u-align-text--right", required: ""
             div class: "p-form__control" do
               text_field :title
             end
@@ -86,7 +86,7 @@ module Web::Views::Article
             div class: "p-form__group p-form-validation is-error" do
               label '文責者', for: :name, class: "p-form__label u-align-text--right"
               div class: "p-form__control" do
-                text_field :name, class: "p-form-validation__input", 'aria-invalid': "true"
+                text_field :name, class: "p-form-validation__input", 'aria-invalid': "true", required: ""
                 p class: "p-form-validation__message", role: "alert" do
                   if params.errors.dig(:article, :author, :name).include?("must be filled")
                     strong "この項目は必須です"
@@ -100,7 +100,7 @@ module Web::Views::Article
             div class: "p-form__group" do
               label '文責者', for: :name, class: "p-form__label u-align-text--right"
               div class: "p-form__control" do
-                text_field :name
+                text_field :name, required: ""
               end
             end
           end
@@ -109,7 +109,7 @@ module Web::Views::Article
             div class: "p-form__group p-form-validation is-error" do
               label 'パスワード', for: :password, class: "p-form__label u-align-text--right"
               div class: "p-form__control" do
-                password_field :password, class: "p-form-validation__input", 'aria-invalid': "true"
+                password_field :password, class: "p-form-validation__input", 'aria-invalid': "true", required: ""
                 p class: "p-form-validation__message", role: "alert" do
                   if params.errors.dig(:article, :author, :password).include?("must be filled")
                     strong "この項目は必須です"
@@ -123,7 +123,7 @@ module Web::Views::Article
             div class: "p-form__group" do
               label 'パスワード', for: :password, class: "p-form__label u-align-text--right"
               div class: "p-form__control" do
-                password_field :password
+                password_field :password, required: ""
               end
             end
           end
@@ -132,7 +132,7 @@ module Web::Views::Article
             div class: "p-form__group p-form-validation is-error" do
               label 'パスワード（確認）', for: :password_confirmation, class: "p-form__label u-align-text--right"
               div class: "p-form__control" do
-                password_field :password_confirmation, class: "p-form-validation__input", 'aria-invalid': "true"
+                password_field :password_confirmation, class: "p-form-validation__input", 'aria-invalid': "true", required: ""
                 p class: "p-form-validation__message", role: "alert" do
                   if params.errors.dig(:article, :author, :password_confirmation).include?("must be filled")
                     strong "この項目は必須です"
@@ -148,7 +148,7 @@ module Web::Views::Article
             div class: "p-form__group" do
               label 'パスワード（確認）', for: :password_confirmation, class: "p-form__label u-align-text--right"
               div class: "p-form__control" do
-                password_field :password_confirmation
+                password_field :password_confirmation, required: ""
               end
             end
           end
@@ -158,7 +158,7 @@ module Web::Views::Article
           div class: "p-form__group p-form-validation is-error" do
             label '本文', for: :body, class: "p-form__label u-align-text--right"
             div class: "p-form__control" do
-              text_area :body, rows: 30, class: "p-form-validation__input", 'aria-invalid': "true"
+              text_area :body, rows: 30, class: "p-form-validation__input", 'aria-invalid': "true", required: ""
               p class: "p-form-validation__message", role: "alert" do
                 if params.errors.dig(:article, :body).include?("must be filled")
                   strong "この項目は必須です"
@@ -172,7 +172,7 @@ module Web::Views::Article
           div class: "p-form__group" do
             label '本文', for: :body, class: "p-form__label u-align-text--right"
             div class: "p-form__control" do
-              text_area :body, rows: 30
+              text_area :body, rows: 30, required: ""
             end
           end
         end
@@ -208,7 +208,6 @@ module Web::Views::Article
       article = hash[:article]
       meetings_for_select = meetings.map { |meeting| [meeting.date, meeting.id] }.to_h
       categories_for_select = categories.map { |category| [category.name, category.id] }.to_h
-      values = article.nil? ? {} : { article: article }
       article_categories_selected = article&.article_categories&.map(&:category_id)
 
       # 採決項目があればvote_contentとして取り出す
@@ -216,8 +215,9 @@ module Web::Views::Article
       vote_content = unless vote_category.nil?
         data = article&.article_categories&.select { |data| data.category_id == vote_category.id }.first
         data&.extra_content
-      end
+      else '' end
 
+      values = article.nil? ? {} : { article: article.to_h.merge(vote_content: vote_content) }
       get_lock = hash[:confirm_update] ? true : false
       meeting_selected = [article&.meeting_id]
 
@@ -231,7 +231,7 @@ module Web::Views::Article
           div class: "p-form__group p-form-validation is-caution" do
             label 'パスワード', for: :password, class: "p-form__label"
             div class: "p-form__control" do
-              password_field :password, class: "p-form-validation__input"
+              password_field :password, class: "p-form-validation__input", required: ""
             end
           end
         end
@@ -298,7 +298,7 @@ module Web::Views::Article
           div class: "p-form__group p-form-validation is-error" do
             label 'タイトル', for: :title, class: "p-form__label"
             div class: "p-form__control" do
-              text_field :title, class: "p-form-validation__input", 'aria-invalid': "true"
+              text_field :title, class: "p-form-validation__input", 'aria-invalid': "true", required: ""
               p class: "p-form-validation__message", role: "alert" do
                 if params.errors.dig(:article, :title).include?("must be filled")
                   strong "この項目は必須です"
@@ -312,7 +312,7 @@ module Web::Views::Article
           div class: "p-form__group" do
             label 'タイトル', for: :title, class: "p-form__label"
             div class: "p-form__control" do
-              text_field :title
+              text_field :title, required: ""
             end
           end
         end
@@ -322,7 +322,7 @@ module Web::Views::Article
             div class: "p-form__group p-form-validation is-error" do
               label '文責者', for: :name, class: "p-form__label"
               div class: "p-form__control" do
-                text_field :name, class: "p-form-validation__input", 'aria-invalid': "true"
+                text_field :name, class: "p-form-validation__input", 'aria-invalid': "true", required: ""
                 p class: "p-form-validation__message", role: "alert" do
                   if params.errors.dig(:article, :author, :name).include?("must be filled")
                     strong "この項目は必須です"
@@ -336,7 +336,7 @@ module Web::Views::Article
             div class: "p-form__group" do
               label '文責者', for: :name, class: "p-form__label"
               div class: "p-form__control" do
-                text_field :name
+                text_field :name, required: ""
               end
             end
           end
@@ -346,7 +346,7 @@ module Web::Views::Article
           div class: "p-form__group p-form-validation is-error" do
             label '本文', for: :body, class: "p-form__label"
             div class: "p-form__control" do
-              text_area :body, rows: 30, class: "p-form-validation__input", 'aria-invalid': "true"
+              text_area :body, rows: 30, class: "p-form-validation__input", 'aria-invalid': "true", required: ""
               p class: "p-form-validation__message", role: "alert" do
                 if params.errors.dig(:article, :body).include?("must be filled")
                   strong "この項目は必須です"
@@ -360,7 +360,7 @@ module Web::Views::Article
           div class: "p-form__group" do
             label '本文', for: :body, class: "p-form__label"
             div class: "p-form__control" do
-              text_area :body, rows: 30
+              text_area :body, rows: 30, required: ""
             end
           end
         end
@@ -400,7 +400,7 @@ module Web::Views::Article
       form_for :article, routes.article_path(id: article.id), method: :delete, class: 'delete_article' do
         div do
           label 'パスワード', for: :password
-          password_field :password
+          password_field :password, required: ""
         end
 
         submit '削除', class: "p-button--negative"
