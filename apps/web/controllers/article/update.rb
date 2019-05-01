@@ -35,26 +35,28 @@ module Web::Controllers::Article
         article = @article_repo.find_with_relations(params[:id])
         if article.author.lock_key == cookies[:article_lock_key]
           # ログインが有効なので編集可
-          update(article, params)
+          update_if_editable(article, params)
         else
           if params[:article][:get_lock]
             if article.author.authenticate(params[:article][:password])
               # 認証が成功したので編集可
-              update(article, params)
+              update_if_editable(article, params)
             else
               @confirm_update = true
+              @meetings = @meeting_repo.in_time
               @notifications = {error: {status: "Authentication Failed", message: "パスワードが不正です. 正しいパスワードを入力してください"}}
               self.status = 401
             end
           else
             @confirm_update = true
+            @meetings = @meeting_repo.in_time
           end
         end
       else
-        self.status = 422
+        @meetings = @meeting_repo.in_time
         @notifications = {error: {status: "Error:", message: "入力された項目に不備があり保存できません. もう一度確認してください"}}
+        self.status = 422
       end
-      @meetings = @meeting_repo.in_time
       @categories = @category_repo.all
     end
 
@@ -75,6 +77,28 @@ module Web::Controllers::Article
       @author_repo.release_lock(article.author_id)
       flash[:notifications] = {success: {status: "Success:", message: "正常に議案が編集されました"}}
       redirect_to routes.article_path(id: article.id)
+    end
+
+    def update_if_editable(article, params)
+      if after_deadline?
+        # 追加議案の編集期間
+        if @meeting_repo.find_most_recent.id == article.meeting.id && !article.checked
+          update(article, params)
+        else
+          @meetings = [@meeting_repo.find_most_recent]
+          @notifications = {error: {status: "Error:", message: "議案が追加議案ではないため編集できません. 編集したい場合は資料委員会に相談してください."}}
+          self.status = 422
+        end
+      else
+        # 通常の編集期間
+        if article.meeting.deadline > Time.now
+          update(article, params)
+        else
+          @meetings = @meeting_repo.in_time
+          @notifications = {error: {status: "Error:", message: "ブロック会議の締め切りを過ぎているため議案を編集できません. 編集したい場合は資料委員会に相談してください."}}
+          self.status = 422
+        end
+      end
     end
 
     def notifications
