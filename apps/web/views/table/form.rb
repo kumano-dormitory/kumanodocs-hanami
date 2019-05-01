@@ -1,6 +1,6 @@
 module Web::Views::Table
   module Form
-    def form_create(articles)
+    def form_create(articles, article_id=nil)
       articles_for_select = articles.map { |article| [article.title, article.id] }.to_h
 
       form_for :table,
@@ -18,7 +18,7 @@ module Web::Views::Table
         else
           div do
             label '議案', for: :article_id
-            select :article_id, articles_for_select
+            select :article_id, articles_for_select, options: {selected: article_id}
           end
         end
 

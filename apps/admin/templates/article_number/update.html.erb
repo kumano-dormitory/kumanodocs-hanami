@@ -3,6 +3,7 @@
     <h2 class="u-no-margin--bottom">議案の並び替え</h2>
     <p>議案をドラッグ＆ドロップで並び替えてください</p>
     <p>並び替えが終了したらページ下のボタンをクリックして保存してください</p>
+    <h3>特に理由がなければ、【追加議案】は末尾にまとめてください</h3>
 
     <ul id="sortable" class="p-list">
       <% meeting.articles.each do |article| %>
@@ -10,7 +11,7 @@
         <div class="p-card u-no-margin--bottom u-no-padding">
           <h4 class="u-no-margin--bottom">
             <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
-            <%= article.title %>
+            <%= article_formatted_title(article, checked: true, number: false) %>
           </h4>
         </div>
       </li>

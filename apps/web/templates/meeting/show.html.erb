@@ -1,11 +1,39 @@
 <div class="p-strip">
-  <div class="row">
-    <h1><%= meeting.date %>のブロック会議</h1>
+  <div class="row row-wide">
+    <div class="u-hide--small">
+      <h1>
+        <%= meeting.date %>のブロック会議
+        <% if meeting.deadline > Time.now %>
+        <small>(議案投稿の締め切り日時 : <%= meeting.deadline %>)</small>
+        <% end %>
+      </h1>
+    </div>
+    <div class="u-hide--large u-hide--medium">
+      <h2 class="u-no-margin--bottom"><%= meeting.date %>のブロック会議</h2>
+      <% if meeting.deadline > Time.now %>
+        <p>議案投稿の締め切り日時 : <%= meeting.deadline %></p>
+      <% end %>
+      <span class="p-contextual-menu--left" style="width:100%;">
+          <a href="#" class="p-button--neutral p-contextual-menu__toggle" aria-controls="#menu" aria-expanded="false" aria-haspopup="true">議案の一覧を表示</a>
+          <span class="p-contextual-menu__dropdown" id="menu" aria-hidden="true" aria-label="submenu" style="max-width:32rem;">
+            <span class="p-contextual-menu__group">
+              <% meeting.articles.each_with_index do |article, i| %>
+                <a href="<%= routes.meeting_path(id: meeting.id) %>?page=<%= i + 1 %>" class="p-contextual-menu__link" style="margin:3px;">
+                  <%= article_numbered_title(article) %>
+                </a>
+              <% end %>
+            </span>
+          </span>
+      </span>
+      <%= javascript 'contextual_menu' %>
+    </div>
   </div>
 
-  <div class="row p-divider">
+  <% if article %>
+  <div class="row row-wide p-divider">
     <div class="col-9 p-divider__block">
-      <h3><%= article_numbered_title(article) %></h3>
+      <h3 style="max-width: 100%;"><%= article_formatted_title(article, checked: true) %></h3>
+      <% if editable %>
       <div class="row">
         <a class="p-button--positive" href="<%= routes.edit_article_path(article.id) %>">編集</a>
         <%=
@@ -14,6 +42,7 @@
         end
         %>
       </div>
+      <% end %>
       <dl>
         <dt>文責者</dt>
         <dd><%= article.author.name %></dd>
@@ -21,6 +50,12 @@
         <dd>
           <pre><%= article.body %></pre>
         </dd>
+        <% if article&.categories&.find{ |category| category.name == '採決'} %>
+        <dt>採決項目</dt>
+        <dd>
+          <pre><%= vote_content(article) %></pre>
+        </dd>
+        <% end %>
       </dl>
       <ul class="p-list">
         <li class="p-list__item">議案の初版投稿日時: <%= article.created_at %></li>
@@ -29,10 +64,11 @@
 
       <% if !article.tables.nil? %>
         <% article.tables.each do |table| %>
-          <%= render partial: 'shared/table', locals: {table: table, editable: true} %>
+          <%= render partial: 'shared/table', locals: {table: table, editable: editable} %>
         <% end %>
       <% end %>
 
+      <% unless article.comments.empty? %>
       <div class="p-strip">
         <div class="row">
           <div class="col-12">
@@ -49,6 +85,7 @@
           </div>
         </div>
       </div>
+      <% end %>
 
       <footer class="p-pagination">
         <% if page - 1 > 0 %>
@@ -89,5 +126,6 @@
 
 
   </div>
+  <% end # if article %>
 </div>
 </main>

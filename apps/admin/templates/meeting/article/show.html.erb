@@ -38,6 +38,12 @@
         <dd>
           <pre><%= article.body %></pre>
         </dd>
+        <% if article&.categories&.find{ |category| category.name == '採決'} %>
+        <dt>採決項目</dt>
+        <dd>
+          <pre><%= vote_content(article) %></pre>
+        </dd>
+        <% end %>
       </dl>
 
       <% if !article.tables.nil? %>

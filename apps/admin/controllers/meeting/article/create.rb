@@ -8,6 +8,7 @@ module Admin::Controllers::Meeting
         required(:article).schema do
           required(:meeting_id).filled(:int?)
           required(:categories) { array? { min_size?(1) & each { int? } } }
+          required(:checked).filled(:bool?)
           required(:title).filled(:str?)
           required(:author).schema do
             required(:name).filled(:str?)
@@ -15,7 +16,7 @@ module Admin::Controllers::Meeting
             required(:password_confirmation).filled(:str?)
           end
           required(:body).filled(:str?)
-          optional(:vote_content).filled(:str?)
+          optional(:vote_content).maybe(:str?)
         end
         required(:meeting_id).filled(:int?)
       end
@@ -56,7 +57,7 @@ module Admin::Controllers::Meeting
           self.status = 422
         end
       end
-      
+
       def notifications
         @notifications
       end

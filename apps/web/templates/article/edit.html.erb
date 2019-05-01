@@ -4,7 +4,7 @@
       <h2 class="u-no-margin">議案の編集</h2>
       <p>
         <a href="#" class="p-button--neutral">議案の編集方法の説明</a>
-        <a href="<%= routes.new_table_path %>" class="p-button--positive">この議案に表を追加</a>
+        <a href="<%= routes.new_table_path %>?article_id=<%= article.id %>" class="p-button--positive">この議案に表を追加</a>
       </p>
       <%= form_update(meetings, categories, article: article) %>
     </div>

@@ -1,13 +1,15 @@
 <div class="p-strip">
   <div class="row">
     <h1><%= meeting.date %>のブロック会議</h1>
+    <p>議案投稿の締め切り日時 : <%= meeting.deadline %></p>
 
     <h3>操作一覧</h3>
     <ol class="p-list">
-      <li><a href="<%= routes.meeting_articles_path(meeting_id: meeting.id) %>" class="p-button--positive">議案の一覧を表示</a></li>
+      <li><a href="<%= routes.meeting_articles_path(meeting_id: meeting.id) %>" class="p-button--brand">議案の一覧を表示</a></li>
       <li><a href='<%= routes.edit_article_status_path(id: meeting.id) %>' class="p-button--neutral">議案の状態を変更（通常議案か追加議案かの状態の変更）</a></li>
       <li><a href='<%= routes.edit_article_number_path(id: meeting.id) %>' class="p-button--neutral">議案の順番を変更（議案の通し番号の変更）</a></li>
       <li><a href='<%= routes.download_meeting_path(id: meeting.id) %>' class="p-button--neutral">Download latex code</a></li>
+      <li><a href='<%= routes.edit_meeting_path(id: meeting.id) %>' class="p-button--positive">このブロック会議日程の編集</a></li>
       <li><%= form_for :meeting, routes.meeting_path(id: meeting.id),
       method: :delete, class: "delete_meeting" do
         submit 'このブロック会議日程の削除', class: "p-button--negative" end %>

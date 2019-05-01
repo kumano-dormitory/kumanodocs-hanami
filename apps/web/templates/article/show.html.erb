@@ -1,7 +1,8 @@
 <div class="p-strip">
   <div class="row">
     <div class="col-12">
-      <h1><%= article_numbered_title(article) %></h1>
+      <h1><%= article_formatted_title(article, checked: (article.meeting.date >= Date.today)) %></h1>
+      <% if editable %>
       <div class="row">
         <a class="p-button--positive" href="<%= routes.edit_article_path(article.id) %>">編集</a>
         <%=
@@ -10,6 +11,7 @@
         end
         %>
       </div>
+      <% end %>
       <dl>
         <dt>文責者</dt>
         <dd><%= article.author.name %></dd>
@@ -27,6 +29,12 @@
         <dd>
           <pre><%= article.body %></pre>
         </dd>
+        <% if article&.categories&.find{ |category| category.name == '採決'} %>
+        <dt>採決項目</dt>
+        <dd>
+          <pre><%= vote_content(article) %></pre>
+        </dd>
+        <% end %>
       </dl>
       <ul class="p-list">
         <li class="p-list__item">議案の初版投稿日時: <%= article.created_at %></li>
@@ -35,10 +43,11 @@
 
       <% if !article.tables.nil? %>
         <% article.tables.each do |table| %>
-          <%= render partial: 'shared/table', locals: {table: table, editable: true} %>
+          <%= render partial: 'shared/table', locals: {table: table, editable: editable} %>
         <% end %>
       <% end %>
 
+      <% unless article.comments.empty? %>
       <div class="p-strip">
         <div class="row">
           <div class="col-12">
@@ -55,6 +64,7 @@
           </div>
         </div>
       </div>
+      <% end %>
     </div>
   </div>
 </div>

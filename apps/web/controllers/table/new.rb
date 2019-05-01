@@ -1,14 +1,23 @@
 module Web::Controllers::Table
   class New
     include Web::Action
-    expose :articles
+    expose :articles, :article_id
 
     def initialize(article_repo: ArticleRepository.new)
       @article_repo = article_repo
     end
 
     def call(params)
-      @articles = @article_repo.before_deadline
+      if params[:article_id]
+        @article_id = params[:article_id].to_i
+      end
+      if after_deadline?
+        # 締め切り後なので追加議案にのみ表が追加できる
+        @articles = @article_repo.not_checked_for_next_meeting
+      else
+        # 締め切り前なので、締切を過ぎていない議案全てに表が投稿できる
+        @articles = @article_repo.before_deadline
+      end
     end
   end
 end
