@@ -1,34 +1,3 @@
-<% if !meeting.nil? %>
-  <%= tex %>
-<% else #!meetig.nil? %>
-\documentclass[b5j,10pt]{ujarticle}
-\usepackage{listings}
-\usepackage{spverbatim}
-\usepackage{tocloft}
-\usepackage{here}
-\usepackage[top=5truemm,bottom=15truemm,left=5truemm,right=5truemm]{geometry}
-
-\lstset{
-breaklines=true
-1;2802;0c}
-\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
-
-\title{ <%= meeting.date %> ブロック会議 }
-\date{}
-\author{}
-
-\begin{document}
-\maketitle
-\vspace{-10ex}
-\tableofcontents
-
-<% meeting.articles.each do |article| %>
-\section*{ <%= article.title %> \\ \ \  \normalsize{ 文責：<%= article.author_id%> } }
-\addcontentsline{toc}{section}{\protect\numberline{} <%= article.title %> }%
-\begin{spverbatim}<%= article.body %>
+<% if tex_str %>
+<%= tex_str %>
 <% end %>
-
-\end{document}
-
-hogehogeo
-<% end #!meeting.ni? %>
