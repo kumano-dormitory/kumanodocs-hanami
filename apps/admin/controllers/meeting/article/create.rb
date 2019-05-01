@@ -16,7 +16,7 @@ module Admin::Controllers::Meeting
             required(:password_confirmation).filled(:str?)
           end
           required(:body).filled(:str?)
-          optional(:vote_content).filled(:str?)
+          optional(:vote_content).maybe(:str?)
         end
         required(:meeting_id).filled(:int?)
       end
@@ -57,7 +57,7 @@ module Admin::Controllers::Meeting
           self.status = 422
         end
       end
-      
+
       def notifications
         @notifications
       end
