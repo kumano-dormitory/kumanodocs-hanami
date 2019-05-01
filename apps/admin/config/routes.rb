@@ -4,7 +4,7 @@
 # Example:
 # get '/hello', to: ->(env) { [200, {}, ['Hello from Hanami!']] }
 root to: 'meeting#index'
-resources :meeting, only: %i[index show new create destroy] do
+resources :meeting do
   resources :article do
     resources :table, only: [:new, :create, :edit, :update, :destroy]
   end
