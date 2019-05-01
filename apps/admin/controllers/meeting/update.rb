@@ -17,7 +17,7 @@ module Admin::Controllers::Meeting
 
     def call(params)
       @meeting = @meeting_repo.find(params[:id])
-      if params.valid?
+      if params.valid? && valid_deadline?(params)
         meeting_attr = {
           date: params[:meeting][:date],
           deadline: params[:meeting][:deadline].to_s.gsub(/\+00:00/, "+09:00")
@@ -29,6 +29,15 @@ module Admin::Controllers::Meeting
         @notifications = {error: {status: "Error:", message: "入力された項目に不備があります. もう一度確認してください"}}
         self.status = 422
       end
+    end
+
+    private
+    def valid_deadline?(params)
+      date = params[:meeting][:date]
+      deadline = DateTime.parse(params[:meeting][:deadline].to_s.gsub(/\+00:00/, "+09:00"))
+      meeting_date = Time.new(date.year, date.month, date.day, 20, 0, 0, "+09:00")
+      meeting_deadline = deadline.to_time
+      meeting_deadline < meeting_date
     end
 
     def notifications
