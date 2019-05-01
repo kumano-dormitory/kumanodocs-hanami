@@ -238,14 +238,7 @@ module Admin::Views::Meeting
         article_categories_selected = article&.article_categories&.map(&:category_id)
         meeting_selected = [article&.meeting_id]
 
-        # 採決項目があればvote_contentとして取り出す
-        vote_category = article&.categories&.select { |category| category.name == '採決' }&.first
-        vote_content = unless vote_category.nil?
-          data = article&.article_categories&.select { |data| data.category_id == vote_category.id }.first
-          data&.extra_content
-        else '' end
-
-        values = article.nil? ? {} : { article: article.to_h.merge(vote_content: vote_content) }
+        values = article.nil? ? {} : { article: article.to_h.merge(vote_content: vote_content(article)) }
 
         form_for :article,
                  routes.meeting_article_path(meeting_id: params[:meeting_id], id: params[:id]),

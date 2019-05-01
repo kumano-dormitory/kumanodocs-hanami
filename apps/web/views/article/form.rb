@@ -210,14 +210,7 @@ module Web::Views::Article
       categories_for_select = categories.map { |category| [category.name, category.id] }.to_h
       article_categories_selected = article&.article_categories&.map(&:category_id)
 
-      # 採決項目があればvote_contentとして取り出す
-      vote_category = article&.categories&.select { |category| category.name == '採決' }&.first
-      vote_content = unless vote_category.nil?
-        data = article&.article_categories&.select { |data| data.category_id == vote_category.id }.first
-        data&.extra_content
-      else '' end
-
-      values = article.nil? ? {} : { article: article.to_h.merge(vote_content: vote_content) }
+      values = article.nil? ? {} : { article: article.to_h.merge(vote_content: vote_content(article)) }
       get_lock = hash[:confirm_update] ? true : false
       meeting_selected = [article&.meeting_id]
 
