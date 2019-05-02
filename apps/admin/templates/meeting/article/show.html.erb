@@ -35,9 +35,13 @@
           <li class="p-list__item">議案の最終更新日時: <%= article.updated_at %></li>
         </ul>
         <dt>本文</dt>
+        <% if article.format == 1 %>
+        <%= render partial: 'shared/markdown', locals: {str: article.body} %>
+        <% else %>
         <dd>
           <pre><%= article.body %></pre>
         </dd>
+        <% end %>
         <% if article&.categories&.find{ |category| category.name == '採決'} %>
         <dt>採決項目</dt>
         <dd>
