@@ -15,6 +15,7 @@ module Admin::Controllers::Meeting
             required(:password).filled(:str?).confirmation
             required(:password_confirmation).filled(:str?)
           end
+          required(:format).filled(:bool?)
           required(:body).filled(:str?)
           optional(:vote_content).maybe(:str?)
         end
@@ -45,7 +46,9 @@ module Admin::Controllers::Meeting
               { category_id: category.id, extra_content: nil }
             end
           }
-          article_params = params[:article].except(:author, :categories)
+          article_params = params[:article].except(:author, :categories).merge(
+            format: (params[:article][:format] ? 1 : 0)
+          )
           article = @article_repo.create_with_related_entities(author_params, category_params, article_params)
 
           flash[:notifications] = {success: {status: "Success", message: "正常に議案が作成されました"}}
