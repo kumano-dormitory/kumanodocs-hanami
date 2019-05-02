@@ -12,6 +12,7 @@ module Admin::Controllers::Meeting
           required(:author).schema do
             required(:name).filled(:str?)
           end
+          required(:format).filled(:bool?)
           required(:body).filled(:str?)
           optional(:vote_content).maybe(:str?)
         end
@@ -42,9 +43,12 @@ module Admin::Controllers::Meeting
               { category_id: category.id, extra_content: nil }
             end
           }
+          article_params = params[:article].to_h.merge(
+            format: (params[:article][:format] ? 1 : 0)
+          )
           @article_repo.update_categories(article, category_params)
           @author_repo.update(article.author_id, params[:article][:author])
-          @article_repo.update(article.id, params[:article])
+          @article_repo.update(article.id, article_params)
           flash[:notifications] = {success: {status: "Success:", message: "正常に議案が編集されました"}}
           redirect_to routes.meeting_article_path(meeting_id: article.meeting_id, id: article.id)
         else
