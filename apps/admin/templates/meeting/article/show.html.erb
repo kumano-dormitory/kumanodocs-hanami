@@ -1,6 +1,14 @@
 <div class="p-strip">
   <div class="row">
     <div class="col-12">
+      <ul class="p-breadcrumbs">
+        <li class="p-breadcrumbs__item">管理者向けページ</li>
+        <li class="p-breadcrumbs__item"><a href="/admin">ブロック会議一覧</a></li>
+        <li class="p-breadcrumbs__item"><a href="<%= routes.meeting_path(id: article.meeting_id) %>"><%= article.meeting.date %>のブロック会議</a></li>
+        <li class="p-breadcrumbs__item"><a href="<%= routes.meeting_articles_path(meeting_id: article.meeting_id) %>">議案一覧</a></li>
+        <li class="p-breadcrumbs__item"><strong><%= article_formatted_title(article, number: false) %></strong></li>
+      </ul>
+      <hr/>
       <h1><%= article_numbered_title(article) %></h1>
       <div class="row">
         <a href="<%= routes.edit_meeting_article_path(meeting_id: article.meeting_id, id: article.id) %>" class="p-button--positive">編集</a>
