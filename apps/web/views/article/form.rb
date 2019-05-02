@@ -154,6 +154,38 @@ module Web::Views::Article
           end
         end
 
+        if !params.valid? && params.errors.dig(:article, :format)
+          div class: "p-form__group p-form-validation is-error" do
+            label '本文のフォーマット', for: :format, class: "p-form__label u-align-text--right"
+            div class: "p-form__control" do
+              label '', for: :format do
+                text '議案をMarkdown形式で投稿する（必要がなければオフのままにしてください）'
+                check_box :format, class: "p-switch p-form-validation__input", 'aria-invalid': "true"
+                div '', class: "p-switch__slider"
+              end
+              p class: "p-form-validation__message", role: "alert" do
+                if params.errors.dig(:article, :format).include?("must be filled")
+                  strong "この項目は必須です"
+                else
+                  "入力が不正です"
+                end
+              end
+
+            end
+          end
+        else
+          div class: "p-form__group" do
+            label '本文のフォーマット', for: :format, class: "p-form__label u-align-text--right"
+            div class: "p-form__control" do
+              label '', for: :format do
+                text '議案をMarkdown形式で投稿する（必要がなければオフのままにしてください）'
+                check_box :format, class: "p-switch"
+                div '', class: "p-switch__slider"
+              end
+            end
+          end
+        end
+
         if !params.valid? && params.errors.dig(:article, :body)
           div class: "p-form__group p-form-validation is-error" do
             label '本文', for: :body, class: "p-form__label u-align-text--right"
@@ -210,7 +242,16 @@ module Web::Views::Article
       categories_for_select = categories.map { |category| [category.name, category.id] }.to_h
       article_categories_selected = article&.article_categories&.map(&:category_id)
 
-      values = article.nil? ? {} : { article: article.to_h.merge(vote_content: vote_content(article)) }
+      values = if article.nil?
+        {}
+      else
+        {
+          article: article.to_h.merge(
+            format: article.format == 1,
+            vote_content: vote_content(article)
+          )
+        }
+      end
       get_lock = hash[:confirm_update] ? true : false
       meeting_selected = [article&.meeting_id]
 
@@ -330,6 +371,38 @@ module Web::Views::Article
               label '文責者', for: :name, class: "p-form__label"
               div class: "p-form__control" do
                 text_field :name, required: ""
+              end
+            end
+          end
+        end
+
+        if !params.valid? && params.errors.dig(:article, :format)
+          div class: "p-form__group p-form-validation is-error" do
+            label '本文のフォーマット', for: :format, class: "p-form__label"
+            div class: "p-form__control" do
+              label '', for: :format do
+                text '議案をMarkdown形式で投稿する（必要がなければオフのままにしてください）'
+                check_box :format, class: "p-switch p-form-validation__input", 'aria-invalid': "true"
+                div '', class: "p-switch__slider"
+              end
+              p class: "p-form-validation__message", role: "alert" do
+                if params.errors.dig(:article, :format).include?("must be filled")
+                  strong "この項目は必須です"
+                else
+                  "入力が不正です"
+                end
+              end
+
+            end
+          end
+        else
+          div class: "p-form__group" do
+            label '本文のフォーマット', for: :format, class: "p-form__label"
+            div class: "p-form__control" do
+              label '', for: :format do
+                text '議案をMarkdown形式で投稿する（必要がなければオフのままにしてください）'
+                check_box :format, class: "p-switch"
+                div '', class: "p-switch__slider"
               end
             end
           end
