@@ -1,0 +1,24 @@
+<%=
+html_str =
+str.gsub(/###\s(.+?)(\r\n|\r|\n)/, '<h4 class="full-width">\1</h4>\2')
+   .gsub(/##\s(.+?)(\r\n|\r|\n)/, '<h3 class="full-width">\1</h3>\2')
+   .gsub(/#\s(.+?)(\r\n|\r|\n)/, '<h2 class="full-width">\1</h2>\2')
+   .gsub(/__(.+?)__/, '<strong style="font-weight: 800;">\1</strong>')
+   .gsub(/\*\*(.+?)\*\*/, '<strong style="font-weight: 800;">\1</strong>')
+   .gsub(/_(.+?)_/, '<u>\1</u>')
+   .gsub(/\*(.+?)\*/, '<em>\1</em>')
+   .gsub(/\n\*[[:space:]](.*?$)/) { |text|
+     item = $1.strip
+     "\n<ul><list-19273045-n><li>#{item}</li><list-19273045-n></ul>"
+   }.gsub(/\n\d+\.[[:space:]](.*?$)/) { |text|
+     item = $1.strip
+     "<ol><list-19273045-n><li>#{item}</li><list-19273045-n></ol>"
+   }.gsub(/\n-{4,}/, "<list-19273045-n><hr />")
+   .gsub(/<\/ul>\s?<ul>/, '')
+   .gsub(/<\/ol>\s?<ol>/, '')
+   .gsub(/(\r\n|\r|\n)/, "<br>\n")
+   .gsub(/(<\/ul>|<\/ol>)\s?<br>/, '\1')
+   .gsub(/<list-19273045-n>/, "\n")
+
+"<div class='markdown'>\n#{html_str}\n</div>"
+%>
