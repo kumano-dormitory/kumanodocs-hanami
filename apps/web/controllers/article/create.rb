@@ -13,6 +13,7 @@ module Web::Controllers::Article
           required(:password).filled(:str?).confirmation
           required(:password_confirmation).filled(:str?)
         end
+        required(:format).filled(:bool?)
         required(:body).filled(:str?)
         optional(:vote_content).maybe(:str?)
       end
@@ -74,7 +75,8 @@ module Web::Controllers::Article
         params[:article][:author][:name],
         params[:article][:author][:password]
       )
-      article_params = params[:article].to_h.merge(author_id: author.id, checked: checked)
+      format_number = params[:article][:format] ? 1 : 0
+      article_params = params[:article].to_h.merge(author_id: author.id, checked: checked, format: format_number)
       article = @article_repo.create(article_params)
       categories = params[:article][:categories].map { |id| @category_repo.find(id) }
       # 採決項目の設定
