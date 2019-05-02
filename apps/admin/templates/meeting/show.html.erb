@@ -1,5 +1,11 @@
 <div class="p-strip">
   <div class="row">
+    <ul class="p-breadcrumbs">
+      <li class="p-breadcrumbs__item">管理者向けページ</li>
+      <li class="p-breadcrumbs__item"><a href="/admin">ブロック会議一覧</a></li>
+      <li class="p-breadcrumbs__item"><strong><%= meeting.date %>のブロック会議</strong></li>
+    </ul>
+    <hr/>
     <h1><%= meeting.date %>のブロック会議</h1>
     <p>議案投稿の締め切り日時 : <%= meeting.deadline %></p>
 

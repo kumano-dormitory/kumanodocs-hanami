@@ -1,5 +1,12 @@
 <div class="p-strip">
   <div class="row">
+    <ul class="p-breadcrumbs">
+      <li class="p-breadcrumbs__item">管理者向けページ</li>
+      <li class="p-breadcrumbs__item"><a href="/admin">ブロック会議一覧</a></li>
+      <li class="p-breadcrumbs__item"><a href="<%= routes.meeting_path(id: meeting.id) %>"><%= meeting.date %>のブロック会議</a></li>
+      <li class="p-breadcrumbs__item"><strong>議案一覧</strong></li>
+    </ul>
+    <hr/>
     <h1><%= meeting.date %>のブロック会議の議案一覧</h1>
     <% articles.each do |article| %>
     <div class="p-card u-no-margin--bottom">
