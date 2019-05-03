@@ -5,11 +5,11 @@ module Web
          "(#{article.number.nil? ? '番号なし' : article.number}) #{article.title}"
       end
 
-      def article_formatted_title(article, checked: false)
-        number_str = "(#{article.number.nil? ? '番号なし' : article.number})"
+      def article_formatted_title(article, checked: false, number: true)
+        number_str = if number then "(#{article.number.nil? ? '番号なし' : article.number}) " else '' end
         categories_str = article&.categories&.map{ |category| "【#{category.name}】 " }&.reduce(:+)
         checked_str = if checked then (article.checked ? '' : '【追加議案】') else '' end
-        "#{number_str} #{checked_str}#{article.title} #{categories_str}"
+        "#{number_str}#{checked_str}#{article.title} #{categories_str}"
       end
 
       def vote_content(article)

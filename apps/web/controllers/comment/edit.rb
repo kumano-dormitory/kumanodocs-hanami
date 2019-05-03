@@ -1,12 +1,14 @@
 module Web::Controllers::Comment
   class Edit
     include Web::Action
-    expose :meeting, :block_id, :comment_datas
+    expose :meeting, :block_id, :comment_datas, :vote_result_datas
 
     def initialize(meeting_repo: MeetingRepository.new,
-                   comment_repo: CommentRepository.new)
+                   comment_repo: CommentRepository.new,
+                   vote_result_repo: VoteResultRepository.new)
       @meeting_repo = meeting_repo
       @comment_repo = comment_repo
+      @vote_result_repo = vote_result_repo
       @notifications = {}
     end
 
@@ -16,6 +18,14 @@ module Web::Controllers::Comment
       @comment_datas = @meeting.articles.map do |article|
         comment = @comment_repo.find(article.id, params[:block_id])
         { article_id: article.id, comment: comment&.body }
+      end
+      @vote_result_datas = @meeting.articles.map do |article|
+        if article.categories.find_index { |category| category.require_content && category.name == '採決' }
+          data = @vote_result_repo.find(article.id, params[:block_id])
+          { article_id: article.id, vote_result: data&.to_h }
+        else
+          { article_id: article.id, vote_result: nil }
+        end
       end
 
       # 議事録の編集が可能な時間か判定
