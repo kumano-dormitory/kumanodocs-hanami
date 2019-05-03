@@ -9,6 +9,7 @@ class ArticleRepository < Hanami::Repository
     has_many :categories, through: :article_categories
     has_many :comments
     has_many :tables
+    has_many :vote_results
   end
 
   def search(keywords, page=1, limit=20)
@@ -112,7 +113,7 @@ class ArticleRepository < Hanami::Repository
   end
 
   def find_with_relations(id)
-    article = aggregate(:article_categories, :meeting, :author, :categories, :comments, :tables)
+    article = aggregate(:article_categories, :meeting, :author, :categories, :comments, :vote_results, :tables)
                 .where(id: id).map_to(Article).one
   end
 
