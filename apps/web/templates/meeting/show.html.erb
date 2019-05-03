@@ -59,6 +59,10 @@
         <dd>
           <pre><%= vote_content(article) %></pre>
         </dd>
+          <% vote_result_sum = article.vote_results&.map{ |vote| [vote.agree, vote.disagree, vote.onhold] }.transpose.map{ |count_ary| count_ary.sum } %>
+          <% if vote_result_sum && !vote_result_sum.empty? %>
+        <dd><%= "賛成 : #{vote_result_sum[0]}<br/>反対 : #{vote_result_sum[1]}<br/>保留 : #{vote_result_sum[2]}" %></dd>
+          <% end %>
         <% end %>
       </dl>
       <ul class="p-list">
@@ -72,7 +76,7 @@
         <% end %>
       <% end %>
 
-      <% unless article.comments.empty? %>
+      <% unless article.comments.empty? && article.vote_results.empty? %>
       <div class="p-strip">
         <div class="row">
           <div class="col-12">
@@ -80,9 +84,13 @@
             <dl>
               <% blocks.each do |block| %>
               <% comment = article.comments.find{ |comment| comment.block_id == block.id } %>
-              <% unless comment.nil? %>
+              <% vote_result = article.vote_results.find{ |vote| vote.block_id == block.id } %>
+              <% unless comment.nil? && vote_result.nil? %>
                 <dt><%= block.name %>の議事録</dt>
-                <dd><pre><%= comment.body %></pre></dd>
+                <dd><pre><%= comment.nil? ? '' : comment.body %></pre></dd>
+                <% unless vote_result.nil? %>
+                <dd><%= "賛成 : #{vote_result.agree}<br/>反対 : #{vote_result.disagree}<br/>保留 : #{vote_result.onhold}" %></dd>
+                <% end %>
               <% end %>
               <% end %>
             </dl>
