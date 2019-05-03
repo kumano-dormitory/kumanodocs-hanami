@@ -1,6 +1,6 @@
 module Web::Views::Comment
   module Form
-    def form_update(meeting, block_id, datas)
+    def form_update(meeting, block_id, comment_datas = nil, vote_result_datas = nil)
 
       form_for :comments,
                routes.comments_path(meeting_id: meeting.id, block_id: block_id),
@@ -10,7 +10,7 @@ module Web::Views::Comment
         if !params.valid? && params.errors.dig(:comments, :password)
           div class: "p-form-validation is-error" do
             label "パスワード", for: :password
-            password_field :password, class: "p-form-validation__input"
+            password_field :password, class: "p-form-validation__input", required: ""
             p class: "p-form-validation__message" do
               if params.errors.dig(:comments, :password).include?("must be filled")
                 strong "この項目は必須です"
@@ -22,16 +22,17 @@ module Web::Views::Comment
         else
           div do
             label "パスワード", for: :password
-            password_field :password
+            password_field :password, required: ""
           end
         end
 
         meeting.articles.each_with_index do |article, idx|
-          comment_data = datas&.find{ |data| data[:article_id] == article.id }
+          comment_data = comment_datas&.find{ |data| data[:article_id] == article.id }
+          vote_result = vote_result_datas&.find{ |data| data[:article_id] == article.id }&.fetch(:vote_result, nil)
 
-          div do
+          fieldset '', style: "margin-bottom:1.5rem;" do
             div do
-              label "#{article.title}への議事録", for: "meeting-articles-#{idx}-comment"
+              label "#{article_formatted_title(article, checked: true, number: false)}への議事録", for: "meeting-articles-#{idx}-comment", class: "p-heading--four"
             end
             div do
               text_area :comment,
@@ -42,6 +43,27 @@ module Web::Views::Comment
               hidden_field :article_id, value: article.id,
                         name: "meeting[articles][][article_id]",
                         id: "meeting-articles-#{idx}-article_id"
+            end
+
+            if article.categories.find_index { |category| category.require_content && category.name == '採決' }
+              div do
+                p '採決結果'
+                label '賛成', for: "meeting-articles-#{idx}-vote_result-agree"
+                number_field :agree, value: vote_result&.fetch(:agree),
+                             name: "meeting[articles][][vote_result][agree]",
+                             id: "meeting-articles-#{idx}-vote_result-agree",
+                             min: 0, step: 1, required: ""
+                label '反対', for: "meeting-articles-#{idx}-vote_result-disagree"
+                number_field :agree, value: vote_result&.fetch(:disagree),
+                            name: "meeting[articles][][vote_result][disagree]",
+                            id: "meeting-articles-#{idx}-vote_result-disagree",
+                            min: 0, step: 1, required: ""
+                label '保留', for: "meeting-articles-#{idx}-vote_result-onhold"
+                number_field :agree, value: vote_result&.fetch(:onhold),
+                             name: "meeting[articles][][vote_result][onhold]",
+                             id: "meeting-articles-#{idx}-vote_result-onhold",
+                             min: 0, step: 1, required: ""
+              end
             end
           end
         end
