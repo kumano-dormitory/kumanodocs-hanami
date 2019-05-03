@@ -15,10 +15,10 @@
       <div class="p-card--highlighted u-no-padding--bottom u-no-padding--top">
         <h2 class="p-card__title">
           <a href="<%= routes.article_path(id: article.id) %>" class="p-link--strong">
-            <%= article_numbered_title(article) %>
+            <%= article.title %>
           </a>
         </h2>
-        <p class="p-card__content" style="max-width: none;"><%= article.body %></p>
+        <p class="p-card__content" style="max-width: none;"><%= article.body[0, 250] %></p>
         <p class="p-card__content"><strong>ブロック会議：<%= article.meeting.date %> . 文責者：<%= article.author.name %></strong></p>
       </div>
       <% end %>
