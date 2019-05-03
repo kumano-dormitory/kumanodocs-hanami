@@ -54,12 +54,12 @@ module Web::Views::Comment
                              id: "meeting-articles-#{idx}-vote_result-agree",
                              min: 0, step: 1, required: ""
                 label '反対', for: "meeting-articles-#{idx}-vote_result-disagree"
-                number_field :agree, value: vote_result&.fetch(:disagree),
+                number_field :disagree, value: vote_result&.fetch(:disagree),
                             name: "meeting[articles][][vote_result][disagree]",
                             id: "meeting-articles-#{idx}-vote_result-disagree",
                             min: 0, step: 1, required: ""
                 label '保留', for: "meeting-articles-#{idx}-vote_result-onhold"
-                number_field :agree, value: vote_result&.fetch(:onhold),
+                number_field :onhold, value: vote_result&.fetch(:onhold),
                              name: "meeting[articles][][vote_result][onhold]",
                              id: "meeting-articles-#{idx}-vote_result-onhold",
                              min: 0, step: 1, required: ""
