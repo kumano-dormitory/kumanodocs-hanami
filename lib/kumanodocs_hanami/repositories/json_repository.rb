@@ -51,7 +51,7 @@ class JsonRepository < Hanami::Repository
 
   def search_articles(keywords: [''], limit: 25, offset: 0)
     keywords_str = keywords.map { |keyword|
-      key = jsons.dataset.escape_like(keyword)
+      key = jsons.dataset.escape_like(keyword).gsub(/'/, "''")
       "((title ILIKE '%#{key}%' ESCAPE '\\') OR (body ILIKE '%#{key}%' ESCAPE '\\') OR (authors.name ILIKE '%#{key}%' ESCAPE '\\'))"
     }.join(' AND ')
     search_query = "\
