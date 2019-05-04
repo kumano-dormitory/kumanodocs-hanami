@@ -2,14 +2,14 @@
   <div class="row">
     <h2 class="u-no-margin--bottom">議案の並び替え</h2>
     <p>議案をドラッグ＆ドロップで並び替えてください</p>
-    <p>並び替えが終了したらページ下のボタンをクリックして保存してください</p>
+    <p>並び替えが終了したらページ下のボタンをクリックして<%= for_download ? '資料をダウンロード' : '保存' %>してください</p>
     <h3>特に理由がなければ、【追加議案】は末尾にまとめてください</h3>
 
     <ul id="sortable" class="p-list">
       <% meeting.articles.each do |article| %>
       <li id="<%= article.id %>" class="ui-state-default">
         <div class="p-card u-no-margin--bottom u-no-padding">
-          <h4 class="u-no-margin--bottom">
+          <h4 class="full-width u-no-margin--bottom">
             <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
             <%= article_formatted_title(article, checked: true, number: false) %>
           </h4>
@@ -18,6 +18,6 @@
       <% end %>
     </ul>
 
-    <%= form(meeting) %>
+    <%= form(meeting, for_download) %>
   </div>
 </div>
