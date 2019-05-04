@@ -1,0 +1,42 @@
+<% if view_type == :meetings %>
+
+<div class="p-strip">
+  <div class="row">
+    <h2>印刷用PDFのダウンロード</h2>
+    <p>ブロック会議を選んでください</p>
+    <ul class="p-list--divided">
+      <% meetings.each do |meeting| %>
+      <li class="p-list__item">
+        <a href='<%= routes.download_meeting_path(id: meeting.id) %>' class="p-button--base u-no-margin--bottom">
+          <h4 class="u-no-margin--bottom"><%= meeting.date %>のブロック会議</h4>
+        </a>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<% elsif view_type == :meeting %>
+
+<div class="p-strip">
+  <div class="row">
+    <h2>印刷用PDFのダウンロード</h2>
+    <h3><%= meeting.date %>のブロック会議</h3>
+    <p>印刷する資料の種類を選んでください</p>
+    <ul class="p-list">
+      <li class="p-list__item">
+        <a href='<%= routes.edit_article_number_path(id: meeting.id) %>?download=true' class="p-button--positive">
+          <h4 class="u-no-margin--bottom">ブロック会議資料</h4>
+        </a>
+      </li>
+      <li class="p-list__item">
+        <a href='<%= routes.download_meeting_path(id: meeting.id) %>?comments=true' class="p-button--brand">
+          <h4 class="u-no-margin--bottom">議事録一覧(旧 報告会資料)</h4>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+<% else %>
+
+<% end %>
