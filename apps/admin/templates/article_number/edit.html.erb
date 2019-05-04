@@ -9,7 +9,7 @@
       <% meeting.articles.each do |article| %>
       <li id="<%= article.id %>" class="ui-state-default">
         <div class="p-card u-no-margin--bottom u-no-padding">
-          <h4 class="u-no-margin--bottom">
+          <h4 class="full-width u-no-margin--bottom">
             <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
             <%= article_formatted_title(article, checked: true, number: false) %>
           </h4>
