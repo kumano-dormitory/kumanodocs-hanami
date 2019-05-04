@@ -4,6 +4,8 @@
 # Example:
 # get '/hello', to: ->(env) { [200, {}, ['Hello from Hanami!']] }
 root to: 'article#index'
+# ドキュメント表示
+get '/article/doc', to: 'article#doc', as: :document
 get '/article/search', to: 'article#search', as: :search_article
 resources :article do
   resource :lock, only: [:new, :create]
