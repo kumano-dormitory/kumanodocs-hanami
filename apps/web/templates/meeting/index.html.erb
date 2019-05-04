@@ -5,8 +5,8 @@
     <ul class="p-list--divided">
       <% meetings.each do |meeting| %>
       <li class="p-list__item">
-        <a href='<%= routes.meeting_path(id: meeting.id) %>' class="p-link--strong">
-          <%= meeting.date %>のブロック会議
+        <a href='<%= routes.meeting_path(id: meeting.id) %>' class="p-button--base u-no-margin--bottom">
+          <h3 class="u-no-margin--bottom"><%= meeting.date %>のブロック会議</h3>
         </a>
       </li>
       <% end %>
