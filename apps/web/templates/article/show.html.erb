@@ -30,7 +30,7 @@
         <%= render partial: 'shared/markdown', locals: {str: article.body} %>
         <% else %>
         <dd>
-          <pre><%= article.body %></pre>
+          <pre><%= h article.body %></pre>
         </dd>
         <% end %>
         <% if article&.categories&.find{ |category| category.name == '採決'} %>
