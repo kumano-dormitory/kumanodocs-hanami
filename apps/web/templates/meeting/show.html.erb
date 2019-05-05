@@ -1,17 +1,17 @@
 <div class="p-strip">
   <div class="row row-wide">
     <div class="u-hide--small">
-      <h1>
-        <%= meeting.date %>のブロック会議
+      <h1 class="full-width">
+        <%= meeting.formatted_date %>のブロック会議
         <% if meeting.deadline > Time.now %>
-        <small>(議案投稿の締め切り日時 : <%= meeting.deadline %>)</small>
+        <small>(議案投稿の締め切り日時 : <%= meeting.formatted_deadline %>)</small>
         <% end %>
       </h1>
     </div>
     <div class="u-hide--large u-hide--medium">
-      <h2 class="u-no-margin--bottom"><%= meeting.date %>のブロック会議</h2>
+      <h2 class="u-no-margin--bottom"><%= meeting.formatted_date %>のブロック会議</h2>
       <% if meeting.deadline > Time.now %>
-        <p>議案投稿の締め切り日時 : <%= meeting.deadline %></p>
+        <p>議案投稿の締め切り日時 : <%= meeting.formatted_deadline %></p>
       <% end %>
       <span class="p-contextual-menu--left" style="width:100%;">
           <a href="#" class="p-button--neutral p-contextual-menu__toggle" aria-controls="#menu" aria-expanded="false" aria-haspopup="true">議案の一覧を表示</a>
@@ -66,8 +66,8 @@
         <% end %>
       </dl>
       <ul class="p-list">
-        <li class="p-list__item">議案の初版投稿日時: <%= article.created_at %></li>
-        <li class="p-list__item">議案の最終更新日時: <%= article.updated_at %></li>
+        <li class="p-list__item">議案の初版投稿日時: <%= article.formatted_created_at %></li>
+        <li class="p-list__item">議案の最終更新日時: <%= article.formatted_updated_at %></li>
       </ul>
 
       <% if !article.tables.nil? %>

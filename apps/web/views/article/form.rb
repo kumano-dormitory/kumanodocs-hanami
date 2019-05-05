@@ -1,7 +1,7 @@
 module Web::Views::Article
   module Form
     def form_create(meetings, categories)
-      meetings_for_select = meetings.map { |meeting| [meeting.date, meeting.id] }.to_h
+      meetings_for_select = meetings.map { |meeting| [meeting.formatted_date, meeting.id] }.to_h
       categories_for_select = categories.map { |category| [category.name, category.id] }.to_h
 
       form_for :article,
@@ -238,7 +238,7 @@ module Web::Views::Article
 
     def form_update(meetings, categories, hash = {})
       article = hash[:article]
-      meetings_for_select = meetings.map { |meeting| [meeting.date, meeting.id] }.to_h
+      meetings_for_select = meetings.map { |meeting| [meeting.formatted_date, meeting.id] }.to_h
       categories_for_select = categories.map { |category| [category.name, category.id] }.to_h
       article_categories_selected = article&.article_categories&.map(&:category_id)
 
