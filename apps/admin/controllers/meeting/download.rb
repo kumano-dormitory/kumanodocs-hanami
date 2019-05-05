@@ -41,7 +41,6 @@ module Admin::Controllers::Meeting
           @view_type = :meeting
         end
       else
-        p params.errors.to_s
         @meetings = @meeting_repo.desc_by_date(limit: 20)
         @view_type = :meetings
       end

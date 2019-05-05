@@ -18,3 +18,5 @@ patch '/meeting/:meeting_id/block/:block_id/comment/', to: 'comment#update', as:
 
 get '/article/:article_id/table/:table_id/lock/new', to: 'article/lock#new', as: :new_article_lock_for_table
 post '/article/:article_id/table/:table_id/lock', to: 'article/lock#create', as: :article_lock_for_table
+
+get '/meeting/:id/download', to: 'meeting#download', as: :download_meeting
