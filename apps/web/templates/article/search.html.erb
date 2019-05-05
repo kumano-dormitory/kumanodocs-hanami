@@ -19,7 +19,7 @@
           </a>
         </h2>
         <p class="p-card__content" style="max-width: none;"><%= article.body[0, 200] %></p>
-        <p class="p-card__content"><strong>ブロック会議：<%= article.meeting.date %> . 文責者：<%= article.author.name %></strong></p>
+        <p class="p-card__content"><strong>ブロック会議：<%= article.meeting.formatted_date %> . 文責者：<%= article.author.name %></strong></p>
       </div>
       <% end %>
     </div>

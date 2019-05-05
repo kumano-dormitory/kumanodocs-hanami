@@ -48,7 +48,7 @@
       <% articles_by_meeting.each do |meeting, articles| %>
         <li class="p-list__item">
           <div class="p-card">
-            <h1 class="p-card__title"><a href='<%= routes.meeting_path(id: meeting.id) %>' class="p-link--strong"><%= meeting.date %>のブロック会議</a></h1>
+            <h1 class="p-card__title"><a href='<%= routes.meeting_path(id: meeting.id) %>' class="p-link--strong"><%= meeting.formatted_date %>のブロック会議</a></h1>
             <hr>
             <div class="p-card__content">
               <ul class="p-list--divided">

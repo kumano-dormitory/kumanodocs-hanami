@@ -32,6 +32,8 @@ class ArticleRepository < Hanami::Repository
         articles[:id].qualified.desc)
       .limit(limit)
       .offset((page - 1) * limit)
+      .map_to(Article)
+      .to_a
   end
 
   def search_count(keywords)
