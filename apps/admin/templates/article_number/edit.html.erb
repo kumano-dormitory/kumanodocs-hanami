@@ -1,5 +1,12 @@
 <div class="p-strip u-no-margin--bottom">
   <div class="row">
+    <ul class="p-breadcrumbs">
+      <li class="p-breadcrumbs__item">管理者向けページ</li>
+      <li class="p-breadcrumbs__item"><a href="<%= routes.meetings_path %>">ブロック会議一覧</a></li>
+      <li class="p-breadcrumbs__item"><a href="<%= routes.meeting_path(id: meeting.id) %>"><%= meeting.formatted_date %>のブロック会議</a></li>
+      <li class="p-breadcrumbs__item"><strong>議案の順番の変更</strong></li>
+    </ul>
+    <hr/>
     <h2 class="u-no-margin--bottom">議案の並び替え</h2>
     <p>議案をドラッグ＆ドロップで並び替えてください</p>
     <p>並び替えが終了したらページ下のボタンをクリックして<%= for_download ? '資料をダウンロード' : '保存' %>してください</p>

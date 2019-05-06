@@ -2,12 +2,12 @@
   <div class="row">
     <ul class="p-breadcrumbs">
       <li class="p-breadcrumbs__item">管理者向けページ</li>
-      <li class="p-breadcrumbs__item"><a href="/admin">ブロック会議一覧</a></li>
-      <li class="p-breadcrumbs__item"><strong><%= meeting.date %>のブロック会議</strong></li>
+      <li class="p-breadcrumbs__item"><a href='<%= routes.meetings_path %>'>ブロック会議一覧</a></li>
+      <li class="p-breadcrumbs__item"><strong><%= meeting.formatted_date %>のブロック会議</strong></li>
     </ul>
     <hr/>
-    <h1><%= meeting.date %>のブロック会議</h1>
-    <p>議案投稿の締め切り日時 : <%= meeting.deadline %></p>
+    <h1><%= meeting.formatted_date %>のブロック会議</h1>
+    <p>議案投稿の締め切り日時 : <%= meeting.formatted_deadline %></p>
 
     <h3>操作一覧</h3>
     <ol class="p-list">
