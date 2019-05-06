@@ -66,7 +66,9 @@
               <% vote_result = article.vote_results.find{ |vote| vote.block_id == block.id } %>
               <% unless comment.nil? && vote_result.nil? %>
                 <dt><%= block.name %>の議事録</dt>
-                <dd><pre><%= comment.nil? ? '' : comment.body %></pre></dd>
+                <% if !comment.nil? && !comment.body.strip.empty? %>
+                <dd><pre><%= comment.body %></pre></dd>
+                <% end %>
                 <% if article&.categories&.find{ |category| category.name == '採決'} %>
                 <% unless vote_result.nil? %>
                 <dd><%= "賛成 : #{vote_result.agree}<br/>反対 : #{vote_result.disagree}<br/>保留 : #{vote_result.onhold}" %></dd>
