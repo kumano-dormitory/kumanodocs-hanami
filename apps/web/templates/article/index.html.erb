@@ -9,33 +9,15 @@
   <div class="row">
     <h2>議事録作成</h2>
     <ul class="p-inline-list">
+      <% blocks.each do |block| %>
       <li class="p-inline-list__item">
-        <a href='<%= routes.edit_comment_path(meeting_id: next_meeting.id, block_id: 1) %>' class="p-button--brand">A1</a>
+        <% if block[:comment_count] == 0 && block[:vote_result_count] == 0 %>
+        <a href='<%= routes.edit_comment_path(meeting_id: next_meeting.id, block_id: block[:id]) %>' class="p-button--negative"><%= block[:name] %><br/>未提出</a>
+        <% else %>
+        <a href='<%= routes.edit_comment_path(meeting_id: next_meeting.id, block_id: block[:id]) %>' class="p-button--positive"><%= block[:name] %><br/>提出済</a>
+        <% end %>
       </li>
-      <li class="p-inline-list__item">
-        <a href='<%= routes.edit_comment_path(meeting_id: next_meeting.id, block_id: 2) %>' class="p-button--brand">A2</a>
-      </li>
-      <li class="p-inline-list__item">
-        <a href='<%= routes.edit_comment_path(meeting_id: next_meeting.id, block_id: 3) %>' class="p-button--brand">A3</a>
-      </li>
-      <li class="p-inline-list__item">
-        <a href='<%= routes.edit_comment_path(meeting_id: next_meeting.id, block_id: 4) %>' class="p-button--brand">A4</a>
-      </li>
-      <li class="p-inline-list__item">
-        <a href='<%= routes.edit_comment_path(meeting_id: next_meeting.id, block_id: 5) %>' class="p-button--brand">B12</a>
-      </li>
-      <li class="p-inline-list__item">
-        <a href='<%= routes.edit_comment_path(meeting_id: next_meeting.id, block_id: 6) %>' class="p-button--brand">B3</a>
-      </li>
-      <li class="p-inline-list__item">
-        <a href='<%= routes.edit_comment_path(meeting_id: next_meeting.id, block_id: 7) %>' class="p-button--brand">B4</a>
-      </li>
-      <li class="p-inline-list__item">
-        <a href='<%= routes.edit_comment_path(meeting_id: next_meeting.id, block_id: 8) %>' class="p-button--brand">C12</a>
-      </li>
-      <li class="p-inline-list__item">
-        <a href='<%= routes.edit_comment_path(meeting_id: next_meeting.id, block_id: 9) %>' class="p-button--brand">C34</a>
-      </li>
+      <% end %>
     </ul>
   </div>
 </div>
