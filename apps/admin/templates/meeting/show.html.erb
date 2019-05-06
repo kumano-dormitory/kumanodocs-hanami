@@ -10,15 +10,39 @@
     <p>議案投稿の締め切り日時 : <%= meeting.formatted_deadline %></p>
 
     <h3>操作一覧</h3>
-    <ol class="p-list">
-      <li><a href="<%= routes.meeting_articles_path(meeting_id: meeting.id) %>" class="p-button--brand">議案の一覧を表示</a></li>
-      <li><a href='<%= routes.edit_article_status_path(id: meeting.id) %>' class="p-button--neutral">議案の状態を変更（通常議案か追加議案かの状態の変更）</a></li>
-      <li><a href='<%= routes.edit_article_number_path(id: meeting.id) %>' class="p-button--neutral">議案の順番を変更（議案の通し番号の変更）</a></li>
-      <li><a href='<%= routes.download_meeting_path(id: meeting.id) %>' class="p-button--neutral">Download latex code</a></li>
-      <li><a href='<%= routes.edit_meeting_path(id: meeting.id) %>' class="p-button--positive">このブロック会議日程の編集</a></li>
-      <li><%= form_for :meeting, routes.meeting_path(id: meeting.id),
-      method: :delete, class: "delete_meeting" do
-        submit 'このブロック会議日程の削除', class: "p-button--negative" end %>
+    <ul class="p-list--divided">
+      <li class="p-list__item is-ticked">
+        <h4>議案の詳細を表示<br/>議案の編集・削除や、 議案の表の編集・削除<br/>議案に対する議事録の編集などはこちら</h4>
+        <a href="<%= routes.meeting_articles_path(meeting_id: meeting.id) %>" class="p-button--neutral" style="background-color:#81d4fa;">
+          議案の一覧を表示
+        </a>
+      </li>
+      <li class="p-list__item is-ticked">
+        <h4>議案の状態（通常議案か追加議案か）<br/>を変更する場合はこちら</h4>
+        <p>※追加議案として提出された議案を通常議案に変更する場合など</p>
+        <a href='<%= routes.edit_article_status_path(id: meeting.id) %>' class="p-button--neutral" style="background-color:#a5d6a7;">
+          議案の状態を変更
+        </a>
+      </li>
+      <li class="p-list__item is-ticked">
+        <h4>議案の並び替えを行う場合はこちら</h4>
+        <a href='<%= routes.edit_article_number_path(id: meeting.id) %>' class="p-button--neutral" style="background-color:#f48fb1;">
+          議案の順番を変更
+        </a>
+      </li>
+      <li class="p-list__item is-ticked">
+        <h4 class="full-width">印刷用のPDF（　ブロック会議資料や議事録一覧（報告会資料）　）<br/>をダウンロードする場合はこちら</h4>
+        <a href='<%= routes.download_meeting_path(id: meeting.id) %>' class="p-button--brand">
+          印刷用PDFのダウンロード
+        </a>
+      </li>
+      <li class="p-list__item is-ticked">
+        <h4>このブロック会議日程の編集・削除する場合はこちら</h4>
+        <p>※編集・削除を行うと既に投稿された議案に対して大きな影響を及ぼす可能性があります。資料委員会で確認を取ってから編集・削除を行うようにしてください。</p>
+        <a href='<%= routes.edit_meeting_path(id: meeting.id) %>' class="p-button--positive">このブロック会議日程の編集</a>
+        <%= form_for :meeting, routes.meeting_path(id: meeting.id),
+        method: :delete, class: "delete_meeting" do
+          submit 'このブロック会議日程の削除', class: "p-button--negative" end %>
       </li>
     </ul>
   </div>
