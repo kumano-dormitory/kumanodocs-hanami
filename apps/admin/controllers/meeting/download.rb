@@ -22,6 +22,8 @@ module Admin::Controllers::Meeting
         @meeting = @meeting_repo.find_with_articles(params[:id])
         if params[:articles]
           @articles = @meeting.articles.map{ |article| @article_repo.find_with_relations(article.id) }
+          # 出力する議案の印刷フラグをすべてtrueにする
+          @article_repo.update_status(@articles.map{ |article| { 'article_id' => article.id, 'printed' => true}})
           @tex_str = Admin::Views::Meeting::Download.render(format: :tex, meeting: @meeting, articles: @articles, type: :articles)
           # write_file(temp, @tex)
           # run_command(ptex2pdf -u -l, temp)
