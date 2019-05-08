@@ -17,6 +17,7 @@
           <a href="#" class="p-button--neutral p-contextual-menu__toggle" aria-controls="#menu" aria-expanded="false" aria-haspopup="true">議案の一覧を表示</a>
           <span class="p-contextual-menu__dropdown" id="menu" aria-hidden="true" aria-label="submenu" style="max-width:32rem;">
             <span class="p-contextual-menu__group">
+              <a href="<%= routes.meeting_path(id: meeting.id) %>?page=0" class="p-contextual-menu__link" style="margin:3px;">(0) 前回のブロック会議から</a>
               <% meeting.articles.each_with_index do |article, i| %>
                 <a href="<%= routes.meeting_path(id: meeting.id) %>?page=<%= i + 1 %>" class="p-contextual-menu__link" style="margin:3px;">
                   <%= article_numbered_title(article) %>
@@ -29,85 +30,102 @@
     </div>
   </div>
 
-  <% if article %>
+  <% if article || past_comments %>
   <div class="row row-wide p-divider">
     <div class="col-9 p-divider__block">
-      <h3 style="max-width: 100%;"><%= article_formatted_title(article, checked: true) %></h3>
-      <% if editable %>
-      <div class="row">
-        <a class="p-button--positive" href="<%= routes.edit_article_path(article.id) %>">編集</a>
-        <%=
-        form_for :article, routes.article_path(article.id), method: :delete, class: "p-form p-form--inline" do
-          submit '削除', class: "p-button--negative"
-        end
-        %>
-      </div>
-      <% end %>
-      <dl>
-        <dt>文責者</dt>
-        <dd><%= article.author.name %></dd>
-        <dt>本文</dt>
-        <% if article.format == 1 %>
-        <%= render partial: 'shared/markdown', locals: {str: article.body} %>
-        <% else %>
-        <dd>
-          <pre><%= h article.body %></pre>
-        </dd>
+      <% if past_comments %>
+        <h3 style="max-width: 100%;">(0) 前回のブロック会議から</h3>
+        <dl>
+          <% past_comments.each do |article_id, comments| %>
+          <dt><%= h "(#{comments[0]&.dig(:article_number) || '番号なし'}) #{comments[0]&.dig(:title)}" %></dt>
+          <dd><pre><% comments.each do |comment| %><% if comment[:body] %><%= h "#{comment[:block_name]} - #{comment[:body]}\n" %><% elsif comment[:agree] %><%= h "#{comment[:block_name]}の採決結果\n賛成:#{comment[:agree]}\n反対:#{comment[:disagree]}\n保留:#{comment[:onhold]}\n" %><% end %><% end %></pre></dd>
+          <% end %>
+        </dl>
+      <% end # if past_comments %>
+
+      <% if article %>
+        <h3 style="max-width: 100%;"><%= article_formatted_title(article, checked: true) %></h3>
+        <% if editable %>
+        <div class="row">
+          <a class="p-button--positive" href="<%= routes.edit_article_path(article.id) %>">編集</a>
+          <%=
+          form_for :article, routes.article_path(article.id), method: :delete, class: "p-form p-form--inline" do
+            submit '削除', class: "p-button--negative"
+          end
+          %>
+        </div>
         <% end %>
-        <% if article&.categories&.find{ |category| category.name == '採決'} %>
-        <dt>採決項目</dt>
-        <dd>
-          <pre><%= vote_content(article) %></pre>
-        </dd>
-          <% vote_result_sum = article.vote_results&.map{ |vote| [vote.agree, vote.disagree, vote.onhold] }.transpose.map{ |count_ary| count_ary.sum } %>
-          <% if vote_result_sum && !vote_result_sum.empty? %>
-        <dd><%= "賛成 : #{vote_result_sum[0]}<br/>反対 : #{vote_result_sum[1]}<br/>保留 : #{vote_result_sum[2]}" %></dd>
+        <dl>
+          <dt>文責者</dt>
+          <dd><%= article.author.name %></dd>
+          <dt>本文</dt>
+          <% if article.format == 1 %>
+          <%= render partial: 'shared/markdown', locals: {str: article.body} %>
+          <% else %>
+          <dd>
+            <pre><%= h article.body %></pre>
+          </dd>
+          <% end %>
+          <% if article&.categories&.find{ |category| category.name == '採決'} %>
+          <dt>採決項目</dt>
+          <dd>
+            <pre><%= vote_content(article) %></pre>
+          </dd>
+            <% vote_result_sum = article.vote_results&.map{ |vote| [vote.agree, vote.disagree, vote.onhold] }.transpose.map{ |count_ary| count_ary.sum } %>
+            <% if vote_result_sum && !vote_result_sum.empty? %>
+          <dd><%= "賛成 : #{vote_result_sum[0]}<br/>反対 : #{vote_result_sum[1]}<br/>保留 : #{vote_result_sum[2]}" %></dd>
+            <% end %>
+          <% end %>
+        </dl>
+        <ul class="p-list">
+          <li class="p-list__item">議案の初版投稿日時: <%= article.formatted_created_at %></li>
+          <li class="p-list__item">議案の最終更新日時: <%= article.formatted_updated_at %></li>
+        </ul>
+
+        <% if !article.tables.nil? %>
+          <% article.tables.each do |table| %>
+            <%= render partial: 'shared/table', locals: {table: table, editable: editable} %>
           <% end %>
         <% end %>
-      </dl>
-      <ul class="p-list">
-        <li class="p-list__item">議案の初版投稿日時: <%= article.formatted_created_at %></li>
-        <li class="p-list__item">議案の最終更新日時: <%= article.formatted_updated_at %></li>
-      </ul>
 
-      <% if !article.tables.nil? %>
-        <% article.tables.each do |table| %>
-          <%= render partial: 'shared/table', locals: {table: table, editable: editable} %>
-        <% end %>
-      <% end %>
-
-      <% unless article.comments.empty? && article.vote_results.empty? %>
-      <div class="p-strip">
-        <div class="row">
-          <div class="col-12">
-            <h4>議事録</h4>
-            <dl>
-              <% blocks.each do |block| %>
-              <% comment = article.comments.find{ |comment| comment.block_id == block.id } %>
-              <% vote_result = article.vote_results.find{ |vote| vote.block_id == block.id } %>
-              <% unless (comment.nil? || comment.body.strip.empty?) && vote_result.nil? %>
-                <dt><%= block.name %>の議事録</dt>
-                <% if !comment.nil? && !comment.body.strip.empty? %>
-                <dd><pre><%= comment.body %></pre></dd>
-                <% end %>
-                <% if article&.categories&.find{ |category| category.name == '採決'} %>
-                <% unless vote_result.nil? %>
-                <dd><%= "賛成 : #{vote_result.agree}<br/>反対 : #{vote_result.disagree}<br/>保留 : #{vote_result.onhold}" %></dd>
+        <% unless article.comments.empty? && article.vote_results.empty? %>
+        <div class="p-strip">
+          <div class="row">
+            <div class="col-12">
+              <h4>議事録</h4>
+              <dl>
+                <% blocks.each do |block| %>
+                <% comment = article.comments.find{ |comment| comment.block_id == block.id } %>
+                <% vote_result = article.vote_results.find{ |vote| vote.block_id == block.id } %>
+                <% unless (comment.nil? || comment.body.strip.empty?) && vote_result.nil? %>
+                  <dt><%= block.name %>の議事録</dt>
+                  <% if !comment.nil? && !comment.body.strip.empty? %>
+                  <dd><pre><%= comment.body %></pre></dd>
+                  <% end %>
+                  <% if article&.categories&.find{ |category| category.name == '採決'} %>
+                  <% unless vote_result.nil? %>
+                  <dd><%= "賛成 : #{vote_result.agree}<br/>反対 : #{vote_result.disagree}<br/>保留 : #{vote_result.onhold}" %></dd>
+                  <% end %>
+                  <% end %>
                 <% end %>
                 <% end %>
-              <% end %>
-              <% end %>
-            </dl>
+              </dl>
+            </div>
           </div>
         </div>
-      </div>
-      <% end %>
+        <% end %>
+      <% end # if article %>
 
       <footer class="p-pagination">
-        <% if page - 1 > 0 %>
+        <% if page - 1 == 0 %>
+        <a class="p-pagination__link--previous" href="?page=0">
+          <span class="p-pagination__label">Previous</span>
+          <span class="p-pagination__title">前回のブロック会議から</span>
+        </a>
+        <% elsif page - 1 > 0 %>
         <a class="p-pagination__link--previous" href="?page=<%= page - 1 %>">
           <span class="p-pagination__label">Previous</span>
-          <span class="p-pagination__title"><%= meeting.articles[page - 2].title %></span>
+          <span class="p-pagination__title"><%= h meeting.articles[page - 2].title %></span>
         </a>
         <% else %>
         <span class="p-pagination__link--previous is-disabled">
@@ -116,7 +134,7 @@
         <% if page + 1 <= max_page %>
         <a class="p-pagination__link--next" href="?page=<%= page + 1 %>">
           <span class="p-pagination__label">Next</span>
-          <span class="p-pagination__title"><%= meeting.articles[page].title %></span>
+          <span class="p-pagination__title"><%= h meeting.articles[page].title %></span>
         </a>
         <% else %>
         <span class="p-pagination__link--next is-disabled">
@@ -129,6 +147,8 @@
       <div class="p-navigation--sidebar">
         <div class="sidebar__content js-sidebar-toggle u-hide" aria-hidden="true">
           <ul class="p-list">
+            <hr>
+            <li><a href="<%= routes.meeting_path(id: meeting.id) %>?page=0">(0) 前回のブロック会議から</a></li>
             <% meeting.articles.each_with_index do |article, i| %>
               <hr>
               <li><a href="<%= routes.meeting_path(id: meeting.id) %>?page=<%= i + 1 %>">
@@ -142,6 +162,6 @@
 
 
   </div>
-  <% end # if article %>
+  <% end # if article || past_comments %>
 </div>
 </main>
