@@ -23,9 +23,14 @@ breaklines=true
 
 \section*{【0】前回のブロック会議から}
 \addcontentsline{toc}{section}{\protect\numberline{} { 【0】前回のブロック会議から } }%
+<% past_comments.each do |article_id, comments| %>
 \begin{spverbatim}
-前回の議事録。。。。
+<%= "(#{comments[0]&.dig(:article_number) || '番号なし'}) #{comments[0]&.dig(:title)}" %>
+
+<% comments.each do |comment| %><% if comment[:body] %><%= "#{comment[:block_name]} - #{comment[:body]}\n" %>
+<% elsif comment[:agree] %><%= "#{comment[:block_name]}の採決結果\n賛成:#{comment[:agree]}\n反対:#{comment[:disagree]}\n保留:#{comment[:onhold]}\n" %><% end %><% end %>
 \end{spverbatim}
+<% end %>
 
 <% articles.each do |article| %>
 

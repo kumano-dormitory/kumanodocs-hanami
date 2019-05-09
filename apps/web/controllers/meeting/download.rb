@@ -8,9 +8,11 @@ module Web::Controllers::Meeting
     end
 
     def initialize(meeting_repo: MeetingRepository.new,
-                   article_repo: ArticleRepository.new)
+                   article_repo: ArticleRepository.new,
+                   comment_repo: CommentRepository.new)
       @meeting_repo = meeting_repo
       @article_repo = article_repo
+      @comment_repo = comment_repo
     end
 
     def call(params)
@@ -19,7 +21,12 @@ module Web::Controllers::Meeting
         @meeting = @meeting_repo.find_with_articles(params[:id])
 
         @articles = @meeting.articles.map{ |article| @article_repo.find_with_relations(article.id) }
-        @tex_str = Admin::Views::Meeting::Download.render(format: :tex, meeting: @meeting, articles: @articles, type: :articles)
+        past_meeting = @meeting_repo.find_past_meeting(@meeting.id)
+        @past_comments = @comment_repo.by_past_meeting(past_meeting.id)
+                                      .group_by{|comment| comment[:article_id]}
+        @tex_str = Admin::Views::Meeting::Download.render(
+          format: :tex, meeting: @meeting, articles: @articles, past_comments: @past_comments, type: :articles
+        )
         # write_file(temp, @tex)
         # run_command(ptex2pdf -u -l, temp)
         # self.format = :pdf
