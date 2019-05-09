@@ -1,16 +1,48 @@
 <div class="p-strip">
   <div class="row">
-    <h2>管理者向けページ</h2>
+    <ul class="p-breadcrumbs">
+      <li class="p-breadcrumbs__item">管理者向けページ</li>
+      <li class="p-breadcrumbs__item"><strong>ブロック会議一覧</strong></li>
+    </ul>
+    <hr/>
+    <h1>
+      ブロック会議一覧
+      <% if page > 1 %>
+      <small>(<%= page %>ページ目)</small>
+      <% end %>
+    </h1>
     <p><a href="<%= routes.new_meeting_path %>" class="p-button--positive">ブロック会議日程を新たに作成</a></p>
-  </div>
-  <div class="row">
-    <h3>ブロック会議一覧</h3>
+    <% if meetings.length == 0 %>
+      <p>最後のページです</p>
+    <% end %>
     <ul class="p-list--divided">
       <% meetings.each do |meeting| %>
       <li class="p-list__item"><a href='<%= routes.meeting_path(id: meeting.id) %>' class="p-button--base u-no-margin--bottom">
-        <h4><%= meeting.date %>のブロック会議</h4>
+        <h4><%= meeting.formatted_date %>のブロック会議</h4>
       </a></li>
       <% end %>
     </ul>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <footer class="p-pagination">
+        <% if page - 1 > 0 %>
+          <a href="?page=<%= page - 1 %>" class="p-pagination__link--previous">
+            <span class="p-pagination__label">前のページ</span>
+          </a>
+        <% else %>
+          <span class="p-pagination__link--previous is-disabled"><span class="p-pagination__label">前のページ</span></span>
+        <% end %>
+        <% if meetings.length != 0 %>
+          <a href="?page=<%= page + 1 %>" class="p-pagination__link--next">
+            <span class="p-pagination__label">次のページ</span>
+          </a>
+        <% else %>
+          <span class="p-pagination__link--next is-disabled">
+            <span class="p-pagination__label">次のページ</span>
+          </span>
+        <% end %>
+      </footer>
+    </div>
   </div>
 </div>

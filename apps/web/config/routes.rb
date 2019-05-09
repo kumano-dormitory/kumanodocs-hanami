@@ -4,6 +4,8 @@
 # Example:
 # get '/hello', to: ->(env) { [200, {}, ['Hello from Hanami!']] }
 root to: 'article#index'
+# ドキュメント表示
+get '/article/doc', to: 'article#doc', as: :document
 get '/article/search', to: 'article#search', as: :search_article
 resources :article do
   resource :lock, only: [:new, :create]
@@ -16,3 +18,5 @@ patch '/meeting/:meeting_id/block/:block_id/comment/', to: 'comment#update', as:
 
 get '/article/:article_id/table/:table_id/lock/new', to: 'article/lock#new', as: :new_article_lock_for_table
 post '/article/:article_id/table/:table_id/lock', to: 'article/lock#create', as: :article_lock_for_table
+
+get '/meeting/:id/download', to: 'meeting#download', as: :download_meeting

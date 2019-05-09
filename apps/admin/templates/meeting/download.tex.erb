@@ -1,3 +1,4 @@
+<% if type == :articles %>
 <% if !meeting.nil? %>
 \documentclass[b5j,10pt]{ujarticle}
 \usepackage{listings}
@@ -59,3 +60,37 @@ breaklines=true
 \end{document}
 
 <% end #!meeting.ni? %>
+<% elsif type == :comments # type == :articles %>
+\documentclass[b5j,10pt]{ujarticle}
+\usepackage{listings}
+\usepackage{spverbatim}
+\usepackage{tocloft}
+\usepackage[top=5truemm,bottom=15truemm,left=5truemm,right=5truemm]{geometry}
+
+\lstset{
+breaklines=true
+}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+
+\title{ <%= meeting.date %> ブロック会議 議事録一覧 }
+\date{}
+\author{}
+
+\begin{document}
+\maketitle
+\vspace{-10ex}
+
+<% articles.each do |article| %>
+\begin{spverbatim}
+<%= article_formatted_title(article, checked: true) %>
+
+<% article.comments.each do |comment| %>
+<% if comment.body != "" %>
+<%= blocks.find{ |block| block.id == comment.block_id }&.name %> - <%= comment.body %>
+<% end %>
+<% end %>
+\end{spverbatim}
+<% end %>
+
+\end{document}
+<% end # type == :comments %>

@@ -20,7 +20,7 @@ module Admin::Controllers::Sessions
         user = @user_repo.find_by_name(params[:session][:name])
         if !user.nil? && user.authenticate(params[:session][:password])
           session[:user_id] = user.id
-          redirect_to routes.meetings_path
+          redirect_to routes.root_path
         else
           @notifications = {error: {status: "Authentication Failed:", message: "ユーザー名またはパスワードが間違っています. もう一度入力してください"}}
         end
