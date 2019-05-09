@@ -25,7 +25,7 @@ module Web::Controllers::Meeting
       if @page == 0
         # 議事録の０番を実装途中
         @past_meeting = @meeting_repo.find_past_meeting(@meeting.id)
-        @past_comments = @comment_repo.by_past_meeting(@past_meeting.id)
+        @past_comments = @comment_repo.by_meeting(@past_meeting.id)
                                       .group_by{|comment| comment[:article_id]}
       else
         if @meeting.articles.length > 0 # ブロック会議に議案が存在する場合
