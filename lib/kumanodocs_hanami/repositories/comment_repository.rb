@@ -24,7 +24,7 @@ class CommentRepository < Hanami::Repository
     end
   end
 
-  def by_past_meeting(meeting_id)
+  def by_meeting(meeting_id)
     query = "\
     SELECT * FROM ( \
       (SELECT blocks.id as block_id, blocks.name as block_name, articles.title, articles.id as article_id, articles.number as article_number, comments.body , null as agree, null as disagree, null as onhold FROM comments JOIN articles ON (comments.article_id = articles.id) JOIN blocks ON (comments.block_id = blocks.id) WHERE (articles.meeting_id = #{meeting_id})) \

@@ -1,4 +1,6 @@
-resources :meetings, only: [:index, :show]
+resources :meetings, only: [:index, :show] do
+  resources :comments, only: [:index]
+end
 resources :articles, only: [:index, :show]
 
 get '/search', to: 'articles#search'
