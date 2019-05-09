@@ -3,14 +3,14 @@
 #
 # Example:
 # get '/hello', to: ->(env) { [200, {}, ['Hello from Hanami!']] }
-root to: 'meeting#index'
+root to: 'meeting#top'
 resources :meeting do
   resources :article do
     resources :table, only: [:new, :create, :edit, :update, :destroy]
   end
 end
 resources :sessions, only: [:new, :create, :destroy]
-get '/logout', to: 'sessions#destroy' # aタグのリンクからログアウトできるように定義
+get '/logout', to: 'sessions#destroy', as: :logout # aタグのリンクからログアウトできるように定義
 
 get '/meeting/:id/articles/number/edit', to: 'article_number#edit', as: :edit_article_number
 patch '/meeting/:id/articles/number/', to: 'article_number#update', as: :article_number

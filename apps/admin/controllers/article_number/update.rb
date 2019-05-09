@@ -3,7 +3,7 @@ require 'hanami/validations'
 module Admin::Controllers::ArticleNumber
   class Update
     include Admin::Action
-    expose :meeting
+    expose :meeting, :for_download
 
     params Class.new(Hanami::Action::Params) {
       predicate(:int_values?, message: 'is not int values'){ |current|
@@ -29,6 +29,7 @@ module Admin::Controllers::ArticleNumber
           required(:articles) { unique_array? { each { int_values? }}}
         end
         required(:id).filled(:int?)
+        optional(:download).filled(:bool?)
       end
     }
 
@@ -50,10 +51,17 @@ module Admin::Controllers::ArticleNumber
         end
 
         @article_repo.update_number(params[:id], articles_number)
-        flash[:notifications] = {success: {status: "Success:", message: "正常に議案順序が保存されました"}}
-        redirect_to routes.meeting_path(id: params[:id])
+
+        if params[:download]
+          # 印刷用PDFダウンロードページからの遷移
+          redirect_to (routes.download_meeting_path(id: params[:id]) + "?articles=true")
+        else
+          # 議案順序の変更のみ
+          flash[:notifications] = {success: {status: "Success:", message: "正常に議案順序が保存されました"}}
+          redirect_to routes.meeting_path(id: params[:id])
+        end
       else
-        p params
+        @for_download = params[:download] || false
         @meeting = @meeting_repo.find_with_articles(params[:id])
         @notifications = {error: {status: "Error:", message: "指定された順序に不備があります. もう一度確認してください"}}
         self.status = 422
@@ -62,6 +70,10 @@ module Admin::Controllers::ArticleNumber
 
     def notifications
       @notifications
+    end
+
+    def navigation
+      @navigation = {pdf: @for_download}
     end
   end
 end

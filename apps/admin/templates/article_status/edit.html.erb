@@ -1,5 +1,12 @@
 <div class="p-strip">
   <div class="row">
+    <ul class="p-breadcrumbs">
+      <li class="p-breadcrumbs__item">管理者向けページ</li>
+      <li class="p-breadcrumbs__item"><a href="<%= routes.meetings_path %>">ブロック会議一覧</a></li>
+      <li class="p-breadcrumbs__item"><a href="<%= routes.meeting_path(id: meeting.id) %>"><%= meeting.formatted_date %>のブロック会議</a></li>
+      <li class="p-breadcrumbs__item"><strong>議案の状態の変更</strong></li>
+    </ul>
+    <hr/>
     <h2>資料委員会が確認済みか（通常議案か）の変更</h2>
     <%= form(meeting) %>
   </div>

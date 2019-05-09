@@ -33,6 +33,7 @@
             <li class="p-navigation__link <%= navigation[:root] ? 'is-selected' : '' %>" role="menuitem"><a href="/">新着議案</a></li>
             <li class="p-navigation__link <%= navigation[:meeting] ? 'is-selected' : '' %>" role="menuitem"><a href="/meeting">ブロック会議</a></li>
             <li class="p-navigation__link <%= navigation[:new_article] ? 'is-selected' : '' %>" role="menuitem"><a href="/article/new">議案投稿</a></li>
+            <li class="p-navigation__link <%= navigation[:download] ? 'is-selected' : '' %>" role="menuitem"><a href="/meeting/0/download">ダウンロード</a></li>
           </ul>
           <ul class="p-navigation__links u-image-position--right" role="menu">
             <li class="p-navigation__link <%= navigation[:login] ? 'is-selected' : '' %>" role="menuitem"><a href="/admin"><i class="p-icon--user"></i></a></li>
@@ -86,7 +87,20 @@
       <%= yield %>
     </div>
 
-    <footer>
+    <footer class="p-strip--light is-shallow">
+      <a href="#" class="p-top__link p-button--neutral">ページの上部へ戻る ↑<i class="p-icon--contextual-menu"></i></a>
+      <div class="row">
+        <p>
+          Copyright© 2019 Kumano Dormitory IT Section <small>(Some rights reserved <a href="https://creativecommons.org/licenses/by-nd/4.0/" target="_blank">CC BY-ND 4.0</a>)</small>
+        </p>
+        <p>This site is built with <a href="https://hanamirb.org/">hanami</a>, and <a href="https://github.com/kumano-dormitory/kumanodocs-hanami" class="p-link--external" target="_blank">Source Code</a> is public on GitHub</p>
+        <nav>
+          <ul class="p-inline-list--middot">
+            <li class="p-inline-list__item"><a href="http://kumano-ryo.com" class="p-link--external" target="_blank">熊野寮ホームページ</a></li>
+            <li class="p-inline-list__item"><a href="http://kumano-ryo.com/internal/" class="p-link--external" target="_blank">寮生向け内部ページ</a></li>
+          </ul>
+        </nav>
+      </div>
     </footer>
   </body>
 </html>

@@ -1,17 +1,15 @@
 <div class="p-strip">
   <div class="row">
-    <h1>ブロック会議日程 一覧</h1>
-
+    <h2>ブロック会議資料のPDF版のダウンロード</h2>
+    <p>ブロック会議を選んでください</p>
     <ul class="p-list--divided">
       <% meetings.each do |meeting| %>
       <li class="p-list__item">
-        <a href='<%= routes.meeting_path(id: meeting.id) %>' class="p-button--base u-no-margin--bottom">
+        <a href='<%= routes.download_meeting_path(id: meeting.id) %>' class="p-button--base u-no-margin--bottom">
           <h4 class="u-no-margin--bottom"><%= meeting.formatted_date %>のブロック会議</h4>
         </a>
       </li>
       <% end %>
     </ul>
   </div>
-</div>
-<div>
 </div>

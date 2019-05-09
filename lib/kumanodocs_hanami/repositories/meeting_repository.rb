@@ -36,6 +36,13 @@ class MeetingRepository < Hanami::Repository
     meetings.where(Sequel.lit('date >= ?', today - 1)).order{date.asc}.first
   end
 
+  def find_past_meeting(meeting_id)
+    query = "select * from meetings \
+    where date < (select date from meetings where id = #{meeting_id}) \
+    order by date desc limit 1"
+    meetings.read(query).map_to(Meeting).one
+  end
+
   # 締め切り前の議案一覧
   # nowを指定できるようにしてるのはテストしやすくするため
   def in_time(now: Time.now)
@@ -46,10 +53,11 @@ class MeetingRepository < Hanami::Repository
       .to_a
   end
 
-  def desc_by_date(limit: nil)
+  def desc_by_date(limit: nil, offset: 0)
     meetings
       .order(:date)
       .limit(limit)
+      .offset(offset)
       .reverse
       .to_a
   end

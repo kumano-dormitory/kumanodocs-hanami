@@ -3,8 +3,8 @@
     <div class="col-12">
       <ul class="p-breadcrumbs">
         <li class="p-breadcrumbs__item">管理者向けページ</li>
-        <li class="p-breadcrumbs__item"><a href="/admin">ブロック会議一覧</a></li>
-        <li class="p-breadcrumbs__item"><a href="<%= routes.meeting_path(id: article.meeting_id) %>"><%= article.meeting.date %>のブロック会議</a></li>
+        <li class="p-breadcrumbs__item"><a href="<%= routes.meetings_path %>">ブロック会議一覧</a></li>
+        <li class="p-breadcrumbs__item"><a href="<%= routes.meeting_path(id: article.meeting_id) %>"><%= article.meeting.formatted_date %>のブロック会議</a></li>
         <li class="p-breadcrumbs__item"><a href="<%= routes.meeting_articles_path(meeting_id: article.meeting_id) %>">議案一覧</a></li>
         <li class="p-breadcrumbs__item"><strong><%= article_formatted_title(article, number: false) %></strong></li>
       </ul>
@@ -23,7 +23,7 @@
         <dt>文責者</dt>
         <dd><%= article.author.name %></dd>
         <dt>ブロック会議日時</dt>
-        <dd><a href="<%= routes.meeting_path(id: article.meeting_id) %>" class="p-button--base u-no-margin--bottom"><%= article.meeting.date %></a></dd>
+        <dd><a href="<%= routes.meeting_path(id: article.meeting_id) %>" class="p-button--base u-no-margin--bottom"><%= article.meeting.formatted_date %></a></dd>
         <dt>議案の種別</dt>
         <dd>
           <ul class="p-inline-list--middot">
@@ -39,15 +39,15 @@
         <dt>資料委員会が印刷するか</dt>
         <dd><%= article.printed %></dd>
         <ul class="p-list">
-          <li class="p-list__item">議案の初版投稿日時: <%= article.created_at %></li>
-          <li class="p-list__item">議案の最終更新日時: <%= article.updated_at %></li>
+          <li class="p-list__item">議案の初版投稿日時: <%= article.formatted_created_at %></li>
+          <li class="p-list__item">議案の最終更新日時: <%= article.formatted_updated_at %></li>
         </ul>
         <dt>本文</dt>
         <% if article.format == 1 %>
         <%= render partial: 'shared/markdown', locals: {str: article.body} %>
         <% else %>
         <dd>
-          <pre><%= article.body %></pre>
+          <pre><%= h article.body %></pre>
         </dd>
         <% end %>
         <% if article&.categories&.find{ |category| category.name == '採決'} %>
