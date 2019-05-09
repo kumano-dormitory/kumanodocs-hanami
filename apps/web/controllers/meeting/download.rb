@@ -22,7 +22,7 @@ module Web::Controllers::Meeting
 
         @articles = @meeting.articles.map{ |article| @article_repo.find_with_relations(article.id) }
         past_meeting = @meeting_repo.find_past_meeting(@meeting.id)
-        @past_comments = @comment_repo.by_past_meeting(past_meeting.id)
+        @past_comments = @comment_repo.by_meeting(past_meeting.id)
                                       .group_by{|comment| comment[:article_id]}
         @tex_str = Admin::Views::Meeting::Download.render(
           format: :tex, meeting: @meeting, articles: @articles, past_comments: @past_comments, type: :articles

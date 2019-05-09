@@ -25,7 +25,7 @@ module Admin::Controllers::Meeting
         if params[:articles]
           @articles = @meeting.articles.map{ |article| @article_repo.find_with_relations(article.id) }
           past_meeting = @meeting_repo.find_past_meeting(@meeting.id)
-          @past_comments = @comment_repo.by_past_meeting(past_meeting.id)
+          @past_comments = @comment_repo.by_meeting(past_meeting.id)
                                         .group_by{|comment| comment[:article_id]}
           # 出力する議案の印刷フラグをすべてtrueにする
           @article_repo.update_status(@articles.map{ |article| { 'article_id' => article.id, 'printed' => true}})
