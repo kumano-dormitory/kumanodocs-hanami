@@ -12,10 +12,15 @@ class JsonRepository < Hanami::Repository
   def articles_by_meeting(id)
     query = "\
     select articles.id, title, body, format, articles.created_at, articles.updated_at, \
-    authors.name as author_name, checked, printed, number \
+           authors.name as author_name, checked, printed, number, \
+           string_agg(categories.name, '・') as category_name \
     from articles join meetings on articles.meeting_id = meetings.id \
                   join authors on articles.author_id = authors.id \
-    where meetings.id = #{id} order by articles.number asc nulls last, articles.id desc"
+                  join article_categories on articles.id = article_categories.article_id \
+                  join categories on article_categories.category_id = categories.id \
+    where meetings.id = #{id} \
+    group by articles.id, authors.id \
+    order by articles.number asc nulls last, articles.id desc"
     jsons.read(query).map.to_a
   end
 
@@ -64,10 +69,14 @@ class JsonRepository < Hanami::Repository
     search_query = "\
     SELECT articles.id, title, body, format, articles.created_at, articles.updated_at,\
            checked, printed, number, authors.name as author_name, \
-           meetings.date as meeting_date, meetings.deadline as meeting_deadline \
+           meetings.date as meeting_date, meetings.deadline as meeting_deadline, \
+           string_agg(categories.name, '・') as category_name \
     from articles join authors on articles.author_id = authors.id \
                   join meetings on articles.meeting_id = meetings.id \
+                  join article_categories on articles.id = article_categories.article_id \
+                  join categories on article_categories.category_id = categories.id \
     where (#{keywords_str}) \
+    group by articles.id, authors.id, meetings.id \
     order by meetings.date desc, articles.number asc, articles.id desc \
     limit #{limit} offset #{offset}"
     jsons.read(search_query).map.to_a
