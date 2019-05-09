@@ -7,6 +7,7 @@ module Api::Controllers::Meetings
 
     params do
       optional(:limit) { filled? & int? & gt?(0) }
+      optional(:offset) { filled? & int? & gt?(0) }
     end
 
     def initialize(json_repo: JsonRepository.new)
@@ -17,8 +18,9 @@ module Api::Controllers::Meetings
       if params.valid?
         limit = params[:limit] || DEFAULT_LIMIT
         limit = MAX_LIMIT if limit > MAX_LIMIT
+        offset = params[:offset] || 0
 
-        meetings = @json_repo.meetings_list(limit: limit)
+        meetings = @json_repo.meetings_list(limit: limit, offset: offset)
         self.body = JSON.pretty_generate({meetings: meetings})
         self.format = :json
       else
