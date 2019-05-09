@@ -1,7 +1,7 @@
 <div class="p-strip">
   <div class="row">
     <div class="col-12">
-      <h1><%= article_formatted_title(article, checked: (article.meeting.date >= Date.today)) %></h1>
+      <h1><%= article_formatted_title(article, checked: (article.meeting.date >= Date.today), number: false) %></h1>
       <% if editable %>
       <div class="row">
         <a class="p-button--positive" href="<%= routes.edit_article_path(article.id) %>">編集</a>

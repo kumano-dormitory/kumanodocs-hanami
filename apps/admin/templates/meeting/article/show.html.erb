@@ -9,7 +9,7 @@
         <li class="p-breadcrumbs__item"><strong><%= article_formatted_title(article, number: false) %></strong></li>
       </ul>
       <hr/>
-      <h1><%= article_numbered_title(article) %></h1>
+      <h2 class="full-width"><%= article_formatted_title(article, checked: true, number: false) %></h2>
       <div class="row">
         <a href="<%= routes.edit_meeting_article_path(meeting_id: article.meeting_id, id: article.id) %>" class="p-button--positive">編集</a>
         <%=
