@@ -8,6 +8,10 @@ class CommentRepository < Hanami::Repository
       .first
   end
 
+  def find_by_id(id)
+    comments.where(id: id).one
+  end
+
   def create_list(datas)
     transaction do
       datas.each do |data|
