@@ -24,3 +24,4 @@ get '/meeting/:id/download', to: 'meeting#download', as: :download_meeting
 # 議事録チャット
 get '/comment/:comment_id/message/new', to: 'comment/message#new', as: :new_comment_message
 post '/comment/:comment_id/message', to: 'comment/message#create', as: :comment_messages
+delete '/comment/message/:id', to: 'comment/message#destroy', as: :comment_message
