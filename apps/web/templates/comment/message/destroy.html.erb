@@ -1,0 +1,76 @@
+<div class="p-strip">
+  <div class="row">
+    <h2>議事録への返答の削除</h2>
+    <dl>
+      <dt><%= comment.block.name %>の議事録</dt>
+      <dd class="u-no-margin--bottom"><pre class="u-no-margin--bottom"><%= comment.body %></pre></dd>
+      <dd class="u-no-margin--bottom">
+        <ul class="p-list--divided u-no-margin--bottom">
+          <% messages.find{|id,_| id == comment.id}.fetch(1, nil)&.each do |msg| %>
+          <li class="p-list__item" style="<%= if message.id == msg.id then 'background-color:#ffcccb;' end %>">
+            <%= msg.send_by_article_author ? '議案提起者からの返答' : "#{comment.block.name}議事録投稿者からの返答" %>:
+            <div class="row">
+              <div class="col-12 prefix-1"><pre class="u-no-margin--bottom"><%= msg.body %></pre>
+                <ul class="p-inline-list u-no-margin--bottom">
+                  <li class="p-inline-list__item"><small>送信日時：<%= msg.formatted_created_at %></small></li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <% end %>
+        </ul>
+      </dd>
+    </dl>
+  </div>
+</div>
+<div class="p-strip is-shallow">
+  <div class="row">
+    <h4>この議事録への返答を削除します</h4>
+    <div class="col-12 prefix-1" style="background-color:#ffcccb;">
+      <%= message.send_by_article_author ? '議案提起者からの返答' : "#{comment.block.name}議事録投稿者からの返答" %>:
+      <div><pre class="u-no-margin--bottom"><%= message.body %></pre>
+        <p><small>送信日時：<%= message.formatted_created_at %></small></p>
+      </div>
+    </div>
+    <% if view_type == :select_role %>
+      <div class="p-notification--caution">
+        <p class="p-notification__response">
+          <span class="p-notification__status">注意:</span><br/>
+          議事録に対する返答の削除は、「議案提起者」のみできます<br/>
+          ただし、各ブロックの議事録投稿者からの返答に限っては「議事録投稿者」も削除できます<br/>
+          (それぞれ議案のパスワード、議事録のパスワードが必要です)<br/>
+          どちらの立場で返答を削除するか選択してください
+        </p>
+      </div>
+      <ul class="p-list">
+        <li>
+          <%=
+          form_for :message, routes.comment_message_path(id: message.id), method: :delete, class: "p-form" do
+            hidden_field :role, value: 'article-author'
+            submit '議案の提起者として削除', class: "p-button--negative"
+          end
+          %>
+        </li>
+        <li>
+          <%=
+          form_for :message, routes.comment_message_path(id: message.id), method: :delete, class: "p-form" do
+            hidden_field :role, value: 'comment-author'
+            submit '議事録の投稿者として削除', class: "p-button--negative"
+          end
+          %>
+        </li>
+      </ul>
+    <% elsif view_type == :delete %>
+      <%=
+      form_for :message, routes.comment_message_path(id: message.id), method: :delete, class: "p-form" do
+        hidden_field :role, value: (is_article_author ? 'article-author' : 'comment-author')
+        div do
+          label (is_article_author ? '議案のパスワード' : '議事録のパスワード'), for: :password
+          password_field :password, required: ''
+        end
+        submit '削除', class: "p-button--negative"
+      end
+      %>
+    <% end # view_type %>
+  </div>
+</div>
