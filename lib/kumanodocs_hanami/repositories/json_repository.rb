@@ -4,7 +4,7 @@ class JsonRepository < Hanami::Repository
     jsons.read(query).map.first
   end
 
-  def meetings_list(limit: 20, offset: offset)
+  def meetings_list(limit: 20, offset: 0)
     query = "select id, date, deadline from meetings order by date desc, id desc limit #{limit} offset #{offset}"
     jsons.read(query).map.to_a
   end
