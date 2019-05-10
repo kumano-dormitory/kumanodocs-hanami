@@ -47,17 +47,25 @@ class JsonRepository < Hanami::Repository
            vote_results.block_id, blocks.name as block_name \
     from vote_results  join blocks on vote_results.block_id = blocks.id \
     where vote_results.article_id = #{id}"
+    message_query = "\
+    select messages.id, messages.body, messages.comment_id, messages.send_by_article_author, \
+           blocks.name as block_name \
+    from messages join comments on (messages.comment_id = comments.id) \
+                  join blocks on (comments.block_id = blocks.id) \
+    where comments.article_id = #{id}"
     article = jsons.read(article_query).map.first
     return nil unless article
     categories = jsons.read(category_query).map.to_a
     comments = jsons.read(comment_query).map.to_a
     vote_results = jsons.read(vote_result_query).map.to_a
     tables = jsons.read(table_query).map.to_a
+    messages = jsons.read(message_query).map.to_a
     article.merge({
       categories: categories,
       comments: comments,
       vote_results: vote_results,
-      tables: tables
+      tables: tables,
+      messages: messages
     })
   end
 
