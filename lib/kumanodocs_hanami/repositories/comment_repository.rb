@@ -1,4 +1,9 @@
 class CommentRepository < Hanami::Repository
+  associations do
+    belongs_to :article
+    belongs_to :block
+  end
+
   def find(article_id, block_id)
     comments
       .where(article_id: article_id, block_id: block_id)
@@ -6,6 +11,18 @@ class CommentRepository < Hanami::Repository
       .reverse
       .to_a
       .first
+  end
+
+  def find_by_id(id)
+    comments.where(id: id).one
+  end
+
+  def find_with_relations(id)
+    aggregate(:article, :block)
+      .comments
+      .where(id: id)
+      .map_to(Comment)
+      .one
   end
 
   def create_list(datas)

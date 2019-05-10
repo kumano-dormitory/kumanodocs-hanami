@@ -1,0 +1,54 @@
+<div class="p-strip">
+  <div class="row">
+    <h2>議事録への返答</h2>
+    <dl>
+      <dt>議事録の本文</dt>
+      <dd><pre><%= comment.body %></pre></dd>
+    </dl>
+
+    <% if view_type == :select_role %>
+    <div class="p-notification--caution">
+      <p class="p-notification__response">
+        <span class="p-notification__status">注意:</span><br/>
+        議事録に対する返答は、「議案提起者」または「議事録の投稿者」のみ送信することができます<br/>
+        (それぞれ議案のパスワード、議事録のパスワードが必要です)<br/>
+        どちらの立場で返答を送信するか選択してください
+      </p>
+    </div>
+    <ul class="p-list">
+      <li>
+        <a href="<%= routes.new_comment_message_path(comment_id: comment.id) %>?role=article-author" class="p-button--neutral">
+          <h3 class="u-no-margin--bottom">議案の提起者として返答</h3>
+        </a>
+      </li>
+      <li>
+        <a href="<%= routes.new_comment_message_path(comment_id: comment.id) %>?role=comment-author" class="p-button--neutral">
+          <h3 class="u-no-margin--bottom">議事録の投稿者として返答</h3>
+        </a>
+      </li>
+    </ul>
+    <% elsif view_type == :form %>
+      <% if is_article_author %>
+        <h4>議案提起者として返答</h4>
+      <% else %>
+        <h4>議事録投稿者として返答</h4>
+      <% end %>
+      <%= form_for :message, routes.comment_messages_path(comment_id: comment.id),
+      method: :post, class: "p-form" do
+        div do
+          label (is_article_author ? '議案のパスワード' : '議事録のパスワード'), for: :password
+          password_field :password
+        end
+
+        div do
+          label "返答", for: :body
+          text_area :body, rows: 10
+        end
+
+        hidden_field :send_by_article_author, value: is_article_author
+
+        submit '送信'
+      end %>
+    <% end # view_type %>
+  </div>
+</div>
