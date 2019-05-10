@@ -20,8 +20,22 @@
     </div>
     <p>上記の内容を読んだ上で削除する場合は以下のボタンを押してください</p>
     <%= form_for :meeting, routes.meeting_path(id: meeting.id),
-    method: :delete, class: "delete_meeting" do
+    method: :delete, class: "delete_meeting", id: 'form' do
       hidden_field :confirm, value: true
-      submit 'このブロック会議日程の削除', class: "p-button--negative" end %>
+      button 'このブロック会議日程の削除', class: "p-button--negative p-modal__open-close" end %>
   </div>
 </div>
+
+<div class="p-modal" id="modal" style="display: none;">
+  <div class="p-modal__dialog" role="dialog" aria-labelledby="modal-title" aria-describedby="modal-description">
+    <header class="p-modal__header">
+      <h2 class="p-modal__title" id="modal-title">確認</h2>
+      <button class="p-modal__open-close" aria-label="Close active modal">Close</button>
+    </header>
+    <p id="modal-description">注意をよく読んだ上で、本当にこのブロック会議を削除しますか？<br/>削除しない場合は右上の「Close」から戻ってください</p>
+    <p>
+      <button id="submit" class="p-button--negative">削除する</button>
+    </p>
+  </div>
+</div>
+<%= javascript 'modal' %>
