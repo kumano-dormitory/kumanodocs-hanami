@@ -438,6 +438,18 @@ module Web::Views::Article
           div class: "p-form__group p-form-validation is-error" do
             label '本文', for: :body, class: "p-form__label"
             div class: "p-form__control" do
+              div id: "markdown-tab", style: "display:none;" do
+                nav class: "p-tabs" do
+                  ul class: "p-tabs__list u-no-margin--bottom", role: "tablist" do
+                    li class: "p-tabs__item", role: "presentation" do
+                      a 'Markdown形式での入力', id: "tab-write", href: "#write", class: "p-tabs__link", tabindex: 0, role: "tab", 'aria-controls': "article-body", 'aria-selected': "true"
+                    end
+                    li class: "p-tabs__item", role: "presentation" do
+                      a '本文のプレビュー', id: "tab-preview", href: "#preview", class: "p-tabs__link", tabindex: 0, role: "tab", 'aria-controls': "article-body"
+                    end
+                  end
+                end
+              end
               text_area :body, rows: 30, class: "p-form-validation__input", 'aria-invalid': "true", required: ""
               p class: "p-form-validation__message", role: "alert" do
                 if params.errors.dig(:article, :body).include?("must be filled")
@@ -446,13 +458,27 @@ module Web::Views::Article
                   "入力が不正です　文字列を入力してください"
                 end
               end
+              div '', id: "markdown-preview", class: "markdown"
             end
           end
         else
           div class: "p-form__group" do
             label '本文', for: :body, class: "p-form__label"
             div class: "p-form__control" do
+              div id: "markdown-tab", style: "display:none;" do
+                nav class: "p-tabs" do
+                  ul class: "p-tabs__list u-no-margin--bottom", role: "tablist" do
+                    li class: "p-tabs__item", role: "presentation" do
+                      a 'Markdown形式での入力', id: "tab-write", href: "#write", class: "p-tabs__link", tabindex: 0, role: "tab", 'aria-controls': "article-body", 'aria-selected': "true"
+                    end
+                    li class: "p-tabs__item", role: "presentation" do
+                      a '本文のプレビュー', id: "tab-preview", href: "#preview", class: "p-tabs__link", tabindex: 0, role: "tab", 'aria-controls': "article-body"
+                    end
+                  end
+                end
+              end
               text_area :body, rows: 30, required: ""
+              div '', id: "markdown-preview", class: "markdown"
             end
           end
         end
