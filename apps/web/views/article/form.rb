@@ -204,7 +204,20 @@ module Web::Views::Article
           div class: "p-form__group" do
             label '本文', for: :body, class: "p-form__label u-align-text--right"
             div class: "p-form__control" do
+              div id: "markdown-tab", style: "display:none;" do
+                nav class: "p-tabs" do
+                  ul class: "p-tabs__list u-no-margin--bottom", role: "tablist" do
+                    li class: "p-tabs__item", role: "presentation" do
+                      a 'Markdown形式での入力', id: "tab-write", href: "#write", class: "p-tabs__link", tabindex: 0, role: "tab", 'aria-controls': "article-body", 'aria-selected': "true"
+                    end
+                    li class: "p-tabs__item", role: "presentation" do
+                      a '本文のプレビュー', id: "tab-preview", href: "#preview", class: "p-tabs__link", tabindex: 0, role: "tab", 'aria-controls': "article-body"
+                    end
+                  end
+                end
+              end
               text_area :body, rows: 30, required: ""
+              div '', id: "markdown-preview", class: "markdown"
             end
           end
         end
