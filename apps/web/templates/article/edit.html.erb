@@ -7,6 +7,8 @@
         <a href="<%= routes.new_table_path %>?article_id=<%= article.id %>" class="p-button--positive">この議案に表を追加</a>
       </p>
       <%= form_update(meetings, categories, article: article) %>
+
+      <%= javascript 'markdown_preview' %>
     </div>
   </div>
 </div>

@@ -3,7 +3,9 @@
     <div class="col-12">
       <h2 class="u-no-margin">新規議案の投稿</h2>
       <p><a href="<%= routes.document_path %>?type=1" class="p-button--neutral">議案の投稿方法の説明</a></p>
+      
       <%= form_create(meetings, categories) %>
+      <%= javascript 'markdown_preview' %>
     </div>
   </div>
 </div>
