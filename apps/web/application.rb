@@ -236,6 +236,7 @@ module Web
         frame-ancestors 'self';
         base-uri 'self';
         default-src 'none';
+        manifest-src 'self';
         script-src 'self';
         connect-src 'self';
         img-src 'self' https: data:;

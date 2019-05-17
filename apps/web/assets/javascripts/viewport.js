@@ -1,5 +1,5 @@
 var baseW = 980;	//基準となるブレークポイント
-var baseMin = 480;
+var baseMin = 420;
 var iOSviewportW = 0;
 var ua = navigator.userAgent.toLowerCase();
 var isiOS = (ua.indexOf("iphone") > -1) || (ua.indexOf("ipod") > -1) || (ua.indexOf("ipad") > -1);
@@ -15,7 +15,7 @@ function updateMetaViewport(){
   if (w > baseMin){
     viewportContent = "width=device-width,initial-scale=1";
   }else{
-    viewportContent = "width="+baseMin+"px,initial-scale="+(w/baseMin);
+    viewportContent = "width="+baseMin+",initial-scale="+(w/baseMin);
   }
 	document.querySelector("meta[name='viewport']").setAttribute("content", viewportContent);
 }
