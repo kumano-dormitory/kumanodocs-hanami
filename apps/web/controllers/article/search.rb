@@ -21,5 +21,9 @@ module Web::Controllers::Article
       @articles = @article_repo.search(keywords_array, page, @limit)
       @max_page = if search_count == 0 then 1 else (search_count - 1) / @limit + 1 end
     end
+
+    def navigation
+      @navigation = {bn_search: true}
+    end
   end
 end

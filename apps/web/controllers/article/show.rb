@@ -25,5 +25,9 @@ module Web::Controllers::Article
         @article.meeting.deadline > Time.now
       end
     end
+
+    def navigation
+      @navigation = {bn_search: true}
+    end
   end
 end
