@@ -112,13 +112,15 @@
                               <ul class="p-inline-list u-no-margin--bottom">
                                 <li class="p-inline-list__item"><small>送信日時：<%= message.formatted_created_at %></small></li>
                                 <li class="p-inline-list__item">
-                                  <%=
-                                  form_for :message, routes.comment_message_path(id: message.id), method: :delete, class: "p-form p-form--inline" do
+                                  <div class="u-hide--small">
+                                    <%=
+                                    form_for :message, routes.comment_message_path(id: message.id), method: :delete, class: "p-form p-form--inline" do
                                     submit '', class: "p-button--base" do
-                                      i '', class: "p-icon--delete"
+                                    i '', class: "p-icon--delete"
                                     end
-                                  end
-                                  %>
+                                    end
+                                    %>
+                                  </div>
                                 </li>
                               </ul>
                             </div>
@@ -128,7 +130,7 @@
                       </ul>
                     </dd>
                   <% end %>
-                  <div class="u-align--right">
+                  <div class="u-align--right u-hide--small">
                     <a href="<%= routes.new_comment_message_path(comment_id: comment.id) %>" class="p-button--base u-no-margin--bottom" style="color:#999;">
                       <i class="p-icon--chevron"></i> 返答する
                     </a>
