@@ -12,6 +12,7 @@ resources :article do
 end
 resources :meeting, only: [:index, :show]
 resources :table, only: [:new, :create, :edit, :update, :destroy]
+resource :login, only: [:show, :create]
 
 get '/meeting/:meeting_id/block/:block_id/comment/edit', to: 'comment#edit', as: :edit_comment
 patch '/meeting/:meeting_id/block/:block_id/comment/', to: 'comment#update', as: :comments
