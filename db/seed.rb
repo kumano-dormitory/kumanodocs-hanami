@@ -72,6 +72,11 @@ meeting_rep.all.each do |meeting|
       end
     end
   end
+  articles = article_rep.by_meeting(meeting.id).to_a
+  numbers = (1..(articles.length)).to_a.shuffle
+  articles.each_with_index do |article, index|
+    article_rep.update(article.id, number: numbers[index])
+  end
 end
 
 [
@@ -101,4 +106,5 @@ article_rep.all.each do |article|
   end
 end
 
-user_repo.create(name: 'admin', crypt_password: BCrypt::Password.create('pass'))
+user_repo.create(name: 'admin', crypt_password: BCrypt::Password.create('pass'), authority: 1)
+user_repo.create(name: 'kumano', crypt_password: BCrypt::Password.create('pass'), authority: 0)
