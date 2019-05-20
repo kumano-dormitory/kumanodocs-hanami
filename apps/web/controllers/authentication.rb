@@ -9,8 +9,6 @@ module Web
     private
 
     def authenticate!
-      p 'authenticate!'
-      p authenticated?
       redirect_to routes.login_path unless authenticated?
     end
 
