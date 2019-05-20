@@ -20,11 +20,20 @@ module Web::Controllers::Login
       if params.valid?
         user = @user_repo.find_by_name(params[:login][:name])
         if !user.nil? && user.authority == 0 && user.authenticate(params[:login][:password])
-          cookies[:token] = {
-            value: generate_token(user.name, ENV['KUMANODOCS_AUTH_TOKEN_VERSION']),
-            path: '/',
-            httponly: !params[:standalone]
-          }
+          if params[:standalone]
+            cookies[:token] = {
+              value: generate_token(user.name, ENV['KUMANODOCS_AUTH_TOKEN_VERSION']),
+              path: '/',
+              httponly: false,
+              max_age: (3600 * 24 * 30)
+            }
+          else
+            cookies[:token] = {
+              value: generate_token(user.name, ENV['KUMANODOCS_AUTH_TOKEN_VERSION']),
+              path: '/',
+              httponly: true
+            }
+          end
           redirect_to routes.root_path
         end
       end
