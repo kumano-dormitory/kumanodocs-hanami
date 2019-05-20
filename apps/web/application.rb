@@ -1,6 +1,7 @@
 require 'hanami/helpers'
 require 'hanami/assets'
 require_relative './controllers/base'
+require_relative './controllers/authentication'
 
 module Web
   class Application < Hanami::Application
@@ -260,6 +261,7 @@ module Web
       controller.prepare do
         # include MyAuthentication # included in all the actions
         # before :authenticate!    # run an authentication before callback
+        include Web::Authentication
         include Web::BaseController
       end
 
