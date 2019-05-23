@@ -1,8 +1,11 @@
 var CACHE_NAME = 'kumanodocs-v1';
 var urlsToCache = [
   '/assets/application.css',
+  '/assets/auto_login.js',
   '/assets/bottom_navigation.js',
+  '/assets/clear_token.js',
   '/assets/contextual_menu.js',
+  '/assets/save_token.js',
   '/assets/viewport.js',
   '/assets/logo.png',
   '/manifest.json',

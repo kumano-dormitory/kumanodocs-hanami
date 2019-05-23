@@ -1,10 +1,11 @@
 module Web::Controllers::Login
   class Show
     include Web::Action
-    expose :standalone
+    expose :standalone, :invalid_token
 
     def call(params)
       @standalone = !!params[:standalone]
+      @invalid_token = !!params[:invalid]
       if @standalone && authenticated?
         redirect_to routes.root_path
       end
