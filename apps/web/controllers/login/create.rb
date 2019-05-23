@@ -3,6 +3,7 @@ require 'jwt'
 module Web::Controllers::Login
   class Create
     include Web::Action
+    expose :standalone
 
     params do
       required(:login).schema do
@@ -17,24 +18,26 @@ module Web::Controllers::Login
     end
 
     def call(params)
+      @standalone = !!params[:standalone]
       if params.valid?
         user = @user_repo.find_by_name(params[:login][:name])
         if !user.nil? && user.authority == 0 && user.authenticate(params[:login][:password])
-          if params[:standalone]
+          if @standalone
             cookies[:token] = {
               value: generate_token(user.name, ENV['KUMANODOCS_AUTH_TOKEN_VERSION']),
               path: '/',
               httponly: false,
               max_age: (3600 * 24 * 30)
             }
+            redirect_to routes.root_path + '?loggedin=true'
           else
             cookies[:token] = {
               value: generate_token(user.name, ENV['KUMANODOCS_AUTH_TOKEN_VERSION']),
               path: '/',
               httponly: true
             }
+            redirect_to routes.root_path
           end
-          redirect_to routes.root_path
         end
       end
       cookies[:token] = nil

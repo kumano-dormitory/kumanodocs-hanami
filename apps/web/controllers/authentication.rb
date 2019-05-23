@@ -9,7 +9,12 @@ module Web
     private
 
     def authenticate!
-      redirect_to routes.login_path unless authenticated?
+      if params[:standalone]
+        # PWAでのリダイレクトの場合はlocalstorageからtokenを削除する
+        redirect_to (routes.login_path + '?standalone=true&invalid=true') unless authenticated?
+      else
+        redirect_to routes.login_path unless authenticated?
+      end
     end
 
     def authenticated?

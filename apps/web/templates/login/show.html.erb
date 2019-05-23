@@ -15,5 +15,12 @@
 
           submit 'ログイン', class: 'p-button--positive u-float-right'
       end %>
+    <% if standalone %>
+      <% if invalid_token %>
+        <%= javascript 'clear_token' %>
+      <% else %>
+        <%= javascript 'auto_login' %>
+      <% end %>
+    <% end %>
   </div>
 </div>
