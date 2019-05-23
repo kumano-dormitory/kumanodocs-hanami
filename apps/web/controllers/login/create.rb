@@ -24,10 +24,10 @@ module Web::Controllers::Login
         if !user.nil? && user.authority == 0 && user.authenticate(params[:login][:password])
           if @standalone
             cookies[:token] = {
-              value: generate_token(user.name, ENV['KUMANODOCS_AUTH_TOKEN_VERSION']),
+              value: generate_token(user.name, ENV['KUMANODOCS_AUTH_TOKEN_VERSION'], 180),
               path: '/',
               httponly: false,
-              max_age: (3600 * 24 * 30)
+              max_age: (3600 * 24 * 180)
             }
             redirect_to routes.root_path + '?loggedin=true'
           else
