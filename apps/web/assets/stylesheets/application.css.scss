@@ -38,7 +38,7 @@ body {
 }
 .bottom-navigation-item {
   display: flex;
-  flex: 1 1 0;
+  flex: 2 1 0;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
@@ -83,6 +83,28 @@ body {
   padding-bottom: 10px;
   font-size: 0.875rem;
   font-weight: 650;
+  pointer-events: none;
+  transition-property: padding-top, color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 100ms;
+}
+.bottom-navigation-item-back {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 12px;
+  min-width: 60px;
+  max-width: 168px;
+  box-sizing: border-box;
+  border-right: thin solid rgba(0,0,0,0.32);
+}
+.bottom-navigation-icon-back {
+  fill: currentColor;
+  color: #304ffe;
+  padding-top: 16px;
+  height: 40px;
   pointer-events: none;
   transition-property: padding-top, color;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);

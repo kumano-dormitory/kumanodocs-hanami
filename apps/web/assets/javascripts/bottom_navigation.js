@@ -1,3 +1,4 @@
+const bn_back = document.getElementById('bottom-navigation-back');
 const bn_bl = document.getElementById('bottom-navigation-bl');
 const bn_home = document.getElementById('bottom-navigation-home');
 const bn_search = document.getElementById('bottom-navigation-search');
@@ -47,3 +48,11 @@ bn_search.addEventListener('click', event => {
   setClassName(bn_home, false);
   setClassName(bn_search, true);
 });
+
+const user_agent = navigator.userAgent;
+if (user_agent.indexOf('iPhone') >= 0 || user_agent.indexOf('iPad') >= 0 || user_agent.indexOf('iPod') >= 0) {
+  bn_back.style.display = 'flex';
+  bn_back.addEventListener('click', event => {
+    history.back();
+  });
+}
