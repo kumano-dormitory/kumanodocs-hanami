@@ -12,10 +12,19 @@ function updateMetaViewport(){
 	if(isiOS){
 		w = iOSviewportW;
 	}
-  if (w > baseMin){
-    viewportContent = "width=device-width,initial-scale=1";
-  }else{
-    viewportContent = "width="+baseMin+",initial-scale="+(w/baseMin);
+  if(window.matchMedia('(display-mode: standalone)').matches) {
+    // PWA起動
+    if (w > baseMin){
+      viewportContent = "width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no";
+    }else{
+      viewportContent = "width="+baseMin+",initial-scale="+(w/baseMin)+"minimum-scale="+(w/baseMin)+",maximum-scale="+(w/baseMin)+",user-scalable=no";
+    }
+  } else {
+    if (w > baseMin){
+      viewportContent = "width=device-width,initial-scale=1";
+    }else{
+      viewportContent = "width="+baseMin+",initial-scale="+(w/baseMin);
+    }
   }
 	document.querySelector("meta[name='viewport']").setAttribute("content", viewportContent);
 }
