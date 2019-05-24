@@ -1,3 +1,4 @@
+const bottom_navigation = document.getElementById('bottom-navigation');
 const bn_back = document.getElementById('bottom-navigation-back');
 const bn_bl = document.getElementById('bottom-navigation-bl');
 const bn_home = document.getElementById('bottom-navigation-home');
@@ -55,4 +56,12 @@ if (user_agent.indexOf('iPhone') >= 0 || user_agent.indexOf('iPad') >= 0 || user
   bn_back.addEventListener('click', event => {
     history.back();
   });
+}
+
+var isIPhoneX = ((window.devicePixelRatio === 3 && (window.screen.width === 375 || window.screen.height === 375 || window.screen.width === 414 || window.screen.width === 414)) ||
+  (window.devicePixelRatio === 2 && (window.screen.width === 414 || window.screen.height === 414)) ) &&
+  /iPhone/.test(window.navigator.userAgent);
+if (isIPhoneX) {
+  bottom_navigation.style.height = '90px';
+  bottom_navigation.style.paddingBottom = '34px';
 }
