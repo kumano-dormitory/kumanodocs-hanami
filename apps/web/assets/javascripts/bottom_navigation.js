@@ -62,6 +62,13 @@ var isIPhoneX = ((window.devicePixelRatio === 3 && (window.screen.width === 375 
   (window.devicePixelRatio === 2 && (window.screen.width === 414 || window.screen.height === 414)) ) &&
   /iPhone/.test(window.navigator.userAgent);
 if (isIPhoneX) {
-  bottom_navigation.style.height = '90px';
-  bottom_navigation.style.paddingBottom = '34px';
+  if (window.matchMedia('(display-mode: standalone)').matches) {
+    // pwa起動の場合は下部に余白を取る
+    bottom_navigation.style.height = '90px';
+    bottom_navigation.style.paddingBottom = '34px';
+  } else {
+    // ブラウザからのアクセスの場合は、ナビゲーションが下部に表示されたままにする
+    document.documentElement.style = 'height: 100%;overflow-y: scroll;-webkit-overflow-scrolling: touch;';
+    document.body.style = 'height: 100%;overflow-y: scroll;-webkit-overflow-scrolling: touch;';
+  }
 }
