@@ -17,6 +17,10 @@ module Web
             @type = 0
           end
         end
+
+        def navigation
+          @navigation = {bottom_navigation: true}
+        end
       end
     end
   end

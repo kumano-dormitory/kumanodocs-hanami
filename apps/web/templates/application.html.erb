@@ -1,12 +1,40 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Web</title>
+    <title>資料システム</title>
     <%= favicon %>
     <link rel="stylesheet" href="https://assets.ubuntu.com/v1/vanilla-framework-version-1.8.1.min.css" />
     <%= stylesheet 'application' %>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="資料システム">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="apple-touch-icon" href="/assets/icon512.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="/assets/icon.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="/assets/icon512.png">
+    <link rel="apple-touch-startup-image" href="/assets/launch-640x1136.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+    <!-- iPhone Xs Max (1242px x 2688px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)" href="/assets/launch-1242x2688.png">
+    <!-- iPhone Xr (828px x 1792px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)" href="/assets/launch-828x1792.png">
+    <!-- iPhone X, Xs (1125px x 2436px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" href="/assets/launch-1125x2436.png">
+    <!-- iPhone 8 Plus, 7 Plus, 6s Plus, 6 Plus (1242px x 2208px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)" href="/assets/launch-1242x2208.png">
+    <!-- iPhone 8, 7, 6s, 6 (750px x 1334px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" href="/assets/launch-750x1334.png">
+    <!-- iPad Pro 12.9" (2048px x 2732px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)" href="/assets/launch-2048x2732.png">
+    <!-- iPad Pro 11” (1668px x 2388px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)" href="/assets/launch-1668x2388.png">
+    <!-- iPad Pro 10.5" (1668px x 2224px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)" href="/assets/launch-1668x2224.png">
+    <!-- iPad Mini, Air (1536px x 2048px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)" href="/assets/launch-1536x2048.png">
+    <%= javascript 'service_worker' %>
     <meta name="viewport" content="width=device-width">
     <%= javascript 'viewport' %>
+    <link rel="manifest" href="/manifest.json" type="application/json">
   </head>
   <body>
     <header id="navigation" class="p-navigation" style="background-color: #e1f5fe">
@@ -36,7 +64,7 @@
             <li class="p-navigation__link <%= navigation[:download] ? 'is-selected' : '' %>" role="menuitem"><a href="/meeting/0/download">ダウンロード</a></li>
           </ul>
           <ul class="p-navigation__links u-image-position--right" role="menu">
-            <li class="p-navigation__link <%= navigation[:login] ? 'is-selected' : '' %>" role="menuitem"><a href="/admin"><i class="p-icon--user"></i></a></li>
+            <li class="p-navigation__link <%= navigation[:login] ? 'is-selected' : '' %>" role="menuitem"><a class="u-hide--small" href="/admin"><i class="p-icon--user"></i></a></li>
           </ul>
         </nav>
       </div>
@@ -87,7 +115,7 @@
       <%= yield %>
     </div>
 
-    <footer class="p-strip--light is-shallow">
+    <footer class="p-strip--light is-shallow u-hide--small">
       <a href="#" class="p-top__link p-button--neutral">ページの上部へ戻る ↑<i class="p-icon--contextual-menu"></i></a>
       <div class="row">
         <p class="full-width">
@@ -104,5 +132,42 @@
         </nav>
       </div>
     </footer>
+
+    <% if (navigation[:root] || navigation[:bn_meeting] || navigation[:bn_search] || navigation[:bottom_navigation]) %>
+    <nav class="bottom-navigation u-hide--medium u-hide--large" id="bottom-navigation">
+      <span class="bottom-navigation-item-back" id="bottom-navigation-back" style="display:none;">
+        <span class="bottom-navigation-icon-back">
+          <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+            <path opacity=".87" fill="none" d="M0 0h24v24H0V0z"/><path d="M17.51 3.87L15.73 2.1 5.84 12l9.9 9.9 1.77-1.77L9.38 12l8.13-8.13z"/>
+          </svg>
+        </span>
+      </span>
+      <span class="bottom-navigation-item" id="bottom-navigation-bl">
+        <span class="bottom-navigation-icon<%= navigation[:bn_meeting] ? '__active' : '' %>">
+          <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+            <path d="M17 13h-5v5h5v-5zM16 2v2H8V2H6v2H3.01L3 22h18V4h-3V2h-2zm3 18H5V9h14v11z"></path>
+          </svg>
+        </span>
+        <span class="bottom-navigation-label<%= navigation[:bn_meeting] ? '__active' : '' %>">ブロック会議</span>
+      </span>
+      <span class="bottom-navigation-item" id="bottom-navigation-home">
+        <span class="bottom-navigation-icon<%= navigation[:root] ? '__active' : '' %>">
+          <svg style="width:24px;height:24px;" viewBox="0 0 24 24">
+            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8h5z"></path>
+          </svg>
+        </span>
+        <span class="bottom-navigation-label<%= navigation[:root] ? '__active' : '' %>">新着議案</span>
+      </span>
+      <span class="bottom-navigation-item" id="bottom-navigation-search">
+        <span class="bottom-navigation-icon<%= navigation[:bn_search] ? '__active' : '' %>">
+          <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+          </svg>
+        </span>
+        <span class="bottom-navigation-label<%= navigation[:bn_search] ? '__active' : '' %>">議案検索</span>
+      </span>
+    </nav>
+    <%= javascript 'bottom_navigation' %>
+    <% end %>
   </body>
 </html>

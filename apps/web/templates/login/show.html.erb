@@ -1,0 +1,26 @@
+<div class="p-strip">
+  <div class="row">
+    <h2>資料システムへのログイン</h2>
+    <%= form_for :login, routes.login_path + (standalone ? '?standalone=true' : ''),
+                  method: :post, class: 'p-form p-form--stacked' do
+          div '', class: 'p-form__group' do
+            label 'ユーザー名', for: :name, class: 'p-form__label'
+            text_field :name, required: '', class: 'p-form__control'
+          end
+
+          div '', class: 'p-form__group' do
+            label 'パスワード', for: :password, class: 'p-form__label'
+            password_field :password, required: '', class: 'p-form__control'
+          end
+
+          submit 'ログイン', class: 'p-button--positive u-float-right'
+      end %>
+    <% if standalone %>
+      <% if invalid_token %>
+        <%= javascript 'clear_token' %>
+      <% else %>
+        <%= javascript 'auto_login' %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
