@@ -11,6 +11,8 @@ gem 'rake'
 gem 'sass'
 gem 'tzinfo'
 gem 'bcrypt'
+gem 'jwt'
+gem 'openssl', '~> 2.1'
 
 group :development do
   # Code reloading

@@ -48,7 +48,7 @@ module Web::Controllers::Meeting
     end
 
     def navigation
-      @navigation = {meeting: true}
+      @navigation = {meeting: true, bn_meeting: true}
     end
   end
 end

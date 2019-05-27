@@ -236,7 +236,7 @@ module Admin
         form-action 'self';
         frame-ancestors 'self';
         base-uri 'self';
-        default-src 'none';
+        default-src 'self';
         script-src 'self' https://ajax.googleapis.com/ajax/libs/;
         connect-src 'self';
         img-src 'self' https: data:;

@@ -118,6 +118,7 @@ GEM
     ice_nine (0.11.2)
     inflecto (0.0.2)
     jaro_winkler (1.5.2)
+    jwt (2.1.0)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
     mini_mime (1.0.1)
@@ -125,6 +126,7 @@ GEM
     minitest (5.11.3)
     nokogiri (1.10.3)
       mini_portile2 (~> 2.4.0)
+    openssl (2.1.2)
     parallel (1.17.0)
     parser (2.6.2.1)
       ast (~> 2.4.0)
@@ -202,7 +204,9 @@ DEPENDENCIES
   faker
   hanami (~> 1.2)
   hanami-model (~> 1.2)
+  jwt
   minitest
+  openssl (~> 2.1)
   pg
   rake
   rubocop
@@ -214,4 +218,4 @@ RUBY VERSION
    ruby 2.4.1p111
 
 BUNDLED WITH
-   1.15.4
+   2.0.1
