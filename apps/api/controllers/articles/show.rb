@@ -3,6 +3,7 @@ module Api::Controllers::Articles
     include Api::Action
 
     params do
+      required(:token).filled(:str?)
       required(:id) { filled? & int? & gt?(0) }
     end
 
