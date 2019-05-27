@@ -5,6 +5,7 @@ module Api::Controllers::Articles
     DEFAULT_WITH_ARTICLE_COUNT = 3
 
     params do
+      required(:token).filled(:str?)
       optional(:with_articles) { filled? & int? & gt?(0) & lt?(6)}
     end
 

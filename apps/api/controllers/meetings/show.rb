@@ -4,6 +4,7 @@ module Api::Controllers::Meetings
     accept :html, :json
 
     params do
+      required(:token).filled(:str?)
       required(:id) { filled? & int? & gt?(0) }
     end
 
