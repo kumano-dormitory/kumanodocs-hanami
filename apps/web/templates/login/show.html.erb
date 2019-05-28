@@ -4,8 +4,8 @@
     <%= form_for :login, routes.login_path + (standalone ? '?standalone=true' : ''),
                   method: :post, class: 'p-form p-form--stacked' do
           div '', class: 'p-form__group' do
-            label 'ユーザー名', for: :name, class: 'p-form__label'
-            text_field :name, required: '', class: 'p-form__control'
+            label 'ユーザー名', for: :username, class: 'p-form__label'
+            text_field :username, required: '', class: 'p-form__control'
           end
 
           div '', class: 'p-form__group' do

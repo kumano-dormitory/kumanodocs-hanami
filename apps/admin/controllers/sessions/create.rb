@@ -5,7 +5,7 @@ module Admin::Controllers::Sessions
 
     params do
       required(:session).schema do
-        required(:name).filled(:str?)
+        required(:adminname).filled(:str?)
         required(:password).filled(:str?)
       end
     end
@@ -17,7 +17,7 @@ module Admin::Controllers::Sessions
 
     def call(params)
       if params.valid?
-        user = @user_repo.find_by_name(params[:session][:name])
+        user = @user_repo.find_by_name(params[:session][:adminname])
         if !user.nil? && user.authority == 1 && user.authenticate(params[:session][:password])
           session[:user_id] = user.id
           redirect_to routes.root_path
@@ -27,7 +27,7 @@ module Admin::Controllers::Sessions
       else
         @notifications = {error: {status: "Error:", message: "入力された項目に不備があります. もう一度確認してください"}}
       end
-      @name = params[:session][:name]
+      @name = params[:session][:adminname]
     end
 
     def authenticate!
