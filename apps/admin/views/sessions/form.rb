@@ -4,9 +4,9 @@ module Admin::Views::Sessions
       form_for :session, routes.sessions_path, method: :post,
                 class: "p-form p-form--stacked" do
         div class: "p-form__group" do
-          label 'ユーザー名', for: :name, class: "p-form__label"
+          label 'ユーザー名', for: :adminname, class: "p-form__label"
           div class: "p-form__control" do
-            text_field :name, required: ""
+            text_field :adminname, required: ""
           end
         end
 
