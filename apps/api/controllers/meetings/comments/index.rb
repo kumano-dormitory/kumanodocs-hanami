@@ -4,6 +4,7 @@ module Api::Controllers::Meetings
       include Api::Action
 
       params do
+        required(:token).filled(:str?)
         required(:meeting_id) { filled? & int? & gt?(0) }
       end
 
