@@ -4,3 +4,4 @@ end
 resources :articles, only: [:index, :show]
 
 get '/search', to: 'articles#search'
+post '/login/getToken', to: 'login#token'

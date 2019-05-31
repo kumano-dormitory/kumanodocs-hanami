@@ -7,7 +7,7 @@ module Web::Controllers::Login
 
     params do
       required(:login).schema do
-        required(:name).filled(:str?)
+        required(:username).filled(:str?)
         required(:password).filled(:str?)
       end
       optional(:standalone).filled(:bool?)
@@ -20,7 +20,7 @@ module Web::Controllers::Login
     def call(params)
       @standalone = !!params[:standalone]
       if params.valid?
-        user = @user_repo.find_by_name(params[:login][:name])
+        user = @user_repo.find_by_name(params[:login][:username])
         if !user.nil? && user.authority == 0 && user.authenticate(params[:login][:password])
           if @standalone
             cookies[:token] = {
