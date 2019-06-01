@@ -186,6 +186,8 @@ GEM
     transproc (1.0.3)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
+    tzinfo-data (1.2019.1)
+      tzinfo (>= 1.0.0)
     unicode-display_width (1.5.0)
     url_mount (0.2.1)
       rack
@@ -213,9 +215,10 @@ DEPENDENCIES
   sass
   shotgun
   tzinfo
+  tzinfo-data
 
 RUBY VERSION
-   ruby 2.4.1p111
+   ruby 2.6.3p62
 
 BUNDLED WITH
    2.0.1
