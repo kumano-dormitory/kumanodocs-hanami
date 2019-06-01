@@ -44,7 +44,7 @@ module Web::Controllers::Login
     end
 
     def generate_token(name, version, exp_day = 7)
-      rsa_private = OpenSSL::PKey::RSA.new(ENV['KUMANODOCS_AUTH_TOKEN_PKEY'])
+      rsa_private = OpenSSL::PKey::RSA.new(KUMANODOCS_AUTH_TOKEN_PKEY)
       exp = Time.now.to_i + (exp_day * 24 * 3600)
       payload = {
         id: name,
