@@ -21,7 +21,7 @@ module Web
       token = cookies[:token]
       return false unless token
 
-      rsa_private = OpenSSL::PKey::RSA.new(ENV['KUMANODOCS_AUTH_TOKEN_PKEY'])
+      rsa_private = OpenSSL::PKey::RSA.new(KUMANODOCS_AUTH_TOKEN_PKEY)
       rsa_public = rsa_private.public_key
       begin
         decoded_token = JWT.decode(token, rsa_public, true, { algorithm: 'RS256' } )

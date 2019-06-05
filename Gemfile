@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '~> 2.4.1'
+ruby '~> 2.6'
 
 gem 'activesupport'
 gem 'hanami', '~> 1.2'
@@ -34,4 +34,5 @@ end
 
 group :production do
   # gem 'puma'
+  gem 'tzinfo-data'
 end
