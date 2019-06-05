@@ -57,7 +57,7 @@
         <% end %>
         <dl>
           <dt>文責者</dt>
-          <dd><%= article.author.name %></dd>
+          <dd><%= h article.author.name %></dd>
           <dt>本文</dt>
           <% if article.format == 1 %>
           <%= render partial: 'shared/markdown', locals: {str: article.body} %>
@@ -100,7 +100,7 @@
                 <% unless (comment.nil? || comment.body.strip.empty?) && vote_result.nil? %>
                   <dt><%= block.name %>の議事録</dt>
                   <% if !comment.nil? && !comment.body.strip.empty? %>
-                  <dd class="u-no-margin--bottom"><pre class="u-no-margin--bottom"><%= comment.body %></pre></dd>
+                  <dd class="u-no-margin--bottom"><pre class="u-no-margin--bottom"><%= h comment.body %></pre></dd>
                   <% if messages.find{|id,_| id == comment.id } %>
                     <dd class="u-no-margin--bottom">
                       <ul class="p-list--divided u-no-margin--bottom">
@@ -108,7 +108,7 @@
                         <li class="p-list__item">
                           <%= message.send_by_article_author ? '議案提起者からの返答' : "#{block.name}議事録投稿者からの返答" %>:
                           <div class="row">
-                            <div class="col-12 prefix-1"><pre class="u-no-margin--bottom"><%= message.body %></pre>
+                            <div class="col-12 prefix-1"><pre class="u-no-margin--bottom"><%= h message.body %></pre>
                               <ul class="p-inline-list u-no-margin--bottom">
                                 <li class="p-inline-list__item"><small>送信日時：<%= message.formatted_created_at %></small></li>
                                 <li class="p-inline-list__item">

@@ -14,7 +14,7 @@
       <% end %>
       <dl>
         <dt>文責者</dt>
-        <dd><%= article.author.name %></dd>
+        <dd><%= h article.author.name %></dd>
         <dt>ブロック会議日時</dt>
         <dd><a href="<%= routes.meeting_path(id: article.meeting_id) %>" class="p-button--base u-no-margin--bottom"><%= article.meeting.formatted_date %></a></dd>
         <dt>議案の種別</dt>
@@ -67,7 +67,7 @@
               <% unless comment.nil? && vote_result.nil? %>
                 <dt><%= block.name %>の議事録</dt>
                 <% if !comment.nil? && !comment.body.strip.empty? %>
-                  <dd class="u-no-margin--bottom"><pre class="u-no-margin--bottom"><%= comment.body %></pre></dd>
+                  <dd class="u-no-margin--bottom"><pre class="u-no-margin--bottom"><%= h comment.body %></pre></dd>
                   <% if messages.find{|id,_| id == comment.id } %>
                     <dd class="u-no-margin--bottom">
                       <ul class="p-list--divided u-no-margin--bottom">
@@ -75,7 +75,7 @@
                         <li class="p-list__item">
                           <%= message.send_by_article_author ? '議案提起者からの返答' : "#{block.name}議事録投稿者からの返答" %>:
                           <div class="row">
-                            <div class="col-12 prefix-1"><pre class="u-no-margin--bottom"><%= message.body %></pre>
+                            <div class="col-12 prefix-1"><pre class="u-no-margin--bottom"><%= h message.body %></pre>
                               <ul class="p-inline-list u-no-margin--bottom">
                                 <li class="p-inline-list__item"><small>送信日時：<%= message.formatted_created_at %></small></li>
                                 <li class="p-inline-list__item">

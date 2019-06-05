@@ -1,7 +1,7 @@
 <div class="p-strip">
   <div class="row">
     <div class="col-12">
-      <h1>検索結果― 『<%= keywords %>』</h1>
+      <h1>検索結果― 『<%= h keywords %>』</h1>
     </div>
   </div>
   <div class="row">
@@ -15,11 +15,11 @@
       <div class="p-card--highlighted u-no-padding--bottom u-no-padding--top">
         <h2 class="p-card__title">
           <a href="<%= routes.article_path(id: article.id) %>" class="p-link--strong">
-            <%= article.title %>
+            <%= h article.title %>
           </a>
         </h2>
-        <p class="p-card__content" style="max-width: none;"><%= article.body[0, 200] %></p>
-        <p class="p-card__content"><strong>ブロック会議：<%= article.meeting.formatted_date %> . 文責者：<%= article.author.name %></strong></p>
+        <p class="p-card__content" style="max-width: none;"><%= h article.body[0, 200] %></p>
+        <p class="p-card__content"><strong>ブロック会議：<%= article.meeting.formatted_date %> . 文責者：<%= h article.author.name %></strong></p>
       </div>
       <% end %>
     </div>
