@@ -25,8 +25,16 @@
             <% end %>
           </ul>
         </dd>
-        <dt>本文</dt>
-        <% if article.format == 1 %>
+        <dt>本文
+          <a class="u-float-right u-hide--small" href="<%= routes.article_path(id: article.id) %><%= enable_html ? '' : '?enable_html=true' %>">
+            <%= enable_html ? '議案本文をテキスト形式で表示' : '議案本文がHTML形式の場合の表示' %>
+          </a>
+        </dt>
+        <% if enable_html %>
+        <dd>
+          <div><%= article.body %></div>
+        </dd>
+        <% elsif article.format == 1 %>
         <%= render partial: 'shared/markdown', locals: {str: article.body} %>
         <% else %>
         <dd>

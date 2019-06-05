@@ -1,7 +1,7 @@
 module Web::Controllers::Article
   class Show
     include Web::Action
-    expose :article, :blocks, :editable, :messages
+    expose :article, :blocks, :editable, :messages, :enable_html
 
     def initialize(article_repo: ArticleRepository.new,
                    block_repo: BlockRepository.new,
@@ -24,6 +24,7 @@ module Web::Controllers::Article
         # 通常の編集期間
         @article.meeting.deadline > Time.now
       end
+      @enable_html = !!params[:enable_html]
     end
 
     def navigation
