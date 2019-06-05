@@ -7,3 +7,4 @@
 #Ignore other files
 /public/assets*
 /tmp
+.env
