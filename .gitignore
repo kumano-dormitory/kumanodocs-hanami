@@ -8,3 +8,7 @@
 /public/assets*
 /tmp
 .env
+
+#Ignore db export csv files
+/db/kumanodocs/*.sqlite3
+/db/kumanodocs/*.csv
