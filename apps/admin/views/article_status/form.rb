@@ -12,7 +12,7 @@ module Admin::Views::ArticleStatus
                                       value: article.id
 
             label '', for: "meeting-articles-#{idx}-checked" do
-              text article.title
+              text (h article.title)
               check_box :checked, name: "meeting[articles][][checked]",
                         id: "meeting-articles-#{idx}-checked",
                         class: "p-switch",
