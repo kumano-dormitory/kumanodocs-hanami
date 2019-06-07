@@ -2,7 +2,7 @@ module Web::Controllers::Comment
   module Message
     class Create
       include Web::Action
-      expose :comment, :is_article_author
+      expose :comment, :messages, :is_article_author
 
       params do
         required(:comment_id).filled(:int?)
@@ -23,7 +23,8 @@ module Web::Controllers::Comment
       end
 
       def call(params)
-        @comment = @comment_repo.find_by_id(params[:comment_id])
+        @comment = @comment_repo.find_with_relations(params[:comment_id])
+        @messages = @message_repo.by_article(@comment.article_id).group_by{|message| message.comment_id}
         if params.valid?
           article = @article_repo.find_with_relations(comment.article_id)
           if params[:message][:send_by_article_author]
