@@ -27,7 +27,7 @@ breaklines=true
 \begin{spverbatim}
 <%= "(#{comments[0]&.dig(:article_number) || '番号なし'}) #{comments[0]&.dig(:title)}" %>
 
-<% comments.each do |comment| %><% if comment[:body] %><%= "#{comment[:block_name]} - #{comment[:body]}\n" %>
+<% comments.each do |comment| %><% if comment[:body] && !comment[:body].empty? %><%= "#{comment[:block_name]} - #{comment[:body]}\n" %>
 <% elsif comment[:agree] %><%= "#{comment[:block_name]}の採決結果\n賛成:#{comment[:agree]}\n反対:#{comment[:disagree]}\n保留:#{comment[:onhold]}\n" %><% end %><% end %>
 \end{spverbatim}
 <% end %>
