@@ -80,6 +80,12 @@
               <% blocks.each do |block| %>
               <dt><%= block.name %>の議事録
                 <a class="p-button--positive is-inline" href="<%= routes.edit_comment_path(article_id: article.id, block_id: block.id) %>">編集</a>
+                <%=
+                form_for :message, routes.comment_path(article_id: article.id, block_id: block.id),
+                          method: :delete, class: "p-form p-form--inline" do
+                  submit '削除', class: "p-button--negative"
+                end
+                %>
               </dt>
               <% comment = article.comments.find{ |comment| comment.block_id == block.id } %>
               <% vote_result = article.vote_results.find{ |vote| vote.block_id == block.id } %>
