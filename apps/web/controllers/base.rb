@@ -26,6 +26,7 @@ module Web
     # 直近のブロック会議の締め切り後かどうかを返す 締め切り〜会議開始までならばtrue
     def after_deadline?(now: Time.now)
       recent_meeting = MeetingRepository.new.find_most_recent
+      return false unless recent_meeting
       now.between?(recent_meeting.deadline, recent_meeting.date.to_time + (60 * 60 * 22))
     end
 

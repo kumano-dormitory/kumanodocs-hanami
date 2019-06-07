@@ -1,6 +1,6 @@
 <div class="p-strip">
   <div class="row">
-    <h3>議事録への返答</h3>
+    <h2>議事録への返答の追加</h2>
     <dl>
       <dt><%= comment.block.name %>の議事録</dt>
       <dd class="u-no-margin--bottom"><pre class="u-no-margin--bottom"><%= comment.body %></pre></dd>
@@ -21,27 +21,11 @@
         </ul>
       </dd>
     </dl>
-
-    <% if is_article_author %>
-      <h4>議案提起者として返答</h4>
-    <% else %>
-      <h4><%= comment.block.name %> 議事録投稿者として返答</h4>
-    <% end %>
-    <%= form_for :message, routes.comment_messages_path(comment_id: comment.id),
-    method: :post, class: "p-form" do
-      div do
-        label (is_article_author ? '議案のパスワード' : '議事録のパスワード'), for: :password
-        password_field :password
-      end
-
-      div do
-        label "返答", for: :body
-        text_area :body, rows: 10
-      end
-
-      hidden_field :send_by_article_author, value: is_article_author
-
-      submit '送信'
-    end %>
+  </div>
+</div>
+<div class="p-strip is-shallow">
+  <div class="row">
+    <h3>返答の追加</h3>
+    <%= form_create(comment) %>
   </div>
 </div>
