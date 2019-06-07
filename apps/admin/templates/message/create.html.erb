@@ -1,0 +1,31 @@
+<div class="p-strip">
+  <div class="row">
+    <h2>議事録への返答の追加</h2>
+    <dl>
+      <dt><%= comment.block.name %>の議事録</dt>
+      <dd class="u-no-margin--bottom"><pre class="u-no-margin--bottom"><%= comment.body %></pre></dd>
+      <dd class="u-no-margin--bottom">
+        <ul class="p-list--divided u-no-margin--bottom">
+          <% messages.find{|id,_| id == comment.id}.fetch(1, nil)&.each do |msg| %>
+          <li class="p-list__item">
+            <%= msg.send_by_article_author ? '議案提起者からの返答' : "#{comment.block.name}議事録投稿者からの返答" %>:
+            <div class="row">
+              <div class="col-12 prefix-1"><pre class="u-no-margin--bottom"><%= msg.body %></pre>
+                <ul class="p-inline-list u-no-margin--bottom">
+                  <li class="p-inline-list__item"><small>送信日時：<%= msg.formatted_created_at %></small></li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <% end %>
+        </ul>
+      </dd>
+    </dl>
+  </div>
+</div>
+<div class="p-strip is-shallow">
+  <div class="row">
+    <h3>返答の追加</h3>
+    <%= form_create(comment) %>
+  </div>
+</div>
