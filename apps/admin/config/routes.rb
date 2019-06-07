@@ -20,5 +20,11 @@ patch '/meeting/:id/articles/status/', to: 'article_status#update', as: :article
 get '/article/:article_id/block/:block_id/comment/edit', to: 'meeting/article/comment#edit', as: :edit_comment
 patch '/article/:article_id/block/:block_id/comment/', to: 'meeting/article/comment#update', as: :comment
 
+get '/article/:article_id/comment/:comment_id/message/new', to: 'message#new', as: :new_message
+post '/article/:article_id/comment/:comment_id/message', to: 'message#create', as: :messages
+get '/article/:article_id/comment/:comment_id/message/:id/edit', to: 'message#edit', as: :edit_message
+patch '/article/:article_id/comment/:comment_id/message/:id', to: 'message#update', as: :message
+delete '/article/:article_id/comment/:comment_id/message/:id', to: 'message#destroy', as: :message
+
 # pdfをダウンロードするページ
 get '/meeting/:id/download', to: 'meeting#download', as: :download_meeting
