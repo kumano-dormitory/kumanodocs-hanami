@@ -1,3 +1,16 @@
+<% if for_download %>
+<div class="p-strip--light is-shallow u-no-padding--bottom">
+  <div class="row">
+    <ul class="p-breadcrumbs">
+      <li class="p-breadcrumbs__item"><a href='<%= routes.root_path %>'>管理者向けページ</a></li>
+      <li class="p-breadcrumbs__item"><a href='<%= routes.download_meeting_path(id: 0) %>'>印刷用PDFのダウンロード（ブロック会議の選択）</a></li>
+      <li class="p-breadcrumbs__item"><a href='<%= routes.download_meeting_path(id: meeting.id) %>'><%= meeting.formatted_date %>のブロック会議</a></li>
+      <li class="p-breadcrumbs__item"><strong>議案の並び替えてダウンロード</strong></li>
+    </ul>
+    <hr/>
+  </div>
+</div>
+<% else %>
 <div class="p-strip--light is-shallow u-no-padding--bottom">
   <div class="row">
     <ul class="p-breadcrumbs">
@@ -9,6 +22,7 @@
     <hr/>
   </div>
 </div>
+<% end %>
 <div class="p-strip is-shallow">
   <div class="row">
     <h2 class="u-no-margin--bottom">議案の並び替え</h2>
