@@ -84,6 +84,45 @@
                 <% unless vote_result.nil? %>
                 <dd><%= "賛成 : #{vote_result.agree}<br/>反対 : #{vote_result.disagree}<br/>保留 : #{vote_result.onhold}" %></dd>
                 <% end %>
+                <% if messages.find{|id,_| id == comment.id } %>
+                  <dd class="u-no-margin--bottom">
+                    <ul class="p-list--divided u-no-margin--bottom">
+                      <% messages.find{|id,_| id == comment.id}.fetch(1, nil)&.each do |message| %>
+                      <li class="p-list__item">
+                        <%= message.send_by_article_author ? '議案提起者からの返答' : "#{block.name}議事録投稿者からの返答" %>:
+                        <div class="row">
+                          <div class="col-12 prefix-1"><pre class="u-no-margin--bottom"><%= h message.body %></pre>
+                            <ul class="p-inline-list u-no-margin--bottom">
+                              <li class="p-inline-list__item"><small>送信日時：<%= message.formatted_created_at %></small></li>
+                              <li class="p-inline-list__item">
+                                <%=
+                                form_for :message, routes.edit_message_path(article_id: article.id, comment_id: comment.id, id: message.id),
+                                          method: :get, class: "p-form p-form--inline" do
+                                  submit '編集', class: "p-button--positive"
+                                end
+                                %>
+                              </li>
+                              <li class="p-inline-list__item">
+                                <%=
+                                form_for :message, routes.message_path(article_id: article.id, comment_id: comment.id, id: message.id),
+                                          method: :delete, class: "p-form p-form--inline" do
+                                  submit '削除', class: "p-button--negative"
+                                end
+                                %>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </li>
+                      <% end %>
+                    </ul>
+                  </dd>
+                <% end %>
+                <div class="u-align--right">
+                  <a href="<%= routes.new_message_path(article_id: article.id, comment_id: comment.id) %>" class="p-button--base u-no-margin--bottom" style="color:#999;">
+                    <i class="p-icon--chevron"></i> 新たに議事録への返答を追加する
+                  </a>
+                </div>
               <% else %>
                 <dd>議事録なし</dd>
               <% end %>
