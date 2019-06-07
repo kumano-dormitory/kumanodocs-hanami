@@ -112,15 +112,13 @@
                               <ul class="p-inline-list u-no-margin--bottom">
                                 <li class="p-inline-list__item"><small>送信日時：<%= message.formatted_created_at %></small></li>
                                 <li class="p-inline-list__item">
-                                  <div class="u-hide--small">
-                                    <%=
-                                    form_for :message, routes.comment_message_path(id: message.id), method: :delete, class: "p-form p-form--inline" do
-                                    submit '', class: "p-button--base" do
-                                    i '', class: "p-icon--delete"
-                                    end
-                                    end
-                                    %>
-                                  </div>
+                                  <%=
+                                  form_for :message, routes.comment_message_path(id: message.id), method: :delete, class: "p-form p-form--inline u-hide--small" do
+                                  submit '', class: "p-button--base" do
+                                  i '', class: "p-icon--delete"
+                                  end
+                                  end
+                                  %>
                                 </li>
                               </ul>
                             </div>
