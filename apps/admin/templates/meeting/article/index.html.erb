@@ -15,13 +15,14 @@
     <a href="<%= routes.new_meeting_article_path(meeting_id: meeting.id) %>" class="p-button--positive">このブロック会議に議案を追加</a>
     <% articles.each do |article| %>
     <div class="p-card u-no-margin--bottom">
-      <h3 class="p-card__title">
+      <h3 class="p-card__title full-width">
         <a href="<%= routes.meeting_article_path(meeting_id: article.meeting_id, id: article.id) %>">
-          <%= article_numbered_title(article) %>
+          <%= article_formatted_title(article) %>
         </a>
       </h3>
       <div class="p-card__content">
-        <p class="u-no-margin--bottom"><%= h article.body[0, 150] %></p>
+        <p class="u-no-margin--bottom full-width"><%= h article.body[0, 300] %></p>
+        <p class="p-heading--five u-no-margin--bottom">文責者：<%= h article.author.name %></p>
       </div>
     </div>
     <% end %>
