@@ -13,6 +13,7 @@
 <div class="p-strip is-shallow">
   <div class="row">
     <h1>議案の新規作成</h1>
-    <%= form_for_create(meeting, categories) %>
+    <%= form_for_create(meeting, categories, recent_articles) %>
+    <%= javascript 'article_reference' %>
   </div>
 </div>
