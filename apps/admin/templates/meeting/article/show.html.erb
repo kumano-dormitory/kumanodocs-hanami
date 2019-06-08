@@ -1,14 +1,18 @@
-<div class="p-strip">
+<div class="p-strip--light is-shallow u-no-padding--bottom">
+  <div class="row">
+    <ul class="p-breadcrumbs">
+      <li class="p-breadcrumbs__item"><a href='<%= routes.root_path %>'>管理者向けページ</a></li>
+      <li class="p-breadcrumbs__item"><a href="<%= routes.meetings_path %>">ブロック会議一覧</a></li>
+      <li class="p-breadcrumbs__item"><a href="<%= routes.meeting_path(id: article.meeting_id) %>"><%= article.meeting.formatted_date %>のブロック会議</a></li>
+      <li class="p-breadcrumbs__item"><a href="<%= routes.meeting_articles_path(meeting_id: article.meeting_id) %>">議案一覧</a></li>
+      <li class="p-breadcrumbs__item"><strong><%= article_formatted_title(article, number: false) %></strong></li>
+    </ul>
+    <hr/>
+  </div>
+</div>
+<div class="p-strip is-shallow">
   <div class="row">
     <div class="col-12">
-      <ul class="p-breadcrumbs">
-        <li class="p-breadcrumbs__item">管理者向けページ</li>
-        <li class="p-breadcrumbs__item"><a href="<%= routes.meetings_path %>">ブロック会議一覧</a></li>
-        <li class="p-breadcrumbs__item"><a href="<%= routes.meeting_path(id: article.meeting_id) %>"><%= article.meeting.formatted_date %>のブロック会議</a></li>
-        <li class="p-breadcrumbs__item"><a href="<%= routes.meeting_articles_path(meeting_id: article.meeting_id) %>">議案一覧</a></li>
-        <li class="p-breadcrumbs__item"><strong><%= article_formatted_title(article, number: false) %></strong></li>
-      </ul>
-      <hr/>
       <h2 class="full-width"><%= article_formatted_title(article, checked: true, number: false) %></h2>
       <div class="row">
         <a href="<%= routes.edit_meeting_article_path(meeting_id: article.meeting_id, id: article.id) %>" class="p-button--positive">編集</a>
@@ -76,6 +80,12 @@
               <% blocks.each do |block| %>
               <dt><%= block.name %>の議事録
                 <a class="p-button--positive is-inline" href="<%= routes.edit_comment_path(article_id: article.id, block_id: block.id) %>">編集</a>
+                <%=
+                form_for :message, routes.comment_path(article_id: article.id, block_id: block.id),
+                          method: :delete, class: "p-form p-form--inline" do
+                  submit '削除', class: "p-button--negative"
+                end
+                %>
               </dt>
               <% comment = article.comments.find{ |comment| comment.block_id == block.id } %>
               <% vote_result = article.vote_results.find{ |vote| vote.block_id == block.id } %>

@@ -1,12 +1,16 @@
-<div class="p-strip">
+<div class="p-strip--light is-shallow u-no-padding--bottom">
   <div class="row">
     <ul class="p-breadcrumbs">
-      <li class="p-breadcrumbs__item">管理者向けページ</li>
+      <li class="p-breadcrumbs__item"><a href='<%= routes.root_path %>'>管理者向けページ</a></li>
       <li class="p-breadcrumbs__item"><a href="<%= routes.meetings_path %>">ブロック会議一覧</a></li>
       <li class="p-breadcrumbs__item"><a href="<%= routes.meeting_path(id: meeting.id) %>"><%= meeting.formatted_date %>のブロック会議</a></li>
       <li class="p-breadcrumbs__item"><strong>ブロック会議日程の編集</strong></li>
     </ul>
     <hr/>
+  </div>
+</div>
+<div class="p-strip is-shallow">
+  <div class="row">
     <h1>ブロック会議日程の編集</h1>
     <%= form_update %>
   </div>
