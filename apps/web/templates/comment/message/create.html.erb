@@ -6,7 +6,7 @@
       <dd class="u-no-margin--bottom"><pre class="u-no-margin--bottom"><%= comment.body %></pre></dd>
       <dd class="u-no-margin--bottom">
         <ul class="p-list--divided u-no-margin--bottom">
-          <% messages.find{|id,_| id == comment.id}.fetch(1, nil)&.each do |msg| %>
+          <% messages.find{|id,_| id == comment.id}&.fetch(1, nil)&.each do |msg| %>
           <li class="p-list__item">
             <%= msg.send_by_article_author ? '議案提起者からの返答' : "#{comment.block.name}議事録投稿者からの返答" %>:
             <div class="row">
