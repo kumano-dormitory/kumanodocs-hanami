@@ -2,7 +2,7 @@ module Admin::Controllers::Meeting
   module Article
     class Create
       include Admin::Action
-      expose :meeting, :categories
+      expose :meeting, :categories, :recent_articles, :article_refs_selected
 
       params do
         required(:article).schema do
@@ -18,6 +18,8 @@ module Admin::Controllers::Meeting
           required(:format).filled(:bool?)
           required(:body).filled(:str?)
           optional(:vote_content).maybe(:str?)
+          optional(:same_refs_selected) { array? { each { int? } } }
+          optional(:other_refs_selected) { array? { each { int? } } }
         end
         required(:meeting_id).filled(:int?)
       end
@@ -25,11 +27,13 @@ module Admin::Controllers::Meeting
       def initialize(meeting_repo: MeetingRepository.new,
                      article_repo: ArticleRepository.new,
                      category_repo: CategoryRepository.new,
-                     author_repo: AuthorRepository.new)
+                     author_repo: AuthorRepository.new,
+                     article_reference_repo: ArticleReferenceRepository.new)
         @meeting_repo = meeting_repo
         @article_repo = article_repo
         @category_repo = category_repo
         @author_repo = author_repo
+        @article_reference_repo = article_reference_repo
         @notifications = {}
       end
 
@@ -50,12 +54,19 @@ module Admin::Controllers::Meeting
             format: (params[:article][:format] ? 1 : 0)
           )
           article = @article_repo.create_with_related_entities(author_params, category_params, article_params)
+          @article_reference_repo.create_refs(article.id, params[:article][:same_refs_selected], same: true)
+          @article_reference_repo.create_refs(article.id, params[:article][:other_refs_selected], same: false)
 
           flash[:notifications] = {success: {status: "Success", message: "正常に議案が作成されました"}}
           redirect_to routes.meeting_article_path(meeting_id: article.meeting_id, id: article.id)
         else
           @meeting = @meeting_repo.find(params[:meeting_id])
           @categories = @category_repo.all
+          @recent_articles = @article_repo.of_recent(months: 6, past_meeting_only: false, with_relations: true)
+          @article_refs_selected = {
+            same: params[:article][:same_refs_selected],
+            other: params[:article][:other_refs_selected]
+          }
           @notifications = {error: {status: "Error:", message: "入力された項目に不備があります. もう一度確認してください"}}
           self.status = 422
         end
