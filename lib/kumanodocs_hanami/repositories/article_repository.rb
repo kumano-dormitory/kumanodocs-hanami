@@ -21,7 +21,7 @@ class ArticleRepository < Hanami::Repository
         Sequel.ilike(authors[:name], "%#{key}%")
       )
     }
-    aggregate(:author, :meeting)
+    aggregate(:author, :meeting, :categories)
       .articles
       .select_append(authors[:name], meetings[:date])
       .join(authors)
