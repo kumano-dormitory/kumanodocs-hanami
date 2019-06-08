@@ -1,4 +1,12 @@
-<div class="p-strip">
+<div class="p-strip--light is-shallow u-no-padding--bottom">
+  <div class="row">
+    <ul class="p-breadcrumbs">
+      <li class="p-breadcrumbs__item"><strong>管理者向けページ</strong></li>
+    </ul>
+    <hr/>
+  </div>
+</div>
+<div class="p-strip is-shallow">
   <div class="row">
     <h1>資料委員会向け 管理者ページ</h1>
     <p>以下から操作を選択してください</p>
@@ -11,6 +19,20 @@
       <li class="p-list__item is-ticked">
         <h4>ブロック会議資料や議事録の印刷はこちら</h4>
         <p><a href='<%= routes.download_meeting_path(id: 0) %>' class="p-button--brand">ブロック会議資料・議事録の印刷</a></p>
+      </li>
+      <li class="p-list__item is-ticked">
+        <h4>議案の簡易検索はこちら</h4>
+        <h4><%=
+          form_for :article, routes.search_path, method: :get, class: "p-search-box" do
+            input type: 'search', name: 'query', class: 'p-search-box__input', placeholder: '検索', required: ''
+            button type: 'reset', class: 'p-search-box__reset', alt: 'reset' do
+              i class: 'p-icon--close'
+            end
+            button type: 'submit', class: 'p-search-box__button', alt: 'search' do
+              i class: 'p-icon--search'
+            end
+          end
+         %></h4>
       </li>
       <li class="p-list__item is-ticked">
         <h4>ブロック会議日程を新たに作成したい場合はこちら</h4>

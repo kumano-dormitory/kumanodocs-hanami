@@ -1,6 +1,15 @@
 <% if view_type == :meetings %>
 
-<div class="p-strip">
+<div class="p-strip--light is-shallow u-no-padding--bottom">
+  <div class="row">
+    <ul class="p-breadcrumbs">
+      <li class="p-breadcrumbs__item"><a href='<%= routes.root_path %>'>管理者向けページ</a></li>
+      <li class="p-breadcrumbs__item"><strong>印刷用PDFのダウンロード（ブロック会議の選択）</strong></li>
+    </ul>
+    <hr/>
+  </div>
+</div>
+<div class="p-strip is-shallow">
   <div class="row">
     <h2>印刷用PDFのダウンロード</h2>
     <p>ブロック会議を選んでください</p>
@@ -8,7 +17,7 @@
       <% meetings.each do |meeting| %>
       <li class="p-list__item">
         <a href='<%= routes.download_meeting_path(id: meeting.id) %>' class="p-button--base u-no-margin--bottom">
-          <h4 class="u-no-margin--bottom"><%= meeting.date %>のブロック会議</h4>
+          <h4 class="u-no-margin--bottom"><%= meeting.formatted_date %>のブロック会議</h4>
         </a>
       </li>
       <% end %>
@@ -18,10 +27,20 @@
 
 <% elsif view_type == :meeting %>
 
-<div class="p-strip">
+<div class="p-strip--light is-shallow u-no-padding--bottom">
+  <div class="row">
+    <ul class="p-breadcrumbs">
+      <li class="p-breadcrumbs__item"><a href='<%= routes.root_path %>'>管理者向けページ</a></li>
+      <li class="p-breadcrumbs__item"><a href='<%= routes.download_meeting_path(id: 0) %>'>印刷用PDFのダウンロード（ブロック会議の選択）</a></li>
+      <li class="p-breadcrumbs__item"><strong><%= meeting.formatted_date %>のブロック会議</strong></li>
+    </ul>
+    <hr/>
+  </div>
+</div>
+<div class="p-strip is-shallow">
   <div class="row">
     <h2>印刷用PDFのダウンロード</h2>
-    <h3><%= meeting.date %>のブロック会議</h3>
+    <h3><%= meeting.formatted_date %>のブロック会議</h3>
     <p>印刷する資料の種類を選んでください</p>
     <ul class="p-list">
       <li class="p-list__item">

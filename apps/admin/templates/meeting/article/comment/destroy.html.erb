@@ -1,0 +1,32 @@
+<div class="p-strip">
+  <div class="row">
+    <h2><%= article.title %>への議事録の削除</h2>
+    <h3>ブロック : <%= block.name %></h3>
+
+    <dl>
+      <dt>議事録本文</dt>
+      <dd><pre><%= comment ? comment.body : '議事録なし' %></pre></dd>
+    </dl>
+    <% if comment %>
+    <div class="p-notification--caution">
+      <p class="p-notification__response">
+        <span class="p-notification__status">警告:</span>
+        <h4>
+          議事録を削除した場合、その<u>議事録に対する返答</u>もすべて削除されます. 十分に注意してください<br/>
+          議事録の内容が間違っていて変更したい場合には「削除＆新規作成」ではなく「編集」をしてください.
+        </h4>
+      </p>
+    </div>
+    <%= form_for :comment, routes.comment_path(article_id: article.id, block_id: block.id),
+                  method: :delete, class: "p-form" do
+          div do
+            check_box :confirm_delete
+            label '削除の確認チェック', for: :confirm_delete
+          end
+          submit '削除', class: 'p-button--negative'
+        end %>
+    <% else %>
+      <a href='<%= routes.meeting_article_path(meeting_id: article.meeting_id, id: article.id) %>' class='p-button--positive'>議案詳細へ戻る</a>
+    <% end %>
+  </div>
+</div>

@@ -1,23 +1,28 @@
-<div class="p-strip">
+<div class="p-strip--light is-shallow u-no-padding--bottom">
   <div class="row">
     <ul class="p-breadcrumbs">
-      <li class="p-breadcrumbs__item">管理者向けページ</li>
+      <li class="p-breadcrumbs__item"><a href='<%= routes.root_path %>'>管理者向けページ</a></li>
       <li class="p-breadcrumbs__item"><a href="<%= routes.meetings_path %>">ブロック会議一覧</a></li>
       <li class="p-breadcrumbs__item"><a href="<%= routes.meeting_path(id: meeting.id) %>"><%= meeting.formatted_date %>のブロック会議</a></li>
       <li class="p-breadcrumbs__item"><strong>議案一覧</strong></li>
     </ul>
     <hr/>
+  </div>
+</div>
+<div class="p-strip is-shallow">
+  <div class="row">
     <h1><%= meeting.formatted_date %>のブロック会議の議案一覧</h1>
     <a href="<%= routes.new_meeting_article_path(meeting_id: meeting.id) %>" class="p-button--positive">このブロック会議に議案を追加</a>
     <% articles.each do |article| %>
     <div class="p-card u-no-margin--bottom">
-      <h3 class="p-card__title">
+      <h3 class="p-card__title full-width">
         <a href="<%= routes.meeting_article_path(meeting_id: article.meeting_id, id: article.id) %>">
-          <%= article_numbered_title(article) %>
+          <%= article_formatted_title(article) %>
         </a>
       </h3>
       <div class="p-card__content">
-        <p class="u-no-margin--bottom"><%= h article.body[0, 150] %></p>
+        <p class="u-no-margin--bottom full-width"><%= h article.body[0, 300] %></p>
+        <p class="p-heading--five u-no-margin--bottom">文責者：<%= h article.author.name %></p>
       </div>
     </div>
     <% end %>
