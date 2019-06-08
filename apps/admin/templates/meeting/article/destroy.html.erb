@@ -1,7 +1,7 @@
-<div class="p-strip">
+<div class="p-strip--light is-shallow u-no-padding--bottom">
   <div class="row">
     <ul class="p-breadcrumbs">
-      <li class="p-breadcrumbs__item">管理者向けページ</li>
+      <li class="p-breadcrumbs__item"><a href='<%= routes.root_path %>'>管理者向けページ</a></li>
       <li class="p-breadcrumbs__item"><a href="<%= routes.meetings_path %>">ブロック会議一覧</a></li>
       <li class="p-breadcrumbs__item"><a href="<%= routes.meeting_path(id: article.meeting_id) %>"><%= article.meeting.formatted_date %>のブロック会議</a></li>
       <li class="p-breadcrumbs__item"><a href="<%= routes.meeting_articles_path(meeting_id: article.meeting_id) %>">議案一覧</a></li>
@@ -11,6 +11,10 @@
       <li class="p-breadcrumbs__item"><strong>議案の削除</strong></li>
     </ul>
     <hr/>
+  </div>
+</div>
+<div class="p-strip is-shallow">
+  <div class="row">
     <h1>議案の削除</h1>
     <div class="p-notification--caution">
       <p class="p-notification__response">
