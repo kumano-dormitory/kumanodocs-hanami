@@ -110,7 +110,7 @@ class ArticleRepository < Hanami::Repository
   end
 
   def by_meeting(id)
-    aggregate(:categories).where(meeting_id: id)
+    aggregate(:author, :categories).where(meeting_id: id)
       .order(articles[:number].asc(nulls: :last), articles[:id].asc)
   end
 
