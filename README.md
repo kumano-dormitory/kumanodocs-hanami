@@ -120,6 +120,13 @@ And then, open [http://localhost:2300](http://localhost:2300).
 | comment_id | Foreign key | on delete cascade |
 | author_id | Foreign key | on delete cascade |
 
+### ArticleReference
+| attribute | type | |
+| ---- | ---- | ---- |
+| article_old_id | Primary & Foreign key | on delete cascade |
+| article_new_id | Primary & Foreign key | on delete cascade |
+| same | Boolean | |
+
 ## Lint
 
 Rubocop is ready to use!
