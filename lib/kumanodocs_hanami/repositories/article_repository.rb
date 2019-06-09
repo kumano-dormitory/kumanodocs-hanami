@@ -83,11 +83,11 @@ class ArticleRepository < Hanami::Repository
   def of_recent(months: 3, today: Date.today, past_meeting_only: false, with_relations: false)
     if past_meeting_only
       cond = Sequel.&(
-        Sequel.lit('? > ?', meetings[:date].qualified, today << 3),
+        Sequel.lit('? > ?', meetings[:date].qualified, today << months),
         Sequel.lit('? < ?', meetings[:date].qualified, today)
       )
     else
-      cond = Sequel.lit('? > ?', meetings[:date].qualified, today << 3)
+      cond = Sequel.lit('? > ?', meetings[:date].qualified, today << months)
     end
     (with_relations ? aggregate(:meeting, :categories, :author) : articles)
       .select_append(meetings[:date])
@@ -97,8 +97,8 @@ class ArticleRepository < Hanami::Repository
       .to_a
   end
 
-  def group_by_meeting(limit = 10, today: Date.today)
-    ret = of_recent(months: 3, today: today, past_meeting_only: false)
+  def group_by_meeting(limit = 10, today: Date.today, months: 3)
+    ret = of_recent(months: months, today: today, past_meeting_only: false)
       .group_by { |article| article.meeting_id }
       .map { |meeting_id, articles| [MeetingRepository.new.find(meeting_id), articles] }
     ret.slice(0, limit)

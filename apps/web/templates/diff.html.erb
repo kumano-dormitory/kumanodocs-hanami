@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>資料システム</title>
+    <%= favicon %>
+    <link rel="stylesheet" href="https://assets.ubuntu.com/v1/vanilla-framework-version-1.8.1.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/diff2html/2.9.0/diff2html.min.css" />
+    <%= stylesheet 'application' %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsdiff/4.0.1/diff.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/diff2html/2.9.0/diff2html-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/diff2html/2.9.0/diff2html.min.js"></script>
+    <%= javascript 'diff' %>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="資料システム">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="apple-touch-icon" href="/assets/icon512.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="/assets/icon.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="/assets/icon512.png">
+    <link rel="apple-touch-startup-image" href="/assets/launch-640x1136.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+    <!-- iPhone Xs Max (1242px x 2688px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)" href="/assets/launch-1242x2688.png">
+    <!-- iPhone Xr (828px x 1792px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)" href="/assets/launch-828x1792.png">
+    <!-- iPhone X, Xs (1125px x 2436px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" href="/assets/launch-1125x2436.png">
+    <!-- iPhone 8 Plus, 7 Plus, 6s Plus, 6 Plus (1242px x 2208px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)" href="/assets/launch-1242x2208.png">
+    <!-- iPhone 8, 7, 6s, 6 (750px x 1334px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" href="/assets/launch-750x1334.png">
+    <!-- iPad Pro 12.9" (2048px x 2732px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)" href="/assets/launch-2048x2732.png">
+    <!-- iPad Pro 11” (1668px x 2388px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)" href="/assets/launch-1668x2388.png">
+    <!-- iPad Pro 10.5" (1668px x 2224px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)" href="/assets/launch-1668x2224.png">
+    <!-- iPad Mini, Air (1536px x 2048px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)" href="/assets/launch-1536x2048.png">
+    <%= javascript 'service_worker' %>
+    <meta name="viewport" content="width=device-width">
+    <%= javascript 'viewport' %>
+    <link rel="manifest" href="/manifest.json" type="application/json">
+  </head>
+  <body>
+    <header id="navigation" class="p-navigation" style="background-color: #e1f5fe">
+      <div class="row">
+        <div class="p-navigation__banner">
+          <div class="p-navigation__logo">
+            <a class="p-navigation__link" href="/">
+              <img src="/assets/logo.png" alt="" class="p-navigation__image">
+            </a>
+          </div>
+          <a href="#navigation" class="p-navigation__toggle--open" title="menu">Menu</a>
+          <a href="#navigation-closed" class="p-navigation__toggle--close" title="close menu">Close menu</a>
+        </div>
+        <nav class="p-navigation__nav u-image-position" role="menubar">
+          <form class="p-search-box" action="/article/search">
+            <input type="search" class="p-search-box__input" name="search_article[keywords]" placeholder="議案検索" required="">
+            <button type="reset" class="p-search-box__reset" alt="reset"><i class="p-icon--close"></i></button>
+            <button type="submit" class="p-search-box__button" alt="search"><i class="p-icon--search"></i></button>
+          </form>
+          <span class="u-off-screen">
+            <a href="#main-content">Jump to main content</a>
+          </span>
+          <ul class="p-navigation__links" role="menu">
+            <li class="p-navigation__link" role="menuitem"><a href="/">新着議案</a></li>
+            <li class="p-navigation__link" role="menuitem"><a href="/meeting">ブロック会議</a></li>
+            <li class="p-navigation__link" role="menuitem"><a href="/article/new">議案投稿</a></li>
+            <li class="p-navigation__link" role="menuitem"><a href="/meeting/0/download">ダウンロード</a></li>
+          </ul>
+          <ul class="p-navigation__links u-image-position--right" role="menu">
+            <li class="p-navigation__link" role="menuitem"><a class="u-hide--small" href="/admin"><i class="p-icon--user"></i></a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="u-no-margin--top">
+      <% unless notifications.empty? %>
+        <div class="p-strip--accent is-shallow">
+          <div class="row">
+            <div class="col-12">
+              <% if notifications[:error] %>
+                <div class="p-notification--negative">
+                  <p class="p-notification__response">
+                    <span class="p-notification__status"><%= notifications[:error][:status] %></span>
+                    <%= notifications[:error][:message] %>
+                  </p>
+                </div>
+              <% end %>
+              <% if notifications[:caution] %>
+                <div class="p-notification--caution">
+                  <p class="p-notification__response">
+                    <span class="p-notification__status"><%= notifications[:caution][:status] %></span>
+                    <%= notifications[:caution][:message] %>
+                  </p>
+                </div>
+              <% end %>
+              <% if notifications[:success] %>
+                <div class="p-notification--positive">
+                  <p class="p-notification__response">
+                    <span class="p-notification__status"><%= notifications[:success][:status] %></span>
+                    <%= notifications[:success][:message] %>
+                  </p>
+                </div>
+              <% end %>
+              <% if notifications[:info] %>
+                <div class="p-notification--information">
+                  <p class="p-notification__response">
+                    <span class="p-notification__status"><%= notifications[:info][:status] %></span>
+                    <%= notifications[:info][:message] %>
+                  </p>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <%= yield %>
+    </div>
+
+    <footer class="p-strip--light is-shallow u-hide--small">
+      <a href="#" class="p-top__link p-button--neutral">ページの上部へ戻る ↑<i class="p-icon--contextual-menu"></i></a>
+      <div class="row">
+        <p class="full-width">
+          Copyright© 2019 Kumano Dormitory IT Section <small>(Some rights reserved <a href="https://creativecommons.org/licenses/by-nd/4.0/" target="_blank">CC BY-ND 4.0</a>)</small>
+        </p>
+        <% if navigation[:root] %>
+        <p>This site is built with <a href="https://hanamirb.org/" class="p-link--external" target="_blank">hanami</a>, and <a href="https://github.com/kumano-dormitory/kumanodocs-hanami" class="p-link--external" target="_blank">source code</a> is public on GitHub</p>
+        <% end %>
+        <nav>
+          <ul class="p-inline-list--middot">
+            <li class="p-inline-list__item"><a href="http://kumano-ryo.com" class="p-link--external" target="_blank">熊野寮ホームページ</a></li>
+            <li class="p-inline-list__item"><a href="http://kumano-ryo.com/internal/" class="p-link--external" target="_blank">寮生向け内部ページ</a></li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+
+    <% if (navigation[:root] || navigation[:bn_meeting] || navigation[:bn_search] || navigation[:bottom_navigation]) %>
+    <nav class="bottom-navigation u-hide--medium u-hide--large" id="bottom-navigation">
+      <span class="bottom-navigation-item-back" id="bottom-navigation-back" style="display:none;">
+        <span class="bottom-navigation-icon-back">
+          <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+            <path opacity=".87" fill="none" d="M0 0h24v24H0V0z"/><path d="M17.51 3.87L15.73 2.1 5.84 12l9.9 9.9 1.77-1.77L9.38 12l8.13-8.13z"/>
+          </svg>
+        </span>
+      </span>
+      <span class="bottom-navigation-item" id="bottom-navigation-bl">
+        <span class="bottom-navigation-icon<%= navigation[:bn_meeting] ? '__active' : '' %>">
+          <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+            <path d="M17 13h-5v5h5v-5zM16 2v2H8V2H6v2H3.01L3 22h18V4h-3V2h-2zm3 18H5V9h14v11z"></path>
+          </svg>
+        </span>
+        <span class="bottom-navigation-label<%= navigation[:bn_meeting] ? '__active' : '' %>">ブロック会議</span>
+      </span>
+      <span class="bottom-navigation-item" id="bottom-navigation-home">
+        <span class="bottom-navigation-icon<%= navigation[:root] ? '__active' : '' %>">
+          <svg style="width:24px;height:24px;" viewBox="0 0 24 24">
+            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8h5z"></path>
+          </svg>
+        </span>
+        <span class="bottom-navigation-label<%= navigation[:root] ? '__active' : '' %>">新着議案</span>
+      </span>
+      <span class="bottom-navigation-item" id="bottom-navigation-search">
+        <span class="bottom-navigation-icon<%= navigation[:bn_search] ? '__active' : '' %>">
+          <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+          </svg>
+        </span>
+        <span class="bottom-navigation-label<%= navigation[:bn_search] ? '__active' : '' %>">議案検索</span>
+      </span>
+    </nav>
+    <%= javascript 'bottom_navigation' %>
+    <% end %>
+  </body>
+</html>
