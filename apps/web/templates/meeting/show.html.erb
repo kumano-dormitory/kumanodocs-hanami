@@ -99,7 +99,9 @@
                 <a href="<%= routes.article_path(id: ref.id) %>" class="p-heading--four">
                   【<%= ref.meeting.formatted_date %>】<%= article_formatted_title(ref, number: false) %>
                 </a>
-                <button class="p-button--neutral u-no-margin--bottom">同議案:<%= article_ref.same %></button>
+                <% if article_ref.same %>
+                <a href="/article/diff?diff[old_article]=<%= article_ref.article_old_id %>&diff[new_article]=<%= article_ref.article_new_id %>" class="p-button--positive u-no-margin--bottom">議案の差分を表示！！</a>
+                <% end %>
               </li>
               <% end %>
               <hr>
