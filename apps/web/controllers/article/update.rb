@@ -1,7 +1,7 @@
 module Web::Controllers::Article
   class Update
     include Web::Action
-    expose :meetings, :categories, :confirm_update
+    expose :meetings, :categories, :confirm_update, :recent_articles, :article_refs_selected
 
     params do
       required(:id).filled(:int?)
@@ -15,6 +15,8 @@ module Web::Controllers::Article
         required(:format).filled(:bool?)
         required(:body).filled(:str?)
         optional(:vote_content).maybe(:str?)
+        optional(:same_refs_selected) { array? { each { int? } } }
+        optional(:other_refs_selected) { array? { each { int? } } }
         required(:get_lock).filled(:bool?)
         optional(:password).filled(:str?)
       end
@@ -23,11 +25,13 @@ module Web::Controllers::Article
     def initialize(article_repo: ArticleRepository.new,
                    author_repo: AuthorRepository.new,
                    meeting_repo: MeetingRepository.new,
-                   category_repo: CategoryRepository.new)
+                   category_repo: CategoryRepository.new,
+                   article_reference_repo: ArticleReferenceRepository.new)
       @article_repo = article_repo
       @author_repo = author_repo
       @meeting_repo = meeting_repo
       @category_repo = category_repo
+      @article_reference_repo = article_reference_repo
       @notifications = {}
     end
 
@@ -59,6 +63,8 @@ module Web::Controllers::Article
         self.status = 422
       end
       @categories = @category_repo.all
+      @recent_articles = @article_repo.of_recent(months: 3, past_meeting_only: false, with_relations: true)
+      @article_refs_selected = { same: params[:article][:same_refs_selected], other: params[:article][:other_refs_selected] }
     end
 
     private
@@ -79,6 +85,7 @@ module Web::Controllers::Article
       @author_repo.update(article.author_id, params[:article][:author])
       @article_repo.update(article.id, article_params)
       @author_repo.release_lock(article.author_id)
+      @article_reference_repo.update_refs(article.id, params[:article][:same_refs_selected], params[:article][:other_refs_selected])
       flash[:notifications] = {success: {status: "Success:", message: "正常に議案が編集されました"}}
       redirect_to routes.article_path(id: article.id)
     end

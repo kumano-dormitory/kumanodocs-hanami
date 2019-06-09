@@ -6,9 +6,10 @@
         <a href="<%= routes.document_path %>?type=2" class="p-button--neutral">議案の編集方法の説明</a>
         <a href="<%= routes.new_table_path %>?article_id=<%= article.id %>" class="p-button--positive">この議案に表を追加</a>
       </p>
-      <%= form_update(meetings, categories, article: article) %>
+      <%= form_update(meetings, categories, recent_articles, article_refs_selected, article: article) %>
 
       <%= javascript 'markdown_preview' %>
+      <%= javascript 'article_reference' %>
     </div>
   </div>
 </div>
