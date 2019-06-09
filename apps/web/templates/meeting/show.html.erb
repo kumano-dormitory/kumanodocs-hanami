@@ -88,6 +88,26 @@
           <% end %>
         <% end %>
 
+        <% if !article_refs.empty? %>
+        <dl>
+          <dt>関連議案</dt>
+          <dd>
+            <ul class="p-list--divided">
+              <% article_refs.each do |article_ref| %>
+              <% ref = if article_ref.article_old_id == article.id then article_ref.article_new else article_ref.article_old end %>
+              <li class="p-list__item">
+                <a href="<%= routes.article_path(id: ref.id) %>" class="p-heading--four">
+                  【<%= ref.meeting.formatted_date %>】<%= article_formatted_title(ref, number: false) %>
+                </a>
+                <button class="p-button--neutral u-no-margin--bottom">同議案:<%= article_ref.same %></button>
+              </li>
+              <% end %>
+              <hr>
+            </ul>
+          </dd>
+        </dl>
+        <% end %>
+
         <% unless article.comments.empty? && article.vote_results.empty? %>
         <div class="p-strip">
           <div class="row">

@@ -2,18 +2,20 @@ module Web::Controllers::Meeting
   class Show
     include Web::Action
     expose :meeting, :article, :past_meeting, :past_comments,
-           :messages, :blocks, :page, :max_page, :editable
+           :messages, :blocks, :page, :max_page, :editable, :article_refs
 
     def initialize(meeting_repo: MeetingRepository.new,
                    article_repo: ArticleRepository.new,
                    block_repo: BlockRepository.new,
                    comment_repo: CommentRepository.new,
-                   message_repo: MessageRepository.new)
+                   message_repo: MessageRepository.new,
+                   article_reference_repo: ArticleReferenceRepository.new)
       @meeting_repo = meeting_repo
       @article_repo = article_repo
       @block_repo = block_repo
       @comment_repo = comment_repo
       @message_repo = message_repo
+      @article_reference_repo = article_reference_repo
     end
 
     def call(params)
@@ -33,6 +35,7 @@ module Web::Controllers::Meeting
         if @meeting.articles.length > 0 # ブロック会議に議案が存在する場合
           @article = @article_repo.find_with_relations(@meeting.articles[@page - 1].id)
           @messages = @message_repo.by_article(@article.id).group_by{|message| message.comment_id}
+          @article_refs = @article_reference_repo.find_refs(@article.id)
           @editable = if after_deadline?
             # 追加議案の編集期間
             @meeting_repo.find_most_recent.id == @article.meeting_id && !@article.checked
