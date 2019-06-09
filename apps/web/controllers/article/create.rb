@@ -1,7 +1,7 @@
 module Web::Controllers::Article
   class Create
     include Web::Action
-    expose :meetings, :categories
+    expose :meetings, :categories, :recent_articles, :article_refs_selected
 
     params do
       required(:article).schema do
@@ -16,17 +16,21 @@ module Web::Controllers::Article
         required(:format).filled(:bool?)
         required(:body).filled(:str?)
         optional(:vote_content).maybe(:str?)
+        optional(:same_refs_selected) { array? { each { int? } } }
+        optional(:other_refs_selected) { array? { each { int? } } }
       end
     end
 
     def initialize(meeting_repo: MeetingRepository.new,
                    category_repo: CategoryRepository.new,
                    article_repo: ArticleRepository.new,
-                   author_repo: AuthorRepository.new)
+                   author_repo: AuthorRepository.new,
+                   article_reference_repo: ArticleReferenceRepository.new)
       @meeting_repo = meeting_repo
       @category_repo = category_repo
       @article_repo = article_repo
       @author_repo = author_repo
+      @article_reference_repo = article_reference_repo
       @notifications = {}
     end
 
@@ -66,6 +70,8 @@ module Web::Controllers::Article
         @notifications = {error: {status: "Error:", message: "入力された項目に不備があり投稿できません. もう一度確認してください"}}
       end
       @categories = @category_repo.all
+      @recent_articles = @article_repo.of_recent(months: 3, past_meeting_only: false, with_relations: true)
+      @article_refs_selected = { same: params[:article][:same_refs_selected], other: params[:article][:other_refs_selected] }
       self.status = 422
     end
 
@@ -88,6 +94,8 @@ module Web::Controllers::Article
         end
       }
       @article_repo.add_categories(article, category_params)
+      @article_reference_repo.create_refs(article.id, params[:article][:same_refs_selected], same: true)
+      @article_reference_repo.create_refs(article.id, params[:article][:other_refs_selected], same: false)
       if checked
         flash[:notifications] = {success: {status: "Success", message: "正常に議案が投稿されました"}}
       else
