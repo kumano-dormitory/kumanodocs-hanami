@@ -7,7 +7,7 @@
           【<%= article_old.meeting.date %>のBL会議】<%= article_formatted_title(article_old, number: false) %>
         </a>
       </h4>
-      <h2 class="u-no-padding--top u-no-margin--bottom" style="padding-left:4rem;">↓</h2>
+      <h2 class="u-no-padding--top u-no-margin--bottom" style="padding-left:4rem;">↓<small>(差分表示)</small></h2>
       <h4 class="full-width">
         新版：<a href="<%= routes.article_path(id: article_new.id) %>">
           【<%= article_new.meeting.date %>のBL会議】<%= article_formatted_title(article_new, number: false) %>
@@ -25,6 +25,18 @@
           <select class="options-label-value" id="diff-options-output-format" name="outputFormat">
             <option value="line-by-line" selected="">Line by Line(行ごとに比較)</option>
             <option value="side-by-side">Side by Side(左右に分けて比較)</option>
+          </select>
+        </div>
+        <div class="p-form__group">
+          <label for="diff-options-context" class="p-form__label">差分前後に表示する行数</label>
+          <select class="options-label-value" id="diff-options-context" name="outputFormat">
+            <option value="4" selected="">4行</option>
+            <option value="5">5行</option>
+            <option value="6">6行</option>
+            <option value="8">8行</option>
+            <option value="10">10行</option>
+            <option value="15">15行</option>
+            <option value="20">20行</option>
           </select>
         </div>
       </form>

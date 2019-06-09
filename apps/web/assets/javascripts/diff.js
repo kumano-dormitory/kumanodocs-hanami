@@ -1,5 +1,14 @@
-function toggleDiffHtml(target, outputFormat) {
+var diffOutputFormat = 'line-by-line';
+var diffOptionContext = '4';
+
+function toggleDiffHtml(target, outputFormat, context) {
   // line-by-line: 96, side-by-side: 65
+  if (outputFormat === '') {
+    outputFormat = diffOutputFormat;
+  }
+  if (context === '') {
+    context = diffOptionContext;
+  }
   var breakpoint = 96;
   if (outputFormat === 'side-by-side') {
     breakpoint = 65;
@@ -26,7 +35,7 @@ function toggleDiffHtml(target, outputFormat) {
       articleNewBody = articleNewBody + '\n' + line;
     }
   });
-  var unifiedDiff = Diff.createPatch("", articleOldBody, articleNewBody, articleOldTitle, articleNewTitle);
+  var unifiedDiff = Diff.createPatch("", articleOldBody, articleNewBody, articleOldTitle, articleNewTitle, {context: parseInt(context, 10)});
   var diffHtml = Diff2Html.getPrettyHtml(
     unifiedDiff,
     {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: outputFormat}
@@ -62,10 +71,14 @@ function filterArticles(select, value) {
 
 document.addEventListener('DOMContentLoaded', function() {
     const target = document.getElementById('diffRoot');
-    toggleDiffHtml(target, 'line-by-line');
+    toggleDiffHtml(target, 'line-by-line', '4');
     const diffOutputFormatSelect = document.getElementById('diff-options-output-format');
     if (diffOutputFormatSelect) {
-      diffOutputFormatSelect.addEventListener('change', (e) => toggleDiffHtml(target, e.target.value));
+      diffOutputFormatSelect.addEventListener('change', (e) => toggleDiffHtml(target, e.target.value, ''));
+    }
+    const diffOptionContextSelect = document.getElementById('diff-options-context');
+    if (diffOptionContextSelect) {
+      diffOptionContextSelect.addEventListener('change', (e) => toggleDiffHtml(target, '', e.target.value));
     }
     const diffSelectOldMeeting = document.getElementById('diff-old-meeting');
     const diffSelectOldArticle = document.getElementById('diff-old-article');
