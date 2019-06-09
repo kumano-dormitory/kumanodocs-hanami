@@ -72,6 +72,26 @@
         <% end %>
       <% end %>
 
+      <% if !article_refs.empty? %>
+      <dl>
+        <dt>関連議案</dt>
+        <dd>
+          <ul class="p-list--divided">
+            <% article_refs.each do |article_ref| %>
+            <% ref = if article_ref.article_old_id == article.id then article_ref.article_new else article_ref.article_old end %>
+            <li class="p-list__item">
+              <a href="<%= routes.meeting_article_path(meeting_id: ref.meeting_id, id: ref.id) %>" class="p-heading--four">
+                【<%= ref.meeting.formatted_date %>】<%= article_formatted_title(ref, number: false) %>
+              </a>
+              <button class="p-button--neutral u-no-margin--bottom">同議案:<%= article_ref.same %></button>
+            </li>
+            <% end %>
+            <hr>
+          </ul>
+        </dd>
+      </dl>
+      <% end %>
+
       <div class="p-strip">
         <div class="row">
           <div class="col-12">
@@ -128,11 +148,13 @@
                     </ul>
                   </dd>
                 <% end %>
-                <div class="u-align--right">
-                  <a href="<%= routes.new_message_path(article_id: article.id, comment_id: comment.id) %>" class="p-button--base u-no-margin--bottom" style="color:#999;">
-                    <i class="p-icon--chevron"></i> 新たに議事録への返答を追加する
-                  </a>
-                </div>
+                <% if comment %>
+                  <div class="u-align--right">
+                    <a href="<%= routes.new_message_path(article_id: article.id, comment_id: comment.id) %>" class="p-button--base u-no-margin--bottom" style="color:#999;">
+                      <i class="p-icon--chevron"></i> 新たに議事録への返答を追加する
+                    </a>
+                  </div>
+                <% end %>
               <% else %>
                 <dd>議事録なし</dd>
               <% end %>

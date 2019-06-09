@@ -127,9 +127,13 @@ class ArticleRepository < Hanami::Repository
       .order(articles[:number].asc(nulls: :last), articles[:id].asc)
   end
 
-  def find_with_relations(id)
-    article = aggregate(:article_categories, :meeting, :author, :categories, :comments, :vote_results, :tables)
+  def find_with_relations(id, minimum: false)
+    article = if minimum
+      aggregate(:meeting, :author, :categories).where(id: id).map_to(Article).one
+    else
+      aggregate(:article_categories, :meeting, :author, :categories, :comments, :vote_results, :tables)
                 .where(id: id).map_to(Article).one
+    end
   end
 
   def add_categories(article, datas)

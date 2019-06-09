@@ -23,4 +23,23 @@ class ArticleReferenceRepository < Hanami::Repository
       end
     end
   end
+
+  def find_refs(id)
+    ret = article_references
+      .where(Sequel.or([[:article_old_id, id],[:article_new_id, id]]))
+      .order(article_references[:same].desc,
+             article_references[:article_old_id].asc,
+             article_references[:article_new_id].asc)
+      .to_a
+    return ret if ret.empty?
+
+    article_repo = ArticleRepository.new
+    article = article_repo.find_with_relations(id, minimum: true)
+    ret.map { |ref|
+      ArticleReference.new(ref.to_h.merge({
+        article_old: (ref.article_old_id == id ? article : article_repo.find_with_relations(ref.article_old_id, minimum: true)),
+        article_new: (ref.article_new_id == id ? article : article_repo.find_with_relations(ref.article_new_id, minimum: true))
+      }))
+    }
+  end
 end
