@@ -1,6 +1,7 @@
 <div class="p-strip">
   <div class="row">
     <h1>議案の編集</h1>
-    <%= form_for_update(meetings, categories) %>
+    <%= form_for_update(meetings, categories, recent_articles, article_refs_selected) %>
+    <%= javascript 'article_reference' %>
   </div>
 </div>
