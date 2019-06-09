@@ -7,6 +7,7 @@ root to: 'article#index'
 # ドキュメント表示
 get '/article/doc', to: 'article#doc', as: :document
 get '/article/search', to: 'article#search', as: :search_article
+get '/article/diff', to: 'article#diff', as: :diff_article
 resources :article do
   resource :lock, only: [:new, :create]
 end

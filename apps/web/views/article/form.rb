@@ -694,5 +694,31 @@ module Web::Views::Article
         submit '検索', class: "p-button--positive"
       end
     end
+
+    def form_select_article(recent_meetings_with_articles)
+      meetings_for_select = recent_meetings_with_articles.map do |meeting, _|
+        ["#{meeting.formatted_date}のブロック会議", meeting.date]
+      end
+      meetings_for_select.insert(0, ['ブロック会議を選択してください', 0])
+      articles_for_select = recent_meetings_with_articles.map do |meeting, articles|
+        articles.map do |article|
+          ["#{meeting.date}のBL会議...#{article_formatted_title(article, number: false)}", article.id]
+        end
+      end
+      articles_for_select.reduce(:concat)
+      articles_for_select = articles_for_select[0].insert(0, ['議案を選択してください', 0])
+
+      form_for :diff, routes.diff_article_path, method: :get, class: "p-form" do
+        label '議案を選んでください（旧版）', class: "p-heading--four"
+        select :old_meeting, meetings_for_select
+        select :old_article, articles_for_select
+
+        label '議案を選んでください（新版）', class: "p-heading--four"
+        select :new_meeting, meetings_for_select
+        select :new_article, articles_for_select
+
+        submit '議案を比較'
+      end
+    end
   end
 end
