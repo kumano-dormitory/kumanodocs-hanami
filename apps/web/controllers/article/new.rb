@@ -1,17 +1,20 @@
 module Web::Controllers::Article
   class New
     include Web::Action
-    expose :meetings, :categories
+    expose :meetings, :categories, :recent_articles
 
     def initialize(meeting_repo: MeetingRepository.new,
+                   article_repo: ArticleRepository.new,
                    category_repo: CategoryRepository.new)
       @meeting_repo = meeting_repo
+      @article_repo = article_repo
       @category_repo = category_repo
       @notifications = {}
     end
 
     def call(_params)
       @categories = @category_repo.all
+      @recent_articles = @article_repo.of_recent(months: 3, past_meeting_only: false, with_relations: true)
       if after_deadline?
         # 追加議案の投稿受理期間
         @meetings = [@meeting_repo.find_most_recent]
