@@ -59,8 +59,8 @@ function searchArticle(search, select) {
 function initializeList(ulElement) {
   var choices = ulElement.getElementsByTagName('i');
   for (var i = 0; i < choices.length; i++) {
-    var li = choices[i].parentNode;
-    li.addEventListener('click', (e) => ulElement.removeChild(e.target.parentNode));
+    var icon = choices[i];
+    icon.addEventListener('click', (e) => ulElement.removeChild(e.target.parentNode));
   }
 }
 
