@@ -5,9 +5,13 @@ function toggleDiffHtml(target, outputFormat, context) {
   // line-by-line: 96, side-by-side: 65
   if (outputFormat === '') {
     outputFormat = diffOutputFormat;
+  } else {
+    diffOutputFormat = outputFormat;
   }
   if (context === '') {
     context = diffOptionContext;
+  } else {
+    diffOptionContext = context;
   }
   var breakpoint = 96;
   if (outputFormat === 'side-by-side') {
