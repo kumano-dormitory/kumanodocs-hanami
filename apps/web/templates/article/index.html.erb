@@ -5,11 +5,14 @@
       <ul class="p-list">
       <% articles_by_meeting.each do |meeting, articles| %>
         <li class="p-list__item">
-          <div class="p-card">
-            <h1 class="p-card__title"><a href='<%= routes.meeting_path(id: meeting.id) %>' class="p-link--strong"><%= meeting.formatted_date %>のブロック会議</a></h1>
+          <div class="p-card--highlighted">
+            <h1 class="p-card__title u-no-margin--bottom">
+              <a href='<%= routes.meeting_path(id: meeting.id) %>' class="p-link--strong">
+                <%= meeting.formatted_date %>のブロック会議</a>
+              </h1>
             <hr>
             <div class="p-card__content">
-              <ul class="p-list--divided">
+              <ul class="p-list--divided u-no-margin--bottom">
               <% articles.each_with_index do |article, idx| %>
                 <li class="p-list__item">
                   <a href='<%= routes.meeting_path(id: meeting.id) %>?page=<%= idx + 1 %>' class="p-button--base u-no-margin u-align-text--left">
