@@ -58,7 +58,7 @@
             <a href="#main-content">Jump to main content</a>
           </span>
           <ul class="p-navigation__links" role="menu">
-            <li class="p-navigation__link <%= navigation[:root] ? 'is-selected' : '' %>" role="menuitem"><a href="/">新着議案</a></li>
+            <li class="p-navigation__link <%= navigation[:articles] ? 'is-selected' : '' %>" role="menuitem"><a href="/article/">新着議案</a></li>
             <li class="p-navigation__link <%= navigation[:meeting] ? 'is-selected' : '' %>" role="menuitem"><a href="/meeting">ブロック会議</a></li>
             <li class="p-navigation__link <%= navigation[:new_article] ? 'is-selected' : '' %>" role="menuitem"><a href="/article/new">議案投稿</a></li>
             <li class="p-navigation__link <%= navigation[:download] ? 'is-selected' : '' %>" role="menuitem"><a href="/meeting/0/download">ダウンロード</a></li>
@@ -133,7 +133,7 @@
       </div>
     </footer>
 
-    <% if (navigation[:root] || navigation[:bn_meeting] || navigation[:bn_search] || navigation[:bottom_navigation]) %>
+    <% if (navigation[:root] || navigation[:articles] || navigation[:bn_meeting] || navigation[:bn_search] || navigation[:bottom_navigation]) %>
     <nav class="bottom-navigation u-hide--medium u-hide--large" id="bottom-navigation">
       <span class="bottom-navigation-item-back" id="bottom-navigation-back" style="display:none;">
         <span class="bottom-navigation-icon-back">
@@ -151,12 +151,12 @@
         <span class="bottom-navigation-label<%= navigation[:bn_meeting] ? '__active' : '' %>">ブロック会議</span>
       </span>
       <span class="bottom-navigation-item" id="bottom-navigation-home">
-        <span class="bottom-navigation-icon<%= navigation[:root] ? '__active' : '' %>">
+        <span class="bottom-navigation-icon<%= navigation[:articles] ? '__active' : '' %>">
           <svg style="width:24px;height:24px;" viewBox="0 0 24 24">
             <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8h5z"></path>
           </svg>
         </span>
-        <span class="bottom-navigation-label<%= navigation[:root] ? '__active' : '' %>">新着議案</span>
+        <span class="bottom-navigation-label<%= navigation[:articles] ? '__active' : '' %>">新着議案</span>
       </span>
       <span class="bottom-navigation-item" id="bottom-navigation-search">
         <span class="bottom-navigation-icon<%= navigation[:bn_search] ? '__active' : '' %>">
