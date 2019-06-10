@@ -3,11 +3,12 @@
 #
 # Example:
 # get '/hello', to: ->(env) { [200, {}, ['Hello from Hanami!']] }
-root to: 'article#index'
+root to: 'article#top'
 # ドキュメント表示
 get '/article/doc', to: 'article#doc', as: :document
 get '/article/search', to: 'article#search', as: :search_article
 get '/article/diff', to: 'article#diff', as: :diff_article
+get '/article/top', to: 'article#top'
 resources :article do
   resource :lock, only: [:new, :create]
 end
