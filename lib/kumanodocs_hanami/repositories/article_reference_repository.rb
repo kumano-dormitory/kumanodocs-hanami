@@ -18,8 +18,8 @@ class ArticleReferenceRepository < Hanami::Repository
     ret = article_references
       .where(Sequel.or([[:article_old_id, id],[:article_new_id, id]]))
       .order(article_references[:same].desc,
-             article_references[:article_old_id].asc,
-             article_references[:article_new_id].asc)
+             article_references[:article_old_id].desc,
+             article_references[:article_new_id].desc)
       .to_a
     return ret if ret.empty? || !with_relations
 
