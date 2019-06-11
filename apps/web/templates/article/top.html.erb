@@ -29,11 +29,13 @@
       <p>ブロック会議で議案を閲覧する場合は、以下のブロック会議のボタンを押してください.</p>
       <p>新たに投稿された議案を閲覧したい場合は新着議案のボタンを押してください.</p>
       <ul class="p-list">
+        <% if next_meeting %>
         <li>
           <a href="<%= routes.meeting_path(id: next_meeting.id) %>" class="p-button--neutral" style="background-color:#b3e5fc;width:100%;">
             <h3 class="u-no-margin--bottom full-width"><%= next_meeting.formatted_date %> のブロック会議</h3>
           </a>
         </li>
+        <% end %>
         <li>
           <a href="<%= routes.articles_path %>" class="p-button--neutral" style="background-color:#b2dfdb;width:100%;">
             <h3 class="u-no-margin--bottom full-width">新着議案一覧</h3>
