@@ -279,7 +279,7 @@ module Web::Views::Article
               end
             end
             select :same_references, recent_articles_for_select, multiple: true, style: 'height: 20rem', options: {selected: 0}
-            h4 '下に選択された議案が表示されます。選択を解除するには議案の『×』をクリックしてください。', class: "full-width"
+            h4 '下に過去のブロック会議の議案として選択された議案が表示されます。選択を解除するには議案の『×』をクリックしてください。', class: "full-width"
             ul id: 'same-refs-selected', class: "p-list--divided" do
               if same_refs_selected.empty?
                 text ''
@@ -303,9 +303,9 @@ module Web::Views::Article
 
         div class: "p-form__group" do
           label '', for: :other_references, class: "p-form__label u-align-text--right" do
-            text 'その他の参考議案'
+            text 'その他の関連議案'
             br
-            text '(参考議案として参照しておきたい議案がある場合は選択してください)'
+            text '(関連議案として参照しておきたい議案がある場合は選択してください)'
           end
           div class: "p-form__control" do
             div class: "p-search-box", style: 'margin-bottom: .8rem' do
@@ -316,7 +316,7 @@ module Web::Views::Article
               end
             end
             select :other_references, recent_articles_for_select, multiple: true, style: 'height: 20rem', options: {selected: 0}
-            h4 '下に選択された議案が表示されます。選択を解除するには議案の『×』をクリックしてください。', class: "full-width"
+            h4 '下に関連議案として選択された議案が表示されます。選択を解除するには議案の『×』をクリックしてください。', class: "full-width"
             ul id: 'other-refs-selected', class: "p-list--divided" do
               if other_refs_selected.empty?
                 text ''
@@ -607,7 +607,7 @@ module Web::Views::Article
               end
             end
             select :same_references, recent_articles_for_select, multiple: true, style: 'height: 20rem', options: {selected: 0}
-            h4 '下に選択された議案が表示されます。選択を解除するには議案の『×』をクリックしてください。', class: "full-width"
+            h4 '下に過去のブロック会議の議案として選択された議案が表示されます。選択を解除するには議案の『×』をクリックしてください。', class: "full-width"
             ul id: 'same-refs-selected', class: "p-list--divided" do
               if same_refs_selected.empty?
                 text ''
@@ -631,7 +631,7 @@ module Web::Views::Article
 
         div class: "p-form__group" do
           label '', for: :other_references, class: "p-form__label u-align-text--right" do
-            text 'その他の参考議案'
+            text 'その他の関連議案'
             br
             text '(参考議案として参照しておきたい議案がある場合は選択してください)'
           end
@@ -644,7 +644,7 @@ module Web::Views::Article
               end
             end
             select :other_references, recent_articles_for_select, multiple: true, style: 'height: 20rem', options: {selected: 0}
-            h4 '下に選択された議案が表示されます。選択を解除するには議案の『×』をクリックしてください。', class: "full-width"
+            h4 '下に関連議案として選択された議案が表示されます。選択を解除するには議案の『×』をクリックしてください。', class: "full-width"
             ul id: 'other-refs-selected', class: "p-list--divided" do
               if other_refs_selected.empty?
                 text ''
