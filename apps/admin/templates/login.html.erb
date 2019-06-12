@@ -3,8 +3,8 @@
   <head>
     <title>Web</title>
     <%= favicon %>
-    <%= stylesheet 'application' %>
     <link rel="stylesheet" href="https://assets.ubuntu.com/v1/vanilla-framework-version-1.8.1.min.css" />
+    <%= stylesheet 'application' %>
     <meta name="viewport" content="width=device-width">
     <%= javascript 'viewport' %>
   </head>
@@ -35,7 +35,7 @@
             <li class="p-navigation__link <%= navigation[:new_article] ? 'is-selected' : '' %>" role="menuitem"><a href="/article/new">議案投稿</a></li>
           </ul>
           <ul class="p-navigation__links u-image-position--right" role="menu">
-            <li class="p-navigation__link <%= navigation[:login] ? 'is-selected' : '' %>" role="menuitem"><a href="/admin"><i class="p-icon--user"></i></a></li>
+            <li class="p-navigation__link <%= navigation[:login] ? 'is-selected' : '' %>" role="menuitem"><a href="/admin"><i class="p-icon--user icon-settings"></i></a></li>
           </ul>
         </nav>
       </div>
