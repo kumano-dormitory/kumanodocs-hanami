@@ -64,7 +64,9 @@
             <li class="p-navigation__link <%= navigation[:download] ? 'is-selected' : '' %>" role="menuitem"><a href="/meeting/0/download">ダウンロード</a></li>
           </ul>
           <ul class="p-navigation__links u-image-position--right" role="menu">
-            <li class="p-navigation__link <%= navigation[:login] ? 'is-selected' : '' %>" role="menuitem"><a class="u-hide--small" href="/admin"><i class="p-icon--user"></i></a></li>
+            <li class="p-navigation__link <%= navigation[:login] ? 'is-selected' : '' %>" role="menuitem">
+              <a class="u-hide--small" href="/admin"><i class="p-icon--user icon-settings"></i></a>
+            </li>
           </ul>
         </nav>
       </div>
