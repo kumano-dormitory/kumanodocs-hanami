@@ -238,7 +238,7 @@ module Web
         base-uri 'self';
         default-src 'none';
         manifest-src 'self';
-        script-src 'self' https://cdnjs.cloudflare.com/ajax/libs/;
+        script-src 'self';
         connect-src 'self';
         img-src 'self' https: data:;
         style-src 'self' 'unsafe-inline' https:;
