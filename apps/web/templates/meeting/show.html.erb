@@ -41,16 +41,17 @@
           <dd><pre><% comments.each do |comment| %><% if comment[:body] %><%= h "#{comment[:block_name]} - #{comment[:body]}\n" %><% elsif comment[:agree] %><%= h "#{comment[:block_name]}の採決結果\n賛成:#{comment[:agree]}\n反対:#{comment[:disagree]}\n保留:#{comment[:onhold]}\n" %><% end %><% end %></pre></dd>
           <% end %>
         </dl>
-      <% end # if past_comments %>
+      <% end %>
 
       <% if article %>
-        <h3 style="max-width: 100%;"><%= article_formatted_title(article, checked: true) %></h3>
+        <h3 style="max-width: 100%;margin-bottom:0;"><%= article_formatted_title(article, checked: true) %></h3>
         <% if editable %>
         <div class="row">
-          <a class="p-button--positive" href="<%= routes.edit_article_path(article.id) %>">編集</a>
+          <span class="u-hide--small" style="margin-left:2.5rem"></span>
+          <a class="p-button--positive" href="<%= routes.edit_article_path(article.id) %>">議案の編集</a>
           <%=
           form_for :article, routes.article_path(article.id), method: :delete, class: "p-form p-form--inline" do
-            submit '削除', class: "p-button--negative"
+            submit '議案の削除', class: "p-button--negative"
           end
           %>
         </div>
@@ -86,6 +87,30 @@
           <% article.tables.each do |table| %>
             <%= render partial: 'shared/table', locals: {table: table, editable: editable} %>
           <% end %>
+        <% end %>
+
+        <% if !article_refs.empty? %>
+        <dl>
+          <dt>関連議案</dt>
+          <dd>
+            <ul class="p-list--divided">
+              <% article_refs.each do |article_ref| %>
+              <% ref = if article_ref.article_old_id == article.id then article_ref.article_new else article_ref.article_old end %>
+              <li class="p-list__item">
+                <div style="display: flex;justify-content: space-between;">
+                  <a href="<%= routes.article_path(id: ref.id) %>" class="p-heading--four p-link--strong u-no-margin--bottom full-width">
+                    【<%= ref.meeting.formatted_date %>】<%= article_formatted_title(ref, number: false) %>
+                  </a>
+                  <% if article_ref.same %>
+                  <a href="/article/diff?diff[old_article]=<%= article_ref.article_old_id %>&diff[new_article]=<%= article_ref.article_new_id %>" class="p-button--brand u-no-margin--bottom u-hide--small">議案の差分を表示</a>
+                  <% end %>
+                </div>
+              </li>
+              <% end %>
+              <hr>
+            </ul>
+          </dd>
+        </dl>
         <% end %>
 
         <% unless article.comments.empty? && article.vote_results.empty? %>
@@ -146,7 +171,7 @@
           </div>
         </div>
         <% end %>
-      <% end # if article %>
+      <% end %>
 
       <footer class="p-pagination">
         <% if page - 1 == 0 %>
@@ -178,14 +203,26 @@
     <div class="col-3 p-divider__block">
       <div class="p-navigation--sidebar">
         <div class="sidebar__content js-sidebar-toggle u-hide" aria-hidden="true">
-          <ul class="p-list">
+          <ul class="p-list u-no-margin--bottom">
             <hr>
-            <li><a href="<%= routes.meeting_path(id: meeting.id) %>?page=0">(0) 前回のブロック会議から</a></li>
-            <% meeting.articles.each_with_index do |article, i| %>
+            <li class="p-list__item">
+              <a href="<%= routes.meeting_path(id: meeting.id) %>?page=0" <%= article ? '' : 'style="font-weight:950;"' %>>
+                (0) 前回のブロック会議から
+              </a>
+            </li>
+            <% meeting.articles.each_with_index do |nav_article, i| %>
               <hr>
-              <li><a href="<%= routes.meeting_path(id: meeting.id) %>?page=<%= i + 1 %>">
-                <%= article_numbered_title(article) %>
-              </a></li>
+              <li class="p-list__item">
+                <% if nav_article.id == article&.id %>
+                <a href="<%= routes.meeting_path(id: meeting.id) %>?page=<%= i + 1 %>" style="font-weight:950;">
+                <%= article_numbered_title(nav_article) %>
+                </a>
+                <% else %>
+                <a href="<%= routes.meeting_path(id: meeting.id) %>?page=<%= i + 1 %>">
+                <%= article_numbered_title(nav_article) %>
+                </a>
+                <% end %>
+              </li>
             <% end %>
           </ul>
         </div>

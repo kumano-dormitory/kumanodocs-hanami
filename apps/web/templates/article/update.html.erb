@@ -11,9 +11,10 @@
       </div>
       <% end %>
 
-      <%= form_update(meetings, categories, confirm_update: confirm_update) %>
+      <%= form_update(meetings, categories, recent_articles, article_refs_selected, confirm_update: confirm_update) %>
 
       <%= javascript 'markdown_preview' %>
+      <%= javascript 'article_reference' %>
     </div>
   </div>
 </div>

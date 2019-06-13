@@ -1,0 +1,58 @@
+<div class="p-strip">
+  <div class="row row-wide">
+    <h1>議案の差分表示(Diff) <small><a href="/article/diff" class="p-button--neutral u-no-margin--bottom">他の議案を比較</a></small></h1>
+    <% if article_old && article_new %>
+      <h4 class="full-width u-no-margin--bottom">
+        旧版：<a href="<%= routes.article_path(id: article_old.id) %>">
+          【<%= article_old.meeting.date %>のBL会議】<%= article_formatted_title(article_old, number: false) %>
+        </a>
+      </h4>
+      <h2 class="u-no-padding--top u-no-margin--bottom" style="padding-left:4rem;">↓<small>(差分表示)</small></h2>
+      <h4 class="full-width">
+        新版：<a href="<%= routes.article_path(id: article_new.id) %>">
+          【<%= article_new.meeting.date %>のBL会議】<%= article_formatted_title(article_new, number: false) %>
+        </a>
+      </h4>
+      <div class="p-notification--caution">
+        <p class="p-notification__response">
+          <span class="p-notification__status">注意:</span>下記の差分表示は、差分を見やすくするために、元の議案と完全には表示が一致しない場合があります。<br>
+          （見やすさのために改行が適宜追加されています） ご了承ください。
+        </p>
+      </div>
+      <form class="p-form p-form--inline">
+        <div class="p-form__group">
+          <label for="diff-options-output-format" class="p-form__label">表示形式の選択</label>
+          <select class="options-label-value" id="diff-options-output-format" name="outputFormat">
+            <option value="line-by-line" selected="">Line by Line(行ごとに比較)</option>
+            <option value="side-by-side">Side by Side(左右に分けて比較)</option>
+          </select>
+        </div>
+        <div class="p-form__group">
+          <label for="diff-options-context" class="p-form__label">差分前後に表示する行数</label>
+          <select class="options-label-value" id="diff-options-context" name="outputFormat">
+            <option value="4" selected="">4行</option>
+            <option value="5">5行</option>
+            <option value="6">6行</option>
+            <option value="8">8行</option>
+            <option value="10">10行</option>
+            <option value="15">15行</option>
+            <option value="20">20行</option>
+          </select>
+        </div>
+      </form>
+      <span id="articleOldTitle" style="display:none;"><%= article_old.title %></span>
+      <span id="articleNewTitle" style="display:none;"><%= article_new.title %></span>
+      <span id="articleOldBody" style="display:none;"><%= h article_old.body %></span>
+      <span id="articleNewBody" style="display:none;"><%= h article_new.body %></span>
+    <% else %>
+      <h3>比較する議案を2つ選択してください</h3>
+      <%= form_select_article(recent_meetings_with_articles) %>
+      <span id="articleOldTitle" style="display:none;"></span>
+      <span id="articleNewTitle" style="display:none;"></span>
+      <span id="articleOldBody" style="display:none;"></span>
+      <span id="articleNewBody" style="display:none;"></span>
+    <% end %>
+  </div>
+  <div id="diffRoot" class="row row-wide diffBox">
+  </div>
+</div>
