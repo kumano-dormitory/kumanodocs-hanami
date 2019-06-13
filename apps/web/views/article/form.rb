@@ -1,8 +1,14 @@
 module Web::Views::Article
   module Form
-    def form_create(meetings, categories)
+    def form_create(meetings, categories, recent_articles, article_refs_selected = {})
       meetings_for_select = meetings.map { |meeting| [meeting.formatted_date, meeting.id] }.to_h
       categories_for_select = categories.map { |category| [category.name, category.id] }.to_h
+      recent_articles_for_select = recent_articles.map do |article|
+        ["#{article.meeting.date}のBL会議...#{article_formatted_title(article, number: false)}", article.id]
+      end
+      recent_articles_for_select.insert(0, ["過去の議案を選択してください. 複数選択ができます.", 0])
+      same_refs_selected = article_refs_selected&.fetch(:same, false) || []
+      other_refs_selected = article_refs_selected&.fetch(:other, false) || []
 
       form_for :article,
                routes.articles_path,
@@ -258,15 +264,95 @@ module Web::Views::Article
           end
         end
 
+        div class: "p-form__group" do
+          label '', for: :same_references, class: "p-form__label u-align-text--right" do
+            text '過去のブロック会議の議案'
+            br
+            text '(過去のブロック会議に同じ議案を出している場合はその議案を選択してください)'
+          end
+          div class: "p-form__control" do
+            div class: "p-search-box", style: 'margin-bottom: .8rem' do
+              input type: 'search', name: 'query', class: 'p-search-box__input', id: 'same-refs-search-input',
+                    placeholder: '議案の題名を入力して下の選択欄に表示される議案を絞ることができます'
+              button type: 'reset', class: 'p-search-box__reset', id: 'same-refs-search-reset', alt: 'reset' do
+                i class: 'p-icon--close'
+              end
+            end
+            select :same_references, recent_articles_for_select, multiple: true, style: 'height: 20rem', options: {selected: 0}
+            h4 '下に過去のブロック会議の議案として選択された議案が表示されます。選択を解除するには議案の『×』をクリックしてください。', class: "full-width"
+            ul id: 'same-refs-selected', class: "p-list--divided" do
+              if same_refs_selected.empty?
+                text ''
+              else
+                same_refs_selected.each do |article_id|
+                  li class: 'p-list__item is-ticked', style: 'padding-bottom: .25rem; padding-top: .25rem;' do
+                    article = recent_articles.find{|a| a.id == article_id}
+                    if article
+                      text "#{article.meeting.date}のBL会議...#{article_formatted_title(article, number: false)}"
+                      i class: 'p-icon--error', style: 'height:1.3rem;width:1.3rem;margin-left:1rem;'
+                    end
+                    input type: 'hidden', name: 'article[same_refs_selected][]', value: article_id
+                  end
+                end
+              end
+            end
+          end
+        end
+
+        hr # horizontal line
+
+        div class: "p-form__group" do
+          label '', for: :other_references, class: "p-form__label u-align-text--right" do
+            text 'その他の関連議案'
+            br
+            text '(関連議案として参照しておきたい議案がある場合は選択してください)'
+          end
+          div class: "p-form__control" do
+            div class: "p-search-box", style: 'margin-bottom: .8rem' do
+              input type: 'search', name: 'query', class: 'p-search-box__input', id: 'other-refs-search-input',
+                    placeholder: '議案の題名を入力して下の選択欄に表示される議案を絞ることができます'
+              button type: 'reset', class: 'p-search-box__reset', id: 'other-refs-search-reset', alt: 'reset' do
+                i class: 'p-icon--close'
+              end
+            end
+            select :other_references, recent_articles_for_select, multiple: true, style: 'height: 20rem', options: {selected: 0}
+            h4 '下に関連議案として選択された議案が表示されます。選択を解除するには議案の『×』をクリックしてください。', class: "full-width"
+            ul id: 'other-refs-selected', class: "p-list--divided" do
+              if other_refs_selected.empty?
+                text ''
+              else
+                other_refs_selected.each do |article_id|
+                  li class: 'p-list__item is-ticked', style: 'padding-bottom: .25rem; padding-top: .25rem;' do
+                    article = recent_articles.find{|a| a.id == article_id}
+                    if article
+                      text "#{article.meeting.date}のBL会議...#{article_formatted_title(article, number: false)}"
+                      i class: 'p-icon--error', style: 'height:1.3rem;width:1.3rem;margin-left:1rem;'
+                    end
+                    input type: 'hidden', name: 'article[other_refs_selected][]', value: article_id
+                  end
+                end
+              end
+            end
+          end
+        end
+
+        hr # horizontal line
+
         submit '投稿', class: "p-button--positive u-float-right"
       end
     end
 
-    def form_update(meetings, categories, hash = {})
+    def form_update(meetings, categories, recent_articles, article_refs_selected = {}, hash = {})
       article = hash[:article]
       meetings_for_select = meetings.map { |meeting| [meeting.formatted_date, meeting.id] }.to_h
       categories_for_select = categories.map { |category| [category.name, category.id] }.to_h
       article_categories_selected = article&.article_categories&.map(&:category_id)
+      recent_articles_for_select = recent_articles.map do |article|
+        ["#{article.meeting.date}のBL会議...#{article_formatted_title(article, number: false)}", article.id]
+      end
+      recent_articles_for_select.insert(0, ["過去の議案を選択してください. 複数選択ができます.", 0])
+      same_refs_selected = article_refs_selected&.fetch(:same, false) || []
+      other_refs_selected = article_refs_selected&.fetch(:other, false) || []
 
       values = if article.nil?
         {}
@@ -507,6 +593,80 @@ module Web::Views::Article
         end
 
         div class: "p-form__group" do
+          label '', for: :same_references, class: "p-form__label u-align-text--right" do
+            text '過去のブロック会議の議案'
+            br
+            text '(過去のブロック会議に同じ議案を出している場合はその議案を選択してください)'
+          end
+          div class: "p-form__control" do
+            div class: "p-search-box", style: 'margin-bottom: .8rem' do
+              input type: 'search', name: 'query', class: 'p-search-box__input', id: 'same-refs-search-input',
+                    placeholder: '議案の題名を入力して下の選択欄に表示される議案を絞ることができます'
+              button type: 'reset', class: 'p-search-box__reset', id: 'same-refs-search-reset', alt: 'reset' do
+                i class: 'p-icon--close'
+              end
+            end
+            select :same_references, recent_articles_for_select, multiple: true, style: 'height: 20rem', options: {selected: 0}
+            h4 '下に過去のブロック会議の議案として選択された議案が表示されます。選択を解除するには議案の『×』をクリックしてください。', class: "full-width"
+            ul id: 'same-refs-selected', class: "p-list--divided" do
+              if same_refs_selected.empty?
+                text ''
+              else
+                same_refs_selected.each do |article_id|
+                  li class: 'p-list__item is-ticked', style: 'padding-bottom: .25rem; padding-top: .25rem;' do
+                    article = recent_articles.find{|a| a.id == article_id}
+                    if article
+                      text "#{article.meeting.date}のBL会議...#{article_formatted_title(article, number: false)}"
+                      i class: 'p-icon--error', style: 'height:1.3rem;width:1.3rem;margin-left:1rem;'
+                    end
+                    input type: 'hidden', name: 'article[same_refs_selected][]', value: article_id
+                  end
+                end
+              end
+            end
+          end
+        end
+
+        hr # horizontal line
+
+        div class: "p-form__group" do
+          label '', for: :other_references, class: "p-form__label u-align-text--right" do
+            text 'その他の関連議案'
+            br
+            text '(参考議案として参照しておきたい議案がある場合は選択してください)'
+          end
+          div class: "p-form__control" do
+            div class: "p-search-box", style: 'margin-bottom: .8rem' do
+              input type: 'search', name: 'query', class: 'p-search-box__input', id: 'other-refs-search-input',
+                    placeholder: '議案の題名を入力して下の選択欄に表示される議案を絞ることができます'
+              button type: 'reset', class: 'p-search-box__reset', id: 'other-refs-search-reset', alt: 'reset' do
+                i class: 'p-icon--close'
+              end
+            end
+            select :other_references, recent_articles_for_select, multiple: true, style: 'height: 20rem', options: {selected: 0}
+            h4 '下に関連議案として選択された議案が表示されます。選択を解除するには議案の『×』をクリックしてください。', class: "full-width"
+            ul id: 'other-refs-selected', class: "p-list--divided" do
+              if other_refs_selected.empty?
+                text ''
+              else
+                other_refs_selected.each do |article_id|
+                  li class: 'p-list__item is-ticked', style: 'padding-bottom: .25rem; padding-top: .25rem;' do
+                    article = recent_articles.find{|a| a.id == article_id}
+                    if article
+                      text "#{article.meeting.date}のBL会議...#{article_formatted_title(article, number: false)}"
+                      i class: 'p-icon--error', style: 'height:1.3rem;width:1.3rem;margin-left:1rem;'
+                    end
+                    input type: 'hidden', name: 'article[other_refs_selected][]', value: article_id
+                  end
+                end
+              end
+            end
+          end
+        end
+
+        hr # horizontal line
+
+        div class: "p-form__group" do
           hidden_field :get_lock, value: get_lock
         end
 
@@ -532,6 +692,32 @@ module Web::Views::Article
           text_field :keywords, class: "p-form__control"
         end
         submit '検索', class: "p-button--positive"
+      end
+    end
+
+    def form_select_article(recent_meetings_with_articles)
+      meetings_for_select = recent_meetings_with_articles.map do |meeting, _|
+        ["#{meeting.formatted_date}のブロック会議", meeting.date]
+      end
+      meetings_for_select.insert(0, ['ブロック会議を選択してください', 0])
+      articles_for_select = recent_meetings_with_articles.map do |meeting, articles|
+        articles.map do |article|
+          ["#{meeting.date}のBL会議...#{article_formatted_title(article, number: false)}", article.id]
+        end
+      end
+      articles_for_select.reduce(:concat)
+      articles_for_select = articles_for_select[0].insert(0, ['議案を選択してください', 0])
+
+      form_for :diff, routes.diff_article_path, method: :get, class: "p-form" do
+        label '議案を選んでください（旧版）', class: "p-heading--four"
+        select :old_meeting, meetings_for_select
+        select :old_article, articles_for_select
+
+        label '議案を選んでください（新版）', class: "p-heading--four"
+        select :new_meeting, meetings_for_select
+        select :new_article, articles_for_select
+
+        submit '議案を比較'
       end
     end
   end

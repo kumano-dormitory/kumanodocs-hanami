@@ -80,12 +80,25 @@ class ArticleRepository < Hanami::Repository
     end
   end
 
-  def group_by_meeting(limit = 10, today: Date.today)
-    ret = articles.select_append(meetings[:date])
+  def of_recent(months: 3, today: Date.today, past_meeting_only: false, with_relations: false)
+    if past_meeting_only
+      cond = Sequel.&(
+        Sequel.lit('? > ?', meetings[:date].qualified, today << months),
+        Sequel.lit('? < ?', meetings[:date].qualified, today)
+      )
+    else
+      cond = Sequel.lit('? > ?', meetings[:date].qualified, today << months)
+    end
+    (with_relations ? aggregate(:meeting, :categories, :author) : articles)
+      .select_append(meetings[:date])
       .join(meetings)
-      .where(Sequel.lit('? > ?', meetings[:date].qualified, today << 3))
+      .where(cond)
       .order(meetings[:date].qualified.desc, articles[:number].asc(nulls: :last), articles[:id].asc)
       .to_a
+  end
+
+  def group_by_meeting(limit = 10, today: Date.today, months: 3)
+    ret = of_recent(months: months, today: today, past_meeting_only: false)
       .group_by { |article| article.meeting_id }
       .map { |meeting_id, articles| [MeetingRepository.new.find(meeting_id), articles] }
     ret.slice(0, limit)
@@ -114,9 +127,13 @@ class ArticleRepository < Hanami::Repository
       .order(articles[:number].asc(nulls: :last), articles[:id].asc)
   end
 
-  def find_with_relations(id)
-    article = aggregate(:article_categories, :meeting, :author, :categories, :comments, :vote_results, :tables)
+  def find_with_relations(id, minimum: false)
+    article = if minimum
+      aggregate(:meeting, :author, :categories).where(id: id).map_to(Article).one
+    else
+      aggregate(:article_categories, :meeting, :author, :categories, :comments, :vote_results, :tables)
                 .where(id: id).map_to(Article).one
+    end
   end
 
   def add_categories(article, datas)

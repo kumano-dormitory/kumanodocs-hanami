@@ -4,7 +4,12 @@
     <title>資料システム</title>
     <%= favicon %>
     <link rel="stylesheet" href="https://assets.ubuntu.com/v1/vanilla-framework-version-1.8.1.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/diff2html/2.9.0/diff2html.min.css" />
     <%= stylesheet 'application' %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsdiff/4.0.1/diff.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/diff2html/2.9.0/diff2html-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/diff2html/2.9.0/diff2html.min.js"></script>
+    <%= javascript 'diff' %>
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="資料システム">
@@ -58,15 +63,13 @@
             <a href="#main-content">Jump to main content</a>
           </span>
           <ul class="p-navigation__links" role="menu">
-            <li class="p-navigation__link <%= navigation[:articles] ? 'is-selected' : '' %>" role="menuitem"><a href="/article">新着議案</a></li>
-            <li class="p-navigation__link <%= navigation[:meeting] ? 'is-selected' : '' %>" role="menuitem"><a href="/meeting">ブロック会議</a></li>
-            <li class="p-navigation__link <%= navigation[:new_article] ? 'is-selected' : '' %>" role="menuitem"><a href="/article/new">議案投稿</a></li>
-            <li class="p-navigation__link <%= navigation[:download] ? 'is-selected' : '' %>" role="menuitem"><a href="/meeting/0/download">ダウンロード</a></li>
+            <li class="p-navigation__link" role="menuitem"><a href="/article">新着議案</a></li>
+            <li class="p-navigation__link" role="menuitem"><a href="/meeting">ブロック会議</a></li>
+            <li class="p-navigation__link" role="menuitem"><a href="/article/new">議案投稿</a></li>
+            <li class="p-navigation__link" role="menuitem"><a href="/meeting/0/download">ダウンロード</a></li>
           </ul>
           <ul class="p-navigation__links u-image-position--right" role="menu">
-            <li class="p-navigation__link <%= navigation[:login] ? 'is-selected' : '' %>" role="menuitem">
-              <a class="u-hide--small" href="/admin"><i class="p-icon--user icon-settings"></i></a>
-            </li>
+            <li class="p-navigation__link" role="menuitem"><a class="u-hide--small" href="/admin"><i class="p-icon--user icon-settings"></i></a></li>
           </ul>
         </nav>
       </div>

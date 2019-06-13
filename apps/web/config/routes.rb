@@ -3,10 +3,12 @@
 #
 # Example:
 # get '/hello', to: ->(env) { [200, {}, ['Hello from Hanami!']] }
-root to: 'article#index'
+root to: 'article#top'
 # ドキュメント表示
 get '/article/doc', to: 'article#doc', as: :document
 get '/article/search', to: 'article#search', as: :search_article
+get '/article/diff', to: 'article#diff', as: :diff_article
+get '/article/top', to: 'article#top'
 resources :article do
   resource :lock, only: [:new, :create]
 end
@@ -26,3 +28,6 @@ get '/meeting/:id/download', to: 'meeting#download', as: :download_meeting
 get '/comment/:comment_id/message/new', to: 'comment/message#new', as: :new_comment_message
 post '/comment/:comment_id/message', to: 'comment/message#create', as: :comment_messages
 delete '/comment/message/:id', to: 'comment/message#destroy', as: :comment_message
+
+# Error page
+get '/error/:id', to: 'error#show', as: :error
