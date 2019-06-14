@@ -62,7 +62,15 @@ body {
   padding-bottom: 36px;
   box-sizing: border-box;
 }
-
+.login-error {
+  background-color: #d64242;
+  color: white;
+  margin: 0px;
+  margin-bottom: 24px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  text-align: center;
+}
 .login-input-user {
   display: flex;
   position: relative;
