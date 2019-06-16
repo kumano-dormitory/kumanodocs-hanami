@@ -1,7 +1,7 @@
 module Web::Controllers::Article
   class New
     include Web::Action
-    expose :meetings, :categories, :recent_articles
+    expose :meetings, :next_meeting, :categories, :recent_articles
 
     def initialize(meeting_repo: MeetingRepository.new,
                    article_repo: ArticleRepository.new,
@@ -22,6 +22,7 @@ module Web::Controllers::Article
       else
         # すべての議案の投稿受理期間
         @meetings = @meeting_repo.in_time
+        @next_meeting = @meeting_repo.find_most_recent
       end
     end
 
