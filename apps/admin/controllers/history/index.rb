@@ -3,7 +3,7 @@ module Admin::Controllers::History
     include Admin::Action
     expose :histories, :page
 
-    HISTORY_COUNT_LIMIT = 15
+    HISTORY_COUNT_LIMIT = 25
 
     def initialize(admin_history_repo: AdminHistoryRepository.new)
       @admin_history_repo = admin_history_repo
