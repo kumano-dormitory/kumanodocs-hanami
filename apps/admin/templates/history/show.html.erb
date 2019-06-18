@@ -1,0 +1,22 @@
+<div class="p-strip--light is-shallow u-no-padding--bottom">
+  <div class="row">
+    <ul class="p-breadcrumbs">
+      <li class="p-breadcrumbs__item"><a href='<%= routes.root_path %>'>管理者向けページ</a></li>
+      <li class="p-breadcrumbs__item"><a href='<%= routes.histories_path %>'>管理者ページ作業履歴</a></li>
+      <li class="p-breadcrumbs__item"><strong>詳細(<%= history.formatted_action %>)</strong></li>
+    </ul>
+    <hr/>
+  </div>
+</div>
+<div class="p-strip is-shallow">
+  <div class="row">
+    <h1>管理者ページ作業履歴 詳細</h1>
+    <h3><%= history.formatted_action %></h3>
+    <dl>
+      <dt>作業日時:</dt>
+      <dd><%= history.created_at %></dd>
+      <dt>作業内容:</dt>
+      <dd><pre><%= h history.json %></pre></dd>
+    </dl>
+  </div>
+</div>

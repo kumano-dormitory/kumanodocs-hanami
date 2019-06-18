@@ -10,6 +10,7 @@ resources :meeting do
   end
 end
 resources :sessions, only: [:new, :create, :destroy]
+resources :history, only: [:index, :show]
 get '/logout', to: 'sessions#destroy', as: :logout # aタグのリンクからログアウトできるように定義
 
 get '/article/search', to: 'meeting/article#search', as: :search # 議案の検索
