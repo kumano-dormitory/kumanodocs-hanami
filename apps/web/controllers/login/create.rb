@@ -22,6 +22,7 @@ module Web::Controllers::Login
       if params.valid?
         user = @user_repo.find_by_name(params[:login][:username])
         if !user.nil? && user.authority == 0 && user.authenticate(params[:login][:password])
+          session.clear # sessionキーの変更
           if @standalone
             cookies[:token] = {
               value: generate_token(user.name, ENV['KUMANODOCS_AUTH_TOKEN_VERSION'], 180),
