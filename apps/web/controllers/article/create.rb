@@ -19,6 +19,7 @@ module Web::Controllers::Article
         optional(:same_refs_selected) { array? { each { int? } } }
         optional(:other_refs_selected) { array? { each { int? } } }
       end
+      required(:action).filled(:str?)
     end
 
     def initialize(meeting_repo: MeetingRepository.new,
@@ -106,7 +107,11 @@ module Web::Controllers::Article
           caution: {status: "注意：", message: "議案は追加議案として投稿されました. 通常議案として扱って欲しい正当な理由がある場合は資料委員会に相談してください."}
         }
       end
-      redirect_to routes.article_path(id: article.id)
+      if params[:action] == "post_article_with_table"
+        redirect_to "#{routes.new_table_path}?article_id=#{article.id}"
+      else
+        redirect_to routes.article_path(id: article.id)
+      end
     end
 
     def navigation

@@ -338,7 +338,14 @@ module Web::Views::Article
 
         hr # horizontal line
 
-        submit '投稿', class: "p-button--positive u-float-right"
+        div class: "p-form__group" do
+          div '', class: "p-form__label"
+          div class: "p-form__control" do
+            p '※以下のどちらかを選択してください.「議案のみを投稿」した場合でも、議案の編集ページから表を追加することができます.'
+            submit '議案のみを投稿する', class: "p-button--positive", name: "action", value: "post_article"
+            submit '議案を投稿して、投稿した議案に表を追加する', class: "p-button--positive", name: "action", value: "post_article_with_table"
+          end
+        end
       end
     end
 
