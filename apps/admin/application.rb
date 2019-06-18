@@ -80,7 +80,7 @@ module Admin
       #
       # See: http://www.rubydoc.info/gems/rack/Rack/Session/Cookie
       #
-      sessions :cookie, secret: ENV['ADMIN_SESSIONS_SECRET'], path: '/admin'
+      sessions :cookie, secret: ENV['ADMIN_SESSIONS_SECRET'], path: '/admin', max_age: 1800
 
       # Configure Rack middleware for this application
       #
