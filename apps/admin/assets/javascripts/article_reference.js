@@ -66,12 +66,12 @@ function initializeList(ulElement) {
 
 articleSameReferences.addEventListener('change', () => selectArticle(articleSameReferences, 'same_refs_selected'));
 sameRefsSearchInput.addEventListener('input', () => searchArticle(sameRefsSearchInput, articleSameReferences));
-sameRefsSearchInput.addEventListener('search', () => articleSameReferences.focus());
+sameRefsSearchInput.addEventListener('search', (e) => {e.preventDefault(); articleSameReferences.focus();});
 sameRefsSearchReset.addEventListener('click', () => searchArticle({value: ''}, articleSameReferences));
 initializeList(sameRefsSelectedList);
 
 articleOtherReferences.addEventListener('change', () => selectArticle(articleOtherReferences, 'other_refs_selected'));
 otherRefsSearchInput.addEventListener('input', () => searchArticle(otherRefsSearchInput, articleOtherReferences));
-otherRefsSearchInput.addEventListener('search', () => articleOtherReferences.focus());
+otherRefsSearchInput.addEventListener('search', (e) => {e.preventDefault(); articleOtherReferences.focus();});
 otherRefsSearchReset.addEventListener('click', () => searchArticle({value: ''}, articleOtherReferences));
 initializeList(otherRefsSelectedList);
