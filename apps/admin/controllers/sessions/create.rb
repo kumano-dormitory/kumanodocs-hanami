@@ -19,6 +19,7 @@ module Admin::Controllers::Sessions
       if params.valid?
         user = @user_repo.find_by_name(params[:session][:adminname])
         if !user.nil? && user.authority == 1 && user.authenticate(params[:session][:password])
+          session.clear
           session[:user_id] = user.id
           redirect_to routes.root_path
         else
