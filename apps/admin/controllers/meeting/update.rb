@@ -10,8 +10,10 @@ module Admin::Controllers::Meeting
       end
     end
 
-    def initialize(meeting_repo: MeetingRepository.new)
+    def initialize(meeting_repo: MeetingRepository.new,
+                   admin_history_repo: AdminHistoryRepository.new)
       @meeting_repo = meeting_repo
+      @admin_history_repo = admin_history_repo
       @notifications = {}
     end
 
@@ -22,7 +24,10 @@ module Admin::Controllers::Meeting
           date: params[:meeting][:date],
           deadline: params[:meeting][:deadline].to_s.gsub(/\+00:00/, "+09:00")
         }
-        @meeting_repo.update(@meeting.id, meeting_attr)
+        meeting = @meeting_repo.update(@meeting.id, meeting_attr)
+        @admin_history_repo.add(:meeting_update,
+          JSON.pretty_generate({action: "meeting_update", payload: {meeting_before: @meeting.to_h, meeting_after: meeting.to_h}})
+        )
         flash[:notifications] = {success: {status: "Success:", message: "正常にブロック会議日程が編集されました"}}
         redirect_to routes.meeting_path(id: @meeting.id)
       else

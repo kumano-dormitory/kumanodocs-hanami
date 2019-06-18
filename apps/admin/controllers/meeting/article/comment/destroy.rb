@@ -15,10 +15,12 @@ module Admin::Controllers::Meeting
 
         def initialize(article_repo: ArticleRepository.new,
                        block_repo: BlockRepository.new,
-                       comment_repo: CommentRepository.new)
+                       comment_repo: CommentRepository.new,
+                       admin_history_repo: AdminHistoryRepository.new)
           @article_repo = article_repo
           @block_repo = block_repo
           @comment_repo = comment_repo
+          @admin_history_repo = admin_history_repo
           @notifications = {}
         end
 
@@ -29,6 +31,7 @@ module Admin::Controllers::Meeting
           if params.valid? && params[:comment][:confirm_delete]
             if @comment
               @comment_repo.delete(@comment.id)
+              @admin_history_repo.add(:comment_destroy, JSON.pretty_generate({action:"comment_destroy", payload:{comment: @comment.to_h}}))
               flash[:notifications] = {success: {status: 'Success', message: '正常に議事録が削除されました'}}
               redirect_to routes.meeting_article_path(meeting_id: @article.meeting_id, id: @article.id)
             else

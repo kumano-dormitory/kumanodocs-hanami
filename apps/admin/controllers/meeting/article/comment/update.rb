@@ -19,11 +19,13 @@ module Admin::Controllers::Meeting
         def initialize(article_repo: ArticleRepository.new,
                        block_repo: BlockRepository.new,
                        comment_repo: CommentRepository.new,
-                       vote_result_repo: VoteResultRepository.new)
+                       vote_result_repo: VoteResultRepository.new,
+                       admin_history_repo: AdminHistoryRepository.new)
           @article_repo = article_repo
           @block_repo = block_repo
           @comment_repo = comment_repo
           @vote_result_repo = vote_result_repo
+          @admin_history_repo = admin_history_repo
           @notifications = {}
         end
 
@@ -45,23 +47,24 @@ module Admin::Controllers::Meeting
             end
 
             # 採決結果の保存
-            props = {
+            vr_props = {
               article_id: params[:article_id],
               block_id: params[:block_id],
               agree: params[:comment][:agree],
               disagree: params[:comment][:disagree],
               onhold: params[:comment][:onhold]
             }
-            if props[:agree] && props[:disagree] && props[:onhold] && \
+            if vr_props[:agree] && vr_props[:disagree] && vr_props[:onhold] && \
               @article.categories.find{ |category| category.require_content && category.name == '採決' }
 
               vote_result = @vote_result_repo.find(params[:article_id], params[:block_id])
               if vote_result.nil?
-                @vote_result_repo.create(props.merge({crypt_password: '1'}))
+                @vote_result_repo.create(vr_props.merge({crypt_password: '1'}))
               else
-                @vote_result_repo.update(vote_result.id, props)
+                @vote_result_repo.update(vote_result.id, vr_props)
               end
             end
+            @admin_history_repo.add(:comment_update, gen_history_json(comment, props, vote_result, vr_props))
             flash[:notifications] = {success: {status: "Success:", message: "正常に議事録が編集されました"}}
             redirect_to routes.meeting_article_path(meeting_id: 0, id: params[:article_id])
           else
@@ -71,6 +74,18 @@ module Admin::Controllers::Meeting
             @notifications = {error: {status: "Error:", message: "入力された項目に不備があります. もう一度確認してください"}}
             self.status = 422
           end
+        end
+
+        def gen_history_json(comment_before, comment_props, vote_result_before, vote_result_props)
+          JSON.pretty_generate({
+            action: "comment_update",
+            payload: {
+              comment_before: comment_before.to_h,
+              comment_after: comment_props,
+              vote_result_before: vote_result_before.to_h,
+              vote_result_after: vote_result_props
+            }
+          })
         end
 
         def notifications

@@ -28,12 +28,14 @@ module Admin::Controllers::Meeting
                      article_repo: ArticleRepository.new,
                      category_repo: CategoryRepository.new,
                      author_repo: AuthorRepository.new,
-                     article_reference_repo: ArticleReferenceRepository.new)
+                     article_reference_repo: ArticleReferenceRepository.new,
+                     admin_history_repo: AdminHistoryRepository.new)
         @meeting_repo = meeting_repo
         @article_repo = article_repo
         @category_repo = category_repo
         @author_repo = author_repo
         @article_reference_repo = article_reference_repo
+        @admin_history_repo = admin_history_repo
         @notifications = {}
       end
 
@@ -56,6 +58,7 @@ module Admin::Controllers::Meeting
           article = @article_repo.create_with_related_entities(author_params, category_params, article_params)
           @article_reference_repo.create_refs(article.id, params[:article][:same_refs_selected], same: true)
           @article_reference_repo.create_refs(article.id, params[:article][:other_refs_selected], same: false)
+          @admin_history_repo.add(:article_create, gen_history_json(article, category_params, author_params, params))
 
           flash[:notifications] = {success: {status: "Success", message: "正常に議案が作成されました"}}
           redirect_to routes.meeting_article_path(meeting_id: article.meeting_id, id: article.id)
@@ -70,6 +73,19 @@ module Admin::Controllers::Meeting
           @notifications = {error: {status: "Error:", message: "入力された項目に不備があります. もう一度確認してください"}}
           self.status = 422
         end
+      end
+
+      def gen_history_json(article, category_params, author_params, params)
+        JSON.pretty_generate({
+          action:"article_create",
+          payload:{
+            article: article.to_h.merge({
+              categories: category_params,
+              author: author_params.slice(:name),
+              article_references: {same: params[:article][:same_refs_selected], other: params[:article][:other_refs_selected]}
+            })
+          }
+        })
       end
 
       def notifications

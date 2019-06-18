@@ -12,11 +12,13 @@ module Admin::Controllers::Meeting
     def initialize(meeting_repo: MeetingRepository.new,
                    article_repo: ArticleRepository.new,
                    block_repo: BlockRepository.new,
-                   comment_repo: CommentRepository.new)
+                   comment_repo: CommentRepository.new,
+                   admin_history_repo: AdminHistoryRepository.new)
       @meeting_repo = meeting_repo
       @article_repo = article_repo
       @block_repo = block_repo
       @comment_repo = comment_repo
+      @admin_history_repo = admin_history_repo
     end
 
     def call(params)
@@ -29,6 +31,9 @@ module Admin::Controllers::Meeting
                                         .group_by{|comment| comment[:article_id]}
           # 出力する議案の印刷フラグをすべてtrueにする
           @article_repo.update_status(@articles.map{ |article| { 'article_id' => article.id, 'printed' => true}})
+          @admin_history_repo.add(:meeting_download,
+            JSON.pretty_generate({action: "meeting_download", payload: {meeting: @meeting.to_h.merge({articles: @articles.map(&:id)})}})
+          )
           @tex_str = Admin::Views::Meeting::Download.render(
             format: :tex, meeting: @meeting, articles: @articles, past_comments: @past_comments, type: :articles
           )
