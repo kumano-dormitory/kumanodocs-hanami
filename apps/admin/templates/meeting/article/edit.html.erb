@@ -1,6 +1,9 @@
 <div class="p-strip">
   <div class="row">
-    <h1>議案の編集</h1>
+    <h1 class="u-no-margin--bottom">議案の編集</h1>
+    <a href="<%= routes.new_meeting_article_table_path(meeting_id: article.meeting_id, article_id: article.id) %>" class="p-button--positive">
+      この議案に表を追加
+    </a>
     <%= form_for_update(meetings, categories, recent_articles, article_refs_selected, article) %>
     <%= javascript 'article_reference' %>
   </div>
