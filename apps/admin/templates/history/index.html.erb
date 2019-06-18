@@ -1,0 +1,60 @@
+<div class="p-strip--light is-shallow u-no-padding--bottom">
+  <div class="row">
+    <ul class="p-breadcrumbs">
+      <li class="p-breadcrumbs__item"><a href='<%= routes.root_path %>'>管理者向けページ</a></li>
+      <li class="p-breadcrumbs__item"><strong>管理者ページ作業履歴</strong></li>
+    </ul>
+    <hr/>
+  </div>
+</div>
+<div class="p-strip is-shallow">
+  <div class="row">
+    <h1>
+      管理者ページ作業履歴
+      <% if page > 1 %>
+      <small>(<%= page %>ページ目)</small>
+      <% end %>
+    </h1>
+    <% if histories.length == 0 %>
+      <p>最後のページです</p>
+    <% end %>
+    <ul class="p-list">
+      <% histories.each do |history| %>
+      <li class="p-list__item u-no-margin--bottom">
+        <div class="p-card u-no-padding--top u-no-padding--bottom u-no-margin--bottom">
+          <h5 class="p-card__title">
+            <a href="<%= routes.history_path(id: history.id) %>" class="p-button--base u-no-margin--bottom">
+              <%= history.formatted_action %>
+            </a>
+          </h5>
+          <p class="p-card__content u-no-margin--bottom">
+            作業日時：<%= history.created_at %>
+          </p>
+        </div>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <footer class="p-pagination">
+        <% if page - 1 > 0 %>
+          <a href="?page=<%= page - 1 %>" class="p-pagination__link--previous">
+            <span class="p-pagination__label">前のページ</span>
+          </a>
+        <% else %>
+          <span class="p-pagination__link--previous is-disabled"><span class="p-pagination__label">前のページ</span></span>
+        <% end %>
+        <% if histories.length != 0 %>
+          <a href="?page=<%= page + 1 %>" class="p-pagination__link--next">
+            <span class="p-pagination__label">次のページ</span>
+          </a>
+        <% else %>
+          <span class="p-pagination__link--next is-disabled">
+            <span class="p-pagination__label">次のページ</span>
+          </span>
+        <% end %>
+      </footer>
+    </div>
+  </div>
+</div>

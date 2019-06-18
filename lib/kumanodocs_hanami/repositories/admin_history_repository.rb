@@ -24,4 +24,12 @@ class AdminHistoryRepository < Hanami::Repository
     action_number = action_number_hash.fetch(action, 0)
     create(action: action_number, json: json)
   end
+
+  def desc_by_created_at(limit: nil, offset: 0)
+    admin_histories
+      .order(admin_histories[:created_at].desc)
+      .limit(limit)
+      .offset(offset)
+      .to_a
+  end
 end
