@@ -31,14 +31,23 @@ module Admin::Controllers::Message
         halt 400 unless @comment.article_id == params[:article_id] && @message.comment_id == params[:comment_id]
 
         @message_repo.delete(@message.id)
-        @admin_history_repo.add(:message_destroy,
-          JSON.pretty_generate({action:"message_destroy", payload:{message: @message.to_h}})
-        )
+        @admin_history_repo.add(:message_destroy, gen_history_json(article, @comment, @message))
         flash[:notifications] = {success: {status: 'Success:', message: '正常に議事録に対する返答が削除されました'}}
         redirect_to routes.meeting_article_path(meeting_id: article.meeting_id, id: article.id)
       else
         @notifications = {info: {status: '', message: '削除の確認のチェックボックにチェックを入れてから削除ボタンを押してください'}}
       end
+    end
+
+    def gen_history_json(article, comment, message)
+      JSON.pretty_generate({
+        action: "message_destroy",
+        payload: {
+          article: article.to_h.slice(:id, :title, :meeting_id),
+          comment: comment.to_h.slice(:id).merge({block: {name: comment.block.name}}),
+          message: @message.to_h
+        }
+      })
     end
 
     def notifications

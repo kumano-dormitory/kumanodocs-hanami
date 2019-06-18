@@ -22,13 +22,23 @@ module Admin::Controllers::Meeting
           if params.valid?
             if params[:table][:confirm]
               @table_repo.delete(table.id)
-              @admin_history_repo.add(:table_destroy, JSON.pretty_generate({action:"table_destroy", payload:{table: @table.to_h.merge({article:{}})}}))
+              @admin_history_repo.add(:table_destroy, gen_history_json(@table))
               flash[:notifications] = {success: {status: "Success:", message: "正常に表が削除されました"}}
               redirect_to routes.meeting_article_path(
                             meeting_id: table.article.meeting_id,
                             id: table.article.id)
             end
           end
+        end
+
+        def gen_history_json(table)
+          JSON.pretty_generate({
+            action: "table_destroy",
+            payload: {
+              article: table.article.to_h.slice(:id, :title, :meeting_id).merge({author: {name: table.article.author.name}}),
+              table: table.to_h.merge({article:{}})
+            }
+          })
         end
       end
     end

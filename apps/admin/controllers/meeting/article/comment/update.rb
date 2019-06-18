@@ -31,6 +31,7 @@ module Admin::Controllers::Meeting
 
         def call(params)
           @article = @article_repo.find_with_relations(params[:article_id])
+          @block = @block_repo.find(params[:block_id])
           if params.valid?
             props = {
               article_id: params[:article_id],
@@ -64,11 +65,10 @@ module Admin::Controllers::Meeting
                 @vote_result_repo.update(vote_result.id, vr_props)
               end
             end
-            @admin_history_repo.add(:comment_update, gen_history_json(comment, props, vote_result, vr_props))
+            @admin_history_repo.add(:comment_update, gen_history_json(@article, @block, comment, props, vote_result, vr_props))
             flash[:notifications] = {success: {status: "Success:", message: "正常に議事録が編集されました"}}
             redirect_to routes.meeting_article_path(meeting_id: 0, id: params[:article_id])
           else
-            @block = @block_repo.find(params[:block_id])
             @comment = @comment_repo.find(params[:article_id], params[:block_id])
             @vote_result = VoteResult.new(params[:comment])
             @notifications = {error: {status: "Error:", message: "入力された項目に不備があります. もう一度確認してください"}}
@@ -76,10 +76,12 @@ module Admin::Controllers::Meeting
           end
         end
 
-        def gen_history_json(comment_before, comment_props, vote_result_before, vote_result_props)
+        def gen_history_json(article, block, comment_before, comment_props, vote_result_before, vote_result_props)
           JSON.pretty_generate({
             action: "comment_update",
             payload: {
+              article: article.to_h.slice(:id, :title).merge({meeting: article.meeting.to_h.slice(:id, :date), author: {name: article.author.name}}),
+              block: block.to_h.slice(:id, :name),
               comment_before: comment_before.to_h,
               comment_after: comment_props,
               vote_result_before: vote_result_before.to_h,

@@ -21,6 +21,53 @@ class AdminHistory < Hanami::Entity
       18 => "議事録への返答の編集",
       19 => "議事録への返答の削除"
     }
-    action_number_hash.fetch(action, 'その他の操作')
+    ret = action_number_hash.fetch(action, 'その他の操作')
+    data = JSON.parse(json).fetch("payload", {})
+    case action
+    when 1 then
+      ret = ret + " - ブロック会議の日程[#{data.dig("meeting", "date")}]"
+    when 2 then
+      ret = ret + " - ブロック会議の日程[#{data.dig("meeting_after", "date")}]（変更後）"
+    when 3 then
+      ret = ret + " - 削除されたブロック会議の日程[#{data.dig("meeting", "date")}]"
+    when 4 then
+      ret = ret + " - ダウンロードされたブロック会議の日程[#{data.dig("meeting", "date")}]"
+    when 5 then
+      ret = ret + " - ブロック会議[#{data.dig("article", "meeting", "date")}], 議案の題名[#{data.dig("article", "title")}], 文責者[#{data.dig("article", "author", "name")}]"
+    when 6 then
+      ret = ret + " - ブロック会議[#{data.dig("article_before", "meeting", "date")}](変更前), 議案の題名[#{data.dig("article_after", "title")}](変更後), 文責者[#{data.dig("article_after", "title")}](変更後)"
+    when 7 then
+      ret = ret + " - ブロック会議[#{data.dig("article", "meeting", "date")}], 議案の題名[#{data.dig("article", "title")}], 文責者[#{data.dig("article", "title")}]"
+    when 8 then
+      ret = ret + " - ブロック会議ID[#{data.dig("meeting_id")}]"
+    when 9 then
+      ret = ret + " - ブロック会議ID[#{data.dig("meeting_id")}]"
+    when 12 then
+      ret = ret + " - ブロック会議日程[#{data.dig("article", "meeting", "date")}], 議案の題名[#{data.dig("article", "title")}], ブロック[#{data.dig("block", "name")}]"
+    when 13 then
+      ret = ret + " - ブロック会議日程[#{data.dig("article", "meeting", "date")}], 議案の題名[#{data.dig("article", "title")}], ブロック[#{data.dig("block", "name")}]"
+    when 14 then
+      ret = ret + " - ブロック会議日程[#{data.dig("article", "meeting", "date")}], 議案の題名[#{data.dig("article", "title")}], 表の題名[#{data.dig("table", "caption")}]"
+    when 15 then
+      ret = ret + " - ブロック会議ID[#{data.dig("article", "meeting_id")}], 議案の題名[#{data.dig("article", "title")}], 表の題名[#{data.dig("table_after", "caption")}](変更後)"
+    when 16 then
+      ret = ret + " - ブロック会議ID[#{data.dig("article", "meeting_id")}], 議案の題名[#{data.dig("article", "title")}], 表の題名[#{data.dig("table", "caption")}]"
+    when 17 then
+      ret = ret + " - ブロック会議ID[#{data.dig("article", "meeting_id")}], 議案の題名[#{data.dig("article", "title")}], ブロック[#{data.dig("comment", "block", "name")}]"
+    when 18 then
+      ret = ret + " - ブロック会議ID[#{data.dig("article", "meeting_id")}], 議案の題名[#{data.dig("article", "title")}], ブロック[#{data.dig("comment", "block", "name")}]"
+    when 19 then
+      ret = ret + " - ブロック会議ID[#{data.dig("article", "meeting_id")}], 議案の題名[#{data.dig("article", "title")}], ブロック[#{data.dig("comment", "block", "name")}]"
+    else
+    end
+    return ret
+  end
+
+  def formatted_created_at
+    created_at&.strftime('%Y年%m月%d日 %R')
+  end
+
+  def formatted_updated_at
+    updated_at&.strftime('%Y年%m月%d日 %R')
   end
 end
