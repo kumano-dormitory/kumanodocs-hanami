@@ -21,16 +21,16 @@
     <ul class="p-list">
       <% histories.each do |history| %>
       <li class="p-list__item u-no-margin--bottom">
-        <div class="p-card u-no-padding--top u-no-padding--bottom u-no-margin--bottom">
-          <h5 class="p-card__title">
-            <a href="<%= routes.history_path(id: history.id) %>" class="p-button--base u-no-margin--bottom">
-              <%= history.formatted_action %>
-            </a>
-          </h5>
-          <p class="p-card__content u-no-margin--bottom">
-            作業日時：<%= history.created_at %>
-          </p>
-        </div>
+        <a href="<%= routes.history_path(id: history.id) %>">
+          <div class="p-card u-no-padding--top u-no-padding--bottom u-no-margin--bottom">
+            <h4 class="p-card__title full-width">
+                <%= history.formatted_action %>
+            </h4>
+            <p class="p-card__content u-no-margin--bottom">
+              作業日時：<%= history.formatted_created_at %>
+            </p>
+          </div>
+        </a>
       </li>
       <% end %>
     </ul>

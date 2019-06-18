@@ -49,6 +49,7 @@ module Admin::Controllers::Meeting
           JSON.pretty_generate({
             action: "table_update",
             payload:{
+              article: table_before.article.to_h.slice(:id, :title, :meeting_id),
               table_before: table_before.to_h.merge({article: {}}),
               table_after: table_after.to_h
             }

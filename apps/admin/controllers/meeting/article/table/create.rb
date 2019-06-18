@@ -25,6 +25,7 @@ module Admin::Controllers::Meeting
         end
 
         def call(params)
+          @article = @article_repo.find_with_relations(params[:article_id], minimum: true)
           if params.valid?
             begin
               CSV.parse(params[:table][:tsv], col_sep: "\t")
@@ -33,7 +34,7 @@ module Admin::Controllers::Meeting
                 caption: params[:table][:caption],
                 csv: params[:table][:tsv]
               )
-              @admin_history_repo.add(:table_create, JSON.pretty_generate({action:"table_create", payload:{table: table.to_h}}))
+              @admin_history_repo.add(:table_create, gen_history_json(@article, table))
               flash[:notifications] = {success: {status: "Success:", message: "正常に表が追加されました"}}
               redirect_to routes.meeting_article_path(
                             meeting_id: params[:meeting_id],
@@ -44,8 +45,20 @@ module Admin::Controllers::Meeting
           else
             @notifications = {error: {status: "Error:", message: "入力された項目に不備があります. もう一度確認してください"}}
           end
-          @article = @article_repo.find(params[:article_id])
           self.status = 422
+        end
+
+        def gen_history_json(article, table)
+          JSON.pretty_generate({
+            action:"table_create",
+            payload:{
+              article: article.to_h.slice(:id, :title).merge({
+                meeting: article.meeting.to_h.slice(:id, :date),
+                author: {name: article.author.name}
+              }),
+              table: table.to_h
+            }
+          })
         end
 
         def notifications

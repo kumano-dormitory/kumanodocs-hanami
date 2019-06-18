@@ -24,7 +24,7 @@ module Admin::Controllers::Message
     end
 
     def call(params)
-      @comment = @comment_repo.find_by_id(params[:comment_id])
+      @comment = @comment_repo.find_with_relations(params[:comment_id])
       @message = @message_repo.find(params[:id])
       if params.valid?
         article = @article_repo.find(params[:article_id])
@@ -32,15 +32,25 @@ module Admin::Controllers::Message
 
         props = params[:message]
         message_ret = @message_repo.update(@message.id, params[:message])
-        @admin_history_repo.add(:message_update,
-          JSON.pretty_generate({action:"message_update", payload:{message_before: @message.to_h, message_after: message_ret.to_h}})
-        )
+        @admin_history_repo.add(:message_update, gen_history_json(article, @comment, @message, message_ret))
         flash[:notifications] = {success: {status: 'Success:', message: '正常に議事録に対する返答が更新されました'}}
         redirect_to routes.meeting_article_path(meeting_id: article.meeting_id, id: article.id)
       else
         @messages = @message_repo.by_article(@comment.article_id).group_by{|message| message.comment_id}
         @notifications = {error: {status: 'Error', message: '入力された項目に不備があります'}}
       end
+    end
+
+    def gen_history_json(article, comment, message_before, message_after)
+      JSON.pretty_generate({
+        action: "message_update",
+        payload: {
+          article: article.to_h.slice(:id, :title, :meeting_id),
+          comment: comment.to_h.slice(:id).merge({block: {name: comment.block.name}}),
+          message_before: message_before.to_h,
+          message_after: message_after.to_h
+        }
+      })
     end
 
     def notifications
