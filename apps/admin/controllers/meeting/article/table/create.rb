@@ -16,9 +16,11 @@ module Admin::Controllers::Meeting
         end
 
         def initialize(table_repo: TableRepository.new,
-                       article_repo: ArticleRepository.new)
+                       article_repo: ArticleRepository.new,
+                       admin_history_repo: AdminHistoryRepository.new)
           @table_repo = table_repo
           @article_repo = article_repo
+          @admin_history_repo = admin_history_repo
           @notifications = {}
         end
 
@@ -26,11 +28,12 @@ module Admin::Controllers::Meeting
           if params.valid?
             begin
               CSV.parse(params[:table][:tsv], col_sep: "\t")
-              @table_repo.create(
+              table = @table_repo.create(
                 article_id: params[:article_id],
                 caption: params[:table][:caption],
                 csv: params[:table][:tsv]
               )
+              @admin_history_repo.add(:table_create, JSON.pretty_generate({action:"table_create", payload:{table: table.to_h}}))
               flash[:notifications] = {success: {status: "Success:", message: "正常に表が追加されました"}}
               redirect_to routes.meeting_article_path(
                             meeting_id: params[:meeting_id],

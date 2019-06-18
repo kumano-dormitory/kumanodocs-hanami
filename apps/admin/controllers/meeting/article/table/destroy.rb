@@ -11,8 +11,10 @@ module Admin::Controllers::Meeting
           end
         end
 
-        def initialize(table_repo: TableRepository.new)
+        def initialize(table_repo: TableRepository.new,
+                       admin_history_repo: AdminHistoryRepository.new)
           @table_repo = table_repo
+          @admin_history_repo = admin_history_repo
         end
 
         def call(params)
@@ -20,6 +22,7 @@ module Admin::Controllers::Meeting
           if params.valid?
             if params[:table][:confirm]
               @table_repo.delete(table.id)
+              @admin_history_repo.add(:table_destroy, JSON.pretty_generate({action:"table_destroy", payload:{table: @table.to_h.merge({article:{}})}}))
               flash[:notifications] = {success: {status: "Success:", message: "正常に表が削除されました"}}
               redirect_to routes.meeting_article_path(
                             meeting_id: table.article.meeting_id,

@@ -18,9 +18,11 @@ module Admin::Controllers::ArticleStatus
     end
 
     def initialize(meeting_repo: MeetingRepository.new,
-                   article_repo: ArticleRepository.new)
+                   article_repo: ArticleRepository.new,
+                   admin_history_repo: AdminHistoryRepository.new)
       @meeting_repo = meeting_repo
       @article_repo = article_repo
+      @admin_history_repo = admin_history_repo
       @notifications
     end
 
@@ -28,6 +30,9 @@ module Admin::Controllers::ArticleStatus
       if params.valid?
         articles_status = params[:meeting][:articles]
         @article_repo.update_status(articles_status)
+        @admin_history_repo.add(:article_status_update,
+          JSON.pretty_generate({action:"article_status_update", payload: {meeting_id: params[:id], articles_status: articles_status}})
+        )
         flash[:notifications] = {success: {status: "Success:", message: "正常に通常議案フラグの変更が行われました"}}
         redirect_to routes.meeting_path(id: params[:id])
       else
