@@ -65,10 +65,13 @@ body {
 .login-error {
   background-color: #d64242;
   color: white;
+  border-radius: 10px;
   margin: 0px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   padding-top: 14px;
   padding-bottom: 14px;
+  padding-left: 10px;
+  padding-right: 10px;
   text-align: center;
 }
 .login-input-user {
@@ -112,11 +115,14 @@ body {
   width: 100%;
   background: transparent;
   font-size: 18px;
-  color: #777;
+  color: #333;
   line-height: 1.2;
   border: none;
   overflow: visible;
   box-sizing: border-box;
+}
+.login-text-input::placeholder {
+  color: #777;
 }
 
 .login-button-container {
