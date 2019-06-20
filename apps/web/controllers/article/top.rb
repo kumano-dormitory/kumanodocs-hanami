@@ -14,7 +14,7 @@ module Web::Controllers::Article
       # 議事録作成リンクの表示
       if during_meeting?
         @during_meeting = true
-        @blocks = @block_repo.by_meeting_with_comment_vote_count(@next_meeting.id)
+        @blocks = @block_repo.by_meeting_with_comment_vote_count(@next_meeting.id).reject{ |block| block[:id] > 9 }
       end
 
       # PWAからログインした場合にtokenをlocalstorageに保存する
