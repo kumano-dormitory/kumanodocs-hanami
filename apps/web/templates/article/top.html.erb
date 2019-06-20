@@ -36,18 +36,18 @@
       <ul class="p-list">
         <% if next_meeting %>
         <li>
-          <a href="<%= routes.meeting_path(id: next_meeting.id) %>" class="p-button--neutral" style="background-color:#b3e5fc;width:100%;">
+          <a href="<%= routes.meeting_path(id: next_meeting.id) %>" class="p-button--neutral button-recent-meeting">
             <h3 class="u-no-margin--bottom full-width"><%= next_meeting.formatted_date %> のブロック会議</h3>
           </a>
         </li>
         <% end %>
         <li>
-          <a href="<%= routes.articles_path %>" class="p-button--neutral" style="background-color:#b2dfdb;width:100%;">
+          <a href="<%= routes.articles_path %>" class="p-button--neutral button-articles">
             <h3 class="u-no-margin--bottom full-width">新着議案一覧</h3>
           </a>
         </li>
         <li>
-          <a href="<%= routes.meetings_path %>" class="p-button--neutral" style="background-color:#dcedc8;width:100%;">
+          <a href="<%= routes.meetings_path %>" class="p-button--neutral button-meetings">
             <h3 class="u-no-margin--bottom full-width">ブロック会議一覧</h3>
           </a>
         </li>
@@ -58,7 +58,7 @@
       <p>議案を新たに投稿する場合は、以下のボタンを押してください. 通常議案・追加議案ともに同じ投稿フォームから投稿できます. <br>詳しい投稿方法の説明は、資料システムの利用方法を参照してください.</p>
       <ul class="p-list">
         <li>
-          <a href="<%= routes.new_article_path %>" class="p-button--neutral" style="background-color:#f8bbd0;width:100%;">
+          <a href="<%= routes.new_article_path %>" class="p-button--neutral button-post-article">
             <h3 class="u-no-margin--bottom">新規議案の投稿</h3>
           </a>
         </li>
@@ -69,17 +69,17 @@
       <p>下のボタンから、操作を選択してください.</p>
       <ul class="p-list">
         <li>
-          <a href="<%= routes.search_article_path %>" class="p-button--neutral" style="background-color:#eceff1;width:100%;">
+          <a href="<%= routes.search_article_path %>" class="p-button--neutral button-other-action">
             <h3 class="u-no-margin--bottom">議案の検索</h3>
           </a>
         </li>
         <li>
-          <a href="<%= routes.diff_article_path %>" class="p-button--neutral" style="background-color:#eceff1;width:100%;">
+          <a href="<%= routes.diff_article_path %>" class="p-button--neutral button-other-action">
             <h3 class="u-no-margin--bottom">議案の差分表示</h3>
           </a>
         </li>
         <li>
-          <a href="<%= routes.download_meeting_path(id: 0) %>" class="p-button--neutral" style="background-color:#eceff1;width:100%;">
+          <a href="<%= routes.download_meeting_path(id: 0) %>" class="p-button--neutral button-other-action">
             <h3 class="u-no-margin--bottom">PDFダウンロード</h3>
           </a>
         </li>
@@ -94,6 +94,8 @@
     </div>
   </div>
 </div>
+
+<%= stylesheet 'top' %>
 
 <% if save_token %>
 <%= javascript 'save_token' %>
