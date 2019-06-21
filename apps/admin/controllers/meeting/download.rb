@@ -23,9 +23,9 @@ module Admin::Controllers::Meeting
 
     def call(params)
       if params.valid?
-        @meeting = @meeting_repo.find_with_articles(params[:id])
+        @meeting = @meeting_repo.find(params[:id])
         if params[:articles]
-          @articles = @meeting.articles.map{ |article| @article_repo.find_with_relations(article.id) }
+          @articles = @article_repo.for_download(@meeting, after_6pm: after_6pm(@meeting))
           past_meeting = @meeting_repo.find_past_meeting(@meeting.id)
           @past_comments = @comment_repo.by_meeting(past_meeting.id)
                                         .group_by{|comment| comment[:article_id]}
@@ -58,6 +58,12 @@ module Admin::Controllers::Meeting
         @meetings = @meeting_repo.desc_by_date(limit: 20)
         @view_type = :meetings
       end
+    end
+
+    def after_6pm(meeting, now: Time.now)
+      date = meeting.date
+      meeting_date_6pm = Time.new(date.year, date.mon, date.day, 18,0,0,"+09:00")
+      now > meeting_date_6pm
     end
 
     def navigation
