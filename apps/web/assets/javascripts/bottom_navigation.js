@@ -28,10 +28,10 @@ bn_bl.addEventListener('click', event => {
 });
 
 bn_home.addEventListener('click', event => {
-  if (location.pathname === '/article') {
+  if (location.pathname === '/') {
     window.scrollTo(0, 0);
   } else {
-    window.location.href = '/article';
+    window.location.href = '/';
   }
   setClassName(bn_bl, false);
   setClassName(bn_home, true);
