@@ -692,13 +692,50 @@ module Web::Views::Article
       end
     end
 
-    def form_search(keyword)
-      form_for :search_article, routes.search_article_path, method: :get, class: "p-form p-form--inline", values: {keyword: keyword} do
-        div(class: "p-form__group") do
-          label '検索キーワード', for: :keywords, class: "p-form__label"
-          text_field :keywords, class: "p-form__control"
+    def form_search(keyword, detail_search, categories = [])
+      if detail_search
+        if keyword == ""
+          selected_categories = ['1','2','3','4','5']
+        else
+          selected_categories = keyword[:categories]
+          selected_categories = ['1','2','3','4','5'] if selected_categories.nil? || selected_categories.empty?
         end
-        submit '検索', class: "p-button--positive"
+
+        form_for :search_article, routes.search_article_path + "?detail_search=true", method: :get, class: "p-form p-form--stacked", values: {keyword: keyword} do
+          fieldset do
+            div class: "p-form__group" do
+              label '題名', for: :title, class: "p-form__label u-align-text--right"
+              text_field :title, class: "p-form__control"
+            end
+            div class: "p-form__group" do
+              label '文責者', for: :author, class: "p-form__label u-align-text--right"
+              text_field :author, class: "p-form__control"
+            end
+            div class: "p-form__group" do
+              label '本文', for: :body, class: "p-form__label u-align-text--right"
+              text_field :body, class: "p-form__control"
+            end
+            div class: "p-form__group u-vertically-center" do
+              label '議案の種別', for: 'categories', class: "p-form__label u-align-text--right"
+              div class: "p-form__control" do
+                categories.each do |category|
+                  check_box :categories, name: 'search_article[categories][]', value: category.id, id: "category-#{category.id}", checked: (selected_categories.find { |i| i == category.id.to_s })
+                  label category.name, for: "category-#{category.id}", style: "width: fit-content;margin-bottom:.3rem;"
+                end
+              end
+            end
+            hidden_field :detail_search, value: true
+            submit '検索', class: "p-button--positive u-float-right"
+          end
+        end
+      else
+        form_for :search_article, routes.search_article_path, method: :get, class: "p-form p-form--inline", values: {keyword: keyword} do
+          div(class: "p-form__group") do
+            label '検索キーワード', for: :keywords, class: "p-form__label"
+            text_field :keywords, class: "p-form__control"
+          end
+          submit '検索', class: "p-button--positive"
+        end
       end
     end
 

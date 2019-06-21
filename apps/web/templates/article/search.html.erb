@@ -1,25 +1,37 @@
 <div class="p-strip">
   <div class="row">
     <div class="col-12">
-      <h1>検索結果― 『<%= h keywords %>』</h1>
+      <% if detail_search %>
+      <h1>議案の詳細検索
+        <span><a href="<%= routes.search_article_path %>" class="p-button--neutral u-no-margin--bottom" style="margin-left:3rem">簡易検索へ</a></span>
+      </h1>
+      <% else %>
+      <h1>議案の簡易検索― 『<%= h keywords %>』
+        <span><a href="<%= routes.search_article_path + "?detail_search=true" %>" class="p-button--neutral u-no-margin--bottom" style="margin-left:3rem">詳細検索へ</a></span>
+      </h1>
+      <% end %>
     </div>
   </div>
   <div class="row">
     <div class="col-12">
-      <%= form_search(keywords) %>
+      <% if detail_search %>
+      <p>以下に条件を指定してください. AND検索を行います</p>
+      <% end %>
+      <%= form_search(keywords, detail_search, categories) %>
     </div>
+    <hr>
   </div>
   <div class="row">
     <div class="col-12">
       <% articles.each do |article| %>
-      <div class="p-card--highlighted u-no-padding--bottom u-no-padding--top">
+      <div class="p-card--highlighted u-no-padding--bottom u-no-padding--top" style="margin-bottom:.8rem">
         <h2 class="p-card__title full-width">
           <a href="<%= routes.article_path(id: article.id) %>" class="p-link--strong">
             <%= article_formatted_title(article, number: false) %>
           </a>
         </h2>
-        <p class="p-card__content" style="max-width: none;"><%= h article.body[0, 200] %></p>
-        <p class="p-card__content"><strong>ブロック会議：<%= article.meeting.formatted_date %> . 文責者：<%= h article.author.name %></strong></p>
+        <p class="p-card__content" style="max-width: none;"><%= h article.body[0, 130] %></p>
+        <p class="p-card__content" style="margin-bottom:.3rem"><strong>ブロック会議：<%= article.meeting.formatted_date %> . 文責者：<%= h article.author.name %></strong></p>
       </div>
       <% end %>
     </div>

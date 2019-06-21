@@ -12,20 +12,37 @@ class ArticleRepository < Hanami::Repository
     has_many :vote_results
   end
 
-  def search(keywords, page=1, limit=20)
-    keys = keywords.map { |keyword|
-      key = articles.dataset.escape_like(keyword)
-      Sequel.|(
-        Sequel.ilike(:title, "%#{key}%"),
-        Sequel.ilike(:body, "%#{key}%"),
-        Sequel.ilike(authors[:name], "%#{key}%")
-      )
-    }
+  def build_query(keywords, detail_search)
+    if detail_search
+      title_key = articles.dataset.escape_like(keywords[:title])
+      author_key = articles.dataset.escape_like(keywords[:author])
+      body_key = articles.dataset.escape_like(keywords[:body])
+      [
+        Sequel.ilike(:title, "%#{title_key}%"),
+        Sequel.ilike(:body, "%#{body_key}%"),
+        Sequel.ilike(authors[:name], "%#{author_key}%"),
+        {article_categories[:category_id] => keywords[:categories]}
+      ]
+    else
+      keywords.map { |keyword|
+        key = articles.dataset.escape_like(keyword)
+        Sequel.|(
+          Sequel.ilike(:title, "%#{key}%"),
+          Sequel.ilike(:body, "%#{key}%"),
+          Sequel.ilike(authors[:name], "%#{key}%")
+        )
+      }
+    end
+  end
+
+  def search(keywords, page=1, limit=20, detail_search: false)
+    keys = build_query(keywords, detail_search)
     aggregate(:author, :meeting, :categories)
       .articles
       .select_append(authors[:name], meetings[:date])
       .join(authors)
       .join(meetings)
+      .join(article_categories)
       .where(Sequel.&(*keys))
       .order(meetings[:date].qualified.desc,
         articles[:number].qualified.asc,
@@ -36,17 +53,11 @@ class ArticleRepository < Hanami::Repository
       .to_a
   end
 
-  def search_count(keywords)
-    keys = keywords.map { |keyword|
-      key = articles.dataset.escape_like(keyword)
-      Sequel.|(
-        Sequel.ilike(:title, "%#{key}%"),
-        Sequel.ilike(:body, "%#{key}%"),
-        Sequel.ilike(authors[:name], "%#{key}%")
-      )
-    }
+  def search_count(keywords, detail_search: false)
+    keys = build_query(keywords, detail_search)
     articles
       .join(authors)
+      .join(article_categories)
       .where(Sequel.&(*keys))
       .count
   end
