@@ -108,6 +108,19 @@ class ArticleRepository < Hanami::Repository
       .to_a
   end
 
+  # BL会議当日の１８時以降であれば１８時前に投稿されたすべての議案を出力、１８時前であれば通常議案を出力する
+  def for_download(meeting, after_6pm: false)
+    date = meeting.date
+    meeting_date_6pm = Time.new(date.year, date.mon, date.day, 18,0,0,"+09:00")
+    if after_6pm
+      cond = Sequel.&({meeting_id: meeting.id}, Sequel.|(Sequel.lit('updated_at < ?', meeting_date_6pm), {checked: true}))
+    else
+      cond = Sequel.&({meeting_id: meeting.id}, {checked: true})
+    end
+    articles.where(cond).order(articles[:number].asc(nulls: :last), articles[:id].asc).to_a
+      .map{ |article| find_with_relations(article.id) }
+  end
+
   def group_by_meeting(limit = 10, today: Date.today, months: 3)
     ret = of_recent(months: months, today: today, past_meeting_only: false)
       .group_by { |article| article.meeting_id }
