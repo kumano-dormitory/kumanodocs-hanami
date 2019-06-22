@@ -89,4 +89,4 @@ RUN bundle install
 
 EXPOSE 2300
 
-CMD HANAMI_ENV=production bundle exec hanami server
+CMD HANAMI_ENV=production bundle exec puma -C puma.rb 
