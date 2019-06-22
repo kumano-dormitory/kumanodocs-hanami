@@ -33,6 +33,6 @@ group :test do
 end
 
 group :production do
-  # gem 'puma'
+  gem 'puma'
   gem 'tzinfo-data'
 end
