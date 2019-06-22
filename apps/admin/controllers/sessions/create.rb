@@ -10,8 +10,10 @@ module Admin::Controllers::Sessions
       end
     end
 
-    def initialize(user_repo: UserRepository.new)
+    def initialize(user_repo: UserRepository.new,
+                   admin_history_repo: AdminHistoryRepository.new)
       @user_repo = user_repo
+      @admin_history_repo = admin_history_repo
       @notifications = {}
     end
 
@@ -19,7 +21,9 @@ module Admin::Controllers::Sessions
       if params.valid?
         user = @user_repo.find_by_name(params[:session][:adminname])
         if !user.nil? && user.authority == 1 && user.authenticate(params[:session][:password])
+          session.clear
           session[:user_id] = user.id
+          @admin_history_repo.add(:sessions_create, JSON.pretty_generate({action:"sessions_create", payload:{user_id: user.id}}))
           redirect_to routes.root_path
         else
           @notifications = {error: {status: "Authentication Failed:", message: "ユーザー名またはパスワードが間違っています. もう一度入力してください"}}

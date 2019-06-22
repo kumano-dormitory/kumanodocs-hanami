@@ -14,8 +14,10 @@ module Admin::Controllers::Meeting
           end
         end
 
-        def initialize(table_repo: TableRepository.new)
+        def initialize(table_repo: TableRepository.new,
+                       admin_history_repo: AdminHistoryRepository.new)
           @table_repo = table_repo
+          @admin_history_repo = admin_history_repo
           @notifications = {}
         end
 
@@ -24,11 +26,12 @@ module Admin::Controllers::Meeting
           if params.valid?
             begin
               CSV.parse(params[:table][:tsv], col_sep: "\t")
-              @table_repo.update(
+              table_ret = @table_repo.update(
                 params[:id],
                 caption: params[:table][:caption],
                 csv: params[:table][:tsv]
               )
+              @admin_history_repo.add(:table_update, gen_history_json(@table, table_ret))
               flash[:notifications] = {success: {status: "Success:", message: "正常に表が編集されました"}}
               redirect_to routes.meeting_article_path(
                             meeting_id: table.article.meeting_id,
@@ -40,6 +43,17 @@ module Admin::Controllers::Meeting
             @notifications = {error: {status: "Error:", message: "入力された項目に不備があります. もう一度確認してください"}}
           end
           self.status = 422
+        end
+
+        def gen_history_json(table_before, table_after)
+          JSON.pretty_generate({
+            action: "table_update",
+            payload:{
+              article: table_before.article.to_h.slice(:id, :title, :meeting_id),
+              table_before: table_before.to_h.merge({article: {}}),
+              table_after: table_after.to_h
+            }
+          })
         end
 
         def notifications

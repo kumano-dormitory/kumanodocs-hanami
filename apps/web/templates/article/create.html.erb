@@ -1,6 +1,13 @@
 <div class="p-strip">
   <div class="row">
     <div class="col-12">
+      <% if next_meeting %>
+      <div class="p-notification--information">
+        <p class="p-notification__response">
+          次のブロック会議(<%= next_meeting.formatted_date %>)の議案投稿の締め切り日時は、<%= next_meeting.formatted_deadline %>です
+        </p>
+      </div>
+      <% end %>
       <h2 class="u-no-margin">新規議案の投稿</h2>
       <p><a href="<%= routes.document_path %>?type=1" class="p-button--neutral">議案の投稿方法の説明</a></p>
       <%= form_create(meetings, categories, recent_articles, article_refs_selected) %>

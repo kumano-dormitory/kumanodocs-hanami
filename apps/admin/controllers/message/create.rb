@@ -14,10 +14,12 @@ module Admin::Controllers::Message
 
     def initialize(article_repo: ArticleRepository.new,
                    comment_repo: CommentRepository.new,
-                   message_repo: MessageRepository.new)
+                   message_repo: MessageRepository.new,
+                   admin_history_repo: AdminHistoryRepository.new)
       @article_repo = article_repo
       @comment_repo = comment_repo
       @message_repo = message_repo
+      @admin_history_repo = admin_history_repo
     end
 
     def call(params)
@@ -28,6 +30,7 @@ module Admin::Controllers::Message
 
         props = params[:message].merge({comment_id: @comment.id, author_id: article.author_id})
         @message_repo.create(props)
+        @admin_history_repo.add(:message_create, gen_history_json(article, @comment, props))
         flash[:notifications] = {success: {status: 'Success:', message: '正常に議事録に対する返答が送信されました'}}
         redirect_to routes.meeting_article_path(meeting_id: article.meeting_id, id: article.id)
       else
@@ -36,6 +39,16 @@ module Admin::Controllers::Message
       end
     end
 
+    def gen_history_json(article, comment, message)
+      JSON.pretty_generate({
+        action: "message_create",
+        payload: {
+          article: article.to_h.slice(:id, :title, :meeting_id, :author_id),
+          comment: comment.to_h.slice(:id).merge({block: {name: comment.block.name}}),
+          message: message
+        }
+      })
+    end
     def notifications
       @notifications
     end

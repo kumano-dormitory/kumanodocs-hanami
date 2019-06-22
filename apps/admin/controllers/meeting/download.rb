@@ -12,23 +12,28 @@ module Admin::Controllers::Meeting
     def initialize(meeting_repo: MeetingRepository.new,
                    article_repo: ArticleRepository.new,
                    block_repo: BlockRepository.new,
-                   comment_repo: CommentRepository.new)
+                   comment_repo: CommentRepository.new,
+                   admin_history_repo: AdminHistoryRepository.new)
       @meeting_repo = meeting_repo
       @article_repo = article_repo
       @block_repo = block_repo
       @comment_repo = comment_repo
+      @admin_history_repo = admin_history_repo
     end
 
     def call(params)
       if params.valid?
-        @meeting = @meeting_repo.find_with_articles(params[:id])
+        @meeting = @meeting_repo.find(params[:id])
         if params[:articles]
-          @articles = @meeting.articles.map{ |article| @article_repo.find_with_relations(article.id) }
+          @articles = @article_repo.for_download(@meeting, after_6pm: after_6pm(@meeting))
           past_meeting = @meeting_repo.find_past_meeting(@meeting.id)
           @past_comments = @comment_repo.by_meeting(past_meeting.id)
                                         .group_by{|comment| comment[:article_id]}
           # 出力する議案の印刷フラグをすべてtrueにする
           @article_repo.update_status(@articles.map{ |article| { 'article_id' => article.id, 'printed' => true}})
+          @admin_history_repo.add(:meeting_download,
+            JSON.pretty_generate({action: "meeting_download", payload: {meeting: @meeting.to_h.merge({articles: @articles.map(&:id)})}})
+          )
           @tex_str = Admin::Views::Meeting::Download.render(
             format: :tex, meeting: @meeting, articles: @articles, past_comments: @past_comments, type: :articles
           )
@@ -53,6 +58,12 @@ module Admin::Controllers::Meeting
         @meetings = @meeting_repo.desc_by_date(limit: 20)
         @view_type = :meetings
       end
+    end
+
+    def after_6pm(meeting, now: Time.now)
+      date = meeting.date
+      meeting_date_6pm = Time.new(date.year, date.mon, date.day, 18,0,0,"+09:00")
+      now > meeting_date_6pm
     end
 
     def navigation

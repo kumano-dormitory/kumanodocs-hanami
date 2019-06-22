@@ -1,0 +1,40 @@
+.button-recent-meeting {
+  background-color: #b3e5fc;
+  width: 100%;
+  transition: all .5s;
+}
+.button-recent-meeting:hover {
+  background-color: #4fc3f7;
+}
+.button-articles {
+  background-color: #b2dfdb;
+  width: 100%;
+  transition: all .5s;
+}
+.button-articles:hover {
+  background-color: #4db6ac;
+}
+.button-meetings {
+  background-color: #dcedc8;
+  width: 100%;
+  transition: all .5s;
+}
+.button-meetings:hover {
+  background-color: #aed581;
+}
+.button-post-article {
+  background-color: #f8bbd0;
+  width: 100%;
+  transition: all .5s;
+}
+.button-post-article:hover {
+  background-color: #f48fb1;
+}
+.button-other-action {
+  background-color: #eceff1;
+  width: 100%;
+  transition: all .5s;
+}
+.button-other-action:hover {
+  background-color: #b0bec5;
+}

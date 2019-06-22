@@ -349,7 +349,7 @@ module Admin::Views::Meeting
         categories_for_select = categories.map { |category| [category.name, category.id] }.to_h
         article_categories_selected = article&.article_categories&.map(&:category_id)
         meeting_selected = [article&.meeting_id]
-        recent_articles_for_select = recent_articles.map do |article|
+        recent_articles_for_select = recent_articles.reject{|a| a.id == article&.id}.map do |article|
           ["#{article.meeting.date}のBL会議...#{article_formatted_title(article, number: false)}", article.id]
         end
         recent_articles_for_select.insert(0,["過去の議案を選択してください. 複数選択ができます.", 0])

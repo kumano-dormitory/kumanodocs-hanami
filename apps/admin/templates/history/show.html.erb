@@ -1,0 +1,54 @@
+<div class="p-strip--light is-shallow u-no-padding--bottom">
+  <div class="row">
+    <ul class="p-breadcrumbs">
+      <li class="p-breadcrumbs__item"><a href='<%= routes.root_path %>'>管理者向けページ</a></li>
+      <li class="p-breadcrumbs__item"><a href='<%= routes.histories_path %>'>管理者ページ作業履歴</a></li>
+      <li class="p-breadcrumbs__item"><strong>詳細 ( <%= history.formatted_action(action_name_only: true) %> )</strong></li>
+    </ul>
+    <hr/>
+  </div>
+</div>
+<div class="p-strip is-shallow">
+  <div class="row">
+    <h1>管理者ページ作業履歴 詳細</h1>
+    <h3 class="full-width"><%= history.formatted_action %></h3>
+    <dl>
+      <dt>作業日時:</dt>
+      <dd><%= history.formatted_created_at %></dd>
+      <% case history.action when 1,3,4 then %>
+      <dt>ブロック会議ID</dt>
+      <dd><a href="<%= routes.meeting_path(id: history.json_data.dig("meeting", "id")) %>"><%= history.json_data.dig("meeting", "id") %></a></dd>
+      <% when 2 then %>
+      <dt>ブロック会議ID(変更後)</dt>
+      <dd><a href="<%= routes.meeting_path(id: history.json_data.dig("meeting_after", "id")) %>"><%= history.json_data.dig("meeting_after", "id") %></a></dd>
+      <% when 5,7 then %>
+      <dt>ブロック会議ID</dt>
+      <dd><a href="<%= routes.meeting_path(id: history.json_data.dig("article", "meeting_id")) %>"><%= history.json_data.dig("article", "meeting_id") %></a></dd>
+      <dt>議案ID</dt>
+      <dd><a href="<%= routes.meeting_article_path(meeting_id: 0, id: history.json_data.dig("article", "id")) %>"><%= history.json_data.dig("article", "id") %></a></dd>
+      <% when 6 then %>
+      <dt>ブロック会議ID(変更前)</dt>
+      <dd><a href="<%= routes.meeting_path(id: history.json_data.dig("article_before", "meeting_id")) %>"><%= history.json_data.dig("article_before", "meeting_id") %></a></dd>
+      <dt>ブロック会議ID(変更後)</dt>
+      <dd><a href="<%= routes.meeting_path(id: history.json_data.dig("article_after", "meeting_id")) %>"><%= history.json_data.dig("article_after", "meeting_id") %></a></dd>
+      <dt>議案ID</dt>
+      <dd><a href="<%= routes.meeting_article_path(meeting_id: 0, id: history.json_data.dig("article_after", "id")) %>"><%= history.json_data.dig("article_after", "id") %></a></dd>
+      <% when 8,9 then %>
+      <dt>ブロック会議ID</dt>
+      <dd><a href="<%= routes.meeting_path(id: history.json_data.dig("meeting_id")) %>"><%= history.json_data.dig("meeting_id") %></a></dd>
+      <% when 12,13,14 then %>
+      <dt>ブロック会議ID</dt>
+      <dd><a href="<%= routes.meeting_path(id: history.json_data.dig("article", "meeting", "id")) %>"><%= history.json_data.dig("article", "meeting", "id") %></a></dd>
+      <dt>議案ID</dt>
+      <dd><a href="<%= routes.meeting_article_path(meeting_id: 0, id: history.json_data.dig("article", "id")) %>"><%= history.json_data.dig("article", "id") %></a></dd>
+      <% when 15,16,17,18,19 then %>
+      <dt>ブロック会議ID</dt>
+      <dd><a href="<%= routes.meeting_path(id: history.json_data.dig("article", "meeting_id")) %>"><%= history.json_data.dig("article", "meeting_id") %></a></dd>
+      <dt>議案ID</dt>
+      <dd><a href="<%= routes.meeting_article_path(meeting_id: 0, id: history.json_data.dig("article", "id")) %>"><%= history.json_data.dig("article", "id") %></a></dd>
+      <% end %>
+      <dt>作業内容:</dt>
+      <dd><pre><code><%= h history.json %></code></pre></dd>
+    </dl>
+  </div>
+</div>
