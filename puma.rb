@@ -3,5 +3,5 @@ port 2300
 environment "production"
 rackup 'config.ru'
 
-bind "unix:///tmp/sockets/puma.sock"
+bind "unix:///tmp/puma.sock"
 
