@@ -1,7 +1,7 @@
 module Web::Controllers::Article
   class Create
     include Web::Action
-    expose :meetings, :categories, :recent_articles, :article_refs_selected
+    expose :meetings, :next_meeting, :categories, :recent_articles, :article_refs_selected
 
     params do
       required(:article).schema do
@@ -19,6 +19,7 @@ module Web::Controllers::Article
         optional(:same_refs_selected) { array? { each { int? } } }
         optional(:other_refs_selected) { array? { each { int? } } }
       end
+      required(:action).filled(:str?)
     end
 
     def initialize(meeting_repo: MeetingRepository.new,
@@ -62,11 +63,13 @@ module Web::Controllers::Article
               @meetings = @meeting_repo.in_time
               @notifications = {error: {status: "Error:", message: "議案を投稿しようとしたブロック会議は既に締め切り日時を過ぎています. 投稿できません."}}
             end
+            @next_meeting = @meeting_repo.find_most_recent
           end
         end
       else
         # invalid params
         @meetings = @meeting_repo.in_time
+        @next_meeting = @meeting_repo.find_most_recent
         @notifications = {error: {status: "Error:", message: "入力された項目に不備があり投稿できません. もう一度確認してください"}}
       end
       @categories = @category_repo.all
@@ -104,7 +107,11 @@ module Web::Controllers::Article
           caution: {status: "注意：", message: "議案は追加議案として投稿されました. 通常議案として扱って欲しい正当な理由がある場合は資料委員会に相談してください."}
         }
       end
-      redirect_to routes.article_path(id: article.id)
+      if params[:action] == "post_article_with_table"
+        redirect_to "#{routes.new_table_path}?article_id=#{article.id}"
+      else
+        redirect_to routes.article_path(id: article.id)
+      end
     end
 
     def navigation

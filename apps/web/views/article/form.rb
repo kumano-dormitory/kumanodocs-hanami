@@ -338,7 +338,14 @@ module Web::Views::Article
 
         hr # horizontal line
 
-        submit '投稿', class: "p-button--positive u-float-right"
+        div class: "p-form__group" do
+          div '', class: "p-form__label"
+          div class: "p-form__control" do
+            p '※以下のどちらかを選択してください.「議案のみを投稿」した場合でも、議案の編集ページから表を追加することができます.'
+            submit '議案のみを投稿する', class: "p-button--positive", name: "action", value: "post_article"
+            submit '議案を投稿して、投稿した議案に表を追加する', class: "p-button--positive", name: "action", value: "post_article_with_table"
+          end
+        end
       end
     end
 
@@ -347,7 +354,7 @@ module Web::Views::Article
       meetings_for_select = meetings.map { |meeting| [meeting.formatted_date, meeting.id] }.to_h
       categories_for_select = categories.map { |category| [category.name, category.id] }.to_h
       article_categories_selected = article&.article_categories&.map(&:category_id)
-      recent_articles_for_select = recent_articles.map do |article|
+      recent_articles_for_select = recent_articles.reject{|a| a.id == article&.id}.map do |article|
         ["#{article.meeting.date}のBL会議...#{article_formatted_title(article, number: false)}", article.id]
       end
       recent_articles_for_select.insert(0, ["過去の議案を選択してください. 複数選択ができます.", 0])
@@ -685,13 +692,50 @@ module Web::Views::Article
       end
     end
 
-    def form_search(keyword)
-      form_for :search_article, routes.search_article_path, method: :get, class: "p-form p-form--inline", values: {keyword: keyword} do
-        div(class: "p-form__group") do
-          label '検索キーワード', for: :keywords, class: "p-form__label"
-          text_field :keywords, class: "p-form__control"
+    def form_search(keyword, detail_search, categories = [])
+      if detail_search
+        if keyword == ""
+          selected_categories = ['1','2','3','4','5']
+        else
+          selected_categories = keyword[:categories]
+          selected_categories = ['1','2','3','4','5'] if selected_categories.nil? || selected_categories.empty?
         end
-        submit '検索', class: "p-button--positive"
+
+        form_for :search_article, routes.search_article_path + "?detail_search=true", method: :get, class: "p-form p-form--stacked", values: {keyword: keyword} do
+          fieldset do
+            div class: "p-form__group" do
+              label '題名', for: :title, class: "p-form__label u-align-text--right"
+              text_field :title, class: "p-form__control"
+            end
+            div class: "p-form__group" do
+              label '文責者', for: :author, class: "p-form__label u-align-text--right"
+              text_field :author, class: "p-form__control"
+            end
+            div class: "p-form__group" do
+              label '本文', for: :body, class: "p-form__label u-align-text--right"
+              text_field :body, class: "p-form__control"
+            end
+            div class: "p-form__group u-vertically-center" do
+              label '議案の種別', for: 'categories', class: "p-form__label u-align-text--right"
+              div class: "p-form__control" do
+                categories.each do |category|
+                  check_box :categories, name: 'search_article[categories][]', value: category.id, id: "category-#{category.id}", checked: (selected_categories.find { |i| i == category.id.to_s })
+                  label category.name, for: "category-#{category.id}", style: "width: fit-content;margin-bottom:.3rem;"
+                end
+              end
+            end
+            hidden_field :detail_search, value: true
+            submit '検索', class: "p-button--positive u-float-right"
+          end
+        end
+      else
+        form_for :search_article, routes.search_article_path, method: :get, class: "p-form p-form--inline", values: {keyword: keyword} do
+          div(class: "p-form__group") do
+            label '検索キーワード', for: :keywords, class: "p-form__label"
+            text_field :keywords, class: "p-form__control"
+          end
+          submit '検索', class: "p-button--positive"
+        end
       end
     end
 

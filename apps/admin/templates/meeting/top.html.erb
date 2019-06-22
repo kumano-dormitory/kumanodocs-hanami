@@ -9,6 +9,8 @@
 <div class="p-strip is-shallow">
   <div class="row">
     <h1>資料委員会向け 管理者ページ</h1>
+    <h5 style="color:#c30000" class="u-no-margin--bottom">資料委員会としての作業が終了した場合は、必ず右上のログアウトボタンを押してください. （共用のパソコンなどでログアウトしないままだと、第三者にシステムを変更される恐れがあります）</h5>
+    <h5 style="color:#c30000">また、30分間操作がない場合には自動的にログアウトされるので注意してください</h5>
     <p>以下から操作を選択してください</p>
     <ul class="p-list--divided">
       <li class="p-list__item is-ticked">
@@ -41,6 +43,10 @@
       <li class="p-list__item is-ticked">
         <h4>資料システム一般向けページへ戻る場合はこちら</h4>
         <p><a href='<%= routes.logout_path %>' class="p-button--negative">ログアウト（一般向けページへ）</a></p>
+      </li>
+      <li class="p-list__item is-ticked">
+        <h4>管理者ページで行われた作業履歴をみる場合はこちら</h4>
+        <p><a href='<%= routes.histories_path %>' class="p-button--neutral">管理者ページ作業履歴</a></p>
       </li>
     </ul>
   </div>

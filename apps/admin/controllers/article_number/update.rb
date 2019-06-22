@@ -34,9 +34,11 @@ module Admin::Controllers::ArticleNumber
     }
 
     def initialize(meeting_repo: MeetingRepository.new,
-                   article_repo: ArticleRepository.new)
+                   article_repo: ArticleRepository.new,
+                   admin_history_repo: AdminHistoryRepository.new)
       @meeting_repo = meeting_repo
       @article_repo = article_repo
+      @admin_history_repo = admin_history_repo
       @notifications = {}
     end
 
@@ -51,6 +53,9 @@ module Admin::Controllers::ArticleNumber
         end
 
         @article_repo.update_number(params[:id], articles_number)
+        @admin_history_repo.add(:article_number_update,
+          JSON.pretty_generate({action: "article_number_update", payload: {meeting_id: params[:id], articles_number: params[:meeting][:articles], download: !!params[:download]}})
+        )
 
         if params[:download]
           # 印刷用PDFダウンロードページからの遷移
