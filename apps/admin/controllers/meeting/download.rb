@@ -1,3 +1,6 @@
+require 'fileutils'
+require 'digest/md5'
+
 module Admin::Controllers::Meeting
   class Download
     include Admin::Action
@@ -37,20 +40,43 @@ module Admin::Controllers::Meeting
           @tex_str = Admin::Views::Meeting::Download.render(
             format: :tex, meeting: @meeting, articles: @articles, past_comments: @past_comments, type: :articles
           )
-          # write_file(temp, @tex)
-          # run_command(ptex2pdf -u -l, temp)
-          # self.format = :pdf
-          # unsafe_send_file Pathname.new("/path/to/pdf")
-          self.format = :txt
+          digest = Digest::MD5.hexdigest(@tex_str)
+          tmp_filename = "kumanodocs_meeting_#{@meeting.id}"
+          tmp_folderpath = "/tmp/kumanodocs/meeting#{@meeting.id}/a#{digest}/"
+
+          unless FileTest.exist?("#{tmp_folderpath}#{tmp_filename}.pdf")
+            FileUtils.mkdir_p(tmp_folderpath) unless FileTest.exist?(tmp_folderpath)
+            open("#{tmp_folderpath}#{tmp_filename}.tex", "w") do |f|
+              f.puts(@tex_str)
+            end
+            halt 500 unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == nil || $? == 0 }
+            halt 500 unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == 0 }
+          end
+
+          self.format = :pdf
+          self.headers.merge!({'Content-Disposition' => "attachment; filename=\"kumanodocs_meeting_#{@meeting.date}.pdf\""})
+          unsafe_send_file Pathname.new("#{tmp_folderpath}#{tmp_filename}.pdf")
         elsif params[:comments]
           @articles = @meeting.articles.map{ |article| @article_repo.find_with_relations(article.id) }
           @blocks = @block_repo.all
           @tex_str = Admin::Views::Meeting::Download.render(format: :tex, meeting: @meeting, articles: @articles, blocks: @blocks, type: :comments)
-          # write_file(temp, @tex)
-          # run_command(ptex2pdf -u -l, temp)
-          # self.format = :pdf
-          # unsafe_send_file Pathname.new("/path/to/pdf")
-          self.format = :txt
+
+          digest = Digest::MD5.hexdigest(@tex_str)
+          tmp_filename = "kumanodocs_comments_#{@meeting.id}"
+          tmp_folderpath = "/tmp/kumanodocs/comments#{@meeting.id}/a#{digest}/"
+
+          unless FileTest.exist?("#{tmp_folderpath}#{tmp_filename}.pdf")
+            FileUtils.mkdir_p(tmp_folderpath) unless FileTest.exist?(tmp_folderpath)
+            open("#{tmp_folderpath}#{tmp_filename}.tex", "w") do |f|
+              f.puts(@tex_str)
+            end
+            halt 500 unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == nil || $? == 0 }
+            halt 500 unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == 0 }
+          end
+
+          self.format = :pdf
+          self.headers.merge!({'Content-Disposition' => "attachment; filename=\"kumanodocs_comments_#{@meeting.date}.pdf\""})
+          unsafe_send_file Pathname.new("#{tmp_folderpath}#{tmp_filename}.pdf")
         else
           @view_type = :meeting
         end
