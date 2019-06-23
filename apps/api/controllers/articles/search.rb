@@ -5,7 +5,7 @@ module Api::Controllers::Articles
     DEFAULT_LIMIT = 25
 
     params do
-      required(:token).filled(:str?)
+      optional(:token).filled(:str?)
       optional(:q) { filled? & str? }
       optional(:limit) { filled? & int? & gt?(0) & lt?(101) }
       optional(:offset) { filled? & int? & gteq?(0) }

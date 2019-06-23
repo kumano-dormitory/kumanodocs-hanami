@@ -13,9 +13,8 @@ module Api
     end
 
     def authenticated?
-      token = params.env['HTTP_AUTHORIZATION']&.slice!('bearer ') || params[:token]
+      token = params.env['HTTP_AUTHORIZATION']&.slice(7.. -1) || params[:token]
       return false unless token
-
       rsa_private = OpenSSL::PKey::RSA.new(KUMANODOCS_AUTH_TOKEN_PKEY)
       rsa_public = rsa_private.public_key
       begin

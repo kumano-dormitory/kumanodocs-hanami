@@ -6,7 +6,7 @@ module Api::Controllers::Meetings
     MAX_LIMIT = 100
 
     params do
-      required(:token).filled(:str?)
+      optional(:token).filled(:str?)
       optional(:limit) { filled? & int? & gt?(0) }
       optional(:offset) { filled? & int? & gt?(0) }
     end
