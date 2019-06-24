@@ -16,6 +16,10 @@ resources :meeting, only: [:index, :show]
 resources :table, only: [:new, :create, :edit, :update, :destroy]
 resource :login, only: [:show, :create]
 
+get '/gijiroku/content', to: 'gijiroku#content', as: :content_gijiroku
+get '/gijiroku/:id/delete', to: 'gijiroku#destroy', as: :destroy_gijiroku
+resources :gijiroku, only: [:index, :show, :new, :create, :edit, :update]
+
 get '/meeting/:meeting_id/block/:block_id/comment/edit', to: 'comment#edit', as: :edit_comment
 patch '/meeting/:meeting_id/block/:block_id/comment/', to: 'comment#update', as: :comments
 
