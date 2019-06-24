@@ -113,4 +113,9 @@ class JsonRepository < Hanami::Repository
     ORDER BY article_number nulls last, article_id, block_id, body nulls last"
     jsons.read(query).map.to_a
   end
+
+  def latest_gijiroku
+    query = "SELECT id, body FROM gijirokus ORDER BY created_at DESC LIMIT 1"
+    jsons.read(query).map.to_a.fetch(0, {id: 0, body: ''})
+  end
 end
