@@ -1,5 +1,18 @@
 var diffOutputFormat = 'line-by-line';
 var diffOptionContext = '4';
+var diffOptionFontSize = '10pt';
+
+function changeDiffFontSize(size) {
+  if (size === '') {
+    size = diffOptionFontSize;
+  } else {
+    diffOptionFontSize = size;
+  }
+  var diffTables = document.getElementsByClassName('d2h-diff-table');
+  for(var i = 0; i < diffTables.length; i++) {
+    diffTables[i].style.fontSize = size;
+  }
+}
 
 function toggleDiffHtml(target, outputFormat, context) {
   // line-by-line: 96, side-by-side: 65
@@ -50,6 +63,7 @@ function toggleDiffHtml(target, outputFormat, context) {
   } else {
     target.setAttribute('style', 'max-width: 87rem;');
   }
+  changeDiffFontSize('');
 }
 
 function filterArticles(select, value) {
@@ -83,6 +97,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const diffOptionContextSelect = document.getElementById('diff-options-context');
     if (diffOptionContextSelect) {
       diffOptionContextSelect.addEventListener('change', (e) => toggleDiffHtml(target, '', e.target.value));
+    }
+    const diffOptionFontSizeSelect = document.getElementById('diff-options-font-size');
+    if (diffOptionFontSize) {
+      diffOptionFontSizeSelect.addEventListener('change', (e) => changeDiffFontSize(e.target.value));
     }
     const diffSelectOldMeeting = document.getElementById('diff-old-meeting');
     const diffSelectOldArticle = document.getElementById('diff-old-article');
