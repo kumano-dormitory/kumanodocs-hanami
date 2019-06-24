@@ -1,0 +1,13 @@
+<div class="p-strip">
+  <div class="row">
+    <h1>議事録:<%= gijiroku.id %></h1>
+    <ul>
+      <li>文字数：<%= gijiroku.body.length %></li>
+      <li>作成日時：<%= gijiroku.created_at %></li>
+      <li>変更日時：<%= gijiroku.updated_at %></li>
+    </ul>
+    <a href="<%= routes.edit_gijiroku_path(id: gijiroku.id) %>" class="p-button--neutral">編集</a>
+    <a href="<%= routes.destroy_gijiroku_path(id: gijiroku.id) %>" class="p-button--neutral">削除</a>
+    <p><%= gijiroku.body.gsub(/(\r\n|\r|\n)/, '<br>') %></p>
+  </div>
+</div>

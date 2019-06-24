@@ -1,0 +1,28 @@
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-migrate-3.1.0.min.js"></script>
+
+<div class="p-strip">
+  <div class="row row-wide">
+    <h1>議事録</h1>
+    <p>文字サイズの変更</p>
+    <button type="button" style="float: left; margin-right: 8pt;" href="#" id="text-size-9pt">9pt</button>
+    <button type="button" style="float: left; margin-right: 8pt;" href="#" id="text-size-10pt">10pt</button>
+    <button type="button" style="float: left; margin-right: 8pt;" href="#" id="text-size-11pt">11pt</button>
+    <button type="button" style="float: left; margin-right: 8pt;" href="#" id="text-size-12pt">12pt</button>
+    <button type="button" style="float: left; margin-right: 8pt;" href="#" id="text-size-13pt">13pt</button>
+    <button type="button" style="float: left; margin-right: 8pt;" href="#" id="text-size-14pt">14pt</button>
+    <button type="button" style="float: left; margin-right: 8pt;" href="#" id="text-size-16pt">16pt</button>
+    <button type="button" style="float: left; margin-right: 8pt;" href="#" id="text-size-18pt">18pt</button>
+    <button type="button" style="float: left; margin-right: 8pt;" href="#" id="text-size-20pt">20pt</button>
+
+
+    <div style="max-width: 850px; clear: both; margin-top: 60pt">
+      <p id="content"><%= gijiroku.body.gsub(/(\r\n|\r|\n)/, '<br>') %></p>
+    </div>
+  </div>
+</div>
+
+<%= javascript 'gijiroku' %>
