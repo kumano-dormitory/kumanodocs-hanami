@@ -38,7 +38,7 @@
         <dl>
           <% past_comments.each do |article_id, comments| %>
           <dt><%= h "(#{comments[0]&.dig(:article_number) || '番号なし'}) #{comments[0]&.dig(:title)}" %></dt>
-          <dd><pre><% comments.each do |comment| %><% if comment[:body] %><%= h "#{comment[:block_name]} - #{comment[:body]}\n" %><% elsif comment[:agree] %><%= h "#{comment[:block_name]}の採決結果\n賛成:#{comment[:agree]}\n反対:#{comment[:disagree]}\n保留:#{comment[:onhold]}\n" %><% end %><% end %></pre></dd>
+          <dd><pre><% comments.each do |comment| %><% if comment[:body] && !comment[:body].strip.empty? %><%= h "#{comment[:block_name]} - #{comment[:body]}\n" %><% elsif comment[:agree] %><%= h "#{comment[:block_name]}の採決結果\n賛成:#{comment[:agree]}\n反対:#{comment[:disagree]}\n保留:#{comment[:onhold]}\n" %><% end %><% end %></pre></dd>
           <% end %>
         </dl>
       <% end %>
