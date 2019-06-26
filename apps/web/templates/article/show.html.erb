@@ -12,6 +12,17 @@
         %>
       </div>
       <% end %>
+      <% if !article.checked %>
+        <% if after_6pm(article, meeting) %>
+          <div class="row">
+            <p style="color:#d50000">この議案は、ブロック会議当日の１８時以降に編集されたため資料委員会によって印刷されません。議案提起者が印刷を行ってください。</p>
+          </div>
+        <% else %>
+          <div class="row">
+            <p>この議案は追加議案ですが、ブロック会議当日の１８時までに投稿されたため、資料委員会が印刷します。議案投稿者が印刷する必要はありません。</p>
+          </div>
+        <% end %>
+      <% end %>
       <dl>
         <dt>文責者</dt>
         <dd><%= h article.author.name %></dd>
