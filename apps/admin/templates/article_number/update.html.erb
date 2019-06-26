@@ -35,6 +35,9 @@
       <li id="<%= article.id %>" class="ui-state-default">
         <div class="p-card u-no-margin--bottom u-no-padding">
           <h4 class="full-width u-no-margin--bottom">
+            <% if for_download && !article.checked && after_6pm(article, meeting) %>
+              （※この議案はブロック会議当日１８時以降に投稿・編集されたため印刷されません）<br>
+            <% end %>
             <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
             <%= article_formatted_title(article, checked: true, number: false) %>
           </h4>
