@@ -93,11 +93,11 @@ module Web::Controllers::Article
     def update_if_editable(article, params)
       if after_deadline?
         # 追加議案の編集期間
-        if @meeting_repo.find_most_recent.id == article.meeting.id && !article.checked
+        if @meeting_repo.find_most_recent.id == article.meeting.id && !article.checked && !article.printed
           update(article, params)
         else
           @meetings = [@meeting_repo.find_most_recent]
-          @notifications = {error: {status: "Error:", message: "議案が追加議案ではないため編集できません. 編集したい場合は資料委員会に相談してください."}}
+          @notifications = {error: {status: "Error:", message: "議案が追加議案ではないか、追加議案であっても資料委員会が印刷済みのため編集できません. 編集したい場合は資料委員会に相談してください."}}
           self.status = 422
         end
       else

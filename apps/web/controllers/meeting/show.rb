@@ -38,7 +38,7 @@ module Web::Controllers::Meeting
           @article_refs = @article_reference_repo.find_refs(@article.id)
           @editable = if after_deadline?
             # 追加議案の編集期間
-            @meeting_repo.find_most_recent.id == @article.meeting_id && !@article.checked
+            @meeting_repo.find_most_recent.id == @article.meeting_id && !@article.checked && !@article.printed
           else
             # 通常の編集期間
             @article.meeting.deadline > Time.now
