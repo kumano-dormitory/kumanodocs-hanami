@@ -9,6 +9,13 @@ class JsonRepository < Hanami::Repository
     jsons.read(query).map.to_a
   end
 
+  def find_past_meeting(meeting_id)
+    query = "select * from meetings \
+    where date < (select date from meetings where id = #{meeting_id}) \
+    order by date desc limit 1"
+    jsons.read(query).map.first
+  end
+
   def articles_by_meeting(id)
     query = "\
     select articles.id, title, body, format, articles.created_at, articles.updated_at, \
