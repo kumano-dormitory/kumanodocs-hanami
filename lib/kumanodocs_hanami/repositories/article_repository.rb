@@ -47,6 +47,7 @@ class ArticleRepository < Hanami::Repository
       .order(meetings[:date].qualified.desc,
         articles[:number].qualified.asc,
         articles[:id].qualified.desc)
+      .group(:id, authors[:name], meetings[:date])
       .limit(limit)
       .offset((page - 1) * limit)
       .map_to(Article)
@@ -59,6 +60,7 @@ class ArticleRepository < Hanami::Repository
       .join(authors)
       .join(article_categories)
       .where(Sequel.&(*keys))
+      .group(:id)
       .count
   end
 
