@@ -13,7 +13,7 @@
       </div>
       <% end %>
       <% if !article.checked %>
-        <% if after_6pm(article, meeting) %>
+        <% if after_6pm(article, article.meeting) %>
           <div class="row">
             <p style="color:#d50000">この議案は、ブロック会議当日の１８時以降に編集されたため資料委員会によって印刷されません。議案提起者が印刷を行ってください。</p>
           </div>
