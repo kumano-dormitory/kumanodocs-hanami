@@ -1,3 +1,4 @@
+get '/meetings/:id/pastMeeting', to: 'meetings#past'
 resources :meetings, only: [:index, :show] do
   resources :comments, only: [:index]
 end
