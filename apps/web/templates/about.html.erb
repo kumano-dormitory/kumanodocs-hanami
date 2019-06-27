@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>資料システム</title>
+    <%= favicon %>
+    <link rel="stylesheet" href="https://assets.ubuntu.com/v1/vanilla-framework-version-1.8.1.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <%= stylesheet 'application' %>
+    <%= stylesheet 'about' %>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="資料システム">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="apple-touch-icon" href="/assets/icon512.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="/assets/icon.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="/assets/icon512.png">
+    <link rel="apple-touch-startup-image" href="/assets/launch-640x1136.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+    <!-- iPhone Xs Max (1242px x 2688px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)" href="/assets/launch-1242x2688.png">
+    <!-- iPhone Xr (828px x 1792px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)" href="/assets/launch-828x1792.png">
+    <!-- iPhone X, Xs (1125px x 2436px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" href="/assets/launch-1125x2436.png">
+    <!-- iPhone 8 Plus, 7 Plus, 6s Plus, 6 Plus (1242px x 2208px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)" href="/assets/launch-1242x2208.png">
+    <!-- iPhone 8, 7, 6s, 6 (750px x 1334px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" href="/assets/launch-750x1334.png">
+    <!-- iPad Pro 12.9" (2048px x 2732px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)" href="/assets/launch-2048x2732.png">
+    <!-- iPad Pro 11” (1668px x 2388px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)" href="/assets/launch-1668x2388.png">
+    <!-- iPad Pro 10.5" (1668px x 2224px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)" href="/assets/launch-1668x2224.png">
+    <!-- iPad Mini, Air (1536px x 2048px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)" href="/assets/launch-1536x2048.png">
+    <meta name="viewport" content="width=device-width">
+    <%= javascript 'viewport' %>
+    <link rel="manifest" href="/manifest.json" type="application/json">
+  </head>
+  <body>
+    <header id="navigation" class="p-navigation" style="background-color: #e1f5fe">
+      <div class="row">
+        <div class="p-navigation__banner">
+          <div class="p-navigation__logo">
+            <a class="p-navigation__link" href="/">
+              <img src="/assets/logo.png" alt="" class="p-navigation__image">
+            </a>
+          </div>
+          <a href="#navigation" class="p-navigation__toggle--open" title="menu">Menu</a>
+          <a href="#navigation-closed" class="p-navigation__toggle--close" title="close menu">Close menu</a>
+        </div>
+        <nav class="p-navigation__nav u-image-position" role="menubar">
+          <form class="p-search-box" action="/article/search">
+            <input type="search" class="p-search-box__input" name="search_article[keywords]" placeholder="議案検索" required="">
+            <button type="reset" class="p-search-box__reset" alt="reset"><i class="p-icon--close"></i></button>
+            <button type="submit" class="p-search-box__button" alt="search"><i class="p-icon--search"></i></button>
+          </form>
+          <span class="u-off-screen">
+            <a href="#main-content">Jump to main content</a>
+          </span>
+          <ul class="p-navigation__links" role="menu">
+            <li class="p-navigation__link" role="menuitem"><a href="/article">新着議案</a></li>
+            <li class="p-navigation__link" role="menuitem"><a href="/meeting">ブロック会議</a></li>
+            <li class="p-navigation__link" role="menuitem"><a href="/article/new">議案投稿</a></li>
+            <li class="p-navigation__link" role="menuitem"><a href="/meeting/0/download">ダウンロード</a></li>
+          </ul>
+          <ul class="p-navigation__links u-image-position--right" role="menu">
+            <li class="p-navigation__link" role="menuitem">
+              <a class="u-hide--small" href="/admin"><i class="p-icon--user icon-settings"></i></a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="u-no-margin--top">
+      <%= yield %>
+    </div>
+
+    <footer class="p-strip--light is-shallow u-hide--small">
+      <a href="#" class="p-top__link p-button--neutral">ページの上部へ戻る ↑<i class="p-icon--contextual-menu"></i></a>
+      <div class="row">
+        <p class="full-width">
+          Copyright© 2019 Kumano Dormitory IT Section <small>(Some rights reserved <a href="https://creativecommons.org/licenses/by-nd/4.0/" target="_blank">CC BY-ND 4.0</a>)</small>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

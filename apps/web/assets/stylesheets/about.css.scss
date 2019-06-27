@@ -1,0 +1,44 @@
+.rot-slow {
+  animation: flax 4s linear infinite;
+}
+.rot {
+  animation: spin 3.5s linear;
+}
+.rot:hover {
+  animation: spin 1s linear infinite;
+}
+.rotrev {
+  animation: spinrev 5s linear;
+}
+.wider {
+  animation: expandx 3.5s linear;
+}
+.taller {
+  animation: expandy 5s linear;
+}
+@keyframes spin {
+  0% {transform: rotate(0deg);}
+  100% {transform: rotate(360deg);}
+}
+@keyframes spinrev {
+  0% {transform: rotate(0deg);}
+  100% {transform: rotate(-360deg);}
+}
+@keyframes flax {
+  0% {transform: rotate(0deg);}
+  25% {transform: rotate(15deg);}
+  75% {transform: rotate(-15deg);}
+  100% {transform: rotate(0deg);}
+}
+@keyframes expandx {
+  0% {transform: scaleX(1);fill:#000;}
+  50% {transform: scaleX(1.3);fill:#ddd;}
+  100% {transform: scaleX(1);fill:#000;}
+}
+@keyframes expandy {
+  0% {transform: scale(1,1);fill:#000;}
+  25% {transform: scale(1.1,1.2);fill:#e1f5fe;}
+  50% {transform: scale(1.2,1.3);fill:#aaa;}
+  75% {transition: scale(1.1,1.2);fill:#e1f5fe;}
+  100% {transform: scale(1,1);fill:#000;}
+}

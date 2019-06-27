@@ -35,3 +35,5 @@ delete '/comment/message/:id', to: 'comment/message#destroy', as: :comment_messa
 
 # Error page
 get '/error/:id', to: 'error#show', as: :error
+
+get '/about', to: 'funny#about', as: :about
