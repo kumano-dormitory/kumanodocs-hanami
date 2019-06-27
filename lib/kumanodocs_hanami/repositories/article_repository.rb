@@ -86,10 +86,19 @@ class ArticleRepository < Hanami::Repository
   end
 
   def update_status(articles_status)
-    articles_status.each do |status|
-      checked = !status['checked'].nil?
-      printed = !status['printed'].nil?
-      update(status['article_id'], checked: checked, printed: printed)
+    transaction do
+      articles_status.each do |status|
+        checked = status['checked'] || false
+        update(status['article_id'], checked: checked)
+      end
+    end
+  end
+
+  def update_printed(articles_status)
+    transaction do
+      articles_status.each do |status|
+        update(status[:id], printed: status[:printed])
+      end
     end
   end
 

@@ -33,7 +33,7 @@ module Admin::Controllers::Meeting
           @past_comments = @comment_repo.by_meeting(past_meeting.id)
                                         .group_by{|comment| comment[:article_id]}
           # 出力する議案の印刷フラグをすべてtrueにする
-          @article_repo.update_status(@articles.map{ |article| { 'article_id' => article.id, 'printed' => true}})
+          @article_repo.update_printed(@articles.map{ |article| { id: article.id, printed: true}})
           @admin_history_repo.add(:meeting_download,
             JSON.pretty_generate({action: "meeting_download", payload: {meeting: @meeting.to_h.merge({articles: @articles.map(&:id)})}})
           )
