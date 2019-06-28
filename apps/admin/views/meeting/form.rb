@@ -43,13 +43,18 @@ module Admin::Views::Meeting
           end
         end
 
+        div do
+          check_box :ryoseitaikai
+          label '寮生大会か', for: :ryoseitaikai
+        end
+
         submit '作成', class: "p-button--positive"
       end
     end
 
     def form_update(meeting = nil)
       meeting_values = if meeting
-        {meeting: {date: meeting.date, deadline: meeting.deadline.strftime("%Y-%m-%dT%H:%M")}}
+        {meeting: {date: meeting.date, deadline: meeting.deadline.strftime("%Y-%m-%dT%H:%M"), ryoseitaikai: (meeting.type == 1)}}
       else
         {}
       end
@@ -95,6 +100,11 @@ module Admin::Views::Meeting
             label '議案投稿締め切り', for: :deadline
             datetime_local_field :deadline
           end
+        end
+
+        div do
+          check_box :ryoseitaikai
+          label '寮生大会か', for: :ryoseitaikai
         end
 
         submit '保存', class: "p-button--positive"

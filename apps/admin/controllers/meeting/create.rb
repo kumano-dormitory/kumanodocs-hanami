@@ -6,6 +6,7 @@ module Admin::Controllers::Meeting
       required(:meeting).schema do
         required(:date).filled(:date?)
         required(:deadline).filled(:date_time?)
+        required(:ryoseitaikai).filled(:bool?)
       end
     end
 
@@ -20,7 +21,8 @@ module Admin::Controllers::Meeting
       if params.valid? && valid_deadline?(params)
         meeting_attr = {
           date: params[:meeting][:date],
-          deadline: params[:meeting][:deadline].to_s.gsub(/\+00:00/, "+09:00")
+          deadline: params[:meeting][:deadline].to_s.gsub(/\+00:00/, "+09:00"),
+          type: (params[:meeting][:ryoseitaikai] ? 1 : 0)
         }
         meeting = @meeting_repo.create(meeting_attr)
         @admin_histroy_repo.add(:meeting_create, JSON.pretty_generate({action: "meeting_create", payload: {meeting: meeting.to_h} }))
