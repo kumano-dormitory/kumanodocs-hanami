@@ -22,7 +22,7 @@
     <ul class="p-list--divided">
       <% meetings.each do |meeting| %>
       <li class="p-list__item"><a href='<%= routes.meeting_path(id: meeting.id) %>' class="p-button--base u-no-margin--bottom">
-        <h4><%= meeting.formatted_date %>のブロック会議</h4>
+        <h4><%= meeting.formatted_date %>の<%= meeting.type == 0 ? "ブロック会議" : "寮生大会" %></h4>
       </a></li>
       <% end %>
     </ul>
