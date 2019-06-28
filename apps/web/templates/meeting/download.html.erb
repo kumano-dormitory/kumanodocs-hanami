@@ -6,7 +6,7 @@
       <% meetings.each do |meeting| %>
       <li class="p-list__item">
         <a href='<%= routes.download_meeting_path(id: meeting.id) %>' class="p-button--base u-no-margin--bottom">
-          <h4 class="u-no-margin--bottom"><%= meeting.formatted_date %>のブロック会議</h4>
+          <h4 class="u-no-margin--bottom"><%= meeting.formatted_date %>の<%= meeting.type == 1 ? "寮生大会" : "ブロック会議" %></h4>
         </a>
       </li>
       <% end %>
