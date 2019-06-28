@@ -2,14 +2,14 @@
   <div class="row row-wide">
     <div class="u-hide--small">
       <h1 class="full-width">
-        <%= meeting.formatted_date %>のブロック会議
+        <%= meeting.formatted_date %>の<%= meeting.type == 0 ? "ブロック会議" : "寮生大会" %>
         <% if meeting.deadline > Time.now %>
         <small>(議案投稿の締め切り日時 : <%= meeting.formatted_deadline %>)</small>
         <% end %>
       </h1>
     </div>
     <div class="u-hide--large u-hide--medium">
-      <h2 class="u-no-margin--bottom"><%= meeting.formatted_date %>のブロック会議</h2>
+      <h2 class="u-no-margin--bottom"><%= meeting.formatted_date %>の<%= meeting.type == 0 ? "ブロック会議" : "寮生大会" %></h2>
       <% if meeting.deadline > Time.now %>
         <p>議案投稿の締め切り日時 : <%= meeting.formatted_deadline %></p>
       <% end %>
