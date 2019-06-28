@@ -3,7 +3,7 @@
     <ul class="p-breadcrumbs">
       <li class="p-breadcrumbs__item"><a href='<%= routes.root_path %>'>管理者向けページ</a></li>
       <li class="p-breadcrumbs__item"><a href="<%= routes.meetings_path %>">ブロック会議一覧</a></li>
-      <li class="p-breadcrumbs__item"><a href="<%= routes.meeting_path(id: meeting.id) %>"><%= meeting.formatted_date %>のブロック会議</a></li>
+      <li class="p-breadcrumbs__item"><a href="<%= routes.meeting_path(id: meeting.id) %>"><%= meeting.formatted_date %>の<%= meeting.type == 1 ? "寮生大会" : "ブロック会議" %></a></li>
       <li class="p-breadcrumbs__item"><strong>議案一覧</strong></li>
     </ul>
     <hr/>
@@ -11,7 +11,7 @@
 </div>
 <div class="p-strip is-shallow">
   <div class="row">
-    <h1><%= meeting.formatted_date %>のブロック会議の議案一覧</h1>
+    <h1><%= meeting.formatted_date %>の<%= meeting.type == 1 ? "寮生大会" : "ブロック会議" %>の議案一覧</h1>
     <a href="<%= routes.new_meeting_article_path(meeting_id: meeting.id) %>" class="p-button--positive">このブロック会議に議案を追加</a>
     <% articles.each do |article| %>
     <div class="p-card u-no-margin--bottom">
