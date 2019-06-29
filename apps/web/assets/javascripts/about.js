@@ -31,14 +31,32 @@ const dd = document.getElementById("dcontainer");
 const descline = document.getElementById("descline");
 const restartbutton = document.getElementById("restartbutton");
 
-function addHoverMotion(mouseTarget, target, motionName) {
-  mouseTarget.addEventListener("mouseover", () => {
-    target.classList.remove("rot","rotrev");
-    target.classList.add("animated",motionName);
-  });
-  target.addEventListener("animationend", () => {
-    target.classList.remove("animated",motionName);
-  });
+function addHoverMotion(mouseTarget, target, motionName, fadein) {
+  if (fadein) {
+    mouseTarget.addEventListener("mouseover", () => {
+      target.classList.remove("rot","rotrev");
+      target.classList.add("animated",motionName);
+      target.addEventListener("animationend", () => {
+        target.classList.remove("animated",motionName);
+        target.style.fill = '#fff';
+        window.setTimeout(() => {
+          target.classList.add("animated","fadeIn");
+          target.style.fill = '#000';
+          target.addEventListener("animationend", () => {
+            target.classList.remove("animated","fadeIn");
+          }, {once: true});
+        },1);
+      }, {once: true});
+    });
+  } else {
+    mouseTarget.addEventListener("mouseover", () => {
+      target.classList.remove("rot","rotrev");
+      target.classList.add("animated",motionName);
+      target.addEventListener("animationend", () => {
+        target.classList.remove("animated",motionName);
+      }, {once: true});
+    });
+  }
 }
 function resetAnimateClass(target,motionName,speedName,delayName) {
   if (speedName === "") {
@@ -62,21 +80,31 @@ function resetClass(target,className) {
 
 function initialize() {
   resetAnimation();
-  addHoverMotion(s1,s1,"bounce");
-  addHoverMotion(s2,s2,"flash");
-  addHoverMotion(s3,s3,"rubberBand");
-  addHoverMotion(s4,s4,"wobble");
-  addHoverMotion(s5,s5,"heartBeat");
-  addHoverMotion(s6,s6,"jello");
+  addHoverMotion(s1,s1,"bounce",false);
+  addHoverMotion(s2,s2,"flash",false);
+  addHoverMotion(s3,s3,"rubberBand",false);
+  addHoverMotion(s4,s4,"wobble",false);
+  addHoverMotion(s5,s5,"heartBeat",false);
+  addHoverMotion(s6,s6,"jello",false);
 
-  addHoverMotion(dd,d1,"fadeOutLeft");
-  addHoverMotion(dd,d2,"rotateOutUpRight");
-  addHoverMotion(dd,d3,"fadeOutDown");
-  addHoverMotion(dd,d4,"zoomOutLeft");
-  addHoverMotion(dd,d5,"rotateOutDownLeft");
-  addHoverMotion(dd,d6,"rollOut");
-  addHoverMotion(dd,d7,"fadeOutUp");
-  addHoverMotion(dd,d8,"lightSpeedOut");
+  addHoverMotion(dd,d1,"fadeOutLeft",true);
+  addHoverMotion(dd,d2,"rotateOutUpRight",true);
+  addHoverMotion(dd,d3,"fadeOutDown",true);
+  addHoverMotion(dd,d4,"zoomOutLeft",true);
+  addHoverMotion(dd,d5,"rotateOutDownLeft",true);
+  addHoverMotion(dd,d6,"rollOut",true);
+  addHoverMotion(dd,d7,"fadeOutUp",true);
+  addHoverMotion(dd,d8,"lightSpeedOut",true);
+
+  addHoverMotion(k1,k1,"bounce",false);
+  addHoverMotion(k2,k2,"jello",false);
+  addHoverMotion(k3,k3,"shake",false);
+  addHoverMotion(k4,k4,"pulse",false);
+  addHoverMotion(k5,k5,"wobble",false);
+  addHoverMotion(k6,k6,"swing",false);
+  addHoverMotion(k8,k8,"flash",false);
+  addHoverMotion(k9,k9,"tada",false);
+  addHoverMotion(k10,k10,"rubberBand",false);
 }
 
 function resetAnimation() {
