@@ -37,9 +37,9 @@ class AdminHistory < Hanami::Entity
     when 5 then
       ret = ret + " - ブロック会議ID[#{data.dig("article", "meeting_id")}], 議案の題名[#{data.dig("article", "title")}], 文責者[#{data.dig("article", "author", "name")}]"
     when 6 then
-      ret = ret + " - ブロック会議[#{data.dig("article_before", "meeting", "date")}](変更前), 議案の題名[#{data.dig("article_after", "title")}](変更後), 文責者[#{data.dig("article_after", "title")}](変更後)"
+      ret = ret + " - ブロック会議[#{data.dig("article_before", "meeting", "date")}](変更前), 議案の題名[#{data.dig("article_after", "title")}](変更後), 文責者[#{data.dig("article_after","author","name")}](変更後)"
     when 7 then
-      ret = ret + " - ブロック会議[#{data.dig("article", "meeting", "date")}], 議案の題名[#{data.dig("article", "title")}], 文責者[#{data.dig("article", "title")}]"
+      ret = ret + " - ブロック会議[#{data.dig("article", "meeting", "date")}], 議案の題名[#{data.dig("article", "title")}], 文責者[#{data.dig("article", "author","name")}]"
     when 8 then
       ret = ret + " - ブロック会議ID[#{data.dig("meeting_id")}]"
     when 9 then
