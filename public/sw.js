@@ -12,7 +12,7 @@ var urlsToCache = [
   '/assets/bottom_navigation-aaa86278aa838b77fd487ee767678880.js',
   '/assets/clear_token-43c5db87b423df9117399a3c7cd1f5bc.js',
   '/assets/contextual_menu-3ddee2caebe357124863783158aff633.js',
-  '/assets/diff-e6c7039c1276600292205459db79c949.js',
+  '/assets/diff-262abfb545dcfa563c9ad9d664114083.js',
   '/assets/markdown_preview-eac2ffc7a4be3fc3a4783f21ff46682e.js',
   '/assets/save_token-d2a06de682eb876c81c5bc106abc997f.js',
   '/assets/viewport-1ce191a50c271f107557560ad41c027b.js',
