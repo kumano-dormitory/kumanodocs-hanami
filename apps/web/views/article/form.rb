@@ -161,7 +161,7 @@ module Web::Views::Article
         end
 
         if !params.valid? && params.errors.dig(:article, :format)
-          div class: "p-form__group p-form-validation is-error" do
+          div class: "p-form__group p-form-validation is-error", style: "display:none" do
             label '本文のフォーマット', for: :format, class: "p-form__label u-align-text--right"
             div class: "p-form__control" do
               label '', for: :format do
@@ -180,7 +180,7 @@ module Web::Views::Article
             end
           end
         else
-          div class: "p-form__group" do
+          div class: "p-form__group", style: "display:none" do
             label '本文のフォーマット', for: :format, class: "p-form__label u-align-text--right"
             div class: "p-form__control" do
               label '', for: :format do
@@ -496,7 +496,7 @@ module Web::Views::Article
         end
 
         if !params.valid? && params.errors.dig(:article, :format)
-          div class: "p-form__group p-form-validation is-error" do
+          div class: "p-form__group p-form-validation is-error", style: "display:none" do
             label '本文のフォーマット', for: :format, class: "p-form__label"
             div class: "p-form__control" do
               label '', for: :format do
@@ -515,7 +515,7 @@ module Web::Views::Article
             end
           end
         else
-          div class: "p-form__group" do
+          div class: "p-form__group", style: "display:none" do
             label '本文のフォーマット', for: :format, class: "p-form__label"
             div class: "p-form__control" do
               label '', for: :format do
