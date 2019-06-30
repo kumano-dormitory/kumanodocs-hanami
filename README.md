@@ -48,11 +48,12 @@ And then, open [http://localhost:2300](http://localhost:2300).
 | meeting_id | Foreign key | on delete cascade |
 
 ### Meeting
-| attribute | type |
-| ----- | ----- |
-| id | Primary key |
-| date | Date |
-| deadline | DateTime |
+| attribute | type |  |
+| ----- | ----- | ---- |
+| id | Primary key |  |
+| date | Date |  |
+| deadline | DateTime |  |
+| type | Integer | 0:default(BlockMeeting), 1: GeneralMeeting |
 
 ### Author
 | attribute | type |
