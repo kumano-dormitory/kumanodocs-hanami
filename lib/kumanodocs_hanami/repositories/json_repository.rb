@@ -27,7 +27,7 @@ class JsonRepository < Hanami::Repository
                   join categories on article_categories.category_id = categories.id \
     where meetings.id = #{id} \
     group by articles.id, authors.id \
-    order by articles.number asc nulls last, articles.id desc"
+    order by articles.number asc nulls last, articles.id asc"
     jsons.read(query).map.to_a
   end
 
