@@ -57,7 +57,7 @@ module Admin::Controllers::Meeting
           self.headers.merge!({'Content-Disposition' => "attachment; filename=\"kumanodocs_meeting_#{@meeting.date}.pdf\""})
           unsafe_send_file Pathname.new("#{tmp_folderpath}#{tmp_filename}.pdf")
         elsif params[:comments]
-          @meeting = @meeting_repo.find_with_relations(params[:id])
+          @meeting = @meeting_repo.find_with_articles(params[:id])
           @articles = @meeting.articles.map{ |article| @article_repo.find_with_relations(article.id) }
           @blocks = @block_repo.all
           @tex_str = Admin::Views::Meeting::Download.render(format: :tex, meeting: @meeting, articles: @articles, blocks: @blocks, type: :comments)
