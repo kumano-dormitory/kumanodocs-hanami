@@ -29,7 +29,7 @@ module Web::Controllers::Table
         # 議案が締め切りを過ぎていないか、または締め切り後かつ追加議案であるかを判定
         meeting_date = Time.new(article.meeting.date.year, article.meeting.date.mon, article.meeting.date.day,22,0,0,"+09:00")
         if (article.meeting.deadline > Time.now) || \
-           (after_deadline? && meeting_date > Time.now && !article.checked)
+           (after_deadline? && meeting_date > Time.now && !article.checked && !article.printed)
           begin
             CSV.parse(params[:table][:tsv], col_sep: "\t")
             if article.author.authenticate(params[:table][:article_passwd])
