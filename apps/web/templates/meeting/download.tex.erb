@@ -1,0 +1,66 @@
+<% if !meeting.nil? %>
+\documentclass[b5j,10pt]{ujarticle}
+\usepackage{listings}
+\usepackage{spverbatim}
+\usepackage{tocloft}
+\usepackage{here}
+\usepackage[top=30truemm,bottom=25truemm,left=25truemm,right=25truemm]{geometry}
+
+\lstset{
+breaklines=true
+1;2802;0c}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+
+\title{ <%= meeting.date %> ブロック会議 }
+\date{}
+\author{}
+
+\begin{document}
+\maketitle
+\vspace{-10ex}
+\tableofcontents
+
+\section*{(0) 前回のブロック会議から}
+\addcontentsline{toc}{section}{\protect\numberline{} {(0) 前回のブロック会議から} }%
+<% past_comments.each do |article_id, comments| %>
+\begin{spverbatim}
+<%= "(#{comments[0]&.dig(:article_number) || '番号なし'}) #{comments[0]&.dig(:title)}" %>
+
+<% comments.each do |comment| %><% if comment[:body] && !comment[:body].strip.empty? %><%= "#{comment[:block_name]} - #{comment[:body]}\n" %>
+<% elsif comment[:agree] %><%= "#{comment[:block_name]}の採決結果\n賛成:#{comment[:agree]}\n反対:#{comment[:disagree]}\n保留:#{comment[:onhold]}\n" %><% end %><% end %>
+\end{spverbatim}
+<% end %>
+
+<% articles.each do |article| %>
+
+\section*{ <%= article_formatted_title(article, checked: true) %> \\ \ \  \normalsize{ 文責：<%= article.author.name %> } }
+\addcontentsline{toc}{section}{\protect\numberline{} <%= article_formatted_title(article, checked: true) %> }%
+\begin{spverbatim}<%= article.body %>
+<% if !vote_content(article).empty? %>
+
+採決項目：
+<%= vote_content(article) %>
+<% end %>\end{spverbatim}
+
+<% if !article.tables.nil? %>
+    <% article.tables.each do |table| %>
+        \begin{table}[H]
+        \begin{center}
+        \caption{ <%= table.caption %> }
+        \begin{tabular}{<% table.data[0].each_with_index do |col, idx| %><% if idx == 0 %>l<% else %>|r<% end %><% end %>}
+          \hline
+          <% table.data.each_with_index do |row, row_idx| %>
+            <% row.each_with_index do |col, col_idx| %>\spverb <%= col %><% if row.length != col_idx + 1 %> & <% end %><% end %> \\ \hline
+            <% if row_idx == 0 %> \hline <% end %>
+          <% end %>
+        \end{tabular}
+        \end{center}
+        \end{table}
+    <% end %>
+<% end %>
+
+<% end %>
+
+\end{document}
+
+<% end %>
