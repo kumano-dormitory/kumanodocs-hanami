@@ -25,7 +25,7 @@ module Web
       def after_6pm(article, meeting)
         date = meeting.date
         meeting_date_6pm = Time.new(date.year, date.mon, date.day, 18,0,0,"+09:00")
-        article.updated_at > meeting_date_6pm
+        article.created_at > meeting_date_6pm
       end
     end
   end
