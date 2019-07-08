@@ -59,7 +59,7 @@
         </dd>
           <% vote_result_sum = article.vote_results&.map{ |vote| [vote.agree, vote.disagree, vote.onhold] }.transpose.map{ |count_ary| count_ary.sum } %>
           <% if vote_result_sum && !vote_result_sum.empty? %>
-        <dd><%= "賛成 : #{vote_result_sum[0]}<br/>反対 : #{vote_result_sum[1]}<br/>保留 : #{vote_result_sum[2]}" %></dd>
+        <dd><%= "総数 : #{vote_result_sum.sum}<br/>賛成 : #{vote_result_sum[0]}<br/>反対 : #{vote_result_sum[1]}<br/>保留 : #{vote_result_sum[2]}" %></dd>
           <% end %>
         <% end %>
       </dl>
