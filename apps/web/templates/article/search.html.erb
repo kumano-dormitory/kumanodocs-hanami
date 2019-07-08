@@ -7,7 +7,10 @@
         <span><a href="<%= routes.search_article_path %>" class="p-button--neutral u-no-margin--bottom">簡易検索へ</a></span>
       </h1>
       <% else %>
-      <h1>議案の簡易検索― 『<%= h keywords %>』
+      <h1>議案の簡易検索
+        <% unless keywords.strip.empty? %>
+        ― 『<%= h keywords %>』
+        <% end %>
         <span class="u-hide--small" style="margin-right:3rem"></span>
         <span><a href="<%= routes.search_article_path + "?detail_search=true" %>" class="p-button--neutral u-no-margin--bottom">詳細検索へ</a></span>
       </h1>
