@@ -22,6 +22,7 @@ resources :gijiroku, only: [:index, :show, :new, :create, :edit, :update]
 
 get '/meeting/:meeting_id/block/:block_id/comment/edit', to: 'comment#edit', as: :edit_comment
 patch '/meeting/:meeting_id/block/:block_id/comment/', to: 'comment#update', as: :comments
+get '/meeting/:meeting_id/comment', to: 'comment#index', as: :select_block_comments
 
 get '/article/:article_id/table/:table_id/lock/new', to: 'article/lock#new', as: :new_article_lock_for_table
 post '/article/:article_id/table/:table_id/lock', to: 'article/lock#create', as: :article_lock_for_table

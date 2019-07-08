@@ -1,0 +1,21 @@
+<div class="p-strip">
+  <div class="row">
+    <h2>議事録投稿</h2>
+    <p>ブロックを選択してください</p>
+    <hr>
+    <% unless during_meeting %>
+    <h3 style="color:red">現在はブロック会義開催中ではありません。議事録の投稿はできません。</h3>
+    <% end %>
+    <ul class="p-inline-list">
+      <% blocks.each do |block| %>
+      <li class="p-inline-list__item">
+        <% if block[:comment_count] == 0 && block[:vote_result_count] == 0 %>
+        <a href='<%= routes.edit_comment_path(meeting_id: meeting.id, block_id: block[:id]) %>' class="p-button--negative"><%= block[:name] %><br/>未提出</a>
+        <% else %>
+        <a href='<%= routes.edit_comment_path(meeting_id: meeting.id, block_id: block[:id]) %>' class="p-button--positive"><%= block[:name] %><br/>提出済</a>
+        <% end %>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

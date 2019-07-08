@@ -26,6 +26,14 @@
     </ul>
   </div>
 </div>
+<div class="p-strip is-shallow is-bordered u-hide--medium u-hide--large">
+  <div class="row">
+    <h2>議事録作成</h2>
+    <a href="<%= routes.select_block_comments_path(meeting_id: next_meeting.id) %>" class="p-button--neutral">
+      <h3 class="u-no-margin--bottom full-width">議事録投稿ページへ</h3>
+    </a>
+  </div>
+</div>
 <% end %>
 <div class="p-strip is-shallow">
   <div class="row p-divider">
