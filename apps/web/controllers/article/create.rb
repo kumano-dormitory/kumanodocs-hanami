@@ -63,7 +63,7 @@ module Web::Controllers::Article
               @meetings = @meeting_repo.in_time
               @notifications = {error: {status: "Error:", message: "議案を投稿しようとしたブロック会議は既に締め切り日時を過ぎています. 投稿できません."}}
             end
-            @next_meeting = @meeting_repo.find_most_recent
+            @next_meeting = @meetings.first
           end
         end
       else
