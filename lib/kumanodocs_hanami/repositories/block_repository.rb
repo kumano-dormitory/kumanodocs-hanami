@@ -11,6 +11,8 @@ class BlockRepository < Hanami::Repository
              CASE WHEN articles.meeting_id IS NULL THEN #{meeting_id} ELSE articles.meeting_id END \
       FROM blocks LEFT OUTER JOIN vote_results ON (blocks.id = vote_results.block_id) \
                   LEFT OUTER JOIN articles ON (vote_results.article_id = articles.id) )
+    UNION
+     (SELECT blocks.id, blocks.name, null as comment_id, null as vote_result_id, #{meeting_id} as meeting_id FROM blocks)
     ) as tt \
     WHERE (tt.meeting_id = #{meeting_id})
     GROUP BY tt.id, tt.name
