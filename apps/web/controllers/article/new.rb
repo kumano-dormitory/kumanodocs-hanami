@@ -22,7 +22,7 @@ module Web::Controllers::Article
       else
         # すべての議案の投稿受理期間
         @meetings = @meeting_repo.in_time
-        @next_meeting = @meeting_repo.find_most_recent
+        @next_meeting = @meetings.first
       end
     end
 
