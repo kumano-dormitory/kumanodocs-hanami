@@ -27,8 +27,8 @@ module Web::Controllers::Meeting
         past_meeting = @meeting_repo.find_past_meeting(@meeting.id)
         @past_comments = @comment_repo.by_meeting(past_meeting.id)
                                       .group_by{|comment| comment[:article_id]}
-        @tex_str = Admin::Views::Meeting::Download.render(
-          format: :tex, meeting: @meeting, articles: @articles, past_comments: @past_comments, type: :articles
+        @tex_str = Web::Views::Meeting::Download.render(
+          format: :tex, meeting: @meeting, articles: @articles, past_comments: @past_comments
         )
         digest = Digest::MD5.hexdigest(@tex_str)
         tmp_filename = "kumanodocs_meeting_#{@meeting.id}"
