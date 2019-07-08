@@ -124,7 +124,7 @@ class ArticleRepository < Hanami::Repository
     date = meeting.date
     meeting_date_6pm = Time.new(date.year, date.mon, date.day, 18,0,0,"+09:00")
     if after_6pm
-      cond = Sequel.&({meeting_id: meeting.id}, Sequel.|(Sequel.lit('updated_at < ?', meeting_date_6pm), {checked: true}))
+      cond = Sequel.&({meeting_id: meeting.id}, Sequel.|(Sequel.lit('created_at < ?', meeting_date_6pm), {checked: true}))
     else
       cond = Sequel.&({meeting_id: meeting.id}, {checked: true})
     end
