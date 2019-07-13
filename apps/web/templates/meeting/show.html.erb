@@ -193,12 +193,12 @@
       <footer class="p-pagination">
         <% if page - 1 == 0 %>
         <a class="p-pagination__link--previous" href="?page=0">
-          <span class="p-pagination__label">Previous</span>
+          <span class="p-pagination__label">前の議案へ</span>
           <span class="p-pagination__title">前回のブロック会議から</span>
         </a>
         <% elsif page - 1 > 0 %>
         <a class="p-pagination__link--previous" href="?page=<%= page - 1 %>">
-          <span class="p-pagination__label">Previous</span>
+          <span class="p-pagination__label">前の議案へ</span>
           <span class="p-pagination__title"><%= h meeting.articles[page - 2].title %></span>
         </a>
         <% else %>
@@ -207,7 +207,7 @@
         <% end %>
         <% if page + 1 <= max_page %>
         <a class="p-pagination__link--next" href="?page=<%= page + 1 %>">
-          <span class="p-pagination__label">Next</span>
+          <span class="p-pagination__label">次の議案へ</span>
           <span class="p-pagination__title"><%= h meeting.articles[page].title %></span>
         </a>
         <% else %>
