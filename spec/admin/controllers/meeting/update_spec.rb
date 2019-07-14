@@ -49,7 +49,7 @@ describe Admin::Controllers::Meeting::Update do
     end
   end
 
-  describe 'when use is not logged in' do
+  describe 'when user is not logged in' do
     let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil])
                                             .expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil]) }
     let(:params) { Hash[] }

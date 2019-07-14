@@ -15,7 +15,7 @@ describe Admin::Controllers::Meeting::Edit do
     end
   end
 
-  describe 'when use is not logged in' do
+  describe 'when user is not logged in' do
     let(:meeting_repo) { nil }
     let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil])
                                             .expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil]) }
