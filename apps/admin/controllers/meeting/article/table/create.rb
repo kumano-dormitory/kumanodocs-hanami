@@ -8,6 +8,7 @@ module Admin::Controllers::Meeting
         expose :article
 
         params do
+          required(:meeting_id).filled(:int?)
           required(:article_id).filled(:int?)
           required(:table).schema do
             required(:caption).filled(:str?)
@@ -17,10 +18,12 @@ module Admin::Controllers::Meeting
 
         def initialize(table_repo: TableRepository.new,
                        article_repo: ArticleRepository.new,
-                       admin_history_repo: AdminHistoryRepository.new)
+                       admin_history_repo: AdminHistoryRepository.new,
+                       authenticator: AdminAuthenticator.new)
           @table_repo = table_repo
           @article_repo = article_repo
           @admin_history_repo = admin_history_repo
+          @authenticator = authenticator
           @notifications = {}
         end
 
