@@ -15,11 +15,13 @@ module Admin::Controllers::Message
     def initialize(article_repo: ArticleRepository.new,
                    comment_repo: CommentRepository.new,
                    message_repo: MessageRepository.new,
-                   admin_history_repo: AdminHistoryRepository.new)
+                   admin_history_repo: AdminHistoryRepository.new,
+                   authenticator: AdminAuthenticator.new)
       @article_repo = article_repo
       @comment_repo = comment_repo
       @message_repo = message_repo
       @admin_history_repo = admin_history_repo
+      @authenticator = authenticator
     end
 
     def call(params)
