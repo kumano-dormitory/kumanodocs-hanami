@@ -6,10 +6,12 @@ module Admin::Controllers::Meeting
 
       def initialize(meeting_repo: MeetingRepository.new,
                      article_repo: ArticleRepository.new,
-                     category_repo: CategoryRepository.new)
+                     category_repo: CategoryRepository.new,
+                     authenticator: AdminAuthenticator.new)
         @meeting_repo = meeting_repo
         @article_repo = article_repo
         @category_repo = category_repo
+        @authenticator = authenticator
       end
 
       def call(params)
