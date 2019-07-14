@@ -3,8 +3,10 @@ module Admin::Controllers::Meeting
     include Admin::Action
     expose :meeting
 
-    def initialize(meeting_repo: MeetingRepository.new)
+    def initialize(meeting_repo: MeetingRepository.new,
+                   authenticator: AdminAuthenticator.new)
       @meeting_repo = meeting_repo
+      @authenticator = authenticator
     end
 
     def call(params)
