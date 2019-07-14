@@ -8,11 +8,13 @@ module Admin::Controllers::Meeting
         def initialize(article_repo: ArticleRepository.new,
                        block_repo: BlockRepository.new,
                        comment_repo: CommentRepository.new,
-                       vote_result_repo: VoteResultRepository.new)
+                       vote_result_repo: VoteResultRepository.new,
+                       authenticator: AdminAuthenticator.new)
           @article_repo = article_repo
           @block_repo = block_repo
           @comment_repo = comment_repo
           @vote_result_repo = vote_result_repo
+          @authenticator = authenticator
         end
 
         def call(params)
