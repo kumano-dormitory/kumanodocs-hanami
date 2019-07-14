@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe Admin::Controllers::Meeting::Article::Comment::Update do
-  let(:action) { Admin::Controllers::Meeting::Article::Comment::Update.new }
+describe Admin::Controllers::History::Index do
+  let(:action) { Admin::Controllers::History::Index.new }
   let(:params) { Hash[] }
 
   it 'is successful' do
