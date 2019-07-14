@@ -16,11 +16,13 @@ module Admin::Controllers::Message
     def initialize(article_repo: ArticleRepository.new,
                    comment_repo: CommentRepository.new,
                    message_repo: MessageRepository.new,
-                   admin_history_repo: AdminHistoryRepository.new)
+                   admin_history_repo: AdminHistoryRepository.new,
+                   authenticator: AdminAuthenticator.new)
       @article_repo = article_repo
       @comment_repo = comment_repo
       @message_repo = message_repo
       @admin_history_repo = admin_history_repo
+      @authenticator = authenticator
     end
 
     def call(params)
@@ -38,6 +40,7 @@ module Admin::Controllers::Message
       else
         @messages = @message_repo.by_article(@comment.article_id).group_by{|message| message.comment_id}
         @notifications = {error: {status: 'Error', message: '入力された項目に不備があります'}}
+        self.status = 422
       end
     end
 
