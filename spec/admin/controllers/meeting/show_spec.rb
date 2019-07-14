@@ -2,11 +2,33 @@ require 'spec_helper'
 require_relative '../../../../apps/admin/controllers/meeting/show'
 
 describe Admin::Controllers::Meeting::Show do
-  let(:action) { Admin::Controllers::Meeting::Show.new }
-  let(:params) { Hash[] }
+  let(:id) { rand(1..100) }
+  let(:meeting) { Meeting.new(id: id) }
+  let(:params) { {id: id} }
 
-  it 'is successful' do
-    response = action.call(params)
-    response[0].must_equal 200
+  describe 'when user is logged in' do
+    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]) }
+    it 'is successful' do
+      action = Admin::Controllers::Meeting::Show.new(
+        meeting_repo: MiniTest::Mock.new.expect(:find, meeting, [id]),
+        authenticator: authenticator,
+      )
+      response = action.call(params)
+      response[0].must_equal 200
+      action.meeting.must_equal meeting
+    end
+  end
+
+  describe 'when use is not logged in' do
+    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil])
+                                            .expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil]) }
+    it 'is redirected' do
+      action = Admin::Controllers::Meeting::Show.new(
+        meeting_repo: nil,
+        authenticator: authenticator,
+      )
+      response = action.call(params)
+      response[0].must_equal 302
+    end
   end
 end
