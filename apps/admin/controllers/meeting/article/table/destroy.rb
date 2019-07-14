@@ -6,15 +6,18 @@ module Admin::Controllers::Meeting
         expose :table
 
         params do
+          required(:id).filled(:int?)
           required(:table).schema do
             required(:confirm).filled(:bool?)
           end
         end
 
         def initialize(table_repo: TableRepository.new,
-                       admin_history_repo: AdminHistoryRepository.new)
+                       admin_history_repo: AdminHistoryRepository.new,
+                       authenticator: AdminAuthenticator.new)
           @table_repo = table_repo
           @admin_history_repo = admin_history_repo
+          @authenticator = authenticator
         end
 
         def call(params)
