@@ -4,6 +4,7 @@ module Admin::Controllers::Meeting
     expose :meeting
 
     params do
+      required(:id).filled(:int?)
       required(:meeting).schema do
         required(:date).filled(:date?)
         required(:deadline).filled(:date_time?)
@@ -12,9 +13,11 @@ module Admin::Controllers::Meeting
     end
 
     def initialize(meeting_repo: MeetingRepository.new,
-                   admin_history_repo: AdminHistoryRepository.new)
+                   admin_history_repo: AdminHistoryRepository.new,
+                   authenticator: AdminAuthenticator.new)
       @meeting_repo = meeting_repo
       @admin_history_repo = admin_history_repo
+      @authenticator = authenticator
       @notifications = {}
     end
 
