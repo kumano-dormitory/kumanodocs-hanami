@@ -1,4 +1,4 @@
-require_relative '../../../spec_helper'
+require 'spec_helper'
 
 describe Admin::Controllers::Meeting::Article::Search do
   let(:action) { Admin::Controllers::Meeting::Article::Search.new }
