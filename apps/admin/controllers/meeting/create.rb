@@ -11,9 +11,11 @@ module Admin::Controllers::Meeting
     end
 
     def initialize(meeting_repo: MeetingRepository.new,
-                   admin_histroy_repo: AdminHistoryRepository.new)
+                   admin_history_repo: AdminHistoryRepository.new,
+                   authenticator: AdminAuthenticator.new)
       @meeting_repo = meeting_repo
-      @admin_histroy_repo = admin_histroy_repo
+      @admin_history_repo = admin_history_repo
+      @authenticator = authenticator
       @notifications = {}
     end
 
@@ -25,7 +27,7 @@ module Admin::Controllers::Meeting
           type: (params[:meeting][:ryoseitaikai] ? 1 : 0)
         }
         meeting = @meeting_repo.create(meeting_attr)
-        @admin_histroy_repo.add(:meeting_create, JSON.pretty_generate({action: "meeting_create", payload: {meeting: meeting.to_h} }))
+        @admin_history_repo.add(:meeting_create, JSON.pretty_generate({action: "meeting_create", payload: {meeting: meeting.to_h} }))
 
         flash[:notifications] = {success: {status: "Success:", message: "正常にブロック会議日程が作成されました"}}
         redirect_to routes.meetings_path
