@@ -4,9 +4,11 @@ module Web::Controllers::Article
     expose :save_token, :during_meeting, :next_meeting, :blocks
 
     def initialize(meeting_repo: MeetingRepository.new,
-                   block_repo: BlockRepository.new)
+                   block_repo: BlockRepository.new,
+                   authenticator: JwtAuthenticator.new)
       @meeting_repo = meeting_repo
       @block_repo = block_repo
+      @authenticator = authenticator
     end
 
     def call(params)
