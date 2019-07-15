@@ -6,11 +6,13 @@ module Web::Controllers::Article
     def initialize(article_repo: ArticleRepository.new,
                    meeting_repo: MeetingRepository.new,
                    category_repo: CategoryRepository.new,
-                   article_reference_repo: ArticleReferenceRepository.new)
+                   article_reference_repo: ArticleReferenceRepository.new,
+                   authenticator: JwtAuthenticator.new)
       @article_repo = article_repo
       @meeting_repo = meeting_repo
       @category_repo = category_repo
       @article_reference_repo = article_reference_repo
+      @authenticator = authenticator
     end
 
     def call(params)
