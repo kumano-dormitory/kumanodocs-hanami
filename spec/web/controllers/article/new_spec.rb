@@ -2,19 +2,43 @@ require 'spec_helper'
 require_relative '../../../../apps/web/controllers/article/new'
 
 describe Web::Controllers::Article::New do
-  let(:meetings) { [Meeting.new(id: rand(1..5))] }
-  let(:categories) { [Category.new(id: rand(1..5))] }
-  let(:params) { Hash[] }
+  describe 'when user is logged in' do
+    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]) }
+    let(:article) { Article.new(id: rand(1..100)) }
+    let(:meetings) { [Meeting.new(id: rand(1..5))] }
+    let(:categories) { [Category.new(id: rand(1..5))] }
+    let(:params) { Hash[] }
 
-  it 'is successful' do
-    action = Web::Controllers::Article::New.new(
-      meeting_repository: MiniTest::Mock.new.expect(:in_time, meetings),
-      category_repository: MiniTest::Mock.new.expect(:all, categories)
-    )
-    response = action.call(params)
+    # TODO: 会議中か判定するサービスを実装したあとにテストを詳細に定義すること
+    it 'is successful' do
+      article_repo = MiniTest::Mock.new.expect(:of_recent, [article], [Hash])
+      action = Web::Controllers::Article::New.new(
+        meeting_repo: MiniTest::Mock.new.expect(:in_time, meetings),
+        article_repo: article_repo,
+        category_repo: MiniTest::Mock.new.expect(:all, categories),
+        authenticator: authenticator,
+      )
+      response = action.call(params)
 
-    action.meetings.must_equal meetings
-    action.categories.must_equal categories
-    response[0].must_equal 200
+      response[0].must_equal 200
+      action.meetings.must_equal meetings
+      action.next_meeting.must_equal meetings[0]
+      action.categories.must_equal categories
+      action.recent_articles.must_equal [article]
+      article_repo.verify.must_equal true
+    end
+  end
+
+  describe 'when user is not logged in' do
+    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
+
+    it 'is redirected' do
+      action = Web::Controllers::Article::New.new(
+        meeting_repo: nil, article_repo: nil, category_repo: nil,
+        authenticator: authenticator
+      )
+      response = action.call({})
+      response[0].must_equal 302
+    end
   end
 end

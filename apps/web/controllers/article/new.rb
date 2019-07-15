@@ -5,10 +5,12 @@ module Web::Controllers::Article
 
     def initialize(meeting_repo: MeetingRepository.new,
                    article_repo: ArticleRepository.new,
-                   category_repo: CategoryRepository.new)
+                   category_repo: CategoryRepository.new,
+                   authenticator: JwtAuthenticator.new)
       @meeting_repo = meeting_repo
       @article_repo = article_repo
       @category_repo = category_repo
+      @authenticator = authenticator
       @notifications = {}
     end
 
