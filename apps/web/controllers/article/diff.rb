@@ -10,8 +10,10 @@ module Web::Controllers::Article
       end
     end
 
-    def initialize(article_repo: ArticleRepository.new)
+    def initialize(article_repo: ArticleRepository.new,
+                   authenticator: JwtAuthenticator.new)
       @article_repo = article_repo
+      @authenticator = authenticator
       @notifications = {}
     end
 
