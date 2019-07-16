@@ -3,8 +3,10 @@ module Web::Controllers::Article::Lock
     include Web::Action
     expose :locked, :for_table, :table_id
 
-    def initialize(article_repo: ArticleRepository.new)
+    def initialize(article_repo: ArticleRepository.new,
+                   authenticator: JwtAuthenticator.new)
       @article_repo = article_repo
+      @authenticator = authenticator
     end
 
     def call(params)
