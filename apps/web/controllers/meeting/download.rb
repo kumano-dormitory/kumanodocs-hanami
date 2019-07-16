@@ -12,10 +12,12 @@ module Web::Controllers::Meeting
 
     def initialize(meeting_repo: MeetingRepository.new,
                    article_repo: ArticleRepository.new,
-                   comment_repo: CommentRepository.new)
+                   comment_repo: CommentRepository.new,
+                   authenticator: JwtAuthenticator.new)
       @meeting_repo = meeting_repo
       @article_repo = article_repo
       @comment_repo = comment_repo
+      @authenticator = authenticator
     end
 
     def call(params)
