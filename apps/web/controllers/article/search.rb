@@ -18,9 +18,11 @@ module Web::Controllers::Article
 
     def initialize(article_repo: ArticleRepository.new,
                    category_repo: CategoryRepository.new,
+                   authenticator: JwtAuthenticator.new,
                    limit: 20)
       @article_repo = article_repo
       @category_repo = category_repo
+      @authenticator = authenticator
       @limit = limit
     end
 
