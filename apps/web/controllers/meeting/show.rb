@@ -9,13 +9,15 @@ module Web::Controllers::Meeting
                    block_repo: BlockRepository.new,
                    comment_repo: CommentRepository.new,
                    message_repo: MessageRepository.new,
-                   article_reference_repo: ArticleReferenceRepository.new)
+                   article_reference_repo: ArticleReferenceRepository.new,
+                   authenticator: JwtAuthenticator.new)
       @meeting_repo = meeting_repo
       @article_repo = article_repo
       @block_repo = block_repo
       @comment_repo = comment_repo
       @message_repo = message_repo
       @article_reference_repo = article_reference_repo
+      @authenticator = authenticator
     end
 
     def call(params)
