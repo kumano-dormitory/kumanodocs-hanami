@@ -26,12 +26,14 @@ module Web::Controllers::Article
                    author_repo: AuthorRepository.new,
                    meeting_repo: MeetingRepository.new,
                    category_repo: CategoryRepository.new,
-                   article_reference_repo: ArticleReferenceRepository.new)
+                   article_reference_repo: ArticleReferenceRepository.new,
+                   authenticator: JwtAuthenticator.new)
       @article_repo = article_repo
       @author_repo = author_repo
       @meeting_repo = meeting_repo
       @category_repo = category_repo
       @article_reference_repo = article_reference_repo
+      @authenticator = authenticator
       @notifications = {}
     end
 
