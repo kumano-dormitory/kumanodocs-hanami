@@ -7,12 +7,14 @@ module Web::Controllers::Article
                    block_repo: BlockRepository.new,
                    meeting_repo: MeetingRepository.new,
                    message_repo: MessageRepository.new,
-                   article_reference_repo: ArticleReferenceRepository.new)
+                   article_reference_repo: ArticleReferenceRepository.new,
+                   authenticator: JwtAuthenticator.new)
       @article_repo = article_repo
       @block_repo = block_repo
       @meeting_repo = meeting_repo
       @message_repo = message_repo
       @article_reference_repo = article_reference_repo
+      @authenticator = authenticator
     end
 
     def call(params)
