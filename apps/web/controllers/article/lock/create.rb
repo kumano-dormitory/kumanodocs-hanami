@@ -12,9 +12,11 @@ module Web::Controllers::Article::Lock
     end
 
     def initialize(article_repo: ArticleRepository.new,
-                   author_repo: AuthorRepository.new)
+                   author_repo: AuthorRepository.new,
+                   authenticator: JwtAuthenticator.new)
       @article_repo = article_repo
       @author_repo = author_repo
+      @authenticator = authenticator
       @notifications = {}
     end
 
