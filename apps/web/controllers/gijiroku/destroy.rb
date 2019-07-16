@@ -2,8 +2,10 @@ module Web::Controllers::Gijiroku
   class Destroy
     include Web::Action
 
-    def initialize(gijiroku_repo: GijirokuRepository.new)
+    def initialize(gijiroku_repo: GijirokuRepository.new,
+                   authenticator: JwtAuthenticator.new)
       @gijiroku_repo = gijiroku_repo
+      @authenticator = authenticator
     end
 
     def call(params)
