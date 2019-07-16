@@ -4,9 +4,11 @@ module Web::Controllers::Comment
     expose :meeting, :blocks, :during_meeting
 
     def initialize(meeting_repo: MeetingRepository.new,
-                   block_repo: BlockRepository.new)
+                   block_repo: BlockRepository.new,
+                   authenticator: JwtAuthenticator.new)
       @meeting_repo = meeting_repo
       @block_repo = block_repo
+      @authenticator = authenticator
     end
 
     def call(params)
