@@ -142,9 +142,12 @@ describe Web::Controllers::Article::Update do
 
   describe 'when user is not logged in' do
     let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
-    let(:action) { Web::Controllers::Article::Update.new(authenticator: authenticator) }
 
     it 'is redirected' do
+      action = Web::Controllers::Article::Update.new(
+        article_repo: nil, author_repo: nil, meeting_repo: nil, category_repo: nil,
+        article_reference_repo: nil, authenticator: authenticator
+      )
       response = action.call({})
       response[0].must_equal 302
     end

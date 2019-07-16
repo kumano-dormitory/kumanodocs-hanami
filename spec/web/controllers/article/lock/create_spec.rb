@@ -50,9 +50,12 @@ describe Web::Controllers::Article::Lock::Create do
 
   describe 'when user is not logged in' do
     let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
-    let(:action) { Web::Controllers::Article::Lock::Create.new(authenticator: authenticator) }
+    let(:action) {  }
 
     it 'is redirected' do
+      action = Web::Controllers::Article::Lock::Create.new(
+        article_repo: nil, author_repo: nil, authenticator: authenticator
+      )
       response = action.call({})
       response[0].must_equal 302
     end
