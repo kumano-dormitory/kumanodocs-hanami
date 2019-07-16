@@ -12,7 +12,7 @@ describe Admin::Controllers::Message::Update do
       )
       invalid_params = valid_params.deep_merge(invalid_params_merged)
       response = action.call(invalid_params)
-      
+
       response[0].must_equal 422
       action.comment.must_equal comment
       action.message.must_equal msg
@@ -55,7 +55,7 @@ describe Admin::Controllers::Message::Update do
       assert_invalid_params({message: []})
       assert_invalid_params({message: {send_by_article_author: nil}})
       assert_invalid_params({message: {send_by_article_author: "abc"}})
-      assert_invalid_params({message: {send_by_article_author: rand(-100..100)}})
+      assert_invalid_params({message: {send_by_article_author: [-1, 2].sample}})
       assert_invalid_params({message: {body: nil}})
     end
   end

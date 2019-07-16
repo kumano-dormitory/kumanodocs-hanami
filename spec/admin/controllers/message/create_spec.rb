@@ -53,7 +53,7 @@ describe Admin::Controllers::Message::Create do
       assert_invalid_params({message: []})
       assert_invalid_params({message: {send_by_article_author: nil}})
       assert_invalid_params({message: {send_by_article_author: "abc"}})
-      assert_invalid_params({message: {send_by_article_author: rand(-100..100)}})
+      assert_invalid_params({message: {send_by_article_author: [-1, 2].sample}})
       assert_invalid_params({message: {body: nil}})
     end
   end
