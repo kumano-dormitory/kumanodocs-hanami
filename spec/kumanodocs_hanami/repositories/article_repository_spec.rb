@@ -16,8 +16,10 @@ describe ArticleRepository do
 
     # 議案の番号が正しく変更されていることを確認
     target_articles = meeting_repo.find_with_articles(meeting_id).articles
-    target_articles.zip(shuffled_numbers).map do |article, number|
-      article.number.must_equal number
+    target_articles.map do |article|
+      expected_number = articles_number.find{|prop| prop['article_id'] == article.id}
+                                       .fetch('number')
+      article.number.must_equal expected_number
     end
   end
 
@@ -26,16 +28,29 @@ describe ArticleRepository do
       {
         'article_id' => article.id,
         'checked' => (status[:checked] ? true : nil),
-        'printed' => (status[:printed] ? true : nil)
       }
     end
     article_repo.update_status(articles_status)
 
     # 議案の状態が正しく変更されていることを確認
     target_articles = meeting_repo.find_with_articles(meeting_id).articles
-    target_articles.zip(test_status).map do |article, status|
-      article.checked.must_equal status[:checked]
-      article.printed.must_equal status[:printed]
+    target_articles.map do |article|
+      expected_status = articles_status.find{|prop| prop['article_id'] == article.id}
+                                       .fetch('checked')
+      article.checked.must_equal !!expected_status
+    end
+  end
+
+  def assert_update_articles_printed(meeting_id, articles, test_status)
+    articles_status = articles.zip(test_status).map{|article, status| status.merge(id: article.id)}
+    article_repo.update_printed(articles_status)
+
+    # 議案の状態が正しく変更されていることを確認
+    target_articles = meeting_repo.find_with_articles(meeting_id).articles
+    target_articles.map do |article|
+      expected_status = articles_status.find{|prop| prop[:id] == article.id}
+                                       .fetch(:printed)
+      article.printed.must_equal expected_status
     end
   end
 
@@ -87,9 +102,17 @@ describe ArticleRepository do
 
   it 'article_statusの変更ができること' do
     meeting = create(:meeting)
-    test_status = (1..5).map{ {checked: [true, false].sample, printed: [true, false].sample} }
-    articles = create_list(:article, 5, meeting_id: meeting.id, checked: false, printed: false)
+    test_status = (1..5).map{ {checked: [true, false].sample} }
+    articles = create_list(:article, 5, meeting_id: meeting.id, checked: false)
 
     assert_update_articles_status(meeting.id, articles, test_status)
+  end
+
+  it 'article_printedの変更ができること' do
+    meeting = create(:meeting)
+    test_status = (1..5).map{ {printed: [true, false].sample} }
+    articles = create_list(:article, 5, meeting_id: meeting.id, printed: false)
+
+    assert_update_articles_printed(meeting.id, articles, test_status)
   end
 end
