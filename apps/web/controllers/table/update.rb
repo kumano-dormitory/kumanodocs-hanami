@@ -4,6 +4,7 @@ module Web::Controllers::Table
     expose :table, :confirm_update
 
     params do
+      required(:id).filled(:int?)
       required(:table).schema do
         required(:get_lock).filled(:bool?)
         optional(:article_passwd).filled(:str?)
@@ -13,9 +14,11 @@ module Web::Controllers::Table
     end
 
     def initialize(table_repo: TableRepository.new,
-                   author_repo: AuthorRepository.new)
+                   author_repo: AuthorRepository.new,
+                   authenticator: JwtAuthenticator.new)
       @table_repo = table_repo
       @author_repo = author_repo
+      @authenticator = authenticator
       @notifications = {}
     end
 
