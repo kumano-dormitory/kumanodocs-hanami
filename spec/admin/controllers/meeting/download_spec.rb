@@ -1,11 +1,10 @@
 require 'spec_helper'
 require_relative '../../../../apps/admin/controllers/article_status/edit'
 
-describe Admin::Controllers::ArticleStatus::Edit do
+describe Admin::Controllers::Meeting::Download do
   describe 'when user is logged in' do
-    let(:meeting) { Meeting.new(id: rand(1..50)) }
-    let(:past_meeting) { Meeting.new(id: rand(1..50)) }
-    let(:article) { Article.new(id: rand(1..100), meeting_id: meeting.id) }
+    let(:meeting) { Meeting.new(id: rand(1..50), date: (Date.today + 30)) }
+    let(:path) { "/tmp/hogehoge" }
     let(:params) { { id: meeting.id } }
     let(:params_for_articles) { {id: meeting.id, articles: true} }
     let(:params_for_comments) { {id: meeting.id, comments: true} }
@@ -13,7 +12,7 @@ describe Admin::Controllers::ArticleStatus::Edit do
     it 'is successful for select meeting' do
       action = Admin::Controllers::Meeting::Download.new(
         meeting_repo: MiniTest::Mock.new.expect(:desc_by_date, [meeting], [Hash]),
-        article_repo: nil, block_repo: nil, comment_repo: nil, admin_history_repo: nil,
+        generate_pdf_interactor: nil,
         authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
       )
       response = action.call({})
@@ -25,7 +24,7 @@ describe Admin::Controllers::ArticleStatus::Edit do
     it 'is successful for select download type' do
       action = Admin::Controllers::Meeting::Download.new(
         meeting_repo: MiniTest::Mock.new.expect(:find, meeting, [meeting.id]),
-        article_repo: nil, block_repo: nil, comment_repo: nil, admin_history_repo: nil,
+        generate_pdf_interactor: nil,
         authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
       )
       response = action.call(params)
@@ -35,22 +34,39 @@ describe Admin::Controllers::ArticleStatus::Edit do
     end
 
     it 'is successful for download articles pdf' do
-      # TODO: PDF生成をサービスとして実装したあとにこのテストを修正すること
-      skip
-      article_repo = MiniTest::Mock.new.expect(:for_download, [article], [meeting, Hash])
-                                       .expect(:update_printed, nil, [{id: article.id, printed: true}])
+      interactor_result = MiniTest::Mock.new.expect(:failure?, false).expect(:path, path)
+      specification = Specifications::Pdf.new(type: :admin_articles, meeting_id: meeting.id, after_6pm: false)
+      generate_pdf = MiniTest::Mock.new.expect(:call, interactor_result, [specification])
       action = Admin::Controllers::Meeting::Download.new(
-        meeting_repo: MiniTest::Mock.new.expect(:find, meeting, [meeting.id])
-                                        .expect(:find_past_meeting, past_meeting, [meeting.id]),
-        article_repo: article_repo,
-        block_repo: nil, comment_repo: nil,
-        admin_history_repo: MiniTest::Mock.new.expect(:add, nil, [:meeting_download, String]),
+        meeting_repo: MiniTest::Mock.new.expect(:find, meeting, [meeting.id]),
+        generate_pdf_interactor: generate_pdf,
         authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
       )
       response = action.call(params_for_articles)
-      response[0].must_equal 200
+
+      response[0].must_equal 404
+      response[1]['Content-Disposition'].must_match "#{meeting.date}"
       action.format.must_equal :pdf
-      article_repo.verify.must_equal true
+      generate_pdf.verify.must_equal true
+      interactor_result.verify.must_equal true
+    end
+
+    it 'is successful for download comments pdf' do
+      interactor_result = MiniTest::Mock.new.expect(:failure?, false).expect(:path, path)
+      specification = Specifications::Pdf.new(type: :admin_comments, meeting_id: meeting.id)
+      generate_pdf = MiniTest::Mock.new.expect(:call, interactor_result, [specification])
+      action = Admin::Controllers::Meeting::Download.new(
+        meeting_repo: MiniTest::Mock.new.expect(:find, meeting, [meeting.id]),
+        generate_pdf_interactor: generate_pdf,
+        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
+      )
+      response = action.call(params_for_comments)
+
+      response[0].must_equal 404
+      response[1]['Content-Disposition'].must_match "#{meeting.date}"
+      action.format.must_equal :pdf
+      generate_pdf.verify.must_equal true
+      interactor_result.verify.must_equal true
     end
   end
 
@@ -60,8 +76,7 @@ describe Admin::Controllers::ArticleStatus::Edit do
     let(:params) { Hash[] }
     it 'is redirected' do
       action = Admin::Controllers::Meeting::Download.new(
-        meeting_repo: nil, article_repo: nil, block_repo: nil, comment_repo: nil,
-        admin_history_repo: nil, authenticator: authenticator,
+        meeting_repo: nil, generate_pdf_interactor: nil, authenticator: authenticator,
       )
       response = action.call(params)
       response[0].must_equal 302
