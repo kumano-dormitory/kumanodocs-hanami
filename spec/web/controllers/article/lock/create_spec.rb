@@ -34,7 +34,6 @@ describe Web::Controllers::Article::Lock::Create do
     end
 
     it 'is rejected' do
-      skip
       article_repo = MiniTest::Mock.new.expect(:find_with_relations, article, [valid_params[:article_id]])
       action = Web::Controllers::Article::Lock::Create.new(
         article_repo: article_repo, author_repo: nil,
