@@ -9,5 +9,13 @@ module Specifications
       @meeting_id = meeting_id
       @after_6pm = after_6pm
     end
+
+    def ==(other)
+      self.eql?(other)
+    end
+
+    def eql?(other)
+      @type == other.type && @meeting_id == other.meeting_id && @after_6pm == other.after_6pm
+    end
   end
 end

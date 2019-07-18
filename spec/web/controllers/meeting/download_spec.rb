@@ -10,7 +10,7 @@ describe Web::Controllers::Meeting::Download do
 
     it 'is successful download meeting' do
       specification = Specifications::Pdf.new(type: :web_articles, meeting_id: meeting.id)
-      generate_pdf = MiniTest::Mock.new.expect(:call, interactor_result, [Specifications::Pdf])
+      generate_pdf = MiniTest::Mock.new.expect(:call, interactor_result, [specification])
       action = Web::Controllers::Meeting::Download.new(
         meeting_repo: MiniTest::Mock.new.expect(:find, meeting, [meeting.id]),
         generate_pdf_interactor: generate_pdf,
