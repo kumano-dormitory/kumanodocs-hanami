@@ -1,3 +1,14 @@
+# =====
+# Base Controller for Web app actions (一般向けページ)
+# =====
+# 一般向けページの全てのアクションに共通する処理を実装.
+# apps/web/application.rb に、このモジュールを含める設定が記述されている
+#
+# = 機能
+# - notifications(画面上部に表示するメッセージ)がflashに保存されている場合に取り出し、公開する処理
+# - 直近のブロック会議の締め切りを過ぎているかを判定する共通メソッド after_deadline?
+# - 直近のブロック会議の開催中かを判定する共通メソッド during_meeting?
+
 module Web
   module BaseController
     def self.included(action)
@@ -30,6 +41,7 @@ module Web
       now.between?(recent_meeting.deadline, recent_meeting.date.to_time + (60 * 60 * 22))
     end
 
+    # 直近のブロック会議の開催中かを判定する. 当日の21:45 ~ 翌日の12:00の間ならばtrue
     def during_meeting?(meeting: MeetingRepository.new.find_most_recent, now: Time.now)
       if meeting&.date then
         date = meeting.date
