@@ -1,3 +1,11 @@
+# ====
+# 議案の検索アクション
+# ====
+# 議案の検索画面・検索結果を表示
+# １つのキーワードで検索を行う簡易検索と、項目ごとに検索キーワードを指定する詳細検索を実装
+# = 主な処理
+# - 議案の検索を行う
+
 module Web::Controllers::Article
   class Search
     include Web::Action
@@ -16,6 +24,8 @@ module Web::Controllers::Article
       end
     end
 
+    # Dependency injection
+    # authenticatorは認証モジュールで必須(../authentication.rb)
     def initialize(article_repo: ArticleRepository.new,
                    category_repo: CategoryRepository.new,
                    authenticator: JwtAuthenticator.new,
@@ -31,6 +41,7 @@ module Web::Controllers::Article
       @page = params[:page].nil? ? 1 : params[:page].to_i
 
       if params.valid? && ( @detail_search || params[:search_article][:detail_search] )
+        # 議案の詳細検索
         @detail_search = true
         title_query = params[:search_article][:title] || ''
         body_query = params[:search_article][:body] || ''
@@ -40,6 +51,7 @@ module Web::Controllers::Article
         search_count = @article_repo.search_count(@keywords, detail_search: true)
         @articles = @article_repo.search(@keywords, page, @limit, detail_search: true)
       else
+        # 議案の簡易検索（検索条件が何も指定されていない場合も含む）
         @keywords = ""
         keywords_array = ['']
         unless (params.nil? || params[:search_article].nil? || params[:search_article][:keywords].nil?)
