@@ -1,3 +1,13 @@
+# ====
+# 議案の新規投稿アクション
+# ====
+# 議案の投稿ページからのリクエストを処理し、新規議案をDBに保存
+# パラメータが不適切な場合などのエラー時には、もう一度投稿ページを表示
+# = 主な処理
+# - 議案のパラメータをチェック（必須項目が埋められているか、適切なブロック会議が指定されているか）
+# - ブロック会議の投稿締め切りをチェックし、現在時刻に応じて通常議案か追加議案化を決定
+# - 議案をデータベースに保存
+
 module Web::Controllers::Article
   class Create
     include Web::Action
@@ -22,6 +32,8 @@ module Web::Controllers::Article
       required(:action).filled(:str?)
     end
 
+    # Dependency injection.
+    # authenticatorは認証モジュールで必須(../authentication.rb)
     def initialize(meeting_repo: MeetingRepository.new,
                    category_repo: CategoryRepository.new,
                    article_repo: ArticleRepository.new,

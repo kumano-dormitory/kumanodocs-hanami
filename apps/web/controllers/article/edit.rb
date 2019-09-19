@@ -1,8 +1,19 @@
+# ====
+# 議案の編集画面の表示アクション
+# ====
+# 議案の編集画面を表示する
+# 議案のパスワードを入力しロックを取得していない場合は、議案の編集ロック取得ページへ遷移
+# = 主な処理
+# - 議案の編集画面を表示
+# - ブロック会議の投稿締め切りをチェックし、現在時刻に応じて指定できるブロック会議を制限
+
 module Web::Controllers::Article
   class Edit
     include Web::Action
     expose :article, :meetings, :categories, :recent_articles, :article_refs_selected
 
+    # Dependency injection
+    # authenticatorは認証モジュールで必須(../authentication.rb)
     def initialize(article_repo: ArticleRepository.new,
                    meeting_repo: MeetingRepository.new,
                    category_repo: CategoryRepository.new,

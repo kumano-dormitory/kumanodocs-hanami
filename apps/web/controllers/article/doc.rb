@@ -1,3 +1,9 @@
+# ====
+# 資料システムの利用方法表示アクション
+# ====
+# 資料システムの利用方法を表示する
+# タイプ（全般・議案の投稿方法・編集方法・表の追加方法など）をパラメータで指定
+
 module Web
   module Controllers
     module Article
@@ -9,6 +15,8 @@ module Web
           optional(:type) { filled? & int? & gteq?(0) & lteq?(3) }
         end
 
+        # Dependency injection
+        # authenticatorは認証モジュールで必須(../authentication.rb)
         def initialize(authenticator: JwtAuthenticator.new)
           @authenticator = authenticator
         end

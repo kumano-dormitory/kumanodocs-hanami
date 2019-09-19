@@ -1,8 +1,18 @@
+# ====
+# 議案の新規投稿画面の表示アクション
+# ====
+# 議案の新規投稿画面を表示する
+# = 主な処理
+# - 議案の新規投稿画面を表示
+# - 現在時刻に応じて追加議案の注意メッセージを表示
+
 module Web::Controllers::Article
   class New
     include Web::Action
     expose :meetings, :next_meeting, :categories, :recent_articles
 
+    # Dependency injection
+    # authenticatorは認証モジュールで必須(../authentication.rb)
     def initialize(meeting_repo: MeetingRepository.new,
                    article_repo: ArticleRepository.new,
                    category_repo: CategoryRepository.new,

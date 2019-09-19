@@ -1,8 +1,17 @@
+# ====
+# 議案の詳細表示アクション
+# ====
+# 議案の詳細（属性など）を表示
+# = 主な処理
+# - 議案の詳細を表示
+
 module Web::Controllers::Article
   class Show
     include Web::Action
     expose :article, :blocks, :editable, :messages, :enable_html, :article_refs
 
+    # Dependency injection
+    # authenticatorは認証モジュールで必須(../authentication.rb)
     def initialize(article_repo: ArticleRepository.new,
                    block_repo: BlockRepository.new,
                    meeting_repo: MeetingRepository.new,
