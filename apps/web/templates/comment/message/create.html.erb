@@ -31,7 +31,7 @@
     method: :post, class: "p-form" do
       div do
         label (is_article_author ? '議案のパスワード' : '議事録のパスワード'), for: :password
-        password_field :password
+        text_field :password
       end
 
       div do

@@ -25,7 +25,7 @@ module Web::Views::Table
         if !params.valid? && params.errors.dig(:table, :article_passwd)
           div class: "p-form-validation is-error" do
             label '議案のパスワード', for: :article_passwd
-            password_field :article_passwd, class: "p-form-validation__input"
+            text_field :article_passwd, class: "p-form-validation__input"
             p class: "p-form-validation__message" do
               if params.errors.dig(:table, :article_passwd).include?("must be filled")
                 strong "この項目は必須です"
@@ -37,7 +37,7 @@ module Web::Views::Table
         else
           div do
             label '議案のパスワード', for: :article_passwd
-            password_field :article_passwd
+            text_field :article_passwd
           end
         end
 
@@ -95,7 +95,7 @@ module Web::Views::Table
         if get_lock
           div class: "p-form-validation is-caution" do
             label '議案のパスワード', for: :article_passwd
-            password_field :article_passwd, class: "p-form-validation__input"
+            text_field :article_passwd, class: "p-form-validation__input"
           end
         end
 
@@ -152,7 +152,7 @@ module Web::Views::Table
                class: "p-form p-form--inline" do
 
         div class: "p-form__group" do
-          password_field :article_passwd
+          text_field :article_passwd
         end
 
         div do
