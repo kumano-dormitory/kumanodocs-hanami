@@ -37,33 +37,41 @@ module Web::Controllers::Article
 
     def call(params)
       if params.valid?
-        meeting = @meeting_repo.find(params[:article][:meeting_id])
-        if after_deadline?
-          # 追加議案の投稿受理期間
-          if meeting.id == @meeting_repo.find_most_recent&.id
-            # 正常な保存処理
-            save(params, checked: false)
-          else
-            # 指定されたブロック会議が追加議案を受理するブロック会議ではない場合
-            @meetings = [@meeting_repo.find_most_recent]
-            @notifications = {error: {status: "Error:", message: "現在は追加議案のみ投稿を受け付けています. 議案を投稿しようとしたブロック会議は追加議案を受け付けていない可能性があります. 次のブロック会議以降のブロック会議に議案を投稿したい場合は、次のブロック会議が終了してから議案を投稿してください."}}
-          end
+        # TODO: 以下の採決項目のチェックをバリデーションクラスとして実装する
+        if params[:article][:categories].find{|i| i == 3} && (!params[:article][:vote_content] || params[:article][:vote_content]&.strip&.empty?)
+          # invalid params
+          @meetings = @meeting_repo.in_time
+          @next_meeting = @meeting_repo.find_most_recent
+          @notifications = {error: {status: "Error:", message: "議案種別に『採決』が指定されていますが、採決項目が入力されていません. もう一度確認してください"}}
         else
-          # 通常議案の投稿受理期間
-          if meeting.deadline > Time.now
-            # 正常な保存処理
-            save(params, checked: true)
-          else
-            # meeting.deadline <= Time.now
-            # 指定されたmeetingが締め切り後の場合→追加議案にならば投稿できるならメッセージ表示
-            if meeting.date >= Date.today
-              @meetings = [@meeting_repo.find_most_recent]
-              @notifications = {error: {status: "Error:", message: "議案を投稿しようとしたブロック会議は既に締め切り日時を過ぎています. 追加議案として投稿することは可能ですのでもう一度投稿してください."}}
+          meeting = @meeting_repo.find(params[:article][:meeting_id])
+          if after_deadline?
+            # 追加議案の投稿受理期間
+            if meeting.id == @meeting_repo.find_most_recent&.id
+              # 正常な保存処理
+              save(params, checked: false)
             else
-              @meetings = @meeting_repo.in_time
-              @notifications = {error: {status: "Error:", message: "議案を投稿しようとしたブロック会議は既に締め切り日時を過ぎています. 投稿できません."}}
+              # 指定されたブロック会議が追加議案を受理するブロック会議ではない場合
+              @meetings = [@meeting_repo.find_most_recent]
+              @notifications = {error: {status: "Error:", message: "現在は追加議案のみ投稿を受け付けています. 議案を投稿しようとしたブロック会議は追加議案を受け付けていない可能性があります. 次のブロック会議以降のブロック会議に議案を投稿したい場合は、次のブロック会議が終了してから議案を投稿してください."}}
             end
-            @next_meeting = @meetings.first
+          else
+            # 通常議案の投稿受理期間
+            if meeting.deadline > Time.now
+              # 正常な保存処理
+              save(params, checked: true)
+            else
+              # meeting.deadline <= Time.now
+              # 指定されたmeetingが締め切り後の場合→追加議案にならば投稿できるならメッセージ表示
+              if meeting.date >= Date.today
+                @meetings = [@meeting_repo.find_most_recent]
+                @notifications = {error: {status: "Error:", message: "議案を投稿しようとしたブロック会議は既に締め切り日時を過ぎています. 追加議案として投稿することは可能ですのでもう一度投稿してください."}}
+              else
+                @meetings = @meeting_repo.in_time
+                @notifications = {error: {status: "Error:", message: "議案を投稿しようとしたブロック会議は既に締め切り日時を過ぎています. 投稿できません."}}
+              end
+              @next_meeting = @meetings.first
+            end
           end
         end
       else
