@@ -143,7 +143,7 @@ module Admin::Views::Meeting
               div class: "p-form__group p-form-validation is-error" do
                 label 'パスワード', for: :password, class: "p-form__label u-align-text--right"
                 div class: "p-form__control" do
-                  password_field :password, class: "p-form-validation__input", 'aria-invalid': "true", required: ""
+                  text_field :password, class: "p-form-validation__input", 'aria-invalid': "true", required: ""
                   p class: "p-form-validation__message", role: "alert" do
                     if params.errors.dig(:article, :author, :password).include?("must be filled")
                       strong "この項目は必須です"
@@ -157,7 +157,7 @@ module Admin::Views::Meeting
               div class: "p-form__group" do
                 label 'パスワード', for: :password, class: "p-form__label u-align-text--right"
                 div class: "p-form__control" do
-                  password_field :password, required: ""
+                  text_field :password, required: ""
                 end
               end
             end
@@ -166,7 +166,7 @@ module Admin::Views::Meeting
               div class: "p-form__group p-form-validation is-error" do
                 label 'パスワード（確認）', for: :password_confirmation, class: "p-form__label u-align-text--right"
                 div class: "p-form__control" do
-                  password_field :password_confirmation, class: "p-form-validation__input", 'aria-invalid': "true", required: ""
+                  text_field :password_confirmation, class: "p-form-validation__input", 'aria-invalid': "true", required: ""
                   p class: "p-form-validation__message", role: "alert" do
                     if params.errors.dig(:article, :author, :password_confirmation).include?("must be filled")
                       strong "この項目は必須です"
@@ -182,7 +182,7 @@ module Admin::Views::Meeting
               div class: "p-form__group" do
                 label 'パスワード（確認）', for: :password_confirmation, class: "p-form__label u-align-text--right"
                 div class: "p-form__control" do
-                  password_field :password_confirmation, required: ""
+                  text_field :password_confirmation, required: ""
                 end
               end
             end
