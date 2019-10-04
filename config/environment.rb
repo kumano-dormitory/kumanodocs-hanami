@@ -2,12 +2,14 @@ require 'bundler/setup'
 require 'hanami/setup'
 require 'hanami/model'
 require_relative '../lib/kumanodocs_hanami'
+require_relative '../apps/super/application'
 require_relative '../apps/admin/application'
 require_relative '../apps/web/application'
 require_relative '../apps/api/application'
 
 Hanami.configure do
   mount Api::Application, at: '/api/v1'
+  mount Super::Application, at: '/super'
   mount Admin::Application, at: '/admin'
   mount Web::Application, at: '/'
 
