@@ -1,5 +1,6 @@
 require 'hanami/helpers'
 require 'hanami/assets'
+require_relative './controllers/authentication'
 
 module Super
   class Application < Hanami::Application
@@ -81,7 +82,7 @@ module Super
       #
       # See: http://www.rubydoc.info/gems/rack/Rack/Session/Cookie
       #
-      # sessions :cookie, secret: ENV['SUPER_SESSIONS_SECRET']
+      sessions :cookie, secret: ENV['SUPER_SESSIONS_SECRET'], path: '/super', max_age: 600
 
       # Configure Rack middleware for this application
       #
@@ -248,6 +249,7 @@ module Super
       controller.prepare do
         # include MyAuthentication # included in all the actions
         # before :authenticate!    # run an authentication before callback
+        include Super::Controllers::Authentication
       end
 
       # Configure the code that will yield each time Super::View is included
