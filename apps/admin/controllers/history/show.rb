@@ -8,7 +8,7 @@ module Admin::Controllers::History
     end
 
     def initialize(admin_history_repo: AdminHistoryRepository.new,
-                   authenticator: AdminAuthenticator)
+                   authenticator: AdminAuthenticator.new)
       @admin_history_repo = admin_history_repo
       @authenticator = authenticator
     end
