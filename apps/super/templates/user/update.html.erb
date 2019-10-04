@@ -1,0 +1,33 @@
+<div class="p-strip">
+  <div class="row">
+    <h2>ユーザの編集 : <%= user.name %></h2>
+
+    <div class="p-notification--negative">
+      <p class="p-notification__response">
+        入力された項目に不備がありました。もう一度確認してください。
+      </p>
+    </div>
+
+    <%=
+      form_for :user, routes.user_path(id: user.id), method: :patch, class: "p-form" do
+
+        div do
+          label 'パスワード : 変更しない場合は空欄にしてください', for: :password
+          password_field :password
+        end
+
+        div do
+          label 'パスワード(確認)', for: :password_confirmation
+          password_field :password_confirmation
+        end
+
+        div do
+          label '権限レベル(0:一般ユーザ, 1:資料委員会ユーザ, 2:スーパーユーザ)', for: :authority
+          select :authority, {'0: 一般ユーザ' => 0, '1: 資料委員会ユーザ' => 1, '2: スーパーユーザ' => 2}, options: { selected: user.authority }
+        end
+
+        submit '更新', class: "p-button--positive"
+      end
+    %>
+  </div>
+</div>

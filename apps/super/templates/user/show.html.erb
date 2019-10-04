@@ -1,0 +1,26 @@
+<div class="p-strip">
+  <div class="row">
+    <h2>ユーザの詳細: <%= user.name %></h2>
+    <a href="<%= routes.edit_user_path(id: user.id) %>" class="p-button--positive">編集</a>
+    <%=
+      form_for :article, routes.user_path(id: user.id), method: :delete, class: "p-form p-form--inline" do
+        submit '削除', class: "p-button--negative"
+      end
+    %>
+
+    <dl>
+      <dt>ユーザID</dt>
+      <dd><%= user.id %></dd>
+      <dt>ユーザ名</dt>
+      <dd><%= user.name %></dd>
+      <dt>パスワード</dt>
+      <dd><%= user.crypt_password %></dd>
+      <dt>権限レベル</dt>
+      <dd><%= user.authority %></dd>
+      <dt>Created at</dt>
+      <dd><%= user.created_at %></dd>
+      <dt>Updated at</dt>
+      <dd><%= user.updated_at %></dd>
+    </dl>
+  </div>
+</div>
