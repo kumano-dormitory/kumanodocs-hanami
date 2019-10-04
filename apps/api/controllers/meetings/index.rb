@@ -11,8 +11,10 @@ module Api::Controllers::Meetings
       optional(:offset) { filled? & int? & gt?(0) }
     end
 
-    def initialize(json_repo: JsonRepository.new)
+    def initialize(json_repo: JsonRepository.new,
+                   authenticator: JwtAuthenticator.new)
       @json_repo = json_repo
+      @authenticator = authenticator
     end
 
     def call(params)
