@@ -6,6 +6,10 @@ module Web::Controllers::Error
       required(:id).filled(:int?)
     end
 
+    def initialize(authenticator: JwtAuthenticator.new)
+      @authenticator = authenticator
+    end
+
     def call(params)
       if params.valid?
         case params[:id]

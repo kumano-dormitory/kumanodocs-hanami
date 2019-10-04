@@ -2,15 +2,20 @@ require 'spec_helper'
 require_relative '../../../../apps/admin/views/article_number/update'
 
 describe Admin::Views::ArticleNumber::Update do
-  let(:exposures) { Hash[foo: 'bar'] }
-  let(:template)  { Hanami::View::Template.new('apps/admin/templates/number/update.html.erb') }
+  let(:meeting) { Meeting.new(id: rand(1..50), date: Date.today, articles: [article]) }
+  let(:article) { Article.new(id: rand(1..100), title: Faker::Lorem.word, created_at: Time.now) }
+  let(:exposures) { {meeting: meeting, for_download: [true, false].sample, params: {}} }
+  let(:template)  { Hanami::View::Template.new('apps/admin/templates/article_number/update.html.erb') }
   let(:view)      { Admin::Views::ArticleNumber::Update.new(template, exposures) }
   let(:rendered)  { view.render }
 
-  it 'exposes #foo' do
-    skip 'This is an auto-generated test. Edit it and add your own tests.'
+  it 'exposes meeting & for_download' do
+    view.meeting.must_equal exposures.fetch(:meeting)
+    view.for_download.must_equal exposures.fetch(:for_download)
+  end
 
-    # Example
-    view.foo.must_equal exposures.fetch(:foo)
+  it 'displays edit article order page' do
+    rendered.must_match '議案の並び替え'
+    rendered.must_match article.title
   end
 end

@@ -11,8 +11,10 @@ module Web::Controllers::Table
       end
     end
 
-    def initialize(table_repo: TableRepository.new)
+    def initialize(table_repo: TableRepository.new,
+                   authenticator: JwtAuthenticator.new)
       @table_repo = table_repo
+      @authenticator = authenticator
       @notifications = {}
     end
 

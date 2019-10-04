@@ -5,15 +5,19 @@ module Admin::Controllers::Meeting
       expose :article
 
       params do
+        required(:id).filled(:int?)
+        required(:meeting_id).filled(:int?)
         required(:article).schema do
           required(:confirm).filled(:bool?)
         end
       end
 
       def initialize(article_repo: ArticleRepository.new,
-                     admin_history_repo: AdminHistoryRepository.new)
+                     admin_history_repo: AdminHistoryRepository.new,
+                     authenticator: AdminAuthenticator.new)
         @article_repo = article_repo
         @admin_history_repo = admin_history_repo
+        @authenticator = authenticator
       end
 
       def call(params)

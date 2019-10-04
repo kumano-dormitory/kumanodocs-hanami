@@ -2,8 +2,10 @@ module Admin::Controllers::Sessions
   class Destroy
     include Admin::Action
 
-    def initialize(admin_history_repo: AdminHistoryRepository.new)
+    def initialize(admin_history_repo: AdminHistoryRepository.new,
+                   authenticator: AdminAuthenticator.new)
       @admin_history_repo = admin_history_repo
+      @authenticator = authenticator
     end
 
     def call(params)

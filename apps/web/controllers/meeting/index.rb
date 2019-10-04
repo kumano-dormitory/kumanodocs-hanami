@@ -3,8 +3,10 @@ module Web::Controllers::Meeting
     include Web::Action
     expose :meetings
 
-    def initialize(meeting_repo: MeetingRepository.new)
+    def initialize(meeting_repo: MeetingRepository.new,
+                   authenticator: JwtAuthenticator.new)
       @meeting_repo = meeting_repo
+      @authenticator = authenticator
     end
 
     def call(params)

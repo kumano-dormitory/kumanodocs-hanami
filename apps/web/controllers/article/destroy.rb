@@ -1,10 +1,23 @@
+# ====
+# 議案の削除アクション
+# ====
+# 確認パラメータがない場合（パラメータなしでアクセスした場合）は、議案の削除を確認するページを表示
+# 確認パラメータが存在し、議案のパスワードが正しい場合に議案をDBから削除
+# = 主な処理
+# - 入力された議案のパスワードの検証
+# - 議案の削除
+
 module Web::Controllers::Article
   class Destroy
     include Web::Action
     expose :article
 
-    def initialize(article_repo: ArticleRepository.new)
+    # Dependency injection
+    # authenticatorは認証モジュールで必須(../authentication.rb)
+    def initialize(article_repo: ArticleRepository.new,
+                   authenticator: JwtAuthenticator.new)
       @article_repo = article_repo
+      @authenticator = authenticator
       @notifications = {}
     end
 

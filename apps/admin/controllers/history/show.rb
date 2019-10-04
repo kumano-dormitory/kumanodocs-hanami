@@ -7,8 +7,10 @@ module Admin::Controllers::History
       required(:id).filled(:int?)
     end
 
-    def initialize(admin_history_repo: AdminHistoryRepository.new)
+    def initialize(admin_history_repo: AdminHistoryRepository.new,
+                   authenticator: AdminAuthenticator)
       @admin_history_repo = admin_history_repo
+      @authenticator = authenticator
     end
 
     def call(params)

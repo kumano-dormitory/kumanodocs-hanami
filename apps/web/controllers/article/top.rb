@@ -1,12 +1,21 @@
+# ====
+# 資料システムのトップページ表示アクション
+# ====
+# 資料システムのトップページ（ログイン後の画面）を表示する
+
 module Web::Controllers::Article
   class Top
     include Web::Action
     expose :save_token, :during_meeting, :next_meeting, :blocks
 
+    # Dependency injection
+    # authenticatorは認証モジュールで必須(../authentication.rb)
     def initialize(meeting_repo: MeetingRepository.new,
-                   block_repo: BlockRepository.new)
+                   block_repo: BlockRepository.new,
+                   authenticator: JwtAuthenticator.new)
       @meeting_repo = meeting_repo
       @block_repo = block_repo
+      @authenticator = authenticator
     end
 
     def call(params)

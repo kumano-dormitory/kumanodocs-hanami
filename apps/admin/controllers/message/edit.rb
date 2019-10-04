@@ -9,9 +9,11 @@ module Admin::Controllers::Message
     end
 
     def initialize(comment_repo: CommentRepository.new,
-                   message_repo: MessageRepository.new)
+                   message_repo: MessageRepository.new,
+                   authenticator: AdminAuthenticator.new)
       @comment_repo = comment_repo
       @message_repo = message_repo
+      @authenticator = authenticator
     end
 
     def call(params)

@@ -1,24 +1,26 @@
 module Admin
-  module Authentication
-    def self.included(action)
-      action.class_eval do
-        before :authenticate!
-        expose :current_user
+  module Controllers
+    module Authentication
+      def self.included(action)
+        action.class_eval do
+          before :authenticate!
+          expose :current_user
+        end
       end
-    end
 
-    private
+      private
 
-    def authenticate!
-      redirect_to routes.new_session_path unless authenticated?
-    end
+      def authenticate!
+        redirect_to routes.new_session_path unless authenticated?
+      end
 
-    def authenticated?
-      !!current_user
-    end
+      def authenticated?
+        !!current_user
+      end
 
-    def current_user
-      @current_user ||= UserRepository.new.find(session[:user_id])
+      def current_user
+        @current_user ||= @authenticator&.call(session[:user_id])&.user
+      end
     end
   end
 end

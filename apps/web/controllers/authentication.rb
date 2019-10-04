@@ -1,3 +1,11 @@
+# =====
+# Authenticate module for Web app actions (一般向けページ)
+# =====
+# 一般向けページに共通する認証を提供するモジュール
+# 認証の具体的実装は、 authenticatorで隠蔽
+# authenticatorは各actionの初期化時に指定
+# 現状はすべてjwt_authenticator (lib/kumanodocs_hanami/interactors/jwt_authenticator.rb)
+
 module Web
   module Authentication
     def self.included(action)
@@ -18,18 +26,8 @@ module Web
     end
 
     def authenticated?
-      token = cookies[:token]
-      return false unless token
-
-      rsa_private = OpenSSL::PKey::RSA.new(KUMANODOCS_AUTH_TOKEN_PKEY)
-      rsa_public = rsa_private.public_key
-      begin
-        decoded_token = JWT.decode(token, rsa_public, true, { algorithm: 'RS256' } )
-      rescue => e
-        p e.message
-        return false
-      end
-      decoded_token[0]['version'] == ENV['KUMANODOCS_AUTH_TOKEN_VERSION']
+      # authenticatorを呼び出し、認証が成功したかを判定
+      !!(@authenticator&.call(cookies[:token]).verification)
     end
   end
 end

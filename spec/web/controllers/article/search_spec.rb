@@ -1,11 +1,84 @@
 require_relative '../../../spec_helper'
 
 describe Web::Controllers::Article::Search do
-  let(:action) { Web::Controllers::Article::Search.new }
-  let(:params) { Hash[] }
+  describe 'when user is logged in' do
+    def assert_successful_normal(query, keywords_array, query_ret)
+      article_repo = MiniTest::Mock.new.expect(
+        :search_count, search_count, [keywords_array]
+      ).expect(
+        :search, articles, [keywords_array, page, limit]
+      )
+      action = Web::Controllers::Article::Search.new(
+        article_repo: article_repo, category_repo: MiniTest::Mock.new.expect(:all, categories),
+        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        limit: limit,
+      )
+      response = action.call({search_article: {keywords: query}, page: page})
 
-  it 'is successful' do
-    response = action.call(params)
-    response[0].must_equal 200
+      response[0].must_equal 200
+      action.articles.must_equal articles
+      action.keywords.must_equal query_ret
+      action.page.must_equal page
+      action.max_page.must_equal ((search_count - 1) / limit + 1)
+      action.detail_search.must_equal false
+      article_repo.verify.must_equal true
+    end
+
+    def assert_successful_detail(query, keywords)
+      article_repo = MiniTest::Mock.new.expect(
+        :search_count, search_count, [keywords, {detail_search: true}]
+      ).expect(
+        :search, articles, [keywords, page, limit, {detail_search: true}]
+      )
+      action = Web::Controllers::Article::Search.new(
+        article_repo: article_repo, category_repo: MiniTest::Mock.new.expect(:all, categories),
+        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        limit: limit,
+      )
+      params = {page: page, search_article: {**query, detail_search: true}}
+      response = action.call(params)
+
+      response[0].must_equal 200
+      action.articles.must_equal articles
+      action.categories.must_equal categories
+      action.keywords.must_equal keywords
+      action.page.must_equal page
+      action.max_page.must_equal ((search_count - 1) / limit + 1)
+      action.detail_search.must_equal true
+      article_repo.verify.must_equal true
+    end
+
+    let(:articles) { [Article.new(id: rand(1..100))] }
+    let(:categories) { [Category.new(id: rand(1..100))] }
+    let(:search_count) { rand(1..100) }
+    let(:page) { 1 }
+    let(:limit) { 20 }
+
+    it 'is successful search' do
+      assert_successful_normal("", [''], "")
+      assert_successful_normal("  ", [''], "  ")
+      assert_successful_normal("　", [''], "　")
+      assert_successful_normal("a b c ", ['a','b','c'], "a b c ")
+      assert_successful_normal("あ　い　う", ['あ','い','う'], "あ　い　う")
+    end
+
+    it 'is successful detail search' do
+      params1 = {title: "abc", body: "def", author: "ghi"}
+      assert_successful_detail(params1, {**params1, categories: []})
+      params2 = {title: "jkl", body: "mno", author: "pqr", categories: [1, 2, 3].sample(2)}
+      assert_successful_detail(params2, params2)
+    end
+  end
+
+  describe 'when user is not logged in' do
+    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
+
+    it 'is redirected' do
+      action = Web::Controllers::Article::Search.new(
+        article_repo: nil, category_repo: nil, authenticator: authenticator
+      )
+      response = action.call({})
+      response[0].must_equal 302
+    end
   end
 end

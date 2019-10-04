@@ -3,8 +3,10 @@ module Web::Controllers::Table
     include Web::Action
     expose :table
 
-    def initialize(table_repo: TableRepository.new)
+    def initialize(table_repo: TableRepository.new,
+                   authenticator: JwtAuthenticator.new)
       @table_repo = table_repo
+      @authenticator = authenticator
     end
 
     def call(params)
