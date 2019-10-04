@@ -5,10 +5,10 @@ module Admin::Controllers::Meeting
         include Admin::Action
         expose :article
 
-        def initialize(table_repo: TableRepository.new,
-                       article_repo: ArticleRepository.new)
-          @table_repo = table_repo
+        def initialize(article_repo: ArticleRepository.new,
+                       authenticator: AdminAuthenticator.new)
           @article_repo = article_repo
+          @authenticator = authenticator
         end
 
         def call(params)

@@ -4,6 +4,10 @@ module Admin
       class Top
         include Admin::Action
 
+        def initialize(authenticator: AdminAuthenticator.new)
+          @authenticator = authenticator
+        end
+
         def call(params)
         end
 

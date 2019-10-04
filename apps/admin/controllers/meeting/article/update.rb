@@ -26,13 +26,15 @@ module Admin::Controllers::Meeting
                      category_repo: CategoryRepository.new,
                      author_repo: AuthorRepository.new,
                      article_reference_repo: ArticleReferenceRepository.new,
-                     admin_history_repo: AdminHistoryRepository.new)
+                     admin_history_repo: AdminHistoryRepository.new,
+                     authenticator: AdminAuthenticator.new)
         @meeting_repo = meeting_repo
         @article_repo = article_repo
         @category_repo = category_repo
         @author_repo = author_repo
         @article_reference_repo = article_reference_repo
         @admin_history_repo = admin_history_repo
+        @authenticator = authenticator
         @notifications = {}
       end
 

@@ -1,4 +1,4 @@
-require_relative '../../../spec_helper'
+require 'spec_helper'
 
 describe Admin::Views::Meeting::Article::Comment::Update do
   let(:exposures) { Hash[format: :html] }

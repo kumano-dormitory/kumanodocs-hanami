@@ -2,8 +2,10 @@ module Web::Controllers::Gijiroku
   class Content
     include Web::Action
 
-    def initialize(json_repo: JsonRepository.new)
+    def initialize(json_repo: JsonRepository.new,
+                   authenticator: JwtAuthenticator.new)
       @json_repo = json_repo
+      @authenticator = authenticator
     end
 
     def call(params)

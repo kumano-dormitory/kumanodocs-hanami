@@ -1,14 +1,19 @@
+# ====
+# 新着議案の表示アクション
+# ====
+# 新着議案一覧を表示
+
 module Web::Controllers::Article
   class Index
     include Web::Action
     expose :articles_by_meeting, :save_token
 
+    # Dependency injection
+    # authenticatorは認証モジュールで必須(../authentication.rb)
     def initialize(article_repo: ArticleRepository.new,
-                   meeting_repo: MeetingRepository.new,
-                   block_repo: BlockRepository.new)
+                   authenticator: JwtAuthenticator.new)
       @article_repo = article_repo
-      @meeting_repo = meeting_repo
-      @block_repo = block_repo
+      @authenticator = authenticator
     end
 
     def call(params)

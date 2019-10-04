@@ -28,10 +28,12 @@ module Web::Controllers::Comment
 
     def initialize(meeting_repo: MeetingRepository.new,
                    comment_repo: CommentRepository.new,
-                   vote_result_repo: VoteResultRepository.new)
+                   vote_result_repo: VoteResultRepository.new,
+                   authenticator: JwtAuthenticator.new)
       @meeting_repo = meeting_repo
       @comment_repo = comment_repo
       @vote_result_repo = vote_result_repo
+      @authenticator = authenticator
       @notifications = {}
     end
 

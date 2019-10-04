@@ -9,8 +9,11 @@ module Admin::Controllers::Meeting
         optional(:page).filled(:int?)
       end
 
-      def initialize(article_repo: ArticleRepository.new, limit: 20)
+      def initialize(article_repo: ArticleRepository.new,
+                     authenticator: AdminAuthenticator.new,
+                     limit: 20)
         @article_repo = article_repo
+        @authenticator = authenticator
         @limit = limit
       end
 

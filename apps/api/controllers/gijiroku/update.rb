@@ -7,8 +7,10 @@ module Api::Controllers::Gijiroku
       required(:content).filled(:str?)
     end
 
-    def initialize(gijiroku_repo: GijirokuRepository.new)
+    def initialize(gijiroku_repo: GijirokuRepository.new,
+                   authenticator: JwtAuthenticator.new)
       @gijiroku_repo = gijiroku_repo
+      @authenticator = authenticator
     end
 
     def call(params)

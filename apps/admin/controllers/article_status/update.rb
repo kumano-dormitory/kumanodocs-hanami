@@ -19,10 +19,12 @@ module Admin::Controllers::ArticleStatus
 
     def initialize(meeting_repo: MeetingRepository.new,
                    article_repo: ArticleRepository.new,
-                   admin_history_repo: AdminHistoryRepository.new)
+                   admin_history_repo: AdminHistoryRepository.new,
+                   authenticator: AdminAuthenticator.new)
       @meeting_repo = meeting_repo
       @article_repo = article_repo
       @admin_history_repo = admin_history_repo
+      @authenticator = authenticator
       @notifications
     end
 

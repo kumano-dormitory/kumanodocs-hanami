@@ -20,12 +20,14 @@ module Admin::Controllers::Meeting
                        block_repo: BlockRepository.new,
                        comment_repo: CommentRepository.new,
                        vote_result_repo: VoteResultRepository.new,
-                       admin_history_repo: AdminHistoryRepository.new)
+                       admin_history_repo: AdminHistoryRepository.new,
+                       authenticator: AdminAuthenticator.new)
           @article_repo = article_repo
           @block_repo = block_repo
           @comment_repo = comment_repo
           @vote_result_repo = vote_result_repo
           @admin_history_repo = admin_history_repo
+          @authenticator = authenticator
           @notifications = {}
         end
 

@@ -2,29 +2,51 @@ require 'spec_helper'
 require_relative '../../../../apps/web/controllers/article/destroy'
 
 describe Web::Controllers::Article::Destroy do
-  let(:action) { Web::Controllers::Article::Destroy.new }
-  let(:article_repo) { ArticleRepository.new }
-  let(:author_repo) { AuthorRepository.new }
-  let(:author_name) { Faker::Name.name }
-  let(:password) { Faker::Internet.password }
+  describe 'when user is logged in' do
+    let(:article) { Article.new(id: rand(1..100), author: author) }
+    let(:author) { Author.new(id: rand(1..100), crypt_password: crypt_password)}
+    let(:password) { Faker::Internet.password }
+    let(:crypt_password) { Digest::SHA256.hexdigest(password) }
 
-  it 'is successful' do
-    author = author_repo.create_with_plain_password(author_name, password)
-    article = create(:article, author_id: author.id)
-    pre_article_count = article_repo.all.count
-    params = { id: article.id, article: {password: password} }
+    it 'is successful destroy article' do
+      article_repo = MiniTest::Mock.new.expect(
+        :find_with_relations, article, [article.id]
+      ).expect(
+        :delete, nil, [article.id]
+      )
+      action = Web::Controllers::Article::Destroy.new(
+        article_repo: article_repo,
+        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+      )
+      params = { id: article.id, article: {password: password} }
+      response = action.call(params)
 
-    response = action.call(params)
+      response[0].must_equal 302
+      article_repo.verify.must_equal true
+    end
 
-    response[0].must_equal 302
-    article_repo.all.count.must_equal pre_article_count - 1
+    it 'is rejected by auth failure' do
+      article_repo = MiniTest::Mock.new.expect(:find_with_relations, article, [article.id])
+      action = Web::Controllers::Article::Destroy.new(
+        article_repo: article_repo,
+        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+      )
+      params = { id: article.id, article: {password: password + "hoge"} }
+      response = action.call(params)
+      response[0].must_equal 401
+      action.article.must_equal article
+    end
   end
 
-  it 'is rejected' do
-    author = author_repo.create_with_plain_password(author_name, password)
-    article = create(:article, author_id: author.id)
-    params = { id: article.id, article: {password: password + "hoge"} }
-    response = action.call(params)
-    response[0].must_equal 401
+
+  describe 'when user is not logged in' do
+    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
+    it 'is redirected' do
+      action = Web::Controllers::Article::Destroy.new(
+        article_repo: nil, authenticator: authenticator
+      )
+      response = action.call({})
+      response[0].must_equal 302
+    end
   end
 end
