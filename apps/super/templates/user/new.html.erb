@@ -1,0 +1,30 @@
+<div class="p-strip">
+  <div class="row">
+    <h2>ユーザの新規追加</h2>
+    <%=
+      form_for :user, routes.users_path, method: :post, class: "p-form" do
+        div do
+          label 'ユーザ名', for: :name
+          text_field :name, required: ""
+        end
+
+        div do
+          label 'パスワード', for: :password
+          password_field :password, required: ""
+        end
+
+        div do
+          label 'パスワード(確認)', for: :password_confirmation
+          password_field :password_confirmation, required: ""
+        end
+
+        div do
+          label '権限レベル(0:一般ユーザ, 1:資料委員会ユーザ, 2:スーパーユーザ)', for: :authority
+          select :authority, {'0: 一般ユーザ' => 0, '1: 資料委員会ユーザ' => 1, '2: スーパーユーザ' => 2}
+        end
+
+        submit '追加', class: "p-button--positive"
+      end
+    %>
+  </div>
+</div>
