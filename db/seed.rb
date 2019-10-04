@@ -106,5 +106,6 @@ article_rep.all.each do |article|
   end
 end
 
+user_repo.create(name: 'super', crypt_password: BCrypt::Password.create('pass'), authority: 2)
 user_repo.create(name: 'admin', crypt_password: BCrypt::Password.create('pass'), authority: 1)
 user_repo.create(name: 'kumano', crypt_password: BCrypt::Password.create('pass'), authority: 0)
