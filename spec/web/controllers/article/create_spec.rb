@@ -21,7 +21,7 @@ describe Web::Controllers::Article::Create do
       {
         article: {
           meeting_id: rand(1..5),
-          categories: [1, 2, 3, 4].sample(2),
+          categories: [1, 2, 4].sample(2), # 採決項目のデータを用意していないので,3に対応する「採決」を除く
           title: Faker::Book.title,
           body: Faker::Lorem.paragraphs.join,
           author: author_params,
