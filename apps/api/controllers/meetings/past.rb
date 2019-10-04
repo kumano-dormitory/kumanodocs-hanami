@@ -7,8 +7,10 @@ module Api::Controllers::Meetings
       required(:id).filled(:int?)
     end
 
-    def initialize(json_repo: JsonRepository.new)
+    def initialize(json_repo: JsonRepository.new,
+                   authenticator: JwtAuthenticator.new)
       @json_repo = json_repo
+      @authenticator = authenticator
     end
 
     def call(params)
