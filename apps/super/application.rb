@@ -250,6 +250,7 @@ module Super
         # include MyAuthentication # included in all the actions
         # before :authenticate!    # run an authentication before callback
         include Super::Controllers::Authentication
+        include Hanami::Helpers::EscapeHelper
       end
 
       # Configure the code that will yield each time Super::View is included
