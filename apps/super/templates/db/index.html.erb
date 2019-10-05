@@ -1,0 +1,20 @@
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-migrate-3.1.0.min.js"></script>
+
+<h2>データベースアクセス</h2>
+<pre style="font-size:11px;line-height:11px;"><code id="result"></code></pre>
+
+<div class="p-strip">
+  <div class="row">
+    <form id="command-form" action="" method="post">
+      <input id="csrf_token" type="hidden" name="_csrf_token" value="<%= csrf_token %>">
+      <input id="cmd-input" type="text" name="cmd" value="">
+      <input type="submit">
+    </form>
+  </div>
+</div>
+
+<%= javascript 'db' %>

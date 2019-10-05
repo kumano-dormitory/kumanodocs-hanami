@@ -1,8 +1,25 @@
 <div class="p-strip">
   <div class="row">
     <h2>資料システム:メンテナンス用ページ</h2>
-    <a href="<%= routes.users_path %>" class="p-button--neutral">
-      <h4 class="u-no-margin--bottom">ユーザの一覧の表示</h4>
-    </a>
+    <ul class="p-list">
+      <li class="p-list__item">
+        <a href="<%= routes.users_path %>" class="p-button--neutral">
+          <h4 class="u-no-margin--bottom">ユーザの一覧の表示</h4>
+        </a>
+        <span>ユーザの追加・削除・パスワードや権限の変更</span>
+      </li>
+      <li class="p-list__item">
+        <a href="<%= routes.logs_path %>" class="p-button--neutral">
+          <h4 class="u-no-margin--bottom">ログの表示</h4>
+        </a>
+        <span>アクセスログの表示</span>
+      </li>
+      <li class="p-list__item">
+        <a href="<%= routes.dbs_path %>" class="p-button--neutral">
+          <h4 class="u-no-margin--bottom">データベースアクセス</h4>
+        </a>
+        <span>データベースへの直接アクセス（SQLコマンド発行）</span>
+      </li>
+    </ul>
   </div>
 </div>
