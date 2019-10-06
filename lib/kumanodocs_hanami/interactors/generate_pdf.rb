@@ -7,10 +7,12 @@ class GeneratePdf
   def initialize(article_repo: ArticleRepository.new,
                  meeting_repo: MeetingRepository.new,
                  comment_repo: CommentRepository.new,
+                 block_repo: BlockRepository.new,
                  admin_history_repo: AdminHistoryRepository.new)
     @article_repo = article_repo
     @meeting_repo = meeting_repo
     @comment_repo = comment_repo
+    @block_repo = block_repo
     @admin_history_repo = admin_history_repo
     @path = ""
   end
