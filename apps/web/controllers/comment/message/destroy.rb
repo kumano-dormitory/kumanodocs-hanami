@@ -13,10 +13,12 @@ module Web::Controllers::Comment
 
       def initialize(message_repo: MessageRepository.new,
                      comment_repo: CommentRepository.new,
-                     author_repo: AuthorRepository.new)
+                     author_repo: AuthorRepository.new,
+                     authenticator: JwtAuthenticator.new)
         @message_repo = message_repo
         @comment_repo = comment_repo
         @author_repo = author_repo
+        @authenticator = authenticator
         @notifications = {}
       end
 
