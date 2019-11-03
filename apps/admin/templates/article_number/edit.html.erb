@@ -39,7 +39,7 @@
               （※この議案はブロック会議当日１８時以降に投稿・編集されたため印刷されません）<br>
             <% end %>
             <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
-            <%= article_formatted_title(article, checked: true, number: false) %>
+            <%= article_formatted_title(article, checked: true, number: false) %>(文責者：<%= article.author.name %>)
           </h4>
         </div>
       </li>
