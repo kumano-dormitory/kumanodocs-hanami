@@ -10,7 +10,7 @@ module Web::Views::Comment
         if !params.valid? && params.errors.dig(:comments, :password)
           div class: "p-form-validation is-error" do
             label "パスワード", for: :password
-            text_field :password, class: "p-form-validation__input", required: ""
+            password_field :password, class: "p-form-validation__input", autocomplete: "new-password", required: ""
             p class: "p-form-validation__message" do
               if params.errors.dig(:comments, :password).include?("must be filled")
                 strong "この項目は必須です"
@@ -22,7 +22,7 @@ module Web::Views::Comment
         else
           div do
             label "パスワード", for: :password
-            text_field :password, required: ""
+            password_field :password, autocomplete: "new-password", required: ""
           end
         end
 

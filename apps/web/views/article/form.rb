@@ -115,7 +115,7 @@ module Web::Views::Article
             div class: "p-form__group p-form-validation is-error" do
               label 'パスワード', for: :password, class: "p-form__label u-align-text--right"
               div class: "p-form__control" do
-                text_field :password, class: "p-form-validation__input", 'aria-invalid': "true", required: ""
+                password_field :password, class: "p-form-validation__input", autocomplete: "new-password", 'aria-invalid': "true", required: ""
                 p class: "p-form-validation__message", role: "alert" do
                   if params.errors.dig(:article, :author, :password).include?("must be filled")
                     strong "この項目は必須です"
@@ -129,7 +129,7 @@ module Web::Views::Article
             div class: "p-form__group" do
               label 'パスワード', for: :password, class: "p-form__label u-align-text--right"
               div class: "p-form__control" do
-                text_field :password, required: ""
+                password_field :password, autocomplete: "new-password", required: ""
               end
             end
           end
@@ -138,7 +138,7 @@ module Web::Views::Article
             div class: "p-form__group p-form-validation is-error" do
               label 'パスワード（確認）', for: :password_confirmation, class: "p-form__label u-align-text--right"
               div class: "p-form__control" do
-                text_field :password_confirmation, class: "p-form-validation__input", 'aria-invalid': "true", required: ""
+                password_field :password_confirmation, class: "p-form-validation__input", autocomplete: "new-password", 'aria-invalid': "true", required: ""
                 p class: "p-form-validation__message", role: "alert" do
                   if params.errors.dig(:article, :author, :password_confirmation).include?("must be filled")
                     strong "この項目は必須です"
@@ -154,7 +154,7 @@ module Web::Views::Article
             div class: "p-form__group" do
               label 'パスワード（確認）', for: :password_confirmation, class: "p-form__label u-align-text--right"
               div class: "p-form__control" do
-                text_field :password_confirmation, required: ""
+                password_field :password_confirmation, autocomplete: "new-password", required: ""
               end
             end
           end
@@ -384,7 +384,7 @@ module Web::Views::Article
           div class: "p-form__group p-form-validation is-caution" do
             label 'パスワード', for: :password, class: "p-form__label"
             div class: "p-form__control" do
-              text_field :password, class: "p-form-validation__input", required: ""
+              password_field :password, class: "p-form-validation__input", autocomplete: "new-password", required: ""
             end
           end
         end
@@ -685,7 +685,7 @@ module Web::Views::Article
       form_for :article, routes.article_path(id: article.id), method: :delete, class: 'delete_article' do
         div do
           label 'パスワード', for: :password
-          text_field :password, required: ""
+          password_field :password, autocomplete: "new-password", required: ""
         end
 
         submit '削除', class: "p-button--negative"

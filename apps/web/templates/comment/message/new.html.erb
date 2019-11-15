@@ -53,7 +53,7 @@
       method: :post, class: "p-form" do
         div do
           label (is_article_author ? '議案のパスワード' : '議事録のパスワード'), for: :password
-          text_field :password
+          password_field :password, autocomplete: "new-password"
         end
 
         div do
