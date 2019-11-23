@@ -54,7 +54,7 @@
           <pre><%= h article.body %></pre>
         </dd>
         <% end %>
-        <% if article&.categories&.find{ |category| category.name == '採決'} %>
+        <% if article&.categories&.find{ |category| category.name == '採決' || category.name == '採決予定' } %>
         <dt>採決項目</dt>
         <dd>
           <pre><%= vote_content(article) %></pre>

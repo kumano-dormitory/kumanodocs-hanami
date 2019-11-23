@@ -85,7 +85,7 @@ module Web::Controllers::Article
       categories = params[:article][:categories].map { |id| @category_repo.find(id) }
       # 採決項目の設定
       category_params = categories.map { |category|
-        if category.require_content && category.name == '採決'
+        if category.require_content && (category.name == '採決' || category.name == '採決予定')
           { category_id: category.id, extra_content: params[:article][:vote_content] }
         else
           { category_id: category.id, extra_content: nil }

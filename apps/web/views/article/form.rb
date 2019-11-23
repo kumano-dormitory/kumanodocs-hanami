@@ -243,7 +243,7 @@ module Web::Views::Article
 
         if !params.valid? && params.errors.dig(:article, :vote_content)
           div class: "p-form__group p-form-validation is-error" do
-            label '採決項目（議案の種別に「採決」が含まれていない場合には保存されません）', for: :vote_content, class: "p-form__label u-align-text--right"
+            label '採決項目（議案の種別に「採決」または「採決予定」が含まれていない場合には保存されません）', for: :vote_content, class: "p-form__label u-align-text--right"
             div class: "p-form__control" do
               text_area :vote_content, rows: 5, class: "p-form-validation__input", 'aria-invalid': "true"
               p class: "p-form-validation__message", role: "alert" do
@@ -257,7 +257,7 @@ module Web::Views::Article
           end
         else
           div class: "p-form__group" do
-            label '採決項目（議案の種別に「採決」が含まれていない場合には保存されません）', for: :vote_content, class: "p-form__label u-align-text--right"
+            label '採決項目（議案の種別に「採決」または「採決予定」が含まれていない場合には保存されません）', for: :vote_content, class: "p-form__label u-align-text--right"
             div class: "p-form__control" do
               text_area :vote_content, rows: 5
             end
@@ -578,7 +578,7 @@ module Web::Views::Article
 
         if !params.valid? && params.errors.dig(:article, :vote_content)
           div class: "p-form__group p-form-validation is-error" do
-            label '採決項目（議案の種別に「採決」が含まれていない場合には保存されません）', for: :vote_content, class: "p-form__label"
+            label '採決項目（議案の種別に「採決」または「採決予定」が含まれていない場合には保存されません）', for: :vote_content, class: "p-form__label"
             div class: "p-form__control" do
               text_area :vote_content, rows: 5, class: "p-form-validation__input", 'aria-invalid': "true"
               p class: "p-form-validation__message", role: "alert" do
@@ -592,7 +592,7 @@ module Web::Views::Article
           end
         else
           div class: "p-form__group" do
-            label '採決項目（議案の種別に「採決」が含まれていない場合には保存されません）', for: :vote_content, class: "p-form__label"
+            label '採決項目（議案の種別に「採決」または「採決予定」が含まれていない場合には保存されません）', for: :vote_content, class: "p-form__label"
             div class: "p-form__control" do
               text_area :vote_content, rows: 5
             end
