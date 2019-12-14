@@ -78,7 +78,7 @@ class GeneratePdf
         open("#{tmp_folderpath}#{tmp_filename}.tex", "w") do |f|
           f.puts(@tex_str)
         end
-        error! 'latex err' unless IO.open("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == nil || $? == 0 }
+        error! 'latex err' unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == nil || $? == 0 }
       end
       @path = "#{tmp_folderpath}#{tmp_filename}.pdf"
     else
