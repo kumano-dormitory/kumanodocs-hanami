@@ -146,4 +146,39 @@ breaklines=true
 <% end %>
 
 \end{document}
-<% end # type == :article_preview %>
+<% elsif type == :table # type == :article_preview %>
+\documentclass[b5j,10pt]{ujarticle}
+\usepackage{listings}
+\usepackage{spverbatim}
+\usepackage{tocloft}
+\usepackage{here}
+\usepackage[top=5truemm,bottom=15truemm,left=5truemm,right=5truemm]{geometry}
+
+\lstset{
+breaklines=true
+1;2802;0c}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+
+\title{}
+\date{}
+\author{}
+
+\begin{document}
+
+<% if !table_data.nil? && !caption.nil? %>
+    \begin{table}[H]
+    \begin{center}
+    \caption{ <%= caption %> }
+    \begin{tabular}{<% table_data[0].each_with_index do |col, idx| %><% if idx == 0 %>l<% else %>|r<% end %><% end %>}
+      \hline
+      <% table_data.each_with_index do |row, row_idx| %>
+        <% row.each_with_index do |col, col_idx| %>\spverb <%= col %><% if row.length != col_idx + 1 %> & <% end %><% end %> \\ \hline
+        <% if row_idx == 0 %> \hline <% end %>
+      <% end %>
+    \end{tabular}
+    \end{center}
+    \end{table}
+<% end %>
+
+\end{document}
+<% end # type == :table %>
