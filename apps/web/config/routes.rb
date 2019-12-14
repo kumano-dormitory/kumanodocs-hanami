@@ -11,6 +11,8 @@ get '/article/search', to: 'article#search', as: :search_article
 get '/article/diff', to: 'article#diff', as: :diff_article
 # トップページ (root)
 get '/article/top', to: 'article#top'
+# 議案のPDFプレビュー
+get '/article/:id/pdf', to: 'article#pdf'
 # 議案の表示・操作
 resources :article do
   # 議案編集時のロック操作

@@ -65,6 +65,22 @@ class GeneratePdf
         error! 'latex err' unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == 0 }
       end
       @path = "#{tmp_folderpath}#{tmp_filename}.pdf"
+    elsif specification.type == :web_article_preview
+      @article = @article_repo.find_with_relations(specification.article_id)
+      @tex_str = Admin::Views::Meeting::Download.render(format: :tex, article: @article, type: :article_preview)
+
+      digest = Digest::MD5.hexdigest(@tex_str)
+      tmp_filename = "kumanodocs_article_#{@article.id}"
+      tmp_folderpath = "/tmp/kumanodocs/articles/article#{@article.id}/a#{digest}/"
+
+      unless FileTest.exist?("#{tmp_folderpath}#{tmp_filename}.pdf")
+        FileUtils.mkdir_p(tmp_folderpath) unless FileTest.exist?(tmp_folderpath)
+        open("#{tmp_folderpath}#{tmp_filename}.tex", "w") do |f|
+          f.puts(@tex_str)
+        end
+        error! 'latex err' unless IO.open("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == nil || $? == 0 }
+      end
+      @path = "#{tmp_folderpath}#{tmp_filename}.pdf"
     else
       # option[:for] == :web_articles
       @meeting = @meeting_repo.find_with_articles(specification.meeting_id)
