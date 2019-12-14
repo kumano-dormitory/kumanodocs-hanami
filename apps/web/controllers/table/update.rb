@@ -15,9 +15,11 @@ module Web::Controllers::Table
 
     def initialize(table_repo: TableRepository.new,
                    author_repo: AuthorRepository.new,
+                   generate_pdf_interactor: GeneratePdf.new,
                    authenticator: JwtAuthenticator.new)
       @table_repo = table_repo
       @author_repo = author_repo
+      @generate_pdf_interactor = generate_pdf_interactor
       @authenticator = authenticator
       @notifications = {}
     end
@@ -34,7 +36,12 @@ module Web::Controllers::Table
             # confirm_updateが有効
             if article.author.authenticate(params[:table][:article_passwd])
               # 認証が成功したので編集可
-              update(article, params)
+              if compile_check(params[:table][:caption], params[:table][:tsv])
+                update(article, params)
+              else
+                @notifications = {error: {status: "Error", message: "入力された項目に不備があります. もう一度確認してください. Excelなどからコピー&ペーストした後、入力フォーム内で編集しないでください."}}
+                self.status = 422
+              end
             else
               @confirm_update = true
               @notifications = {error: {status: "Authentication Failed:", message: "パスワードが不正です. 正しいパスワードを入力してください"}}
@@ -61,6 +68,12 @@ module Web::Controllers::Table
       @author_repo.release_lock(article.author_id)
       flash[:notifications] = {success: {status: "Success", message: "正常に表が編集されました"}}
       redirect_to routes.article_path(id: article.id)
+    end
+
+    def compile_check(caption, tsv)
+      specification = Specifications::Pdf.new(type: :table, data: {caption: caption, csv: tsv})
+      result = @generate_pdf_interactor.call(specification)
+      !result.failure?
     end
 
     def notifications
