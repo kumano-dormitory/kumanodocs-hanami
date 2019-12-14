@@ -30,7 +30,12 @@ module Web::Controllers::Table
 
         if article.author.lock_key == cookies[:article_lock_key]
           # セッションが有効なので編集可
-          update(article, params)
+          if compile_check(params[:table][:caption], params[:table][:tsv])
+            update(article, params)
+          else
+            @notifications = {error: {status: "Error", message: "入力された項目に不備があります. もう一度確認してください. Excelなどからコピー&ペーストした後、入力フォーム内で編集しないでください."}}
+            self.status = 422
+          end
         else
           if params[:table][:get_lock]
             # confirm_updateが有効
