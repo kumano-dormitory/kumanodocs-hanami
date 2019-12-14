@@ -52,7 +52,8 @@ module Web::Controllers::Article
     def call(params)
       if params.valid?
         # TODO: 以下の採決項目のチェックをバリデーションクラスとして実装する
-        if params[:article][:categories].find{|i| i == 3 || i == 5} && (!params[:article][:vote_content] || params[:article][:vote_content]&.strip&.empty?)
+        categories = params[:article][:categories].map { |id| @category_repo.find(id) }
+        if categories.find{ |c| c.name == '採決' || c.name == '採決予定' } && (!params[:article][:vote_content] || params[:article][:vote_content]&.strip&.empty?)
           # invalid params
           @meetings = @meeting_repo.in_time
           @next_meeting = @meeting_repo.find_most_recent
