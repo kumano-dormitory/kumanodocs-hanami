@@ -18,6 +18,7 @@ group :development do
   # Code reloading
   # See: http://hanamirb.org/guides/projects/code-reloading
   gem 'rubocop'
+  gem 'rubocop-performance'
   gem 'shotgun'
 end
 
@@ -33,6 +34,6 @@ group :test do
 end
 
 group :production do
-  gem 'puma'
+  gem 'puma', ">= 3.12.2"
   gem 'tzinfo-data'
 end
