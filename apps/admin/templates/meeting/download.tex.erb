@@ -98,4 +98,52 @@ breaklines=true
 <% end %>
 
 \end{document}
-<% end # type == :comments %>
+
+<% elsif type == :article_preview # type == :comments %>
+
+\documentclass[b5j,10pt]{ujarticle}
+\usepackage{listings}
+\usepackage{spverbatim}
+\usepackage{tocloft}
+\usepackage{here}
+\usepackage[top=5truemm,bottom=15truemm,left=5truemm,right=5truemm]{geometry}
+
+\lstset{
+breaklines=true
+1;2802;0c}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+
+\title{}
+\date{}
+\author{}
+
+\begin{document}
+
+\section*{ <%= article_formatted_title(article, checked: true) %> \\ \ \  \normalsize{ 文責：<%= article.author.name %> } }
+\addcontentsline{toc}{section}{\protect\numberline{} <%= article_formatted_title(article, checked: true) %> }%
+\begin{spverbatim}<%= article.body %>
+<% if !vote_content(article).empty? %>
+
+採決項目：
+<%= vote_content(article) %>
+<% end %>\end{spverbatim}
+
+<% if !article.tables.nil? %>
+    <% article.tables.each do |table| %>
+        \begin{table}[H]
+        \begin{center}
+        \caption{ <%= table.caption %> }
+        \begin{tabular}{<% table.data[0].each_with_index do |col, idx| %><% if idx == 0 %>l<% else %>|r<% end %><% end %>}
+          \hline
+          <% table.data.each_with_index do |row, row_idx| %>
+            <% row.each_with_index do |col, col_idx| %>\spverb <%= col %><% if row.length != col_idx + 1 %> & <% end %><% end %> \\ \hline
+            <% if row_idx == 0 %> \hline <% end %>
+          <% end %>
+        \end{tabular}
+        \end{center}
+        \end{table}
+    <% end %>
+<% end %>
+
+\end{document}
+<% end # type == :article_preview %>
