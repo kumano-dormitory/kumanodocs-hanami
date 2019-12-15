@@ -28,6 +28,7 @@ breaklines=true
 <%= "(#{comments[0]&.dig(:article_number) || '番号なし'}) #{comments[0]&.dig(:title)}" %>
 
 <% comments.each do |comment| %><% if comment[:body] && !comment[:body].strip.empty? %><%= "#{comment[:block_name]} - #{comment[:body]}\n" %>
+<% if past_messages.fetch(comment[:id], false) %><% past_messages.fetch(comment[:id], []).each do |message| %><%= if message[:send_by_article_author] then "<< 議案提起者からの返答 >>\n" else "<< 議事録投稿者からの返答 >>\n" end %><%= "#{message[:body]}\n" %><% end %><% end %>
 <% elsif comment[:agree] %><%= "#{comment[:block_name]}の採決結果\n賛成:#{comment[:agree]}\n反対:#{comment[:disagree]}\n保留:#{comment[:onhold]}\n" %><% end %><% end %>
 \end{spverbatim}
 <% end %>
