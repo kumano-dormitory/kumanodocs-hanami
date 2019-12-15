@@ -1,3 +1,10 @@
+# ====
+# 議事録の投稿画面表示アクション
+# ====
+# ブロック会議議事録の投稿画面を表示する
+# = 主な処理
+# - 既に議事録が投稿されている場合には、投稿済みの議事録を入力フォームに含める
+
 module Web::Controllers::Comment
   class Edit
     include Web::Action

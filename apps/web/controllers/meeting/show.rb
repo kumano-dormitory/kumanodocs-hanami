@@ -29,7 +29,7 @@ module Web::Controllers::Meeting
 
 
       if @page == 0
-        # 議事録の０番を実装途中
+        # ブロック会議の０番（前回のブロック会議から）
         @past_meeting = @meeting_repo.find_past_meeting(@meeting.id)
         @past_comments = @comment_repo.by_meeting(@past_meeting.id)
                                       .group_by{|comment| comment[:article_id]}
