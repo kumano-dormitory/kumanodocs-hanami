@@ -1,3 +1,12 @@
+# ====
+# 議案のプレビュー用PDF生成アクション
+# ====
+# 議案のプレビュー用PDFを生成し、PDFのデータを返す（HTMLではなくPDFを返す）
+# = 主な処理
+# - 指定された議案についてPDFを生成
+# - 正常に生成された場合にはPDFデータを返す
+# - 生成に失敗した場合は status 500
+
 module Web::Controllers::Article
   class Pdf
     include Web::Action
@@ -22,7 +31,9 @@ module Web::Controllers::Article
       # 議案が指定されているのでPDFを返す
       @article = @article_repo.find(params[:id])
       halt 404 unless @article
+      # 生成するPDFの仕様を作成
       specification = Specifications::Pdf.new(type: :web_article_preview, article_id: @article.id)
+      # PDF生成サービスを呼び出す
       result = @generate_pdf_interactor.call(specification)
       halt 500 if result.failure?
 
