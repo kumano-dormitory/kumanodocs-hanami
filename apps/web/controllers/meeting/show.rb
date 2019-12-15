@@ -1,7 +1,7 @@
 module Web::Controllers::Meeting
   class Show
     include Web::Action
-    expose :meeting, :article, :past_meeting, :past_comments,
+    expose :meeting, :article, :past_meeting, :past_comments, :past_messages,
            :messages, :blocks, :page, :max_page, :editable, :article_refs
 
     def initialize(meeting_repo: MeetingRepository.new,
@@ -33,6 +33,8 @@ module Web::Controllers::Meeting
         @past_meeting = @meeting_repo.find_past_meeting(@meeting.id)
         @past_comments = @comment_repo.by_meeting(@past_meeting.id)
                                       .group_by{|comment| comment[:article_id]}
+        @past_messages = @message_repo.by_meeting(@past_meeting.id)
+                                      .group_by{|message| message[:comment_id]}
       else
         if @meeting.articles.length > 0 # ブロック会議に議案が存在する場合
           @article = @article_repo.find_with_relations(@meeting.articles[@page - 1].id)
