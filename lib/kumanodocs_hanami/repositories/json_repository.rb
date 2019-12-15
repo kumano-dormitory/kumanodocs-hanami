@@ -121,6 +121,17 @@ class JsonRepository < Hanami::Repository
     jsons.read(query).map.to_a
   end
 
+  def messages_by_meeting(id)
+    query = "\
+    SELECT messages.id, messages.body, messages.send_by_article_author, \
+           articles.id as article_id, articles.number as article_number, comments.id as comment_id \
+    FROM messages JOIN comments ON (messages.comment_id = comments.id) \
+                  JOIN articles ON (comments.article_id = articles.id) \
+    WHERE (articles.meeting_id = #{id}) \
+    ORDER BY article_number nulls last, article_id, messages.id"
+    jsons.read(query).map.to_a
+  end
+
   def latest_gijiroku
     query = "SELECT id, body FROM gijirokus ORDER BY created_at DESC LIMIT 1"
     jsons.read(query).map.to_a.fetch(0, {id: 0, body: ''})
