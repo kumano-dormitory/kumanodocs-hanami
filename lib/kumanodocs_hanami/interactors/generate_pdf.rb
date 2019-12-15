@@ -7,11 +7,13 @@ class GeneratePdf
   def initialize(article_repo: ArticleRepository.new,
                  meeting_repo: MeetingRepository.new,
                  comment_repo: CommentRepository.new,
+                 message_repo: MessageRepository.new,
                  block_repo: BlockRepository.new,
                  admin_history_repo: AdminHistoryRepository.new)
     @article_repo = article_repo
     @meeting_repo = meeting_repo
     @comment_repo = comment_repo
+    @message_repo = message_repo
     @block_repo = block_repo
     @admin_history_repo = admin_history_repo
     @path = ""
@@ -25,13 +27,15 @@ class GeneratePdf
       past_meeting = @meeting_repo.find_past_meeting(@meeting.id)
       @past_comments = @comment_repo.by_meeting(past_meeting.id)
                                     .group_by{|comment| comment[:article_id]}
+      @past_messages = @message_repo.by_meeting(past_meeting.id)
+                                    .group_by{|message| message[:comment_id]}
       # 出力する議案の印刷フラグをすべてtrueにする
       @article_repo.update_printed(@articles.map{ |article| { id: article.id, printed: true}})
       @admin_history_repo.add(:meeting_download,
         JSON.pretty_generate({action: "meeting_download", payload: {meeting: @meeting.to_h.merge({articles: @articles.map(&:id)})}})
       )
       @tex_str = Admin::Views::Meeting::Download.render(
-        format: :tex, meeting: @meeting, articles: @articles, past_comments: @past_comments, type: :articles
+        format: :tex, meeting: @meeting, articles: @articles, past_comments: @past_comments, past_messages: @past_messages, type: :articles
       )
       digest = Digest::MD5.hexdigest(@tex_str)
       tmp_filename = "kumanodocs_meeting_#{@meeting.id}"
