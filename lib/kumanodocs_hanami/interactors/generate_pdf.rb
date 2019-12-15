@@ -1,3 +1,35 @@
+# ====
+# PDF生成サービス
+# ====
+# 資料システムで必要となる各種PDFを生成するサービス
+# callメソッドで呼ばれ、引数として Specifications::Pdf のインスタンスを受け取る.
+# = 主な処理
+# - Specification::Pdfの情報に従ってPDFを生成
+# - 生成したPDFはキャッシュし、再度生成する必要がない場合は生成を行わない
+# - 生成したPDFへのパスを @pathに代入して制御を返す
+# - PDFの生成に失敗したかの判断は failure? メソッドで判定できる
+#
+# = Latexのテンプレートについて
+# テンプレートファイルの場所は以下の２箇所
+# - apps/admin/templates/meeting/download.tex.erb
+# - apps/web/templates/meeting/download.tex.erb
+#
+# = 生成するPDFの種類
+# - specification.type == :admin_articles
+#     ブロック会議資料の印刷用PDF. 資料委員会向け内部ページからダウンロードするPDF.
+# - specification.type == :admin_comments
+#     旧 ブロック会議報告会資料.（ブロック会議で出た議事録をすべてまとめたもの）
+#     資料委員会向け内部ページからダウンロードするPDF
+# - specification.type == :web_article_preview
+#     一つの議案の印刷プレビュー用のPDF. 議案詳細画面でプレビューとして表示される.(議案投稿後に表示される画面)
+#     議案投稿者が印刷したときの表示のされ方について確認を行う
+# - specification.type == :table
+#     一つの表のみを含むPDF. 表が正常にPDFとして出力されるかを確認するために生成.
+#     表の投稿時に、正しく表が生成できるかを実際にその表のみを含むPDFを生成して確認を行う.
+# - specification.type == :web_articles (上記以外の場合も含む)
+#     ブロック会議資料のPDF. 一般向けページからダウンロードされるPDF/
+#     資料委員会の印刷用PDFとの違いは余白が大きいことのみ.
+
 require 'hanami/interactor'
 
 class GeneratePdf
@@ -34,6 +66,7 @@ class GeneratePdf
       @admin_history_repo.add(:meeting_download,
         JSON.pretty_generate({action: "meeting_download", payload: {meeting: @meeting.to_h.merge({articles: @articles.map(&:id)})}})
       )
+      # テンプレートファイルのパスは apps/admin/templates/meeting/download.tex.erb
       @tex_str = Admin::Views::Meeting::Download.render(
         format: :tex, meeting: @meeting, articles: @articles, past_comments: @past_comments, past_messages: @past_messages, type: :articles
       )
@@ -46,6 +79,7 @@ class GeneratePdf
         open("#{tmp_folderpath}#{tmp_filename}.tex", "w") do |f|
           f.puts(@tex_str)
         end
+        # 目次を正しく出力するために2回コンパイルを行う
         error! 'latex err' unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == nil || $? == 0 }
         error! 'latex err' unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == 0 }
       end
@@ -65,6 +99,7 @@ class GeneratePdf
         open("#{tmp_folderpath}#{tmp_filename}.tex", "w") do |f|
           f.puts(@tex_str)
         end
+        # 目次を正しく出力するために２回コンパイルを行う
         error! 'latex err' unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == nil || $? == 0 }
         error! 'latex err' unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == 0 }
       end
@@ -82,6 +117,7 @@ class GeneratePdf
         open("#{tmp_folderpath}#{tmp_filename}.tex", "w") do |f|
           f.puts(@tex_str)
         end
+        # PDFのコンパイル
         error! 'latex err' unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == nil || $? == 0 }
       end
       @path = "#{tmp_folderpath}#{tmp_filename}.pdf"
@@ -99,6 +135,7 @@ class GeneratePdf
         open("#{tmp_folderpath}#{tmp_filename}.tex", "w") do |f|
           f.puts(@tex_str)
         end
+        # PDFのコンパイル
         error! 'latex err' unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == 0 }
       end
       @path = "#{tmp_folderpath}#{tmp_filename}.pdf"
@@ -110,6 +147,7 @@ class GeneratePdf
       past_meeting = @meeting_repo.find_past_meeting(@meeting.id)
       @past_comments = @comment_repo.by_meeting(past_meeting.id)
                                     .group_by{|comment| comment[:article_id]}
+      # テンプレートファイルのパスは apps/web/templates/meeting/download.tex.erb
       @tex_str = Web::Views::Meeting::Download.render(
         format: :tex, meeting: @meeting, articles: @articles, past_comments: @past_comments
       )
@@ -122,6 +160,7 @@ class GeneratePdf
         open("#{tmp_folderpath}#{tmp_filename}.tex", "w") do |f|
           f.puts(@tex_str)
         end
+        # 目次を正しく出力するために２回コンパイルを行う
         error! 'latex err' unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == nil || $? == 0 }
         error! 'latex err' unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == 0 }
       end
