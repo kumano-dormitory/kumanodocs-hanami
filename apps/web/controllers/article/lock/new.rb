@@ -9,7 +9,7 @@
 module Web::Controllers::Article::Lock
   class New
     include Web::Action
-    expose :locked, :for_table, :table_id
+    expose :locked, :title, :for_table, :table_id
 
     def initialize(article_repo: ArticleRepository.new,
                    authenticator: JwtAuthenticator.new)
@@ -20,6 +20,7 @@ module Web::Controllers::Article::Lock
     def call(params)
       article = @article_repo.find_with_relations(params[:article_id])
       @locked = article.author.locked?
+      @title = article.title
       @for_table = !params[:table_id].nil?
       @table_id = params[:table_id]
     end
