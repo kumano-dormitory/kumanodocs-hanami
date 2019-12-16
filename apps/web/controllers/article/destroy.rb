@@ -27,6 +27,7 @@ module Web::Controllers::Article
       if !params[:article].nil?
         if @article.author.authenticate(params[:article][:password])
           @article_repo.delete(params[:id])
+          flash[:notifications] = {success: {status: "Success", message: "正常に議案が削除されました. (議案題名：#{@article.title})"}}
           redirect_to routes.articles_path
         else
           @notifications = {error: {status: "Authentication Failed:", message: "パスワードが間違っています. 正しいパスワードを入力してください"}}
