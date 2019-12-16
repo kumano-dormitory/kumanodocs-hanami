@@ -99,18 +99,18 @@ class JsonRepository < Hanami::Repository
 
   def comments_by_meeting(id)
     query = "\
-    SELECT block_id, block_name, title, article_id, article_number, string_agg(body, '') as body, \
+    SELECT block_id, block_name, title, article_id, article_number, id, string_agg(body, '') as body, \
            sum(agree) as agree, sum(disagree) as disagree, sum(onhold) as onhold \
     FROM ( \
       (SELECT blocks.id as block_id, blocks.name as block_name, articles.title, \
-              articles.id as article_id, articles.number as article_number, comments.body, \
+              articles.id as article_id, articles.number as article_number, comments.id as id, comments.body, \
               null as agree, null as disagree, null as onhold \
         FROM comments JOIN articles ON (comments.article_id = articles.id) \
                       JOIN blocks ON (comments.block_id = blocks.id) \
         WHERE (articles.meeting_id = #{id})) \
       UNION \
       (SELECT blocks.id as block_id, blocks.name as block_name, articles.title, \
-              articles.id as article_id, articles.number as article_number, null as body, \
+              articles.id as article_id, articles.number as article_number, null as id, null as body, \
               vote_results.agree, vote_results.disagree, vote_results.onhold \
         FROM vote_results JOIN articles ON (vote_results.article_id = articles.id) \
                           JOIN blocks ON (vote_results.block_id = blocks.id) \
