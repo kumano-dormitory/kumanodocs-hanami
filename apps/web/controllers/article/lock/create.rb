@@ -10,7 +10,7 @@
 module Web::Controllers::Article::Lock
   class Create
     include Web::Action
-    expose :for_table, :table_id
+    expose :title, :for_table, :table_id
 
     params do
       required(:article_id).filled(:int?)
@@ -31,8 +31,8 @@ module Web::Controllers::Article::Lock
 
     # article_idとpasswordを受け取り、passwordが正しければarticle_lock_keyを設定する
     def call(params)
+      article = @article_repo.find_with_relations(params[:article_id])
       if params.valid?
-        article = @article_repo.find_with_relations(params[:article_id])
         if article.author.authenticate(params[:author][:password])
           lock_key = @author_repo.lock(article.author_id, params[:author][:password])
           cookies[:article_lock_key] = lock_key
@@ -43,6 +43,7 @@ module Web::Controllers::Article::Lock
           end
         end
       end
+      @title = article.title
       @for_table = !params[:table_id].nil?
       @table_id = params[:table_id]
       @notifications = {error: {status: "Authentication Failed:", message: "パスワードが不正です. 正しいパスワードを入力してください"}}

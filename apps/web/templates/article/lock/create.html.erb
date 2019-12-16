@@ -1,6 +1,7 @@
 <div class="p-strip">
   <div class="row">
     <div class="col-12">
+      <h4 class="full-width">議案【<%= title %>】<%= if for_table then "の表" end %>を編集します</h4>
       <p>パスワードを入力し直してください</p>
       <%= form(for_table, table_id) %>
     </div>
