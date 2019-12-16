@@ -99,7 +99,7 @@ class JsonRepository < Hanami::Repository
 
   def comments_by_meeting(id)
     query = "\
-    SELECT block_id, block_name, title, article_id, article_number, id, string_agg(body, '') as body, \
+    SELECT block_id, block_name, title, article_id, article_number, max(id) as id, string_agg(body, '') as body, \
            sum(agree) as agree, sum(disagree) as disagree, sum(onhold) as onhold \
     FROM ( \
       (SELECT blocks.id as block_id, blocks.name as block_name, articles.title, \
