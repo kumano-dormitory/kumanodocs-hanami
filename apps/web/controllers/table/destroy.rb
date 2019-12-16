@@ -25,6 +25,7 @@ module Web::Controllers::Table
         if !params.dig(:table, :confirm).nil? && params.dig(:table, :confirm)
           if @table.article.author.authenticate(params[:table][:article_passwd])
             @table_repo.delete(params[:id])
+            flash[:notifications] = {success: {status: "Success:", message: "正常に表が削除されました"}}
             redirect_to routes.article_path(id: table.article_id)
           else
             @notifications = {error: {status: "Authentication Failed:", message: "パスワードが間違っています. 正しいパスワードを入力してください"}}
