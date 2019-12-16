@@ -80,8 +80,14 @@ class GeneratePdf
           f.puts(@tex_str)
         end
         # 目次を正しく出力するために2回コンパイルを行う
-        error! 'latex err' unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == nil || $? == 0 }
-        error! 'latex err' unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == 0 }
+        unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == nil || $? == 0 }
+          puts "Error (GeneratePdf) : generating pdf failed!\n    generate_type :admin_articles, meeting_id: #{@meeting.id}, path: #{tmp_folderpath}#{tmp_filename}.tex"
+          error! 'latex err'
+        end
+        unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == 0 }
+          puts "Error (GeneratePdf) : generating pdf failed!\n    generate_type :admin_articles, meeting_id: #{@meeting.id}, path: #{tmp_folderpath}#{tmp_filename}.tex"
+          error! 'latex err'
+        end
       end
       @path = "#{tmp_folderpath}#{tmp_filename}.pdf"
     elsif specification.type == :admin_comments
@@ -100,8 +106,14 @@ class GeneratePdf
           f.puts(@tex_str)
         end
         # 目次を正しく出力するために２回コンパイルを行う
-        error! 'latex err' unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == nil || $? == 0 }
-        error! 'latex err' unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == 0 }
+        unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == nil || $? == 0 }
+          puts "Error (GeneratePdf) : generating pdf failed!\n    generate_type :admin_comments, meeting_id: #{@meeting.id}, path: #{tmp_folderpath}#{tmp_filename}.tex"
+          error! 'latex err'
+        end
+        unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == 0 }
+          puts "Error (GeneratePdf) : generating pdf failed!\n    generate_type :admin_comments, meeting_id: #{@meeting.id}, path: #{tmp_folderpath}#{tmp_filename}.tex"
+          error! 'latex err'
+        end
       end
       @path = "#{tmp_folderpath}#{tmp_filename}.pdf"
     elsif specification.type == :web_article_preview
@@ -118,7 +130,10 @@ class GeneratePdf
           f.puts(@tex_str)
         end
         # PDFのコンパイル
-        error! 'latex err' unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == nil || $? == 0 }
+        unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == nil || $? == 0 }
+          puts "Error (GeneratePdf) : generating pdf failed!\n    generate_type :web_article_preview, article_id: #{@article.id}, article_title: #{@article.title}, \n    path: #{tmp_folderpath}#{tmp_filename}.tex"
+          error! 'latex err'
+        end
       end
       @path = "#{tmp_folderpath}#{tmp_filename}.pdf"
     elsif specification.type == :table
@@ -136,7 +151,10 @@ class GeneratePdf
           f.puts(@tex_str)
         end
         # PDFのコンパイル
-        error! 'latex err' unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == 0 }
+        unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == 0 }
+          puts "Error (GeneratePdf) : generating pdf failed!\n    generate_type :table, table_caption: #{@caption}, path: #{tmp_folderpath}#{tmp_filename}.tex"
+          error! 'latex err'
+        end
       end
       @path = "#{tmp_folderpath}#{tmp_filename}.pdf"
     else
@@ -163,8 +181,14 @@ class GeneratePdf
           f.puts(@tex_str)
         end
         # 目次を正しく出力するために２回コンパイルを行う
-        error! 'latex err' unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == nil || $? == 0 }
-        error! 'latex err' unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == 0 }
+        unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == nil || $? == 0 }
+          puts "Error (GeneratePdf) : generating pdf failed!\n    generate_type :web_articles, meeting_id: #{@meeting.id}, path: #{tmp_folderpath}#{tmp_filename}.tex"
+          error! 'latex err'
+        end
+        unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == 0 }
+          puts "Error (GeneratePdf) : generating pdf failed!\n    generate_type :web_articles, meeting_id: #{@meeting.id}, path: #{tmp_folderpath}#{tmp_filename}.tex"
+          error! 'latex err'
+        end
       end
       @path = "#{tmp_folderpath}#{tmp_filename}.pdf"
     end
