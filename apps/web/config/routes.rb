@@ -41,6 +41,8 @@ post '/article/:article_id/table/:table_id/lock', to: 'article/lock#create', as:
 # ブロック会議資料PDFのダウンロード（一般向け）
 get '/meeting/:id/download', to: 'meeting#download', as: :download_meeting
 
+# ブロック会議議事録まとめ
+get '/comment/summary', to: 'comment#summary', as: :summary_comment
 # 議事録チャット操作
 get '/comment/:comment_id/message/new', to: 'comment/message#new', as: :new_comment_message
 post '/comment/:comment_id/message', to: 'comment/message#create', as: :comment_messages
