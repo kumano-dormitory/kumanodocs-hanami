@@ -9,6 +9,15 @@
     </div>
   </div>
 </div>
+<% if false #寮生大会中であるときのみ表示 %>
+<div class="p-strip--accent is-bordered">
+  <div class="row">
+    <h2 class="u-no-margin--bottom">寮生大会の議事録</h2>
+    <p>寮生大会の議事録をリアルタイムで閲覧することができます</p>
+    <a href='<%= routes.gijirokus_path %>' class="p-button--neutral"><h3 class="u-no-margin--bottom">議事録の閲覧ページへ</h3></a>
+  </div>
+</div>
+<% end %>
 <% if during_meeting %>
 <div class="p-strip is-shallow is-bordered u-hide--small">
   <div class="row">
