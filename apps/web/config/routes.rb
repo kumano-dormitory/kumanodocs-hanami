@@ -27,6 +27,7 @@ resource :login, only: [:show, :create]
 
 # 寮生集会・大会の議事録表示・編集
 get '/gijiroku/content', to: 'gijiroku#content', as: :content_gijiroku
+get '/gijiroku/list', to: 'gijiroku#list', as: :list_gijiroku
 get '/gijiroku/:id/delete', to: 'gijiroku#destroy', as: :destroy_gijiroku
 resources :gijiroku, only: [:index, :show, :new, :create, :edit, :update]
 # ブロック会議の議事録投稿
@@ -40,6 +41,8 @@ post '/article/:article_id/table/:table_id/lock', to: 'article/lock#create', as:
 # ブロック会議資料PDFのダウンロード（一般向け）
 get '/meeting/:id/download', to: 'meeting#download', as: :download_meeting
 
+# ブロック会議議事録まとめ
+get '/comment/summary', to: 'comment#summary', as: :summary_comment
 # 議事録チャット操作
 get '/comment/:comment_id/message/new', to: 'comment/message#new', as: :new_comment_message
 post '/comment/:comment_id/message', to: 'comment/message#create', as: :comment_messages
