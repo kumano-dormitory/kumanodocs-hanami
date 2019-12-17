@@ -18,6 +18,15 @@
   </div>
 </div>
 <% end %>
+<% if false #代議員会中であるときのみ表示 %>
+<div class="p-strip--accent is-bordered">
+  <div class="row">
+    <h2 class="u-no-margin--bottom">代議員会用の資料閲覧</h2>
+    <p>過去のブロック会議の議事録まとめを閲覧できます</p>
+    <a href='<%= routes.summary_comment_path %>' class="p-button--neutral"><h3 class="u-no-margin--bottom">代議員会用の資料閲覧ページへ</h3></a>
+  </div>
+</div>
+<% end %>
 <% if during_meeting %>
 <div class="p-strip is-shallow is-bordered u-hide--small">
   <div class="row">
