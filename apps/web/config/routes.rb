@@ -27,6 +27,7 @@ resource :login, only: [:show, :create]
 
 # 寮生集会・大会の議事録表示・編集
 get '/gijiroku/content', to: 'gijiroku#content', as: :content_gijiroku
+get '/gijiroku/list', to: 'gijiroku#list', as: :list_gijiroku
 get '/gijiroku/:id/delete', to: 'gijiroku#destroy', as: :destroy_gijiroku
 resources :gijiroku, only: [:index, :show, :new, :create, :edit, :update]
 # ブロック会議の議事録投稿
