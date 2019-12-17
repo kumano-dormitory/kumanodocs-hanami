@@ -11,9 +11,9 @@
           <a href="#" class="p-button--neutral p-contextual-menu__toggle" aria-controls="#menu" aria-expanded="false" aria-haspopup="true">議案の一覧を表示</a>
           <span class="p-contextual-menu__dropdown" id="menu" aria-hidden="true" aria-label="submenu" style="max-width:32rem;">
             <span class="p-contextual-menu__group">
-              <% meetings.each_with_index do |article, i| %>
+              <% meetings.each_with_index do |nav_meeting, i| %>
                 <a href="<%= routes.summary_comment_path %>?page=<%= i %>" class="p-contextual-menu__link" style="margin:3px;">
-                  <%= meeting.formatted_date %>のブロック会議の議事録
+                  <%= nav_meeting.formatted_date %>のブロック会議の議事録
                 </a>
               <% end %>
             </span>
