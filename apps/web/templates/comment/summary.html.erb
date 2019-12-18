@@ -27,7 +27,7 @@
   <div class="row row-wide p-divider">
     <div class="col-9 p-divider__block">
       <% if comments %>
-        <h3 style="max-width: 100%;">[<%= page + 1 %>] <%= meeting.formatted_date %>のブロック会議の議事録</h3>
+        <h3 style="max-width: 100%;">[<%= page + 1 %>] <a href='<%= routes.meeting_path(id: meeting.id) %>' target="_blank"><%= meeting.formatted_date %>のブロック会議</a>の議事録</h3>
         <dl>
           <% comments.each do |article_id, comments| %>
           <dt><%= h "(#{comments[0]&.dig(:article_number) || '番号なし'}) #{comments[0]&.dig(:title)}" %></dt>
@@ -43,12 +43,7 @@
       <% end %>
 
       <footer class="p-pagination">
-        <% if page - 1 == 0 %>
-        <a class="p-pagination__link--previous" href="?page=0">
-          <span class="p-pagination__label">前のブロック会議の議事録へ</span>
-          <span class="p-pagination__title"><%= h meetings[0].formatted_date %>のブロック会議の議事録</span>
-        </a>
-        <% elsif page - 1 > 0 %>
+        <% if page - 1 >= 0 %>
         <a class="p-pagination__link--previous" href="?page=<%= page - 1 %>">
           <span class="p-pagination__label">前のブロック会議の議事録へ</span>
           <span class="p-pagination__title"><%= h meetings[page - 1].formatted_date %>のブロック会議の議事録</span>
@@ -78,11 +73,11 @@
               <li class="p-list__item">
                 <% if nav_meeting.id == meeting&.id %>
                 <a href="<%= routes.summary_comment_path %>?page=<%= i %>" style="font-weight:950;">
-                  [<%= i + 1 %>] <%= nav_meeting.formatted_date %>のブロック会議の議事録
+                  [<%= i + 1 %>] <%= nav_meeting.formatted_date %>の議事録
                 </a>
                 <% else %>
                 <a href="<%= routes.summary_comment_path %>?page=<%= i %>">
-                  [<%= i + 1 %>] <%= nav_meeting.formatted_date %>のブロック会議の議事録
+                  [<%= i + 1 %>] <%= nav_meeting.formatted_date %>の議事録
                 </a>
                 <% end %>
               </li>

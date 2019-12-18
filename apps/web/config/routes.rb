@@ -52,3 +52,5 @@ delete '/comment/message/:id', to: 'comment/message#destroy', as: :comment_messa
 get '/error/:id', to: 'error#show', as: :error
 # About Kumano-Dormitory Document System
 get '/about', to: 'funny#about', as: :about
+# 資料ダウンロード（寮生大会や代議員会の資料PDFのダウンロードリンク）
+get '/docs/download/:id', to: 'docs#download', as: :download_documents
