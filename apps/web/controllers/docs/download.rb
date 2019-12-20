@@ -26,6 +26,12 @@ module Web::Controllers::Docs
           self.headers.merge!({'Content-Disposition' => "inline"})
           unsafe_send_file "/app/daigi2.pdf"
         end
+      when "3" then #変更・返答まとめ
+        if FileTest.exist?("/app/ryoseitaikai2.pdf")
+          self.forat = :pdf
+          self.headers.merge!({'Content-Disposition' => 'inline'})
+          unsafe_send_file "/app/ryoseitaikai2.pdf"
+        end
       end
       # Display "In preparation"
     end
