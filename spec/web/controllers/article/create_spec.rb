@@ -6,7 +6,7 @@ describe Web::Controllers::Article::Create do
     let(:article) { Article.new(id: rand(1..5), meeting_id: valid_params[:article][:meeting_id]) }
     let(:meeting) { Meeting.new(id: valid_params[:article][:meeting_id], deadline: (Date.today + 30).to_time) }
     let(:meetings) { [Meeting.new(id: rand(1..5))] }
-    let(:categories) { valid_params[:article][:categories].map{|id| Category.new(id: id)} }
+    let(:categories) { valid_params[:article][:categories].map{|id| Category.new(id: id, name: Faker::Creature::Cat.name)} }
     let(:author) { Author.new( author_params.merge(id: rand(1..5)) ) }
     let(:author_params) {
       password = Faker::Internet.password
@@ -37,6 +37,8 @@ describe Web::Controllers::Article::Create do
       categories_params = valid_params[:article][:categories].map{ |id| {category_id: id, extra_content: nil} }
       meeting_repo = MiniTest::Mock.new.expect(:find, meeting, [meeting.id])
       category_repo = MiniTest::Mock.new.expect(:find, categories[0], [valid_params[:article][:categories][0]])
+                                        .expect(:find, categories[1], [valid_params[:article][:categories][1]])
+                                        .expect(:find, categories[0], [valid_params[:article][:categories][0]])
                                         .expect(:find, categories[1], [valid_params[:article][:categories][1]])
       author_repo = MiniTest::Mock.new.expect(
         :create_with_plain_password, author, [author_params[:name], author_params[:password]]

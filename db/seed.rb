@@ -24,7 +24,7 @@ user_repo = UserRepository.new
 ].each { |prop| block_repo.create(prop) }
 
 [2018].each do |year|
-  (1..12).each do |month|
+  (7..12).each do |month|
     [5, 20].each do |day|
       date = Date.new(year, month, day)
       deadline = Time.new(year, month, day - 2, 22)
@@ -33,7 +33,7 @@ user_repo = UserRepository.new
   end
 end
 
-(1..6).each do |month|
+(1..12).each do |month|
   [5, 20].each do |day|
     date = Date.new(2019, month, day)
     deadline = Time.new(2019, month, day - 2, 20)
@@ -83,7 +83,8 @@ end
   { name: '周知', require_content: false },
   { name: '議論', require_content: false },
   { name: '採決', require_content: true  },
-  { name: '採決予定', require_content: false }
+  { name: '募集', require_content: false },
+  { name: '採決予定', require_content: true }
 ].each { |props| category_rep.create(props) }
 
 categories = category_rep.all
