@@ -36,7 +36,7 @@
           </a>
         </h2>
         <p class="p-card__content" style="max-width: none;"><%= h article.body[0, 130] %></p>
-        <p class="p-card__content" style="margin-bottom:.3rem"><strong>ブロック会議：<%= article.meeting.formatted_date %> . 文責者：<%= h article.author.name %></strong></p>
+        <p class="p-card__content" style="margin-bottom:.3rem"><strong><% if article.meeting.type == 0 %>ブロック会議<% else %>寮生大会<% end %>：<%= article.meeting.formatted_date %> . 文責者：<%= h article.author.name %></strong></p>
       </div>
       <% end %>
     </div>

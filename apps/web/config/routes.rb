@@ -11,6 +11,8 @@ get '/article/search', to: 'article#search', as: :search_article
 get '/article/diff', to: 'article#diff', as: :diff_article
 # トップページ (root)
 get '/article/top', to: 'article#top'
+# 議案のPDFプレビュー
+get '/article/:id/pdf', to: 'article#pdf'
 # 議案の表示・操作
 resources :article do
   # 議案編集時のロック操作
@@ -25,6 +27,7 @@ resource :login, only: [:show, :create]
 
 # 寮生集会・大会の議事録表示・編集
 get '/gijiroku/content', to: 'gijiroku#content', as: :content_gijiroku
+get '/gijiroku/list', to: 'gijiroku#list', as: :list_gijiroku
 get '/gijiroku/:id/delete', to: 'gijiroku#destroy', as: :destroy_gijiroku
 resources :gijiroku, only: [:index, :show, :new, :create, :edit, :update]
 # ブロック会議の議事録投稿
@@ -38,6 +41,8 @@ post '/article/:article_id/table/:table_id/lock', to: 'article/lock#create', as:
 # ブロック会議資料PDFのダウンロード（一般向け）
 get '/meeting/:id/download', to: 'meeting#download', as: :download_meeting
 
+# ブロック会議議事録まとめ
+get '/comment/summary', to: 'comment#summary', as: :summary_comment
 # 議事録チャット操作
 get '/comment/:comment_id/message/new', to: 'comment/message#new', as: :new_comment_message
 post '/comment/:comment_id/message', to: 'comment/message#create', as: :comment_messages
@@ -47,3 +52,5 @@ delete '/comment/message/:id', to: 'comment/message#destroy', as: :comment_messa
 get '/error/:id', to: 'error#show', as: :error
 # About Kumano-Dormitory Document System
 get '/about', to: 'funny#about', as: :about
+# 資料ダウンロード（寮生大会や代議員会の資料PDFのダウンロードリンク）
+get '/docs/download/:id', to: 'docs#download', as: :download_documents

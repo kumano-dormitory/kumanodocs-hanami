@@ -1,7 +1,17 @@
+# ====
+# ブロック会議の詳細表示アクション
+# ====
+# ブロック会議の詳細ページを表示する
+# ブロック会議に含まれる議案をページングして表示する
+# = 主な処理
+# - 指定されたページ番号（議案番号）の議案を表示する
+# - ブロック会議に含まれる議案への目次を表示する
+# - 0番の議案が指定された場合には、「前回のブロック会議から」（前回のブロック会議の議事録一覧）を表示する
+
 module Web::Controllers::Meeting
   class Show
     include Web::Action
-    expose :meeting, :article, :past_meeting, :past_comments,
+    expose :meeting, :article, :past_meeting, :past_comments, :past_messages,
            :messages, :blocks, :page, :max_page, :editable, :article_refs
 
     def initialize(meeting_repo: MeetingRepository.new,
@@ -29,10 +39,12 @@ module Web::Controllers::Meeting
 
 
       if @page == 0
-        # 議事録の０番を実装途中
+        # ブロック会議の０番（前回のブロック会議から）
         @past_meeting = @meeting_repo.find_past_meeting(@meeting.id)
         @past_comments = @comment_repo.by_meeting(@past_meeting.id)
                                       .group_by{|comment| comment[:article_id]}
+        @past_messages = @message_repo.by_meeting(@past_meeting.id)
+                                      .group_by{|message| message[:comment_id]}
       else
         if @meeting.articles.length > 0 # ブロック会議に議案が存在する場合
           @article = @article_repo.find_with_relations(@meeting.articles[@page - 1].id)

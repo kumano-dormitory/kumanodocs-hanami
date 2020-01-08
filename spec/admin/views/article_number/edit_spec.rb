@@ -3,8 +3,8 @@ require_relative '../../../../apps/admin/views/article_number/edit'
 
 describe Admin::Views::ArticleNumber::Edit do
   let(:meeting) { Meeting.new(id: rand(1..50), date: Date.today, articles: [article]) }
-  let(:article) { Article.new(id: rand(1..100), title: Faker::Lorem.word, created_at: Time.now, author: author) }
-  let(:author) { Author.new(name: Faker::Name.name) }
+  let(:article) { Article.new(id: rand(1..100), title: Faker::Lorem.word, author: author, created_at: Time.now) }
+  let(:author) { Author.new(id: rand(1..100), name: Faker::Name.name) }
   let(:exposures) { {meeting: meeting, for_download: [true, false].sample, params: {}} }
   let(:template)  { Hanami::View::Template.new('apps/admin/templates/article_number/edit.html.erb') }
   let(:view)      { Admin::Views::ArticleNumber::Edit.new(template, exposures) }

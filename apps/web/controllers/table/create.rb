@@ -17,10 +17,12 @@ module Web::Controllers::Table
     def initialize(article_repo: ArticleRepository.new,
                    author_repo: AuthorRepository.new,
                    table_repo: TableRepository.new,
+                   generate_pdf_interactor: GeneratePdf.new,
                    authenticator: JwtAuthenticator.new)
       @article_repo = article_repo
       @author_repo = author_repo
       @table_repo = table_repo
+      @generate_pdf_interactor = generate_pdf_interactor
       @authenticator = authenticator
       @notifications = {}
     end
@@ -35,9 +37,14 @@ module Web::Controllers::Table
           begin
             CSV.parse(params[:table][:tsv], col_sep: "\t")
             if article.author.authenticate(params[:table][:article_passwd])
-              save_table(params, article)
-              flash[:notifications] = {success: {status: "Success:", message: "正常に表が議案に追加されました"}}
-              redirect_to routes.article_path(id: params[:table][:article_id])
+              if compile_check(params[:table][:caption], params[:table][:tsv])
+                save_table(params, article)
+                flash[:notifications] = {success: {status: "Success:", message: "正常に表が議案に追加されました"}}
+                redirect_to routes.article_path(id: params[:table][:article_id])
+              else
+                @notifications = {error: {status: "Error", message: "入力された表の形式が不正です. 入力をやり直してください. Excelなどからコピー&ペーストした後、入力フォーム内で編集しないでください."}}
+                self.status = 422
+              end
             else
               @notifications = {error: {status: "Authentication Failed:", message: "議案のパスワードが間違っています. 正しいパスワードを入力してください"}}
               self.status = 401
@@ -76,6 +83,12 @@ module Web::Controllers::Table
         csv: params[:table][:tsv],
       )
       @author_repo.release_lock(article.author_id)
+    end
+
+    def compile_check(caption, tsv)
+      specification = Specifications::Pdf.new(type: :table, data: {caption: caption, csv: tsv})
+      result = @generate_pdf_interactor.call(specification)
+      !result.failure?
     end
   end
 end

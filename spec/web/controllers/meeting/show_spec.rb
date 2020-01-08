@@ -33,6 +33,7 @@ describe Web::Controllers::Meeting::Show do
 
     let(:past_meeting) { Meeting.new(id: rand(1..100)) }
     let(:comment) { {id: rand(1..100), article_id: article.id} }
+    let(:msg_hash) { {id: rand(1..100), comment_id: comment[:id]} }
     it 'is successful display comments of past meeting' do
       meeting_repo = MiniTest::Mock.new.expect(:find_with_articles, meeting, [meeting.id])
                                        .expect(:find_past_meeting, past_meeting, [meeting.id])
@@ -40,7 +41,8 @@ describe Web::Controllers::Meeting::Show do
         meeting_repo: meeting_repo,
         block_repo: MiniTest::Mock.new.expect(:all, blocks),
         comment_repo: MiniTest::Mock.new.expect(:by_meeting, [comment], [past_meeting.id]),
-        article_repo: nil, message_repo: nil, article_reference_repo: nil,
+        message_repo: MiniTest::Mock.new.expect(:by_meeting, [msg_hash], [past_meeting.id]),
+        article_repo: nil, article_reference_repo: nil,
         authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
       )
       response = action.call(params.merge(page: 0))
@@ -48,6 +50,7 @@ describe Web::Controllers::Meeting::Show do
       action.meeting.must_equal meeting
       action.past_meeting.must_equal past_meeting
       action.past_comments.must_equal({comment[:article_id] => [comment]})
+      action.past_messages.must_equal({comment[:id] => [msg_hash]})
       action.blocks.must_equal blocks
       meeting_repo.verify.must_equal true
     end

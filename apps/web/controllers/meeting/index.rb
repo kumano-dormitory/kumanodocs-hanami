@@ -1,3 +1,8 @@
+# ====
+# ブロック会議一覧の表示アクション
+# ====
+# ブロック会議の一覧を表示する
+
 module Web::Controllers::Meeting
   class Index
     include Web::Action

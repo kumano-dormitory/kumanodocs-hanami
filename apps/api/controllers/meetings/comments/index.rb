@@ -18,8 +18,9 @@ module Api::Controllers::Meetings
         if params.valid?
           meeting = @json_repo.find_meeting(params[:meeting_id])
           comments = @json_repo.comments_by_meeting(params[:meeting_id])
+          messages = @json_repo.messages_by_meeting(params[:meeting_id])
 
-          self.body = JSON.pretty_generate({meeting: meeting.merge(comments: comments)})
+          self.body = JSON.pretty_generate({meeting: meeting.merge(comments: comments).merge(messages: messages)})
           self.format = :json
         else
           self.status = 400
