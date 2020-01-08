@@ -114,7 +114,7 @@
                 <% unless vote_result.nil? %>
                 <dd><%= "賛成 : #{vote_result.agree}<br/>反対 : #{vote_result.disagree}<br/>保留 : #{vote_result.onhold}" %></dd>
                 <% end %>
-                <% if messages.find{|id,_| id == comment.id } %>
+                <% if !comment.nil? && messages.find{|id,_| id == comment.id } %>
                   <dd class="u-no-margin--bottom">
                     <ul class="p-list--divided u-no-margin--bottom">
                       <% messages.find{|id,_| id == comment.id}.fetch(1, nil)&.each do |message| %>

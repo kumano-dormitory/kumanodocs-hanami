@@ -1,3 +1,8 @@
+# ====
+# エラー画面の表示アクション
+# ====
+# エラー画面の表示を確認するためのアクション
+
 module Web::Controllers::Error
   class Show
     include Web::Action

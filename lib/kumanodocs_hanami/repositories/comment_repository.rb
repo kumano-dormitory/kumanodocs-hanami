@@ -44,9 +44,9 @@ class CommentRepository < Hanami::Repository
   def by_meeting(meeting_id)
     query = "\
     SELECT * FROM ( \
-      (SELECT blocks.id as block_id, blocks.name as block_name, articles.title, articles.id as article_id, articles.number as article_number, comments.body , null as agree, null as disagree, null as onhold FROM comments JOIN articles ON (comments.article_id = articles.id) JOIN blocks ON (comments.block_id = blocks.id) WHERE (articles.meeting_id = #{meeting_id})) \
+      (SELECT blocks.id as block_id, blocks.name as block_name, articles.title, articles.id as article_id, articles.number as article_number, comments.body, comments.id, null as agree, null as disagree, null as onhold FROM comments JOIN articles ON (comments.article_id = articles.id) JOIN blocks ON (comments.block_id = blocks.id) WHERE (articles.meeting_id = #{meeting_id})) \
       UNION \
-      (SELECT blocks.id as block_id, blocks.name as block_name, articles.title, articles.id as article_id, articles.number as article_number, null as body, vote_results.agree, vote_results.disagree, vote_results.onhold FROM vote_results JOIN articles ON (vote_results.article_id = articles.id) JOIN blocks ON (vote_results.block_id = blocks.id) WHERE (articles.meeting_id = #{meeting_id})) \
+      (SELECT blocks.id as block_id, blocks.name as block_name, articles.title, articles.id as article_id, articles.number as article_number, null as body, vote_results.id, vote_results.agree, vote_results.disagree, vote_results.onhold FROM vote_results JOIN articles ON (vote_results.article_id = articles.id) JOIN blocks ON (vote_results.block_id = blocks.id) WHERE (articles.meeting_id = #{meeting_id})) \
     ) AS tt ORDER BY article_number nulls last, article_id, block_id, body nulls last"
     comments.read(query).map.to_a
   end
