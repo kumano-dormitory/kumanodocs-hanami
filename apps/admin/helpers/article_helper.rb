@@ -14,7 +14,7 @@ module Admin
       end
 
       def vote_content(article)
-        vote_category = article&.categories&.find{ |category| category.name == '採決' }
+        vote_category = article&.categories&.find{ |category| category.name == '採決' || category.name == '採決予定' }
         if vote_category
           h article&.article_categories&.find{ |ac| ac.category_id == vote_category.id }&.extra_content
         else

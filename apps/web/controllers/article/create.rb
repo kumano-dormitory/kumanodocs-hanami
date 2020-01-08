@@ -52,11 +52,12 @@ module Web::Controllers::Article
     def call(params)
       if params.valid?
         # TODO: 以下の採決項目のチェックをバリデーションクラスとして実装する
-        if params[:article][:categories].find{|i| i == 3} && (!params[:article][:vote_content] || params[:article][:vote_content]&.strip&.empty?)
+        categories = params[:article][:categories].map { |id| @category_repo.find(id) }
+        if categories.find{ |c| c.name == '採決' || c.name == '採決予定' } && (!params[:article][:vote_content] || params[:article][:vote_content]&.strip&.empty?)
           # invalid params
           @meetings = @meeting_repo.in_time
           @next_meeting = @meeting_repo.find_most_recent
-          @notifications = {error: {status: "Error:", message: "議案種別に『採決』が指定されていますが、採決項目が入力されていません. もう一度確認してください"}}
+          @notifications = {error: {status: "Error:", message: "議案種別に『採決』または『採決予定』が指定されていますが、採決項目が入力されていません. もう一度確認してください"}}
         else
           meeting = @meeting_repo.find(params[:article][:meeting_id])
           if after_deadline?
@@ -112,7 +113,7 @@ module Web::Controllers::Article
       categories = params[:article][:categories].map { |id| @category_repo.find(id) }
       # 採決項目の設定
       category_params = categories.map { |category|
-        if category.require_content && category.name == '採決'
+        if category.require_content && (category.name == '採決' || category.name == '採決予定')
           { category_id: category.id, extra_content: params[:article][:vote_content] }
         else
           { category_id: category.id, extra_content: nil }
