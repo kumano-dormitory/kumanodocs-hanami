@@ -2,11 +2,13 @@ html {
   scroll-behavior: smooth;
 }
 
+/*
 // body {
 //   -webkit-user-select: none;
 //   -webkit-tap-highlight-color: transparent;
 //   -webkit-touch-callout: none;
 // }
+*/
 
 .row-wide {
   max-width: 87rem;
