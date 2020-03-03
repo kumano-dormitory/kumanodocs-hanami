@@ -1,3 +1,8 @@
+# ====
+# 寮生大会議事録の編集ページ表示アクション
+# ====
+# 寮生大会議事録を編集するページを表示する
+
 module Web::Controllers::Gijiroku
   class Edit
     include Web::Action

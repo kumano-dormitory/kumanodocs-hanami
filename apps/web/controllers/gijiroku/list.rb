@@ -1,3 +1,8 @@
+# ====
+# 寮生大会議事録の一覧表示アクション
+# ====
+# 過去の寮生大会議事録も含めて一覧を表示する
+
 module Web::Controllers::Gijiroku
   class List
     include Web::Action

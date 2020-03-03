@@ -1,3 +1,16 @@
+# ====
+# 表の新規投稿アクション
+# ====
+# 表を新規作成する
+# 表の新規作成フローは以下のとおりである
+# 1. 表の新規作成に必要な項目が全て入力されているかチェック(validation)
+# 2. 表を新規追加する議案について、ブロック会議の投稿締め切りを過ぎていないか判定
+# 3. 表のデータ(TSV形式)がTSVとしてパースできる正しい形式であるかを判定
+# 4. 表の新規追加時に必要となる議案のパスワードが正しいか認証
+# 5. 表がPDFとして出力できるかを、実際にPDFを生成することで確認
+# 6. 上記すべてのチェックを通った表のみが新規作成される
+# チェックに通らなかった表についてはエラーメッセージを表示して、表の新規投稿画面を再度表示する
+
 require 'csv'
 
 module Web::Controllers::Table
@@ -85,8 +98,10 @@ module Web::Controllers::Table
       @author_repo.release_lock(article.author_id)
     end
 
+    # PDFを指定されたパラメータで生成できるか判定するメソッド
     def compile_check(caption, tsv)
       specification = Specifications::Pdf.new(type: :table, data: {caption: caption, csv: tsv})
+      # PDF生成サービスを使用する (lib/kumanodocs_hanami/interactors/generate_pdf.rb)
       result = @generate_pdf_interactor.call(specification)
       !result.failure?
     end

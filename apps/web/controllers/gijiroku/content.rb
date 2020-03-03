@@ -1,3 +1,9 @@
+# ====
+# 寮生大会議事録の本文取得アクション
+# ====
+# 寮生大会議事録の自動更新において、このアクションから本文を取得し更新する
+# レスポンスはテキスト形式で議事録の本文のみである
+
 module Web::Controllers::Gijiroku
   class Content
     include Web::Action

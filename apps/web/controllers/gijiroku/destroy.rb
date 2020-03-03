@@ -1,3 +1,8 @@
+# ====
+# 寮生大会議事録の削除アクション
+# ====
+# 寮生大会議事録を削除する
+
 module Web::Controllers::Gijiroku
   class Destroy
     include Web::Action

@@ -1,3 +1,8 @@
+# ====
+# 寮生大会議事録の新規作成アクション
+# ====
+# 寮生大会議事録を新規作成する
+
 module Web::Controllers::Gijiroku
   class Create
     include Web::Action
