@@ -276,9 +276,6 @@ module Admin::Views::Meeting
               div class: "p-search-box", style: 'margin-bottom: .8rem' do
                 input type: 'search', name: 'query', class: 'p-search-box__input', id: 'same-refs-search-input',
                       placeholder: '議案の題名を入力して下の選択欄に表示される議案を絞ることができます'
-                button type: 'reset', class: 'p-search-box__reset', id: 'same-refs-search-reset', alt: 'reset' do
-                  i class: 'p-icon--close'
-                end
               end
               select :same_references, recent_articles_for_select, multiple: true, style: 'height: 20rem', options: {selected: 0}
               h4 '下に選択された議案が表示されます。選択を解除するには議案の『×』をクリックしてください。', class: "full-width"
@@ -313,9 +310,6 @@ module Admin::Views::Meeting
               div class: "p-search-box", style: 'margin-bottom: .8rem' do
                 input type: 'search', name: 'query', class: 'p-search-box__input', id: 'other-refs-search-input',
                       placeholder: '議案の題名を入力して下の選択欄に表示される議案を絞ることができます'
-                button type: 'reset', class: 'p-search-box__reset', id: 'other-refs-search-reset', alt: 'reset' do
-                  i class: 'p-icon--close'
-                end
               end
               select :other_references, recent_articles_for_select, multiple: true, style: 'height: 20rem', options: {selected: 0}
               h4 '下に選択された議案が表示されます。選択を解除するには議案の『×』をクリックしてください。', class: "full-width"
@@ -562,9 +556,6 @@ module Admin::Views::Meeting
               div class: "p-search-box", style: 'margin-bottom: .8rem' do
                 input type: 'search', name: 'query', class: 'p-search-box__input', id: 'same-refs-search-input',
                       placeholder: '議案の題名を入力して下の選択欄に表示される議案を絞ることができます'
-                button type: 'reset', class: 'p-search-box__reset', id: 'same-refs-search-reset', alt: 'reset' do
-                  i class: 'p-icon--close'
-                end
               end
               select :same_references, recent_articles_for_select, multiple: true, style: 'height: 20rem', options: {selected: 0}
               h4 '下に選択された議案が表示されます。選択を解除するには議案の『×』をクリックしてください。', class: "full-width"
@@ -599,9 +590,6 @@ module Admin::Views::Meeting
               div class: "p-search-box", style: 'margin-bottom: .8rem' do
                 input type: 'search', name: 'query', class: 'p-search-box__input', id: 'other-refs-search-input',
                       placeholder: '議案の題名を入力して下の選択欄に表示される議案を絞ることができます'
-                button type: 'reset', class: 'p-search-box__reset', id: 'other-refs-search-reset', alt: 'reset' do
-                  i class: 'p-icon--close'
-                end
               end
               select :other_references, recent_articles_for_select, multiple: true, style: 'height: 20rem', options: {selected: 0}
               h4 '下に選択された議案が表示されます。選択を解除するには議案の『×』をクリックしてください。', class: "full-width"
