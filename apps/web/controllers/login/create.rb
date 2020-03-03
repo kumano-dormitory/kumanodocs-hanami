@@ -30,6 +30,7 @@ module Web::Controllers::Login
         if !user.nil? && user.authority == 0 && user.authenticate(params[:login][:password])
           session.clear # sessionキーの変更
           if @standalone
+            # standalone(PWAの場合)である場合には通常より長い期間(180日)ログインが有効となるトークンを渡す
             cookies[:token] = {
               value: generate_token(user.name, ENV['KUMANODOCS_AUTH_TOKEN_VERSION'], 180),
               path: '/',
@@ -38,6 +39,7 @@ module Web::Controllers::Login
             }
             redirect_to routes.root_path + '?loggedin=true'
           else
+            # 通常のウェブブラウザなどからのログイン時は7日間有効なトークンを渡す
             cookies[:token] = {
               value: generate_token(user.name, ENV['KUMANODOCS_AUTH_TOKEN_VERSION']),
               path: '/',
@@ -50,6 +52,7 @@ module Web::Controllers::Login
       cookies[:token] = nil
     end
 
+    # 有効なJWTを作成する関数
     def generate_token(name, version, exp_day = 7)
       rsa_private = OpenSSL::PKey::RSA.new(KUMANODOCS_AUTH_TOKEN_PKEY)
       exp = Time.now.to_i + (exp_day * 24 * 3600)

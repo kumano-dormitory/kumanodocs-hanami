@@ -1,3 +1,8 @@
+# ====
+# 寮生大会議事録(最新の議事録)の表示アクション
+# ====
+# 寮生大会議事録を表示する
+
 module Web::Controllers::Gijiroku
   class Index
     include Web::Action

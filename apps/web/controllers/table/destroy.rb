@@ -1,3 +1,10 @@
+# ====
+# 表の削除アクション
+# ====
+# 表を削除する
+# 表を削除するために、その表が付随している議案のパスワードを要求する
+# パスワード認証が正しく行われた場合にのみ表を削除する
+
 module Web::Controllers::Table
   class Destroy
     include Web::Action

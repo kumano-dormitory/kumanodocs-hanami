@@ -1,3 +1,9 @@
+# ====
+# 寮生大会資料PDF等ダウンロードアクション
+# ====
+# 寮生大会資料などのPDFを転送する
+# パラメータとしてidを受け取り、資料の種類を判別する
+
 module Web::Controllers::Docs
   class Download
     include Web::Action

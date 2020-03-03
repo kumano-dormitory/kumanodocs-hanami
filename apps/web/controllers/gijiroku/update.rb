@@ -1,3 +1,8 @@
+# ====
+# 寮生大会議事録の更新アクション
+# ====
+# 寮生大会議事録を更新する
+
 module Web::Controllers::Gijiroku
   class Update
     include Web::Action

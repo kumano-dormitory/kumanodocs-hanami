@@ -1,3 +1,9 @@
+# ====
+# 表の編集ページの表示アクション
+# ====
+# 表の編集ページを表示する
+# 編集前に議案のパスワード認証を行っていない場合には、議案の編集の認証画面へリダイレクトする
+
 module Web::Controllers::Table
   class Edit
     include Web::Action

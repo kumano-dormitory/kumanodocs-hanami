@@ -1,3 +1,8 @@
+# ====
+# 表の新規投稿ページの表示アクション
+# ====
+# 表の新規投稿ページを表示する
+
 module Web::Controllers::Table
   class New
     include Web::Action
