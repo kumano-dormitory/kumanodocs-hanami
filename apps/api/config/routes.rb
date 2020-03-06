@@ -4,6 +4,7 @@ resources :meetings, only: [:index, :show] do
 end
 resources :articles, only: [:index, :show]
 post '/articles', to: 'articles#create'
+post '/articles/:id', to: 'articles#update'
 
 get '/search', to: 'articles#search'
 post '/login/getToken', to: 'login#token'
