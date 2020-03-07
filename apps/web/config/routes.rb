@@ -56,6 +56,7 @@ get '/about', to: 'funny#about', as: :about
 get '/docs/download/:id', to: 'docs#download', as: :download_documents
 get '/docs', to: 'docs#index', as: :documents
 get '/docs/new', to: 'docs#new', as: :new_document
+get '/docs/editor_menu', to: 'docs#editor_menu', as: :editor_menu_documents
 get '/docs/:id', to: 'docs#show', as: :document
 get '/docs/:id/edit', to: 'docs#edit', as: :edit_document
 post '/docs', to: 'docs#create', as: :documents

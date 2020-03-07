@@ -1,0 +1,21 @@
+<div class="p-strip">
+  <div class="row">
+    <h3><%= user.name %>の寮生向け資料の編集ページ</h3>
+    <p><a class="p-button--positive" href="<%= routes.new_document_path %>">資料の新規作成</a></p>
+    <ul class="p-list--divided">
+      <% documents.each do |document| %>
+      <li class="p-list__item">
+        <h4><%= document.title %></h4>
+        <div class="row">
+          <a class="p-button--positive" href="<%= routes.edit_document_path(document.id) %>">編集</a>
+          <%=
+          form_for :document, routes.document_path(document.id), method: :delete, class: "p-form p-form--inline" do
+            submit '削除', class: "p-button--negative"
+          end
+          %>
+        </div>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
