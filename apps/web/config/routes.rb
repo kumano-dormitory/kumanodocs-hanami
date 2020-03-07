@@ -60,6 +60,7 @@ get '/docs/:id', to: 'docs#show', as: :document
 get '/docs/:id/edit', to: 'docs#edit', as: :edit_document
 post '/docs', to: 'docs#create', as: :documents
 patch '/docs/:id', to: 'docs#update', as: :document
+delete '/docs/:id', to: 'docs#destroy', as: :document
 
 # 部会委員会の資料編集のためのログイン
 get '/docs/login/new', to: 'docs/login#new', as: :new_login_docs
