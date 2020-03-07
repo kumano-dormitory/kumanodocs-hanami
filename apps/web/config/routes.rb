@@ -55,7 +55,9 @@ get '/about', to: 'funny#about', as: :about
 # 資料ダウンロード（寮生大会や代議員会の資料PDFのダウンロードリンク）
 get '/docs/download/:id', to: 'docs#download', as: :download_documents
 get '/docs', to: 'docs#index', as: :documents
+get '/docs/new', to: 'docs#new', as: :new_document
 get '/docs/:id', to: 'docs#show', as: :document
 
 # 部会委員会の資料編集のためのログイン
 get '/docs/login/new', to: 'docs/login#new', as: :new_login_docs
+post '/docs/login', to: 'docs/login#create', as: :login_docs
