@@ -56,3 +56,6 @@ get '/about', to: 'funny#about', as: :about
 get '/docs/download/:id', to: 'docs#download', as: :download_documents
 get '/docs', to: 'docs#index', as: :documents
 get '/docs/:id', to: 'docs#show', as: :document
+
+# 部会委員会の資料編集のためのログイン
+get '/docs/login/new', to: 'docs/login#new', as: :new_login_docs
