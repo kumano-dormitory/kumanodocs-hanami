@@ -54,3 +54,4 @@ get '/error/:id', to: 'error#show', as: :error
 get '/about', to: 'funny#about', as: :about
 # 資料ダウンロード（寮生大会や代議員会の資料PDFのダウンロードリンク）
 get '/docs/download/:id', to: 'docs#download', as: :download_documents
+get '/docs', to: 'docs#index', as: :documents
