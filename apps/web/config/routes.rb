@@ -57,6 +57,7 @@ get '/docs/download/:id', to: 'docs#download', as: :download_documents
 get '/docs', to: 'docs#index', as: :documents
 get '/docs/new', to: 'docs#new', as: :new_document
 get '/docs/:id', to: 'docs#show', as: :document
+post '/docs', to: 'docs#create', as: :documents
 
 # 部会委員会の資料編集のためのログイン
 get '/docs/login/new', to: 'docs/login#new', as: :new_login_docs
