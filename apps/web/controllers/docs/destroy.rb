@@ -4,6 +4,7 @@ module Web::Controllers::Docs
     expose :document
 
     params do
+      required(:id).filled(:int?)
       required(:document).schema do
         required(:confirm).filled(:bool?)
       end
