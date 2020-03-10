@@ -24,6 +24,8 @@ module Web::Controllers::Docs
     end
 
     def call(params)
+      redirect_to routes.new_login_docs_path unless session[:user_id]
+
       @user = @user_repo.find(session[:user_id])
       if !@user.nil? && @user.authority == 1
         if params.valid?
