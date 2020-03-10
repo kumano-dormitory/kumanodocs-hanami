@@ -9,6 +9,7 @@
       <%= markdown_to_html(h document.body) %>
     </div>
     <% elsif document.type == 1 %>
+    <iframe src="/docs/download/<%= document.id %>" type="application/pdf" width="100%" height="700px">
     <% elsif document.type == 2 %>
     <h3>
       <a class="p-link--external" href="<%= ha document.body %>"><%= h document.body %></a>
