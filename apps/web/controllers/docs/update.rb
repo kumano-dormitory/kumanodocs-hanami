@@ -9,7 +9,9 @@ module Web::Controllers::Docs
         required(:title).filled(:str?)
         required(:user_id).filled(:str?)
         required(:type) { filled? & int? & gteq?(0) & lt?(3) }
-        required(:body).filled(:str?)
+        optional(:body).maybe(:str?)
+        optional(:data) { filled? }
+        optional(:url).maybe(:str?)
       end
     end
 
@@ -29,7 +31,20 @@ module Web::Controllers::Docs
       document = @document_repo.find(params[:id])
       if !user.nil? && user.authority == 1 && user.id == document&.user_id
         if params.valid?
-          props = {title: params[:document][:title], type: params[:document][:type], body: params[:document][:body]}
+          props = {title: params[:document][:title], type: params[:document][:type]}
+          case params[:document][:type]
+          when 0 then
+            props.merge!({body: params[:document][:body]})
+          when 1 then
+            props.merge!({body: params[:document][:data][:filename]})
+            folder_path = "./docs/id#{document.id}/"
+            FileUtils.mkdir_p(folder_path) unless FileTest.exist?(folder_path)
+            FileUtils.mv(params[:document][:data][:tempfile], "#{folder_path}#{params[:document][:data][:filename]}")
+          when 2 then
+            props.merge!({body: params[:document][:url]})
+          else
+            halt 422
+          end
           @document_repo.update(document.id, props)
           redirect_to routes.editor_menu_documents_path
         else
