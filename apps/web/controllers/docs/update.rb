@@ -48,6 +48,7 @@ module Web::Controllers::Docs
           @document_repo.update(document.id, props)
           redirect_to routes.editor_menu_documents_path
         else
+          self.status = 422
           @notifications = {error: {status: "Error:", message: "入力された項目に不備があり保存できません. もう一度確認してください"}}
           @document = Document.new(
             id: params[:id],
