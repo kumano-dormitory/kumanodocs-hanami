@@ -6,7 +6,7 @@ module Super::Controllers::User
     params do
       required(:user).schema do
         required(:password).maybe(:str?).confirmation
-        required(:authority).filled(:int?, included_in?: 0..2)
+        required(:authority).filled(:int?, included_in?: 0..3)
       end
     end
 
