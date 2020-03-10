@@ -23,6 +23,7 @@ module Web::Controllers::Docs
           session[:user_id] = user.id
           redirect_to routes.editor_menu_documents_path
         else
+          self.status = 403
           flash[:notifications] = {error: {status: "Authentication Failed:", message: "ユーザー名またはパスワードが間違っています. もう一度入力してください"}}
         end
       end
