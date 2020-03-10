@@ -26,6 +26,9 @@ html {
   padding: .5rem 1rem;
   text-shadow: none;
 }
+.markdown p {
+  max-width: 100%;
+}
 
 .bottom-navigation {
   background-color: white;
