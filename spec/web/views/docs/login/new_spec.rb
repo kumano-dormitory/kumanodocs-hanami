@@ -1,4 +1,4 @@
-require_relative '../../../spec_helper'
+require_relative '../../../../spec_helper'
 
 describe Web::Views::Docs::Login::New do
   let(:exposures) { Hash[format: :html] }
