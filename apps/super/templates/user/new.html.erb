@@ -19,8 +19,8 @@
         end
 
         div do
-          label '権限レベル(0:一般ユーザ, 1:資料委員会ユーザ, 2:スーパーユーザ)', for: :authority
-          select :authority, {'0: 一般ユーザ' => 0, '1: 資料委員会ユーザ' => 1, '2: スーパーユーザ' => 2}
+          label '権限レベル(0:一般ユーザ, 1:部会・委員会ユーザ, 2:資料委員会ユーザ, 3:スーパーユーザ)', for: :authority
+          select :authority, {'0: 一般ユーザ' => 0, '1: 部会・委員会ユーザ' => 1, '2: 資料委員会ユーザ' => 2, '3: スーパーユーザ' => 3}
         end
 
         submit '追加', class: "p-button--positive"
