@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Admin::Controllers::Sessions::Create do
   let(:password) { Faker::Internet.password }
   let(:crypt_password) { BCrypt::Password.create(password) }
-  let(:user) { User.new(id: rand(1..50), name: 'admin', authority: 1, crypt_password: crypt_password) }
+  let(:user) { User.new(id: rand(1..50), name: 'admin', authority: 2, crypt_password: crypt_password) }
   let(:valid_params) {{
     session: {
       adminname: user.name,
