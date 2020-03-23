@@ -128,6 +128,15 @@ And then, open [http://localhost:2300](http://localhost:2300).
 | article_new_id | Primary & Foreign key | on delete cascade |
 | same | Boolean | |
 
+### Document
+| attribute | type | |
+| ---- | ---- | ---- |
+| id | Primary key | |
+| title | String | |
+| type | Integer | 0: markdown (default), 1: PDF, 2: URL |
+| body | String | markdown or filename or URL |
+| user_id | Foreign key | on delete cascade |
+
 ## Lint
 
 Rubocop is ready to use!

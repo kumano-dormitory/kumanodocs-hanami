@@ -1,0 +1,20 @@
+<div class="p-strip">
+  <div class="row">
+    <h4>寮生向けの部会・委員会の資料</h4>
+    <h2><%= h document.title %></h2>
+    <p>文責：<%= h document.user.name %></p>
+
+    <% if document.type == 0 %>
+    <div class="markdown">
+      <%= markdown_to_html(h document.body) %>
+    </div>
+    <% elsif document.type == 1 %>
+    <iframe src="/docs/download/<%= document.id %>" type="application/pdf" width="100%" height="700px">
+    <% elsif document.type == 2 %>
+    <h3>
+      <a class="p-link--external" href="<%= ha document.body %>"><%= h document.body %></a>
+    </h3>
+    <p>※外部サイトへのリンクです. リンクをクリックすると外部サイトが開きます.</p>
+    <% end %>
+  </div>
+</div>

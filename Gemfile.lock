@@ -120,6 +120,9 @@ GEM
     inflecto (0.0.2)
     jaro_winkler (1.5.2)
     jwt (2.1.0)
+    kramdown (2.1.0)
+    kramdown-parser-gfm (1.1.0)
+      kramdown (~> 2.0)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
     mini_mime (1.0.2)
@@ -213,6 +216,8 @@ DEPENDENCIES
   hanami (~> 1.2)
   hanami-model (~> 1.2)
   jwt
+  kramdown
+  kramdown-parser-gfm
   minitest
   openssl (~> 2.1)
   pg

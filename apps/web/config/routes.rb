@@ -54,3 +54,15 @@ get '/error/:id', to: 'error#show', as: :error
 get '/about', to: 'funny#about', as: :about
 # 資料ダウンロード（寮生大会や代議員会の資料PDFのダウンロードリンク）
 get '/docs/download/:id', to: 'docs#download', as: :download_documents
+get '/docs', to: 'docs#index', as: :documents
+get '/docs/new', to: 'docs#new', as: :new_document
+get '/docs/editor_menu', to: 'docs#editor_menu', as: :editor_menu_documents
+get '/docs/:id', to: 'docs#show', as: :document
+get '/docs/:id/edit', to: 'docs#edit', as: :edit_document
+post '/docs', to: 'docs#create', as: :documents
+patch '/docs/:id', to: 'docs#update', as: :document
+delete '/docs/:id', to: 'docs#destroy', as: :document
+
+# 部会委員会の資料編集のためのログイン
+get '/docs/login/new', to: 'docs/login#new', as: :new_login_docs
+post '/docs/login', to: 'docs/login#create', as: :login_docs

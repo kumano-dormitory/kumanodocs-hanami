@@ -20,7 +20,7 @@ module Admin::Controllers::Sessions
     def call(params)
       if params.valid?
         user = @user_repo.find_by_name(params[:session][:adminname])
-        if !user.nil? && user.authority == 1 && user.authenticate(params[:session][:password])
+        if !user.nil? && user.authority == 2 && user.authenticate(params[:session][:password])
           session.clear
           session[:user_id] = user.id
           @admin_history_repo.add(:sessions_create, JSON.pretty_generate({action:"sessions_create", payload:{user_id: user.id}}))
