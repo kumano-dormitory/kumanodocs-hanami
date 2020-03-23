@@ -1,0 +1,12 @@
+<div class="p-strip">
+  <div class="row">
+    <h3>[<%= document.title %>]の削除</h3>
+    <p>本当に削除して良い場合は以下の削除ボタンを押してください</p>
+    <%=
+    form_for :document, routes.document_path(document.id), method: :delete, class: "p-form" do
+      hidden_field :confirm, value: true
+      submit '削除', class: "p-button--negative"
+    end
+    %>
+  </div>
+</div>

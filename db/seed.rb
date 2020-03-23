@@ -10,6 +10,7 @@ table_repo = TableRepository.new
 comment_repo = CommentRepository.new
 vote_result_repo = VoteResultRepository.new
 user_repo = UserRepository.new
+document_repo = DocumentRepository.new
 
 [
   { name: 'A1' },
@@ -107,6 +108,29 @@ article_rep.all.each do |article|
   end
 end
 
-user_repo.create(name: 'super', crypt_password: BCrypt::Password.create('pass'), authority: 2)
-user_repo.create(name: 'admin', crypt_password: BCrypt::Password.create('pass'), authority: 1)
+[
+  { name: '文化部', crypt_password: BCrypt::Password.create('pass'), authority: 1 },
+  { name: '炊事部', crypt_password: BCrypt::Password.create('pass'), authority: 1 },
+  { name: '人権擁護部', crypt_password: BCrypt::Password.create('pass'), authority: 1 },
+  { name: '庶務部', crypt_password: BCrypt::Password.create('pass'), authority: 1 },
+  { name: '厚生部', crypt_password: BCrypt::Password.create('pass'), authority: 1 },
+  { name: '情報部', crypt_password: BCrypt::Password.create('pass'), authority: 1 }
+].each { |props| user_repo.create(props) }
+users = user_repo.all
+num = 0
+rand(3..6).times do
+  user = users.sample
+  params = {
+    title: Faker::Lorem.sentence,
+    type: 0, # rand(0..3)
+    body: Faker::Lorem.paragraphs.inject(&:+),
+    number: num,
+    user_id: user.id
+  }
+  document_repo.create(params)
+  num = num + 1
+end
+
+user_repo.create(name: 'super', crypt_password: BCrypt::Password.create('pass'), authority: 3)
+user_repo.create(name: 'admin', crypt_password: BCrypt::Password.create('pass'), authority: 2)
 user_repo.create(name: 'kumano', crypt_password: BCrypt::Password.create('pass'), authority: 0)

@@ -13,6 +13,8 @@ gem 'tzinfo'
 gem 'bcrypt'
 gem 'jwt'
 gem 'openssl', '~> 2.1'
+gem 'kramdown'
+gem 'kramdown-parser-gfm'
 
 group :development do
   # Code reloading
