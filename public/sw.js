@@ -4,7 +4,7 @@ var urlsToCache = [
   '/assets/header.jpg',
   '/assets/favicon-baa44a4725761fc796e4cee42a6e0a19.ico',
   '/assets/logo.png',
-  '/assets/application-94b5dd7a66cc9d612f63702263b2650d.css',
+  '/assets/application-8e9600da35526ba9fc8a488a64ed5867.css',
   '/assets/login-dbdd349a7795e4d7c3fe0dce21ba316b.css',
   '/assets/top-b51bd883e00cc233a556becfa2486d5e.css',
   '/assets/article_reference-296bbe0b7e674a690e12351dce2412e8.js',
