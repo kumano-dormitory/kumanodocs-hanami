@@ -9,9 +9,15 @@
       <%= markdown_to_html(h document.body) %>
     </div>
     <% elsif document.type == 1 %>
-    <iframe src="/docs/download/<%= document.id %>" type="application/pdf" width="100%" height="700px">
+    <div class="u-hide--medium u-hide--large">
+      <p>資料はPDFファイルです. 以下のボタンからダウンロード出来ます</p>
+      <a href="/docs/download/<%= document.id %>" class="p-button--neutral">PDFファイルのダウンロード</a>
+    </div>
+    <div class="u-hide--small">
+      <iframe src="/docs/download/<%= document.id %>" type="application/pdf" width="100%" height="700px">
+    </div>
     <% elsif document.type == 2 %>
-    <h3>
+    <h3 class="u-no-padding">
       <a class="p-link--external" href="<%= ha document.body %>"><%= h document.body %></a>
     </h3>
     <p>※外部サイトへのリンクです. リンクをクリックすると外部サイトが開きます.</p>

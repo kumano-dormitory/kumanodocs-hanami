@@ -10,7 +10,7 @@ module Web::Controllers::Docs
         required(:user_id).filled(:str?)
         required(:type) { filled? & int? & gteq?(0) & lt?(3) }
         optional(:body).maybe(:str?)
-        optional(:data) { filled? }
+        optional(:data) { none? | filled? }
         optional(:url).maybe(:str?)
       end
     end
