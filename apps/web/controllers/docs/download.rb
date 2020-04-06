@@ -44,8 +44,9 @@ module Web::Controllers::Docs
         # 部会・委員会の資料
         document = @document_repo.find(params[:id])
         if FileTest.exist?("./docs/id#{document.id}/#{document.body}")
+          encoded_filename = URI.encode_www_form_component("#{document.title}.pdf")
           self.format = :pdf
-          self.headers.merge!({'Content-Disposition' => "inline"})
+          self.headers.merge!({'Content-Disposition' => "inline; filename=\"kumano_ryo_document_#{document.id}.pdf\"; filename*=UTF-8''#{encoded_filename}"})
           unsafe_send_file "./docs/id#{document.id}/#{document.body}"
         end
       end
