@@ -21,6 +21,7 @@ module Super
       #
       load_paths << [
         'controllers',
+        'helpers',
         'views'
       ]
 
@@ -260,6 +261,7 @@ module Super
       view.prepare do
         include Hanami::Helpers
         include Super::Assets::Helpers
+        include Super::Helpers::UserHelper
       end
     end
 
