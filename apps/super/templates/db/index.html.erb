@@ -5,6 +5,12 @@
 <script src="https://code.jquery.com/jquery-migrate-3.1.0.min.js"></script>
 
 <h2>データベースアクセス</h2>
+<pre>
+  insert into meetings (date, deadline, type, created_at, updated_at) values ('2021-01-05', '2021-01-01T21:00:00+09:00', 0, current_timestamp, current_timestamp)
+  update articles set checked = false where id = ?
+  delete from meetings where id = ?
+</pre>
+
 <pre style="font-size:11px;line-height:11px;"><code id="result"></code></pre>
 
 <div class="p-strip">
