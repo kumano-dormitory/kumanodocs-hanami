@@ -11,6 +11,11 @@ resources :meeting do
 end
 resources :sessions, only: [:new, :create, :destroy]
 resources :history, only: [:index, :show]
+# 部会・委員会の資料置き場
+get '/docs/order', to: 'docs#order', as: :order_docs
+patch '/docs/order', to: 'docs#update_order', as: :order_docs
+resources :docs
+
 get '/logout', to: 'sessions#destroy', as: :logout # aタグのリンクからログアウトできるように定義
 
 get '/article/search', to: 'meeting/article#search', as: :search # 議案の検索

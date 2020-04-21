@@ -1,0 +1,18 @@
+<div class="p-strip--light is-shallow u-no-padding--bottom">
+  <div class="row">
+    <ul class="p-breadcrumbs">
+      <li class="p-breadcrumbs__item"><a href='<%= routes.root_path %>'>管理者向けページ</a></li>
+      <li class="p-breadcrumbs__item"><a href='<%= routes.docs_path %>'>寮生向けの資料一覧</a></li>
+      <li class="p-breadcrumbs__item"><strong>寮生向け資料の新規追加</strong></li>
+    </ul>
+    <hr/>
+  </div>
+</div>
+<div class="p-strip is-shallow">
+  <div class="row">
+    <h3>部会・委員会の資料の新規追加</h3>
+
+    <%= form_create(users) %>
+    <%= javascript 'docs_form' %>
+  </div>
+</div>
