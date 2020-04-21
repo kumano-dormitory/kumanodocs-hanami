@@ -1,0 +1,23 @@
+<div class="p-strip--light is-shallow u-no-padding--bottom">
+  <div class="row">
+    <ul class="p-breadcrumbs">
+      <li class="p-breadcrumbs__item"><a href='<%= routes.root_path %>'>管理者向けページ</a></li>
+      <li class="p-breadcrumbs__item"><a href='<%= routes.docs_path %>'>寮生向けの資料一覧</a></li>
+      <li class="p-breadcrumbs__item"><a href='<%= routes.doc_path(id: document.id) %>'><%= h document.title %></a></li>
+      <li class="p-breadcrumbs__item"><strong>寮生向け資料の削除</strong></li>
+    </ul>
+    <hr/>
+  </div>
+</div>
+<div class="p-strip is-shallow">
+  <div class="row">
+    <h3>[<%= document.title %>]の削除</h3>
+    <p>本当に削除して良い場合は以下の削除ボタンを押してください</p>
+    <%=
+    form_for :document, routes.doc_path(document.id), method: :delete, class: "p-form" do
+      hidden_field :confirm, value: true
+      submit '削除', class: "p-button--negative"
+    end
+    %>
+  </div>
+</div>

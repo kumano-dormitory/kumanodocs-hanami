@@ -16,7 +16,7 @@
       <dt>パスワード</dt>
       <dd><%= user.crypt_password %></dd>
       <dt>権限レベル</dt>
-      <dd><%= user.authority %></dd>
+      <dd><%= user.authority %> (<%= user_role(user.authority) %>)</dd>
       <dt>Created at</dt>
       <dd><%= user.created_at %></dd>
       <dt>Updated at</dt>
