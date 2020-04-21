@@ -94,5 +94,15 @@ module Admin::Views::Docs
         submit '保存', class: "p-button--positive u-float-right"
       end
     end
+
+    def form_order
+      form_for :documents,
+               routes.order_docs_path,
+               id: "form_for_doc_order",
+               method: :patch, class: "p-form" do
+
+        button '保存', id: "post_docs_order_btn", class: "p-button--positive"
+      end
+    end
   end
 end
