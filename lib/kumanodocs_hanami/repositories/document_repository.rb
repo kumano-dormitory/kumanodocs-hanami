@@ -22,4 +22,13 @@ class DocumentRepository < Hanami::Repository
       .where(user_id: user_id)
       .order(documents[:number].asc(nulls: :last), documents[:id].asc)
   end
+
+  def update_number(docs_number)
+    transaction do
+      documents.update(number: nil) # 全ての資料の番号をリセット
+      docs_number.each do |attr|
+        update(attr['document_id'], number: attr['number'])
+      end
+    end
+  end
 end
