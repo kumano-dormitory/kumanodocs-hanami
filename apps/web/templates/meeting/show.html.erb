@@ -170,11 +170,6 @@
                       </ul>
                     </dd>
                   <% end %>
-                  <div class="u-align--right u-hide--small">
-                    <a href="<%= routes.new_comment_message_path(comment_id: comment.id) %>" class="p-button--base u-no-margin--bottom" style="color:#999;">
-                      <i class="p-icon--chevron"></i> 返答する
-                    </a>
-                  </div>
                   <% end %>
                   <% if article&.categories&.find{ |category| category.name == '採決'} %>
                     <% unless vote_result.nil? %>

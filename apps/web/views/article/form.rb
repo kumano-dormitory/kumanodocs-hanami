@@ -15,7 +15,18 @@ module Web::Views::Article
                method: :post,
                class: "p-form p-form--stacked" do
 
-        if !params.valid? && params.errors.dig(:article, :meeting_id)
+        if meetings_for_select.length == 0
+          div class: "p-form__group p-form-validation is-error" do
+            label  '日程', for: :meeting_id, class: "p-form__label u-align-text--right"
+            div class: "p-form__control" do
+              select :meeting_id, meetings_for_select
+              p class: "p-form-validation__message", role: "alert" do
+                i class: "p-icon--warning"
+                strong "ブロック会議の日程が表示されていない場合は、資料委員会へ連絡してください"
+              end
+            end
+          end
+        elsif !params.valid? && params.errors.dig(:article, :meeting_id)
           div class: "p-form__group p-form-validation is-error" do
             label  '日程', for: :meeting_id, class: "p-form__label u-align-text--right"
             div class: "p-form__control" do
