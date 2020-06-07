@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '~> 2.6'
 
-gem 'activesupport'
+gem 'activesupport', '>= 5.2.4.3'
 gem 'hanami', '~> 1.2'
 gem 'hanami-model', '~> 1.2'
 
@@ -36,6 +36,6 @@ group :test do
 end
 
 group :production do
-  gem 'puma', ">= 3.12.2"
+  gem 'puma', ">= 4.3.5"
   gem 'tzinfo-data'
 end
