@@ -1,15 +1,16 @@
-function fontSize(fsize){
+function fontSize(fsize, lheight){
   $('#content').css('font-size', fsize);
+  $('$content').css('line-height', lheight);
 }
-document.getElementById('text-size-9pt').addEventListener('click', () => fontSize('9pt'));
-document.getElementById('text-size-10pt').addEventListener('click', () => fontSize('10pt'));
-document.getElementById('text-size-11pt').addEventListener('click', () => fontSize('11pt'));
-document.getElementById('text-size-12pt').addEventListener('click', () => fontSize('12pt'));
-document.getElementById('text-size-13pt').addEventListener('click', () => fontSize('13pt'));
-document.getElementById('text-size-14pt').addEventListener('click', () => fontSize('14pt'));
-document.getElementById('text-size-16pt').addEventListener('click', () => fontSize('16pt'));
-document.getElementById('text-size-18pt').addEventListener('click', () => fontSize('18pt'));
-document.getElementById('text-size-20pt').addEventListener('click', () => fontSize('20pt'));
+document.getElementById('text-size-9pt').addEventListener('click', () => fontSize('9pt','14pt'));
+document.getElementById('text-size-10pt').addEventListener('click', () => fontSize('10pt','15pt'));
+document.getElementById('text-size-11pt').addEventListener('click', () => fontSize('11pt','16pt'));
+document.getElementById('text-size-12pt').addEventListener('click', () => fontSize('12pt','16pt'));
+document.getElementById('text-size-13pt').addEventListener('click', () => fontSize('13pt','17pt'));
+document.getElementById('text-size-14pt').addEventListener('click', () => fontSize('14pt','17pt'));
+document.getElementById('text-size-16pt').addEventListener('click', () => fontSize('16pt','20pt'));
+document.getElementById('text-size-18pt').addEventListener('click', () => fontSize('18pt','22pt'));
+document.getElementById('text-size-20pt').addEventListener('click', () => fontSize('20pt','24pt'));
 
 function updateMsg() {
   var docHeight = $(document).innerHeight();
