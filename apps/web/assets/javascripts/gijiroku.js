@@ -1,6 +1,6 @@
 function fontSize(fsize, lheight){
   $('#content').css('font-size', fsize);
-  $('$content').css('line-height', lheight);
+  $('#content').css('line-height', lheight);
 }
 document.getElementById('text-size-9pt').addEventListener('click', () => fontSize('9pt','14pt'));
 document.getElementById('text-size-10pt').addEventListener('click', () => fontSize('10pt','15pt'));
