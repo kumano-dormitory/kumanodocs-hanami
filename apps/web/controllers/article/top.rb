@@ -21,6 +21,7 @@ module Web::Controllers::Article
     def call(params)
       @next_meeting = @meeting_repo.find_most_recent
       # 議事録作成リンクの表示
+      # TODO: 次の会議が寮生大会のときは、議事録作成リンクを表示させない
       if during_meeting?
         @during_meeting = true
         @blocks = @block_repo.by_meeting_with_comment_vote_count(@next_meeting.id).reject{ |block| block[:id] > 9 }

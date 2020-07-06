@@ -24,6 +24,7 @@ module Web::Controllers::Article
       @notifications = {}
     end
 
+    # TODO: meetingが寮生大会の場合には投稿をさせない
     def call(_params)
       @categories = @category_repo.all
       @recent_articles = @article_repo.of_recent(months: 3, past_meeting_only: false, with_relations: true)
