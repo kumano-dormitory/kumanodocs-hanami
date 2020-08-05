@@ -49,6 +49,9 @@ module Web::Controllers::Article
       @notifications = {}
     end
 
+    # TODO: 追加議案の投稿期間にパラメータ不正があった場合、表示される画面に次のブロック会議の選択肢が含まれないのを修正すること
+    # TODO: 寮生大会には議案を投稿させない
+
     def call(params)
       if params.valid?
         # TODO: 以下の採決項目のチェックをバリデーションクラスとして実装する

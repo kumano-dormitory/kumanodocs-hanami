@@ -40,6 +40,7 @@ module Web::Controllers::Meeting
         unsafe_send_file Pathname.new(result.path)
       else
         # ブロック会議を指定する画面を表示する
+        # TODO: 寮生大会は含めない
         @meetings = @meeting_repo.desc_by_date(limit: 20)
       end
     end
