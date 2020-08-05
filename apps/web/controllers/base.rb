@@ -42,6 +42,7 @@ module Web
     end
 
     # 直近のブロック会議の開催中かを判定する. 当日の21:45 ~ 翌日の間ならばtrue
+    # TODO: 会議が寮生大会の場合にはfalseを返す処理を追加
     def during_meeting?(meeting: MeetingRepository.new.find_most_recent, now: Time.now)
       if meeting&.date then
         date = meeting.date
