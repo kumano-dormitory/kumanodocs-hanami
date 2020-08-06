@@ -21,7 +21,7 @@ describe Web::Controllers::Docs::Update do
       id: document.id,
       document: document_props
     } }
-    let(:params_without_editor_session) { Hash[] }
+    let(:params_without_editor_session) { {id: rand(1..100), document: {}} }
 
     it 'is successful for logged in editor' do
       user_repo = MiniTest::Mock.new.expect(:find, user, [user.id])
@@ -65,9 +65,10 @@ describe Web::Controllers::Docs::Update do
         document_repo: nil, user_repo: nil, authenticator: authenticator
       )
     }
+    let(:params) {{id: rand(1..100), document: {}}}
 
     it 'is redirected' do
-      response = action.call({})
+      response = action.call(params)
       _(response[0]).must_equal 302
     end
   end
