@@ -7,6 +7,6 @@ describe Admin::Views::History::Show do
   let(:rendered)  { view.render }
 
   it 'exposes #format' do
-    view.format.must_equal exposures.fetch(:format)
+    _(view.format).must_equal exposures.fetch(:format)
   end
 end

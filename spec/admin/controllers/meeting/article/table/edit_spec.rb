@@ -12,8 +12,8 @@ describe Admin::Controllers::Meeting::Article::Table::Edit do
         authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 200
-      action.table.must_equal table
+      _(response[0]).must_equal 200
+      _(action.table).must_equal table
     end
   end
 
@@ -26,7 +26,7 @@ describe Admin::Controllers::Meeting::Article::Table::Edit do
         table_repo: nil, authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

@@ -10,9 +10,9 @@ describe Web::Controllers::Article::Index do
     it 'is successful' do
       action = Web::Controllers::Article::Index.new(article_repo: article_repo, authenticator: authenticator)
       response = action.call(params)
-      response[0].must_equal 200
-      action.articles_by_meeting.must_equal [meeting]
-      action.save_token.must_equal (!!params[:loggedin])
+      _(response[0]).must_equal 200
+      _(action.articles_by_meeting).must_equal [meeting]
+      _(action.save_token).must_equal (!!params[:loggedin])
     end
   end
 
@@ -22,7 +22,7 @@ describe Web::Controllers::Article::Index do
 
     it 'is redirected' do
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

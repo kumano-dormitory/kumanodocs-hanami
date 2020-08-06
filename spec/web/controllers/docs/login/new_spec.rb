@@ -8,7 +8,7 @@ describe Web::Controllers::Docs::Login::New do
     it 'is successful' do
       action = Web::Controllers::Docs::Login::New.new(authenticator: authenticator)
       response = action.call(params)
-      response[0].must_equal 200
+      _(response[0]).must_equal 200
     end
   end
 
@@ -18,7 +18,7 @@ describe Web::Controllers::Docs::Login::New do
 
     it 'is redirected' do
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

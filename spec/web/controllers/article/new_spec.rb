@@ -20,12 +20,12 @@ describe Web::Controllers::Article::New do
       )
       response = action.call(params)
 
-      response[0].must_equal 200
-      action.meetings.must_equal meetings
-      action.next_meeting.must_equal meetings[0]
-      action.categories.must_equal categories
-      action.recent_articles.must_equal [article]
-      article_repo.verify.must_equal true
+      _(response[0]).must_equal 200
+      _(action.meetings).must_equal meetings
+      _(action.next_meeting).must_equal meetings[0]
+      _(action.categories).must_equal categories
+      _(action.recent_articles).must_equal [article]
+      _(article_repo.verify).must_equal true
     end
   end
 
@@ -38,7 +38,7 @@ describe Web::Controllers::Article::New do
         authenticator: authenticator
       )
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

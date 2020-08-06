@@ -38,9 +38,9 @@ describe Web::Controllers::Table::Update do
       params_with_lock_key = valid_params.merge("HTTP_COOKIE"=>"article_lock_key=#{lock_key}")
       response = action.call(params_with_lock_key)
 
-      response[0].must_equal 302
-      table_repo.verify.must_equal true
-      generate_pdf.verify.must_equal true
+      _(response[0]).must_equal 302
+      _(table_repo.verify).must_equal true
+      _(generate_pdf.verify).must_equal true
     end
 
     it 'is successful get lock and update' do
@@ -55,9 +55,9 @@ describe Web::Controllers::Table::Update do
       )
       response = action.call(params_for_get_lock)
 
-      response[0].must_equal 302
-      table_repo.verify.must_equal true
-      generate_pdf.verify.must_equal true
+      _(response[0]).must_equal 302
+      _(table_repo.verify).must_equal true
+      _(generate_pdf.verify).must_equal true
     end
 
     it 'is rejected by auth failure' do
@@ -70,9 +70,9 @@ describe Web::Controllers::Table::Update do
       invalid_pass_params = params_for_get_lock.deep_merge({table: {article_passwd: Faker::Internet.password}})
       response = action.call(invalid_pass_params)
 
-      response[0].must_equal 401
-      action.table.must_equal table
-      table_repo.verify.must_equal true
+      _(response[0]).must_equal 401
+      _(action.table).must_equal table
+      _(table_repo.verify).must_equal true
     end
 
     it 'is validation error' do
@@ -84,9 +84,9 @@ describe Web::Controllers::Table::Update do
       invalid_params = valid_params.deep_merge({table: {caption: ""}})
       response = action.call(invalid_params)
 
-      response[0].must_equal 422
-      action.table.must_equal table
-      table_repo.verify.must_equal true
+      _(response[0]).must_equal 422
+      _(action.table).must_equal table
+      _(table_repo.verify).must_equal true
     end
   end
 
@@ -98,7 +98,7 @@ describe Web::Controllers::Table::Update do
         author_repo: nil, table_repo: nil, generate_pdf_interactor: nil, authenticator: authenticator,
       )
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

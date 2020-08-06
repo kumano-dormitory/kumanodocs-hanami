@@ -12,9 +12,9 @@ describe Admin::Controllers::ArticleNumber::Update do
       )
 
       response = action.call(invalid_params)
-      response[0].must_equal 422
+      _(response[0]).must_equal 422
       #TODO: エラーの内容のチェック
-      action.meeting.must_equal meeting
+      _(action.meeting).must_equal meeting
     end
 
     let(:meeting) { Meeting.new(id: valid_params[:id]) }
@@ -54,8 +54,8 @@ describe Admin::Controllers::ArticleNumber::Update do
       params = {id: valid_params[:id], meeting: {articles: articles_params} }
 
       response = action.call(params)
-      response[0].must_equal 302
-      article_repo.verify.must_equal true
+      _(response[0]).must_equal 302
+      _(article_repo.verify).must_equal true
     end
 
     it 'is rejected' do
@@ -93,7 +93,7 @@ describe Admin::Controllers::ArticleNumber::Update do
         authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

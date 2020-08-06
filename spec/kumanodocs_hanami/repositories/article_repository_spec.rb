@@ -19,7 +19,7 @@ describe ArticleRepository do
     target_articles.map do |article|
       expected_number = articles_number.find{|prop| prop['article_id'] == article.id}
                                        .fetch('number')
-      article.number.must_equal expected_number
+      _(article.number).must_equal expected_number
     end
   end
 
@@ -37,7 +37,7 @@ describe ArticleRepository do
     target_articles.map do |article|
       expected_status = articles_status.find{|prop| prop['article_id'] == article.id}
                                        .fetch('checked')
-      article.checked.must_equal !!expected_status
+      _(article.checked).must_equal !!expected_status
     end
   end
 
@@ -50,7 +50,7 @@ describe ArticleRepository do
     target_articles.map do |article|
       expected_status = articles_status.find{|prop| prop[:id] == article.id}
                                        .fetch(:printed)
-      article.printed.must_equal expected_status
+      _(article.printed).must_equal expected_status
     end
   end
 
@@ -66,7 +66,7 @@ describe ArticleRepository do
     datas = categories.sample(2).map { |category| { category_id: category.id } }
     article_repo.add_categories(article, datas)
     _article = article_repo.find_with_relations(article.id)
-    _article.article_categories.size.must_equal 2
+    _(_article.article_categories.size).must_equal 2
   end
 
   it 'categoryを更新できること' do
@@ -74,13 +74,13 @@ describe ArticleRepository do
     article_repo.update_categories(article, datas)
 
     _article = article_repo.find_with_relations(article.id)
-    _article.article_categories.size.must_equal 3
+    _(_article.article_categories.size).must_equal 3
   end
 
   it 'authorとcategoryを一緒に読み込めること' do
     aggr_article = article_repo.find_with_relations(article.id)
-    aggr_article.article_categories.wont_be_nil
-    aggr_article.author.wont_be_nil
+    _(aggr_article.article_categories).wont_be_nil
+    _(aggr_article.author).wont_be_nil
   end
 
   it 'article_numberの変更ができること' do

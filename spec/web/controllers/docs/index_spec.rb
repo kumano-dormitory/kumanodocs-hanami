@@ -12,9 +12,9 @@ describe Web::Controllers::Docs::Index do
         document_repo: document_repo, authenticator: authenticator
       )
       response = action.call(params)
-      response[0].must_equal 200
-      action.documents.must_equal [document]
-      document_repo.verify.must_equal true
+      _(response[0]).must_equal 200
+      _(action.documents).must_equal [document]
+      _(document_repo.verify).must_equal true
     end
   end
 
@@ -28,7 +28,7 @@ describe Web::Controllers::Docs::Index do
 
     it 'is redirected' do
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

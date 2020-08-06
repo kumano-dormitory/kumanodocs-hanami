@@ -36,10 +36,10 @@ describe Web::Controllers::Table::Create do
       )
       response = action.call(valid_params)
 
-      response[0].must_equal 302
-      article_repo.verify.must_equal true
-      table_repo.verify.must_equal true
-      generate_pdf.verify.must_equal true
+      _(response[0]).must_equal 302
+      _(article_repo.verify).must_equal true
+      _(table_repo.verify).must_equal true
+      _(generate_pdf.verify).must_equal true
     end
 
     it 'is rejected by auth failure' do
@@ -52,9 +52,9 @@ describe Web::Controllers::Table::Create do
       params_with_wrong_pass = valid_params.deep_merge({table: {article_passwd: Faker::Internet.password}})
       response = action.call(params_with_wrong_pass)
 
-      response[0].must_equal 401
-      action.articles.must_equal articles
-      article_repo.verify.must_equal true
+      _(response[0]).must_equal 401
+      _(action.articles).must_equal articles
+      _(article_repo.verify).must_equal true
     end
 
     it 'is validation error' do
@@ -66,9 +66,9 @@ describe Web::Controllers::Table::Create do
       invalid_params = valid_params.deep_merge({table: {caption: ""}})
       response = action.call(invalid_params)
 
-      response[0].must_equal 422
-      action.articles.must_equal articles
-      article_repo.verify.must_equal true
+      _(response[0]).must_equal 422
+      _(action.articles).must_equal articles
+      _(article_repo.verify).must_equal true
     end
   end
 
@@ -80,7 +80,7 @@ describe Web::Controllers::Table::Create do
         article_repo: nil, author_repo: nil, table_repo: nil, generate_pdf_interactor: nil, authenticator: authenticator
       )
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

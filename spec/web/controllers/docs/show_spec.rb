@@ -13,8 +13,8 @@ describe Web::Controllers::Docs::Show do
         document_repo: document_repo, authenticator: authenticator
       )
       response = action.call(params)
-      response[0].must_equal 200
-      action.document.must_equal document
+      _(response[0]).must_equal 200
+      _(action.document).must_equal document
     end
   end
 
@@ -28,7 +28,7 @@ describe Web::Controllers::Docs::Show do
 
     it 'is redirected' do
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

@@ -11,9 +11,9 @@ describe Admin::Controllers::Meeting::Article::Table::Update do
       invalid_params = valid_params.deep_merge(invalid_params_merged)
       response = action.call(invalid_params)
 
-      response[0].must_equal 422
-      action.table.must_equal table
-      table_repo.verify.must_equal true
+      _(response[0]).must_equal 422
+      _(action.table).must_equal table
+      _(table_repo.verify).must_equal true
     end
 
     let(:table) { Table.new(id: rand(1..100), article: article) }
@@ -36,8 +36,8 @@ describe Admin::Controllers::Meeting::Article::Table::Update do
         authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
       )
       response = action.call(valid_params)
-      response[0].must_equal 302
-      table_repo.verify.must_equal true
+      _(response[0]).must_equal 302
+      _(table_repo.verify).must_equal true
     end
 
     it 'is validation error' do
@@ -59,7 +59,7 @@ describe Admin::Controllers::Meeting::Article::Table::Update do
         table_repo: nil, admin_history_repo: nil, authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

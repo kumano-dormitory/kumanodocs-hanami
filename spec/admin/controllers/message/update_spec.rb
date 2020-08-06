@@ -13,10 +13,10 @@ describe Admin::Controllers::Message::Update do
       invalid_params = valid_params.deep_merge(invalid_params_merged)
       response = action.call(invalid_params)
 
-      response[0].must_equal 422
-      action.comment.must_equal comment
-      action.message.must_equal msg
-      action.messages.must_equal({comment.id => [msg]})
+      _(response[0]).must_equal 422
+      _(action.comment).must_equal comment
+      _(action.message).must_equal msg
+      _(action.messages).must_equal({comment.id => [msg]})
     end
 
     let(:article) { Article.new(id: rand(1..100), meeting_id: rand(1..50), author_id: author.id) }
@@ -45,8 +45,8 @@ describe Admin::Controllers::Message::Update do
         authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
       )
       response = action.call(valid_params)
-      response[0].must_equal 302
-      message_repo.verify.must_equal true
+      _(response[0]).must_equal 302
+      _(message_repo.verify).must_equal true
     end
 
     it 'is validation error' do
@@ -70,7 +70,7 @@ describe Admin::Controllers::Message::Update do
         authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

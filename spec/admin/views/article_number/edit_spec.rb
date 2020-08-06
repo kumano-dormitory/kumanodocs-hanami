@@ -11,12 +11,12 @@ describe Admin::Views::ArticleNumber::Edit do
   let(:rendered)  { view.render }
 
   it 'exposes meeting & for_download' do
-    view.meeting.must_equal exposures.fetch(:meeting)
-    view.for_download.must_equal exposures.fetch(:for_download)
+    _(view.meeting).must_equal exposures.fetch(:meeting)
+    _(view.for_download).must_equal exposures.fetch(:for_download)
   end
 
   it 'displays edit article order page' do
-    rendered.must_match '議案の並び替え'
-    rendered.must_match article.title
+    _(rendered).must_match '議案の並び替え'
+    _(rendered).must_match article.title
   end
 end

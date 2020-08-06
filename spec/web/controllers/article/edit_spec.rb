@@ -37,14 +37,14 @@ describe Web::Controllers::Article::Edit do
       params_with_lock_key = params.merge("HTTP_COOKIE"=>"article_lock_key=#{lock_key}")
       response = action.call(params_with_lock_key)
 
-      response[0].must_equal 200
-      action.meetings.must_equal [meeting]
-      action.categories.must_equal categories
-      action.recent_articles.must_equal [article]
-      action.article_refs_selected.must_equal article_refs_check
-      article_repo.verify.must_equal true
-      meeting_repo.verify.must_equal true
-      category_repo.verify.must_equal true
+      _(response[0]).must_equal 200
+      _(action.meetings).must_equal [meeting]
+      _(action.categories).must_equal categories
+      _(action.recent_articles).must_equal [article]
+      _(action.article_refs_selected).must_equal article_refs_check
+      _(article_repo.verify).must_equal true
+      _(meeting_repo.verify).must_equal true
+      _(category_repo.verify).must_equal true
     end
 
     it 'is redirected by auth failure' do
@@ -55,8 +55,8 @@ describe Web::Controllers::Article::Edit do
       )
       invalid_params = params.merge("HTTP_COOKIE"=>"article_lock_key=#{Faker::Internet.password}")
       response = action.call(invalid_params)
-      response[0].must_equal 302
-      article_repo.verify.must_equal true
+      _(response[0]).must_equal 302
+      _(article_repo.verify).must_equal true
     end
   end
 
@@ -70,7 +70,7 @@ describe Web::Controllers::Article::Edit do
         article_reference_repo: nil, authenticator: authenticator
       )
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

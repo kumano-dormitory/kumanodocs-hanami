@@ -24,12 +24,12 @@ describe Web::Controllers::Article::Show do
       )
       response = action.call(params)
 
-      response[0].must_equal 200
-      action.article.must_equal article
-      action.blocks.must_equal blocks
-      action.messages.must_equal messages_check
-      action.editable.must_equal true
-      article_repo.verify.must_equal true
+      _(response[0]).must_equal 200
+      _(action.article).must_equal article
+      _(action.blocks).must_equal blocks
+      _(action.messages).must_equal messages_check
+      _(action.editable).must_equal true
+      _(article_repo.verify).must_equal true
     end
   end
 
@@ -42,7 +42,7 @@ describe Web::Controllers::Article::Show do
         article_reference_repo: nil, authenticator: authenticator,
       )
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

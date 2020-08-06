@@ -13,9 +13,9 @@ describe Admin::Controllers::Message::New do
         authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
       )
       response = action.call(params)
-      response[0].must_equal 200
-      action.comment.must_equal comment
-      action.messages.must_equal({comment.id => [msg]})
+      _(response[0]).must_equal 200
+      _(action.comment).must_equal comment
+      _(action.messages).must_equal({comment.id => [msg]})
     end
 
     it 'is invalid params error' do
@@ -24,7 +24,7 @@ describe Admin::Controllers::Message::New do
         authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
       )
       response = action.call(params.merge({comment_id: nil}))
-      response[0].must_equal 404
+      _(response[0]).must_equal 404
     end
   end
 
@@ -37,7 +37,7 @@ describe Admin::Controllers::Message::New do
         comment_repo: nil, message_repo: nil, authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

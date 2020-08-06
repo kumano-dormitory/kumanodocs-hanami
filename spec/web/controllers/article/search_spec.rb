@@ -15,13 +15,13 @@ describe Web::Controllers::Article::Search do
       )
       response = action.call({search_article: {keywords: query}, page: page})
 
-      response[0].must_equal 200
-      action.articles.must_equal articles
-      action.keywords.must_equal query_ret
-      action.page.must_equal page
-      action.max_page.must_equal ((search_count - 1) / limit + 1)
-      action.detail_search.must_equal false
-      article_repo.verify.must_equal true
+      _(response[0]).must_equal 200
+      _(action.articles).must_equal articles
+      _(action.keywords).must_equal query_ret
+      _(action.page).must_equal page
+      _(action.max_page).must_equal ((search_count - 1) / limit + 1)
+      _(action.detail_search).must_equal false
+      _(article_repo.verify).must_equal true
     end
 
     def assert_successful_detail(query, keywords)
@@ -38,14 +38,14 @@ describe Web::Controllers::Article::Search do
       params = {page: page, search_article: {**query, detail_search: true}}
       response = action.call(params)
 
-      response[0].must_equal 200
-      action.articles.must_equal articles
-      action.categories.must_equal categories
-      action.keywords.must_equal keywords
-      action.page.must_equal page
-      action.max_page.must_equal ((search_count - 1) / limit + 1)
-      action.detail_search.must_equal true
-      article_repo.verify.must_equal true
+      _(response[0]).must_equal 200
+      _(action.articles).must_equal articles
+      _(action.categories).must_equal categories
+      _(action.keywords).must_equal keywords
+      _(action.page).must_equal page
+      _(action.max_page).must_equal ((search_count - 1) / limit + 1)
+      _(action.detail_search).must_equal true
+      _(article_repo.verify).must_equal true
     end
 
     let(:articles) { [Article.new(id: rand(1..100))] }
@@ -78,7 +78,7 @@ describe Web::Controllers::Article::Search do
         article_repo: nil, category_repo: nil, authenticator: authenticator
       )
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

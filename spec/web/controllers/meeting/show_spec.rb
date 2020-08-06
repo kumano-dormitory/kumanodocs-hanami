@@ -22,13 +22,13 @@ describe Web::Controllers::Meeting::Show do
         authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
       )
       response = action.call(params)
-      response[0].must_equal 200
-      action.meeting.must_equal meeting
-      action.article.must_equal article_with_relations
-      action.messages.must_equal({msg.comment_id => [msg]})
-      action.article_refs.must_equal article_refs
-      action.blocks.must_equal blocks
-      article_repo.verify.must_equal true
+      _(response[0]).must_equal 200
+      _(action.meeting).must_equal meeting
+      _(action.article).must_equal article_with_relations
+      _(action.messages).must_equal({msg.comment_id => [msg]})
+      _(action.article_refs).must_equal article_refs
+      _(action.blocks).must_equal blocks
+      _(article_repo.verify).must_equal true
     end
 
     let(:past_meeting) { Meeting.new(id: rand(1..100)) }
@@ -46,13 +46,13 @@ describe Web::Controllers::Meeting::Show do
         authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
       )
       response = action.call(params.merge(page: 0))
-      response[0].must_equal 200
-      action.meeting.must_equal meeting
-      action.past_meeting.must_equal past_meeting
-      action.past_comments.must_equal({comment[:article_id] => [comment]})
-      action.past_messages.must_equal({comment[:id] => [msg_hash]})
-      action.blocks.must_equal blocks
-      meeting_repo.verify.must_equal true
+      _(response[0]).must_equal 200
+      _(action.meeting).must_equal meeting
+      _(action.past_meeting).must_equal past_meeting
+      _(action.past_comments).must_equal({comment[:article_id] => [comment]})
+      _(action.past_messages).must_equal({comment[:id] => [msg_hash]})
+      _(action.blocks).must_equal blocks
+      _(meeting_repo.verify).must_equal true
     end
   end
 
@@ -62,7 +62,7 @@ describe Web::Controllers::Meeting::Show do
 
     it 'is redirected' do
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end
