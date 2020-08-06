@@ -18,11 +18,11 @@ describe Web::Controllers::Comment::Index do
       )
       response = action.call(params)
 
-      response[0].must_equal 200
-      action.meeting.must_equal meeting
-      action.blocks.must_equal blocks_with_count
-      meeting_repo.verify.must_equal true
-      block_repo.verify.must_equal true
+      _(response[0]).must_equal 200
+      _(action.meeting).must_equal meeting
+      _(action.blocks).must_equal blocks_with_count
+      _(meeting_repo.verify).must_equal true
+      _(block_repo.verify).must_equal true
     end
   end
 
@@ -34,7 +34,7 @@ describe Web::Controllers::Comment::Index do
         meeting_repo: nil, block_repo: nil, authenticator: authenticator
       )
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

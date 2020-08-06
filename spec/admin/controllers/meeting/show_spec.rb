@@ -14,8 +14,8 @@ describe Admin::Controllers::Meeting::Show do
         authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 200
-      action.meeting.must_equal meeting
+      _(response[0]).must_equal 200
+      _(action.meeting).must_equal meeting
     end
   end
 
@@ -28,7 +28,7 @@ describe Admin::Controllers::Meeting::Show do
         authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

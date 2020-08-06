@@ -12,9 +12,9 @@ describe Admin::Controllers::Meeting::Index do
       meeting_repo: MiniTest::Mock.new.expect(:desc_by_date, meetings, [{limit: 15, offset: 0}]),
     )
     response = action.call(params)
-    response[0].must_equal 200
-    action.meetings.must_equal meetings
-    action.page.must_equal 1
+    _(response[0]).must_equal 200
+    _(action.meetings).must_equal meetings
+    _(action.page).must_equal 1
   end
 
   it 'is redirected' do
@@ -24,6 +24,6 @@ describe Admin::Controllers::Meeting::Index do
       meeting_repo: nil,
     )
     response = action.call(params)
-    response[0].must_equal 302
+    _(response[0]).must_equal 302
   end
 end

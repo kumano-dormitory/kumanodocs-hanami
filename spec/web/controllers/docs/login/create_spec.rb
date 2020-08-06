@@ -19,8 +19,8 @@ describe Web::Controllers::Docs::Login::Create do
         user_repo: user_repo, authenticator: authenticator
       )
       response = action.call(params)
-      response[0].must_equal 302
-      user_repo.verify.must_equal true
+      _(response[0]).must_equal 302
+      _(user_repo.verify).must_equal true
     end
 
     it 'is rejected by wrong password' do
@@ -29,8 +29,8 @@ describe Web::Controllers::Docs::Login::Create do
         user_repo: user_repo, authenticator: authenticator
       )
       response = action.call(invalid_params)
-      response[0].must_equal 403
-      user_repo.verify.must_equal true
+      _(response[0]).must_equal 403
+      _(user_repo.verify).must_equal true
     end
   end
 
@@ -44,7 +44,7 @@ describe Web::Controllers::Docs::Login::Create do
 
     it 'is redirected' do
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

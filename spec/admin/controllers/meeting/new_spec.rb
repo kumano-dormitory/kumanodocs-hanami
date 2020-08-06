@@ -8,7 +8,7 @@ describe Admin::Controllers::Meeting::New do
     let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]) }
     it 'is successful' do
       response = action.call(params)
-      response[0].must_equal 200
+      _(response[0]).must_equal 200
     end
   end
 
@@ -17,7 +17,7 @@ describe Admin::Controllers::Meeting::New do
                                             .expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil]) }
     it 'is redirected' do
       response = action.call(params)
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

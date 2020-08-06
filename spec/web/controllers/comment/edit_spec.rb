@@ -20,14 +20,14 @@ describe Web::Controllers::Comment::Edit do
       )
       response = action.call(params)
 
-      response[0].must_equal 200
-      action.meeting.must_equal meeting
-      action.block_id.must_equal block.id
-      action.comment_datas.must_equal([{article_id: article.id, comment: comment.body}])
-      action.vote_result_datas.must_equal([{article_id: article.id, vote_result: vote_data}])
-      meeting_repo.verify.must_equal true
-      comment_repo.verify.must_equal true
-      vote_result_repo.verify.must_equal true
+      _(response[0]).must_equal 200
+      _(action.meeting).must_equal meeting
+      _(action.block_id).must_equal block.id
+      _(action.comment_datas).must_equal([{article_id: article.id, comment: comment.body}])
+      _(action.vote_result_datas).must_equal([{article_id: article.id, vote_result: vote_data}])
+      _(meeting_repo.verify).must_equal true
+      _(comment_repo.verify).must_equal true
+      _(vote_result_repo.verify).must_equal true
     end
   end
 
@@ -39,7 +39,7 @@ describe Web::Controllers::Comment::Edit do
         meeting_repo: nil, comment_repo: nil, vote_result_repo: nil, authenticator: authenticator
       )
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

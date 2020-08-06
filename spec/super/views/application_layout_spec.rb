@@ -5,6 +5,6 @@ describe Super::Views::ApplicationLayout do
   let(:rendered) { layout.render }
 
   it 'contains application name' do
-    rendered.must_include('メンテナンス用')
+    _(rendered).must_include('メンテナンス用')
   end
 end

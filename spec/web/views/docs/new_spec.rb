@@ -7,6 +7,6 @@ describe Web::Views::Docs::New do
   let(:rendered)  { view.render }
 
   it 'exposes #format' do
-    view.format.must_equal exposures.fetch(:format)
+    _(view.format).must_equal exposures.fetch(:format)
   end
 end

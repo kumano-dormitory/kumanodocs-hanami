@@ -20,7 +20,7 @@ describe Admin::Controllers::Meeting::Article::Destroy do
         authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
 
     it 'is successful for confirmation' do
@@ -29,8 +29,8 @@ describe Admin::Controllers::Meeting::Article::Destroy do
         admin_history_repo: nil, authenticator: authenticator,
       )
       response = action.call(params_without_confirm)
-      response[0].must_equal 200
-      action.article.must_equal article
+      _(response[0]).must_equal 200
+      _(action.article).must_equal article
     end
   end
 
@@ -43,7 +43,7 @@ describe Admin::Controllers::Meeting::Article::Destroy do
         article_repo: nil, admin_history_repo: nil, authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

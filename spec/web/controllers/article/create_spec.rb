@@ -57,11 +57,11 @@ describe Web::Controllers::Article::Create do
       )
       response = action.call(valid_params)
 
-      response[0].must_equal 302
-      category_repo.verify.must_equal true
-      author_repo.verify.must_equal true
-      article_repo.verify.must_equal true
-      article_ref_repo.verify.must_equal true
+      _(response[0]).must_equal 302
+      _(category_repo.verify).must_equal true
+      _(author_repo.verify).must_equal true
+      _(article_repo.verify).must_equal true
+      _(article_ref_repo.verify).must_equal true
     end
 
     it 'is rejected' do
@@ -77,12 +77,12 @@ describe Web::Controllers::Article::Create do
       )
       response = action.call(valid_params.merge({action: nil}))
 
-      response[0].must_equal 422
-      action.meetings.must_equal meetings
-      action.next_meeting.must_equal meeting
-      action.categories.must_equal categories
-      meeting_repo.verify.must_equal true
-      category_repo.verify.must_equal true
+      _(response[0]).must_equal 422
+      _(action.meetings).must_equal meetings
+      _(action.next_meeting).must_equal meeting
+      _(action.categories).must_equal categories
+      _(meeting_repo.verify).must_equal true
+      _(category_repo.verify).must_equal true
     end
   end
 
@@ -94,7 +94,7 @@ describe Web::Controllers::Article::Create do
         article_reference_repo: nil, authenticator: authenticator,
       )
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

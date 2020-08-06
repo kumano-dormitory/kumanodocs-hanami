@@ -12,9 +12,9 @@ describe Admin::Controllers::History::Index do
         authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 200
-      action.histories.must_equal histories
-      action.page.must_equal (params[:page].nil? ? 1 : params[:page])
+      _(response[0]).must_equal 200
+      _(action.histories).must_equal histories
+      _(action.page).must_equal (params[:page].nil? ? 1 : params[:page])
     end
   end
 
@@ -27,7 +27,7 @@ describe Admin::Controllers::History::Index do
         admin_history_repo: nil, authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

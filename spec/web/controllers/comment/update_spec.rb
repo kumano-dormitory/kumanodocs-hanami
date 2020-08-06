@@ -9,7 +9,7 @@ describe Web::Controllers::Comment::Update do
       skip
       action = Web::Controllers::Comment::Update.new
       response = action.call(params)
-      response[0].must_equal 200
+      _(response[0]).must_equal 200
     end
   end
 
@@ -21,7 +21,7 @@ describe Web::Controllers::Comment::Update do
         meeting_repo: nil, comment_repo: nil, vote_result_repo: nil, authenticator: authenticator
       )
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

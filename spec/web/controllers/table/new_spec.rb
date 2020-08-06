@@ -11,9 +11,9 @@ describe Web::Controllers::Table::New do
       action = Web::Controllers::Table::New.new(article_repo: article_repo, authenticator: authenticator)
       response = action.call(params)
 
-      response[0].must_equal 200
-      action.articles.must_equal articles
-      article_repo.verify.must_equal true
+      _(response[0]).must_equal 200
+      _(action.articles).must_equal articles
+      _(article_repo.verify).must_equal true
     end
   end
 
@@ -23,7 +23,7 @@ describe Web::Controllers::Table::New do
 
     it 'is redirected' do
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

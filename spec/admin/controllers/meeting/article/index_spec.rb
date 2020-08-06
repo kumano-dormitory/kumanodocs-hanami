@@ -14,7 +14,7 @@ describe Admin::Controllers::Meeting::Article::Index do
         authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 200
+      _(response[0]).must_equal 200
     end
   end
 
@@ -27,7 +27,7 @@ describe Admin::Controllers::Meeting::Article::Index do
         article_repo: nil, meeting_repo: nil, authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

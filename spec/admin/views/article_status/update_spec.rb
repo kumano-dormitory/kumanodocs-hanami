@@ -11,12 +11,12 @@ describe Admin::Views::ArticleStatus::Update do
   let(:rendered)  { view.render }
 
   it 'exposes meeting' do
-    view.meeting.must_equal exposures.fetch(:meeting)
+    _(view.meeting).must_equal exposures.fetch(:meeting)
   end
 
   it 'displays edit article order page' do
-    rendered.must_match '資料委員会が確認済みか'
-    rendered.must_match article.title
-    rendered.must_match '保存'
+    _(rendered).must_match '資料委員会が確認済みか'
+    _(rendered).must_match article.title
+    _(rendered).must_match '保存'
   end
 end

@@ -19,12 +19,12 @@ describe Admin::Controllers::Meeting::Article::Comment::Edit do
         authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 200
+      _(response[0]).must_equal 200
 
-      action.article.must_equal article
-      action.block.must_equal block
-      action.comment.must_equal comment
-      action.vote_result.must_equal vote_result
+      _(action.article).must_equal article
+      _(action.block).must_equal block
+      _(action.comment).must_equal comment
+      _(action.vote_result).must_equal vote_result
     end
   end
 
@@ -38,7 +38,7 @@ describe Admin::Controllers::Meeting::Article::Comment::Edit do
         authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

@@ -19,9 +19,9 @@ describe Admin::Controllers::Meeting::Article::Table::Destroy do
         authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
       )
       response = action.call(valid_params)
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
 
-      table_repo.verify.must_equal true
+      _(table_repo.verify).must_equal true
     end
 
     it 'is successful for confirm' do
@@ -31,9 +31,9 @@ describe Admin::Controllers::Meeting::Article::Table::Destroy do
         authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
       )
       response = action.call(params_without_confirm)
-      response[0].must_equal 200
-      action.table.must_equal table
-      table_repo.verify.must_equal true
+      _(response[0]).must_equal 200
+      _(action.table).must_equal table
+      _(table_repo.verify).must_equal true
     end
   end
 
@@ -47,7 +47,7 @@ describe Admin::Controllers::Meeting::Article::Table::Destroy do
         authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

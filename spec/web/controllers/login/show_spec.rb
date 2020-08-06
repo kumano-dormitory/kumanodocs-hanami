@@ -5,8 +5,8 @@ describe Web::Controllers::Login::Show do
   it 'is successful' do
     action = Web::Controllers::Login::Show.new(authenticator: nil)
     response = action.call(params)
-    response[0].must_equal 200
-    action.standalone.must_equal false
+    _(response[0]).must_equal 200
+    _(action.standalone).must_equal false
   end
 
   let(:params_pwa) { {standalone: true} }
@@ -15,7 +15,7 @@ describe Web::Controllers::Login::Show do
     action = Web::Controllers::Login::Show.new(authenticator: authenticator)
     response = action.call(params_pwa)
 
-    response[0].must_equal 302
-    authenticator.verify.must_equal true
+    _(response[0]).must_equal 302
+    _(authenticator.verify).must_equal true
   end
 end
