@@ -21,8 +21,8 @@ describe Web::Controllers::Article::Destroy do
       params = { id: article.id, article: {password: password} }
       response = action.call(params)
 
-      response[0].must_equal 302
-      article_repo.verify.must_equal true
+      _(response[0]).must_equal 302
+      _(article_repo.verify).must_equal true
     end
 
     it 'is rejected by auth failure' do
@@ -33,8 +33,8 @@ describe Web::Controllers::Article::Destroy do
       )
       params = { id: article.id, article: {password: password + "hoge"} }
       response = action.call(params)
-      response[0].must_equal 401
-      action.article.must_equal article
+      _(response[0]).must_equal 401
+      _(action.article).must_equal article
     end
   end
 
@@ -46,7 +46,7 @@ describe Web::Controllers::Article::Destroy do
         article_repo: nil, authenticator: authenticator
       )
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

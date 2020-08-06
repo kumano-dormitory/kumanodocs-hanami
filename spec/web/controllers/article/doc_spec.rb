@@ -9,11 +9,11 @@ describe Web::Controllers::Article::Doc do
     it 'is successful' do
       response = action.call(params)
 
-      response[0].must_equal 200
+      _(response[0]).must_equal 200
       if params[:type].nil? || params[:type] > 3
-        action.type.must_equal 0
+        _(action.type).must_equal 0
       else
-        action.type.must_equal params[:type]
+        _(action.type).must_equal params[:type]
       end
     end
   end
@@ -24,7 +24,7 @@ describe Web::Controllers::Article::Doc do
 
     it 'is redirected' do
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

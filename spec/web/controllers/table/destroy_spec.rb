@@ -24,8 +24,8 @@ describe Web::Controllers::Table::Destroy do
       )
       response = action.call(valid_params)
 
-      response[0].must_equal 302
-      table_repo.verify.must_equal true
+      _(response[0]).must_equal 302
+      _(table_repo.verify).must_equal true
     end
 
     it 'is required confirmation' do
@@ -37,9 +37,9 @@ describe Web::Controllers::Table::Destroy do
       params_without_confirm = valid_params.deep_merge({table: {confirm: nil}})
       response = action.call(params_without_confirm)
 
-      response[0].must_equal 422
-      action.table.must_equal table
-      table_repo.verify.must_equal true
+      _(response[0]).must_equal 422
+      _(action.table).must_equal table
+      _(table_repo.verify).must_equal true
     end
 
     it 'is rejected by auth failure' do
@@ -51,9 +51,9 @@ describe Web::Controllers::Table::Destroy do
       params_with_invalid_pass = valid_params.deep_merge({table: {article_passwd: Faker::Internet.password}})
       response = action.call(params_with_invalid_pass)
 
-      response[0].must_equal 401
-      action.table.must_equal table
-      table_repo.verify.must_equal true
+      _(response[0]).must_equal 401
+      _(action.table).must_equal table
+      _(table_repo.verify).must_equal true
     end
   end
 
@@ -63,7 +63,7 @@ describe Web::Controllers::Table::Destroy do
 
     it 'is redirected' do
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

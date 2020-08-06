@@ -8,7 +8,7 @@ describe Admin::Controllers::Meeting::Create do
         authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
       )
       response = action.call(invalid_params)
-      response[0].must_equal 422
+      _(response[0]).must_equal 422
     end
 
     let(:valid_params) {{
@@ -32,7 +32,7 @@ describe Admin::Controllers::Meeting::Create do
         authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
       )
       response = action.call(valid_params)
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
 
     it 'is validation error' do
@@ -53,7 +53,7 @@ describe Admin::Controllers::Meeting::Create do
         meeting_repo: nil, admin_history_repo: nil, authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

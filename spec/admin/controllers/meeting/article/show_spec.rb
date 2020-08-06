@@ -19,11 +19,11 @@ describe Admin::Controllers::Meeting::Article::Show do
         authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 200
-      action.article.must_equal article
-      action.blocks.must_equal blocks
-      action.messages.must_equal({comment.id => messages})
-      action.article_refs.must_equal article_refs
+      _(response[0]).must_equal 200
+      _(action.article).must_equal article
+      _(action.blocks).must_equal blocks
+      _(action.messages).must_equal({comment.id => messages})
+      _(action.article_refs).must_equal article_refs
     end
   end
 
@@ -36,7 +36,7 @@ describe Admin::Controllers::Meeting::Article::Show do
         article_repo: nil, block_repo: nil, message_repo: nil, article_reference_repo: nil, authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

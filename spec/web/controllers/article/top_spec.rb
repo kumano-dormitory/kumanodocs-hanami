@@ -13,9 +13,9 @@ describe Web::Controllers::Article::Top do
         authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
       )
       response = action.call(params)
-      response[0].must_equal 200
-      action.next_meeting.must_equal meeting
-      action.save_token.must_equal false
+      _(response[0]).must_equal 200
+      _(action.next_meeting).must_equal meeting
+      _(action.save_token).must_equal false
     end
 
     # TODO: during_meeting? メソッドをサービスとして定義したあとに会議中かどうかでテストを分ける
@@ -28,9 +28,9 @@ describe Web::Controllers::Article::Top do
         authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
       )
       response = action.call(params_pwa)
-      response[0].must_equal 200
-      action.next_meeting.must_equal meeting
-      action.save_token.must_equal true
+      _(response[0]).must_equal 200
+      _(action.next_meeting).must_equal meeting
+      _(action.save_token).must_equal true
     end
   end
 
@@ -41,7 +41,7 @@ describe Web::Controllers::Article::Top do
         meeting_repo: nil, block_repo: nil, authenticator: authenticator
       )
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

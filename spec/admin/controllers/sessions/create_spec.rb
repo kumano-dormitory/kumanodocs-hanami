@@ -18,8 +18,8 @@ describe Admin::Controllers::Sessions::Create do
       admin_history_repo: admin_history_repo,
     )
     response = action.call(valid_params)
-    response[0].must_equal 302
-    admin_history_repo.verify.must_equal true
+    _(response[0]).must_equal 302
+    _(admin_history_repo.verify).must_equal true
   end
 
   let(:wrong_pass_params) {{
@@ -32,16 +32,16 @@ describe Admin::Controllers::Sessions::Create do
       user_repo: user_repo, admin_history_repo: nil,
     )
     response = action.call(wrong_pass_params)
-    response[0].must_equal 200
-    action.name.must_equal user.name
-    user_repo.verify.must_equal true
+    _(response[0]).must_equal 200
+    _(action.name).must_equal user.name
+    _(user_repo.verify).must_equal true
   end
 
   it 'is validation error' do
     action = Admin::Controllers::Sessions::Create.new(user_repo: nil, admin_history_repo: nil)
     response = action.call({session: {}})
 
-    response[0].must_equal 200
+    _(response[0]).must_equal 200
     assert_nil action.name
   end
 end

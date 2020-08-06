@@ -12,8 +12,8 @@ describe Admin::Controllers::Sessions::Destroy do
         authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 302
-      admin_history_repo.verify.must_equal true
+      _(response[0]).must_equal 302
+      _(admin_history_repo.verify).must_equal true
     end
   end
 
@@ -26,7 +26,7 @@ describe Admin::Controllers::Sessions::Destroy do
         admin_history_repo: nil, authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 

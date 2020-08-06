@@ -19,8 +19,8 @@ describe Web::Controllers::Gijiroku::Update do
       )
       response = action.call(valid_params)
 
-      response[0].must_equal 302
-      gijiroku_repo.verify.must_equal true
+      _(response[0]).must_equal 302
+      _(gijiroku_repo.verify).must_equal true
     end
 
     it 'is validation error' do
@@ -32,9 +32,9 @@ describe Web::Controllers::Gijiroku::Update do
       invalid_params = {id: gijiroku.id, gijiroku: {body: nil}}
       response = action.call(invalid_params)
 
-      response[0].must_equal 200
-      action.gijiroku.must_equal gijiroku
-      gijiroku_repo.verify.must_equal true
+      _(response[0]).must_equal 200
+      _(action.gijiroku).must_equal gijiroku
+      _(gijiroku_repo.verify).must_equal true
     end
   end
 
@@ -44,7 +44,7 @@ describe Web::Controllers::Gijiroku::Update do
 
     it 'is redirected' do
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

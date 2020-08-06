@@ -24,8 +24,8 @@ describe Admin::Controllers::Message::Destroy do
         authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
       )
       response = action.call(valid_params)
-      response[0].must_equal 302
-      message_repo.verify.must_equal true
+      _(response[0]).must_equal 302
+      _(message_repo.verify).must_equal true
     end
 
     it 'needs destroy confirmation' do
@@ -39,10 +39,10 @@ describe Admin::Controllers::Message::Destroy do
       params_without_confirm = valid_params.merge({message: nil})
       response = action.call(params_without_confirm)
 
-      response[0].must_equal 200
-      action.comment.must_equal comment
-      action.messages.must_equal({msg.comment_id => [msg]})
-      action.message.must_equal msg
+      _(response[0]).must_equal 200
+      _(action.comment).must_equal comment
+      _(action.messages).must_equal({msg.comment_id => [msg]})
+      _(action.message).must_equal msg
     end
 
     let(:other_comment) { Comment.new(id: rand(200..300), article_id: article.id) }
@@ -58,7 +58,7 @@ describe Admin::Controllers::Message::Destroy do
       invalid_params = valid_params.merge({comment_id: other_comment.id})
       response = action.call(invalid_params)
 
-      response[0].must_equal 400
+      _(response[0]).must_equal 400
     end
   end
 
@@ -72,7 +72,7 @@ describe Admin::Controllers::Message::Destroy do
         admin_history_repo: nil, authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

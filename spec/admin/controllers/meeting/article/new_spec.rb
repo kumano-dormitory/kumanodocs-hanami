@@ -16,7 +16,7 @@ describe Admin::Controllers::Meeting::Article::New do
         authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 200
+      _(response[0]).must_equal 200
     end
   end
 
@@ -29,7 +29,7 @@ describe Admin::Controllers::Meeting::Article::New do
         meeting_repo: nil, article_repo: nil, category_repo: nil, authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end
