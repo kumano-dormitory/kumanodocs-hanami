@@ -23,10 +23,10 @@ describe Web::Controllers::Article::Diff do
       )
       response = action.call(valid_params)
 
-      response[0].must_equal 200
-      action.article_old.must_equal old_article
-      action.article_new.must_equal new_article
-      article_repo.verify.must_equal true
+      _(response[0]).must_equal 200
+      _(action.article_old).must_equal old_article
+      _(action.article_new).must_equal new_article
+      _(article_repo.verify).must_equal true
     end
 
     let(:article) { Article.new(id: rand(1..100)) }
@@ -40,8 +40,8 @@ describe Web::Controllers::Article::Diff do
       empty_params = {}
       response = action.call(empty_params)
 
-      response[0].must_equal 200
-      action.recent_meetings_with_articles.must_equal [meeting]
+      _(response[0]).must_equal 200
+      _(action.recent_meetings_with_articles).must_equal [meeting]
     end
   end
 
@@ -52,7 +52,7 @@ describe Web::Controllers::Article::Diff do
         article_repo: nil, authenticator: authenticator
       )
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

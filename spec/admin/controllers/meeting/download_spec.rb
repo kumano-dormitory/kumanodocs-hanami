@@ -16,9 +16,9 @@ describe Admin::Controllers::Meeting::Download do
         authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
       )
       response = action.call({})
-      response[0].must_equal 200
-      action.meetings.must_equal [meeting]
-      action.view_type.must_equal :meetings
+      _(response[0]).must_equal 200
+      _(action.meetings).must_equal [meeting]
+      _(action.view_type).must_equal :meetings
     end
 
     it 'is successful for select download type' do
@@ -28,9 +28,9 @@ describe Admin::Controllers::Meeting::Download do
         authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
       )
       response = action.call(params)
-      response[0].must_equal 200
-      action.meeting.must_equal meeting
-      action.view_type.must_equal :meeting
+      _(response[0]).must_equal 200
+      _(action.meeting).must_equal meeting
+      _(action.view_type).must_equal :meeting
     end
 
     it 'is successful for download articles pdf' do
@@ -44,11 +44,11 @@ describe Admin::Controllers::Meeting::Download do
       )
       response = action.call(params_for_articles)
 
-      response[0].must_equal 404
-      response[1]['Content-Disposition'].must_match "#{meeting.date}"
-      action.format.must_equal :pdf
-      generate_pdf.verify.must_equal true
-      interactor_result.verify.must_equal true
+      _(response[0]).must_equal 404
+      _(response[1]['Content-Disposition']).must_match "#{meeting.date}"
+      _(action.format).must_equal :pdf
+      _(generate_pdf.verify).must_equal true
+      _(interactor_result.verify).must_equal true
     end
 
     it 'is successful for download comments pdf' do
@@ -62,11 +62,11 @@ describe Admin::Controllers::Meeting::Download do
       )
       response = action.call(params_for_comments)
 
-      response[0].must_equal 404
-      response[1]['Content-Disposition'].must_match "#{meeting.date}"
-      action.format.must_equal :pdf
-      generate_pdf.verify.must_equal true
-      interactor_result.verify.must_equal true
+      _(response[0]).must_equal 404
+      _(response[1]['Content-Disposition']).must_match "#{meeting.date}"
+      _(action.format).must_equal :pdf
+      _(generate_pdf.verify).must_equal true
+      _(interactor_result.verify).must_equal true
     end
   end
 
@@ -79,7 +79,7 @@ describe Admin::Controllers::Meeting::Download do
         meeting_repo: nil, generate_pdf_interactor: nil, authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

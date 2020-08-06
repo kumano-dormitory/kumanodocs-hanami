@@ -12,9 +12,9 @@ describe Admin::Controllers::Meeting::Article::Comment::Update do
       )
       response = action.call(params)
 
-      response[0].must_equal 302
-      comment_repo.verify.must_equal true if comment_repo
-      vote_result_repo.verify.must_equal true if vote_result_repo
+      _(response[0]).must_equal 302
+      _(comment_repo.verify).must_equal true if comment_repo
+      _(vote_result_repo.verify).must_equal true if vote_result_repo
     end
 
     def assert_invalid_params(invalid_params_merged)
@@ -29,9 +29,9 @@ describe Admin::Controllers::Meeting::Article::Comment::Update do
       invalid_params = valid_params_with_vote.deep_merge(invalid_params_merged)
       response = action.call(invalid_params)
 
-      response[0].must_equal 422
-      action.comment.must_equal comment
-      comment_repo.verify.must_equal true
+      _(response[0]).must_equal 422
+      _(action.comment).must_equal comment
+      _(comment_repo.verify).must_equal true
     end
 
     let(:comment) { Comment.new(id: rand(1..100), article_id: rand(1..100), block_id: rand(1..9)) }
@@ -106,7 +106,7 @@ describe Admin::Controllers::Meeting::Article::Comment::Update do
         admin_history_repo: nil, authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

@@ -25,9 +25,9 @@ describe Web::Controllers::Docs::Create do
         document_repo: document_repo, user_repo: user_repo, authenticator: authenticator
       )
       response = action.call(params_with_editor_session)
-      response[0].must_equal 302
-      user_repo.verify.must_equal true
-      document_repo.verify.must_equal true
+      _(response[0]).must_equal 302
+      _(user_repo.verify).must_equal true
+      _(document_repo.verify).must_equal true
     end
 
     it 'is rejected for logged out editor' do
@@ -35,7 +35,7 @@ describe Web::Controllers::Docs::Create do
         document_repo: nil, user_repo: nil, authenticator: authenticator
       )
       response = action.call(params_without_editor_session)
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 
@@ -49,7 +49,7 @@ describe Web::Controllers::Docs::Create do
 
     it 'is redirected' do
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

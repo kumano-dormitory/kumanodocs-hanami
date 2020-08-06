@@ -16,8 +16,8 @@ describe Web::Controllers::Docs::Download do
         document_repo: document_repo, authenticator: authenticator
       )
       response = action.call(params)
-      response[0].must_equal 200
-      document_repo.verify.must_equal true
+      _(response[0]).must_equal 200
+      _(document_repo.verify).must_equal true
     end
   end
 
@@ -31,7 +31,7 @@ describe Web::Controllers::Docs::Download do
 
     it 'is redirected' do
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

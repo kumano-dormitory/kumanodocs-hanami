@@ -27,10 +27,10 @@ describe Web::Controllers::Article::Lock::Create do
       )
       response = action.call(valid_params)
 
-      response[0].must_equal 302
-      response[1]['Set-Cookie'].must_match "article_lock_key=#{lock_key}"
-      article_repo.verify.must_equal true
-      author_repo.verify.must_equal true
+      _(response[0]).must_equal 302
+      _(response[1]['Set-Cookie']).must_match "article_lock_key=#{lock_key}"
+      _(article_repo.verify).must_equal true
+      _(author_repo.verify).must_equal true
     end
 
     it 'is rejected' do
@@ -42,8 +42,8 @@ describe Web::Controllers::Article::Lock::Create do
       invalid_params = valid_params.deep_merge({ author: {password: Faker::Internet.password} })
       response = action.call(invalid_params)
 
-      response[0].must_equal 401
-      article_repo.verify.must_equal true
+      _(response[0]).must_equal 401
+      _(article_repo.verify).must_equal true
     end
   end
 
@@ -56,7 +56,7 @@ describe Web::Controllers::Article::Lock::Create do
         article_repo: nil, author_repo: nil, authenticator: authenticator
       )
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

@@ -15,7 +15,7 @@ describe Admin::Controllers::Meeting::Article::Create do
 
       response = action.call(invalid_params)
       # ステータスコードで失敗と判断する
-      response[0].must_equal 422
+      _(response[0]).must_equal 422
       # TODO: エラー内容のチェック
     end
 
@@ -67,11 +67,11 @@ describe Admin::Controllers::Meeting::Article::Create do
       response = action.call(valid_params)
 
       # articleを保存するメソッドが呼ばれたこと
-      article_repo.verify.must_equal true
-      article_ref_repo.verify.must_equal true
+      _(article_repo.verify).must_equal true
+      _(article_ref_repo.verify).must_equal true
 
       # リダイレクトされること
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
 
     it 'is rejected' do
@@ -97,7 +97,7 @@ describe Admin::Controllers::Meeting::Article::Create do
         admin_history_repo: nil, authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

@@ -18,10 +18,10 @@ describe Web::Controllers::Meeting::Download do
       )
       response = action.call(params)
 
-      response[0].must_equal 404
-      response[1]['Content-Disposition'].must_match "#{meeting.date}"
-      generate_pdf.verify.must_equal true
-      interactor_result.verify.must_equal true
+      _(response[0]).must_equal 404
+      _(response[1]['Content-Disposition']).must_match "#{meeting.date}"
+      _(generate_pdf.verify).must_equal true
+      _(interactor_result.verify).must_equal true
     end
 
     it 'is successful display select meeting page' do
@@ -32,9 +32,9 @@ describe Web::Controllers::Meeting::Download do
       )
       response = action.call({})
 
-      response[0].must_equal 200
-      action.meetings.must_equal meetings
-      meeting_repo.verify.must_equal true
+      _(response[0]).must_equal 200
+      _(action.meetings).must_equal meetings
+      _(meeting_repo.verify).must_equal true
     end
   end
 
@@ -46,7 +46,7 @@ describe Web::Controllers::Meeting::Download do
         meeting_repo: nil, generate_pdf_interactor: nil, authenticator: authenticator
       )
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

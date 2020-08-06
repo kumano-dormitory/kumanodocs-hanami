@@ -12,8 +12,8 @@ describe Web::Controllers::Gijiroku::Destroy do
       action = Web::Controllers::Gijiroku::Destroy.new(gijiroku_repo: gijiroku_repo, authenticator: authenticator)
       response = action.call(params)
 
-      response[0].must_equal 302
-      gijiroku_repo.verify.must_equal true
+      _(response[0]).must_equal 302
+      _(gijiroku_repo.verify).must_equal true
     end
   end
 
@@ -23,7 +23,7 @@ describe Web::Controllers::Gijiroku::Destroy do
 
     it 'is redirected' do
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

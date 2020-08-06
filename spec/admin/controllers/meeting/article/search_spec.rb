@@ -10,11 +10,11 @@ describe Admin::Controllers::Meeting::Article::Search do
         limit: limit,
       )
       response = action.call({query: query, page: page})
-      response[0].must_equal 200
-      action.articles.must_equal articles
-      action.keywords.must_equal query_ret
-      action.page.must_equal page
-      action.max_page.must_equal ((search_count - 1) / limit + 1)
+      _(response[0]).must_equal 200
+      _(action.articles).must_equal articles
+      _(action.keywords).must_equal query_ret
+      _(action.page).must_equal page
+      _(action.max_page).must_equal ((search_count - 1) / limit + 1)
     end
 
     let(:articles) { [Article.new(id: rand(1..100))] }
@@ -41,7 +41,7 @@ describe Admin::Controllers::Meeting::Article::Search do
         article_repo: nil, authenticator: authenticator, limit: nil,
       )
       response = action.call(params)
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

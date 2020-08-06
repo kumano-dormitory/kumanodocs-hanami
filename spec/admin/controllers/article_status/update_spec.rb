@@ -12,8 +12,8 @@ describe Admin::Controllers::ArticleStatus::Update do
       invalid_params = params.deep_merge(invalid_params_merged)
       response = action.call(invalid_params)
 
-      response[0].must_equal 422
-      action.meeting.must_equal meeting
+      _(response[0]).must_equal 422
+      _(action.meeting).must_equal meeting
     end
 
     let(:meeting) { Meeting.new(id: rand(1..50)) }
@@ -36,8 +36,8 @@ describe Admin::Controllers::ArticleStatus::Update do
       )
       response = action.call(params)
 
-      response[0].must_equal 302
-      article_repo.verify.must_equal true
+      _(response[0]).must_equal 302
+      _(article_repo.verify).must_equal true
     end
 
     it 'is rejected' do
@@ -59,7 +59,7 @@ describe Admin::Controllers::ArticleStatus::Update do
         meeting_repo: nil, article_repo: nil, authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

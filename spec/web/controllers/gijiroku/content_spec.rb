@@ -11,10 +11,10 @@ describe Web::Controllers::Gijiroku::Content do
       action = Web::Controllers::Gijiroku::Content.new(json_repo: json_repo, authenticator: authenticator)
       response = action.call(params)
 
-      response[0].must_equal 200
-      response[1]['Content-Type'].must_match 'text/plain'
-      response[2].first.must_match gijiroku[:body]
-      json_repo.verify.must_equal true
+      _(response[0]).must_equal 200
+      _(response[1]['Content-Type']).must_match 'text/plain'
+      _(response[2].first).must_match gijiroku[:body]
+      _(json_repo.verify).must_equal true
     end
   end
 
@@ -24,7 +24,7 @@ describe Web::Controllers::Gijiroku::Content do
 
     it 'is redirected' do
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

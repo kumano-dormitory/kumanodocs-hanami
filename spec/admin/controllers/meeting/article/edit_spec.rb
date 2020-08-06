@@ -22,12 +22,12 @@ describe Admin::Controllers::Meeting::Article::Edit do
         authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 200
-      action.meetings.must_equal meetings
-      action.categories.must_equal categories
-      action.article.must_equal article
-      action.recent_articles.must_equal recent_articles
-      action.article_refs_selected.must_equal({ same: [article_refs[0].article_old_id] })
+      _(response[0]).must_equal 200
+      _(action.meetings).must_equal meetings
+      _(action.categories).must_equal categories
+      _(action.article).must_equal article
+      _(action.recent_articles).must_equal recent_articles
+      _(action.article_refs_selected).must_equal({ same: [article_refs[0].article_old_id] })
     end
   end
 
@@ -41,7 +41,7 @@ describe Admin::Controllers::Meeting::Article::Edit do
         article_repo: nil, meeting_repo: nil, category_repo: nil, article_reference_repo: nil, authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

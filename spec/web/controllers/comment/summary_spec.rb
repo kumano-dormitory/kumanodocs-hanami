@@ -20,16 +20,16 @@ describe Web::Controllers::Comment::Summary do
         message_repo: message_repo, authenticator: authenticator
       )
       response = action.call(params)
-      response[0].must_equal 200
-      action.meetings.must_equal [meeting]
-      action.meeting.must_equal meeting
-      action.comments.must_equal ({comment[:article_id] => [comment]})
-      action.messages.must_equal ({msg[:comment_id] => [msg]})
-      action.max_page.must_equal 0
-      action.page.must_equal 0
-      meeting_repo.verify.must_equal true
-      comment_repo.verify.must_equal true
-      message_repo.verify.must_equal true
+      _(response[0]).must_equal 200
+      _(action.meetings).must_equal [meeting]
+      _(action.meeting).must_equal meeting
+      _(action.comments).must_equal ({comment[:article_id] => [comment]})
+      _(action.messages).must_equal ({msg[:comment_id] => [msg]})
+      _(action.max_page).must_equal 0
+      _(action.page).must_equal 0
+      _(meeting_repo.verify).must_equal true
+      _(comment_repo.verify).must_equal true
+      _(message_repo.verify).must_equal true
     end
   end
 
@@ -44,7 +44,7 @@ describe Web::Controllers::Comment::Summary do
 
     it 'is redirected' do
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

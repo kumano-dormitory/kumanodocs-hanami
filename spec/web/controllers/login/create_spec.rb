@@ -12,8 +12,8 @@ describe Web::Controllers::Login::Create do
     action = Web::Controllers::Login::Create.new(user_repo: user_repo)
     response = action.call(params)
 
-    response[0].must_equal 302
-    user_repo.verify.must_equal true
+    _(response[0]).must_equal 302
+    _(user_repo.verify).must_equal true
   end
 
   let(:invalid_params) {{ login: {username: user.name, password: Faker::Internet.password} }}
@@ -22,8 +22,8 @@ describe Web::Controllers::Login::Create do
     action = Web::Controllers::Login::Create.new(user_repo: user_repo)
     response = action.call(invalid_params)
 
-    response[0].must_equal 200
-    action.standalone.must_equal false
-    user_repo.verify.must_equal true
+    _(response[0]).must_equal 200
+    _(action.standalone).must_equal false
+    _(user_repo.verify).must_equal true
   end
 end

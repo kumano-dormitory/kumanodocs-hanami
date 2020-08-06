@@ -11,8 +11,8 @@ describe Admin::Controllers::History::Show do
         authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
       )
       response = action.call(params)
-      response[0].must_equal 200
-      action.history.must_equal history
+      _(response[0]).must_equal 200
+      _(action.history).must_equal history
     end
 
     it 'is not found' do
@@ -21,7 +21,7 @@ describe Admin::Controllers::History::Show do
         authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
       )
       response = action.call(params)
-      response[0].must_equal 404
+      _(response[0]).must_equal 404
     end
   end
 
@@ -34,7 +34,7 @@ describe Admin::Controllers::History::Show do
         admin_history_repo: nil, authenticator: authenticator,
       )
       response = action.call(params)
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

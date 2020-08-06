@@ -15,11 +15,11 @@ describe Web::Controllers::Article::Update do
       invalid_params = valid_params.deep_merge(invalid_params_merged)
 
       response = action.call(invalid_params)
-      response[0].must_equal 422
-      action.recent_articles.must_equal [article]
-      article_repo_mock.verify.must_equal true
-      meeting_repo_mock.verify.must_equal true
-      category_repo_mock.verify.must_equal true
+      _(response[0]).must_equal 422
+      _(action.recent_articles).must_equal [article]
+      _(article_repo_mock.verify).must_equal true
+      _(meeting_repo_mock.verify).must_equal true
+      _(category_repo_mock.verify).must_equal true
     end
 
     let(:article) { Article.new(id: rand(1..100), meeting_id: meeting.id, meeting: meeting, author: author) }
@@ -70,9 +70,9 @@ describe Web::Controllers::Article::Update do
       params = valid_params.merge("HTTP_COOKIE"=>"article_lock_key=#{lock_key}")
       response = action.call(params)
 
-      response[0].must_equal 302
-      article_repo_mock.verify.must_equal true
-      author_repo_mock.verify.must_equal true
+      _(response[0]).must_equal 302
+      _(article_repo_mock.verify).must_equal true
+      _(author_repo_mock.verify).must_equal true
     end
 
     it 'is successful get lock' do
@@ -100,9 +100,9 @@ describe Web::Controllers::Article::Update do
       )
       response = action.call(params)
 
-      response[0].must_equal 302
-      article_repo_mock.verify.must_equal true
-      author_repo_mock.verify.must_equal true
+      _(response[0]).must_equal 302
+      _(article_repo_mock.verify).must_equal true
+      _(author_repo_mock.verify).must_equal true
     end
 
     it 'is authentication error' do
@@ -119,12 +119,12 @@ describe Web::Controllers::Article::Update do
       )
       response = action.call(params)
 
-      response[0].must_equal 401
-      action.confirm_update.must_equal true
-      action.recent_articles.must_equal [article]
-      article_repo_mock.verify.must_equal true
-      meeting_repo_mock.verify.must_equal true
-      category_repo_mock.verify.must_equal true
+      _(response[0]).must_equal 401
+      _(action.confirm_update).must_equal true
+      _(action.recent_articles).must_equal [article]
+      _(article_repo_mock.verify).must_equal true
+      _(meeting_repo_mock.verify).must_equal true
+      _(category_repo_mock.verify).must_equal true
     end
 
     it 'is rejected' do
@@ -149,7 +149,7 @@ describe Web::Controllers::Article::Update do
         article_reference_repo: nil, authenticator: authenticator
       )
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end

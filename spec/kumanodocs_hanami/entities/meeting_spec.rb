@@ -8,7 +8,7 @@ describe Meeting do
     }
     meeting = Meeting.new(articles: articles)
     articles_for_web = meeting.articles_for_web
-    articles_for_web.map(&:number).must_equal test_numbers
+    _(articles_for_web.map(&:number)).must_equal test_numbers
   end
 
   it 'articles_for_webでソートが正しく行われていること' do

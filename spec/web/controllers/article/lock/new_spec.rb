@@ -19,15 +19,15 @@ describe Web::Controllers::Article::Lock::New do
       )
       response = action.call(params)
 
-      response[0].must_equal 200
-      action.locked.must_equal (!author.lock_key.nil?)
-      action.for_table.must_equal (!params[:table_id].nil?)
+      _(response[0]).must_equal 200
+      _(action.locked).must_equal (!author.lock_key.nil?)
+      _(action.for_table).must_equal (!params[:table_id].nil?)
       if params[:table_id].nil?
         assert_nil action.table_id
       else
-        action.table_id.must_equal params[:table_id]
+        _(action.table_id).must_equal params[:table_id]
       end
-      article_repo.verify.must_equal true
+      _(article_repo.verify).must_equal true
     end
   end
 
@@ -37,7 +37,7 @@ describe Web::Controllers::Article::Lock::New do
     it 'is redirected' do
       action = Web::Controllers::Article::Lock::New.new(article_repo: nil, authenticator: authenticator)
       response = action.call({})
-      response[0].must_equal 302
+      _(response[0]).must_equal 302
     end
   end
 end
