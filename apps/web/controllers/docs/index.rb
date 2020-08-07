@@ -14,7 +14,7 @@ module Web::Controllers::Docs
     end
 
     def navigation
-      @navigation = {docs: true}
+      @navigation = {docs: true, enable_dark: true}
     end
   end
 end
