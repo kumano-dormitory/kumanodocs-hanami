@@ -42,7 +42,7 @@ module Web::Controllers::Article
     end
 
     def navigation
-      @navigation = {bn_search: true}
+      @navigation = {bn_search: true, enable_dark: true}
     end
   end
 end
