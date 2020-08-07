@@ -12,5 +12,9 @@ module Web::Controllers::Docs
     def call(params)
       @document = @document_repo.find_with_relations(params[:id])
     end
+
+    def navigation
+      @navigation = {docs: true, enable_dark: true}
+    end
   end
 end

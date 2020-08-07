@@ -68,7 +68,7 @@ module Web::Views::Comment
           end
         end
 
-        submit '投稿'
+        submit '投稿', class: "p-button--positive"
       end
     end
   end

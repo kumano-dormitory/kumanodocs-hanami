@@ -65,7 +65,7 @@ module Web::Controllers::Meeting
     end
 
     def navigation
-      @navigation = {meeting: true, bn_meeting: true}
+      @navigation = {meeting: true, bn_meeting: true, enable_dark: true}
     end
   end
 end

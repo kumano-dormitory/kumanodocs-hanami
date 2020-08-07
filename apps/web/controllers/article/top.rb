@@ -32,7 +32,7 @@ module Web::Controllers::Article
     end
 
     def navigation
-      @navigation = {root: true}
+      @navigation = {root: true, enable_dark: true}
     end
   end
 end

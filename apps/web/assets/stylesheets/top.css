@@ -6,6 +6,17 @@
 .button-recent-meeting:hover {
   background-color: #4fc3f7;
 }
+body.is-dark .button-recent-meeting {
+  color: #fafafa;
+  background-color: #01579b;
+  width: 100%;
+  transition: all .5s;
+}
+body.is-dark .button-recent-meeting:hover {
+  color: #fafafa;
+  background-color: #0288d1;
+}
+
 .button-articles {
   background-color: #b2dfdb;
   width: 100%;
@@ -14,6 +25,17 @@
 .button-articles:hover {
   background-color: #4db6ac;
 }
+body.is-dark .button-articles {
+  color: #fafafa;
+  background-color: #00695c;
+  width: 100%;
+  transition: all .5s;
+}
+body.is-dark .button-articles:hover {
+  color: #fafafa;
+  background-color: #00897b;
+}
+
 .button-meetings {
   background-color: #dcedc8;
   width: 100%;
@@ -22,6 +44,17 @@
 .button-meetings:hover {
   background-color: #aed581;
 }
+body.is-dark .button-meetings {
+  color: #fafafa;
+  background-color: #33691e;
+  width: 100%;
+  transition: all .5s;
+}
+body.is-dark .button-meetings:hover {
+  color: #fafafa;
+  background-color: #689f38;
+}
+
 .button-post-article {
   background-color: #f8bbd0;
   width: 100%;
@@ -30,6 +63,16 @@
 .button-post-article:hover {
   background-color: #f48fb1;
 }
+body.is-dark .button-post-article {
+  color: #fafafa;
+  background-color: #ad1457;
+  width: 100%;
+  transition: all .5s;
+}
+body.is-dark .button-post-article:hover {
+  background-color: #d81b60;
+}
+
 .button-other-action {
   background-color: #eceff1;
   width: 100%;
@@ -37,4 +80,13 @@
 }
 .button-other-action:hover {
   background-color: #b0bec5;
+}
+body.is-dark .button-other-action {
+  color: #fafafa;
+  background-color: #455a64;
+  width: 100%;
+  transition: all .5s;
+}
+body.is-dark .button-other-action:hover {
+  background-color: #607d8b;
 }

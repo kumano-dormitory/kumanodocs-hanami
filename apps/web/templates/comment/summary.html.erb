@@ -24,8 +24,8 @@
   </div>
 
   <% if comments %>
-  <div class="row row-wide p-divider">
-    <div class="col-9 p-divider__block">
+  <div class="row row-wide">
+    <div class="col-9">
       <% if comments %>
         <h3 style="max-width: 100%;">[<%= page + 1 %>] <a href='<%= routes.meeting_path(id: meeting.id) %>' target="_blank"><%= meeting.formatted_date %>のブロック会議</a>の議事録</h3>
         <dl>
@@ -42,49 +42,45 @@
         </dl>
       <% end %>
 
-      <footer class="p-pagination">
+      <footer class="p-article-pagination">
         <% if page - 1 >= 0 %>
-        <a class="p-pagination__link--previous" href="?page=<%= page - 1 %>">
-          <span class="p-pagination__label">前のブロック会議の議事録へ</span>
-          <span class="p-pagination__title"><%= h meetings[page - 1].formatted_date %>のブロック会議の議事録</span>
+        <a class="p-article-pagination__link--previous" href="?page=<%= page - 1 %>">
+          <span class="p-article-pagination__label">前のブロック会議の議事録へ</span>
+          <span class="p-article-pagination__title"><%= h meetings[page - 1].formatted_date %>のブロック会議の議事録</span>
         </a>
         <% else %>
-        <span class="p-pagination__link--previous is-disabled">
+        <span class="p-article-pagination__link--previous is-disabled">
         </span>
         <% end %>
         <% if page + 1 <= max_page %>
-        <a class="p-pagination__link--next" href="?page=<%= page + 1 %>">
-          <span class="p-pagination__label">次のブロック会議の議事録へ</span>
-          <span class="p-pagination__title"><%= h meetings[page + 1].formatted_date %>のブロック会議の議事録</span>
+        <a class="p-article-pagination__link--next" href="?page=<%= page + 1 %>">
+          <span class="p-article-pagination__label">次のブロック会議の議事録へ</span>
+          <span class="p-article-pagination__title"><%= h meetings[page + 1].formatted_date %>のブロック会議の議事録</span>
         </a>
         <% else %>
-        <span class="p-pagination__link--next is-disabled">
+        <span class="p-article-pagination__link--next is-disabled">
         </span>
         <% end %>
       </footer>
     </div>
 
-    <div class="col-3 p-divider__block">
-      <div class="p-navigation--sidebar">
-        <div class="sidebar__content js-sidebar-toggle u-hide" aria-hidden="true">
-          <ul class="p-list u-no-margin--bottom">
-            <% meetings.each_with_index do |nav_meeting, i| %>
-              <hr>
-              <li class="p-list__item">
-                <% if nav_meeting.id == meeting&.id %>
-                <a href="<%= routes.summary_comment_path %>?page=<%= i %>" style="font-weight:950;">
-                  [<%= i + 1 %>] <%= nav_meeting.formatted_date %>の議事録
-                </a>
-                <% else %>
-                <a href="<%= routes.summary_comment_path %>?page=<%= i %>">
-                  [<%= i + 1 %>] <%= nav_meeting.formatted_date %>の議事録
-                </a>
-                <% end %>
-              </li>
+    <div class="col-3">
+      <ul class="p-list u-no-margin--bottom">
+        <% meetings.each_with_index do |nav_meeting, i| %>
+          <hr>
+          <li class="p-list__item">
+            <% if nav_meeting.id == meeting&.id %>
+            <a href="<%= routes.summary_comment_path %>?page=<%= i %>" class="p-link--soft" style="font-weight:950;">
+              [<%= i + 1 %>] <%= nav_meeting.formatted_date %>の議事録
+            </a>
+            <% else %>
+            <a href="<%= routes.summary_comment_path %>?page=<%= i %>" class="p-link--soft">
+              [<%= i + 1 %>] <%= nav_meeting.formatted_date %>の議事録
+            </a>
             <% end %>
-          </ul>
-        </div>
-      </div>
+          </li>
+        <% end %>
+      </ul>
     </div>
 
 
