@@ -8,7 +8,7 @@
         <% end %>
       </h1>
     </div>
-    <div class="u-hide--large u-hide--medium">
+    <div class="u-hide--large u-hide--medium u-show--small">
       <h2 class="u-no-margin--bottom"><%= meeting.formatted_date %>の<%= meeting.type == 0 ? "ブロック会議" : "寮生大会" %></h2>
       <% if meeting.deadline > Time.now %>
         <p>議案投稿の締め切り日時 : <%= meeting.formatted_deadline %></p>

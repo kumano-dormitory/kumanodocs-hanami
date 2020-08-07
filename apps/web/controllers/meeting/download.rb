@@ -46,7 +46,7 @@ module Web::Controllers::Meeting
     end
 
     def navigation
-      @navigation = {download: true}
+      @navigation = {download: true, enable_dark: true}
     end
   end
 end
