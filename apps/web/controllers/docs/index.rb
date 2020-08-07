@@ -12,5 +12,9 @@ module Web::Controllers::Docs
     def call(params)
       @documents = @document_repo.order_by_number
     end
+
+    def navigation
+      @navigation = {docs: true, enable_dark: true}
+    end
   end
 end

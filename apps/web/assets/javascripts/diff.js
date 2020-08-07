@@ -91,15 +91,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const target = document.getElementById('diffRoot');
     toggleDiffHtml(target, 'line-by-line', '4');
     const diffOutputFormatSelect = document.getElementById('diff-options-output-format');
-    if (diffOutputFormatSelect) {
+    if (diffOutputFormatSelect && diffOutputFormatSelect) {
       diffOutputFormatSelect.addEventListener('change', (e) => toggleDiffHtml(target, e.target.value, ''));
     }
     const diffOptionContextSelect = document.getElementById('diff-options-context');
-    if (diffOptionContextSelect) {
+    if (diffOptionContextSelect && diffOptionContextSelect) {
       diffOptionContextSelect.addEventListener('change', (e) => toggleDiffHtml(target, '', e.target.value));
     }
     const diffOptionFontSizeSelect = document.getElementById('diff-options-font-size');
-    if (diffOptionFontSize) {
+    if (diffOptionFontSize && diffOptionFontSizeSelect) {
       diffOptionFontSizeSelect.addEventListener('change', (e) => changeDiffFontSize(e.target.value));
     }
     const diffSelectOldMeeting = document.getElementById('diff-old-meeting');

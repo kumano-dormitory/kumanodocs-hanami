@@ -174,7 +174,7 @@ module Web
       #   * https://developer.mozilla.org/en-US/docs/Web/HTTP/X-Frame-Options
       #   * https://www.owasp.org/index.php/Clickjacking
       #
-      security.x_frame_options 'DENY'
+      security.x_frame_options 'SAMEORIGIN'
 
       # X-Content-Type-Options prevents browsers from interpreting files as
       # something else than declared by the content type in the HTTP headers.

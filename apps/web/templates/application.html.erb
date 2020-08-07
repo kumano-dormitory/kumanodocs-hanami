@@ -3,7 +3,7 @@
   <head>
     <title>資料システム</title>
     <%= favicon %>
-    <link rel="stylesheet" href="https://assets.ubuntu.com/v1/vanilla-framework-version-1.8.1.min.css" />
+    <link rel="stylesheet" href="https://assets.ubuntu.com/v1/vanilla-framework-version-2.15.0.min.css" />
     <%= stylesheet 'application' %>
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -37,11 +37,12 @@
     <link rel="manifest" href="/manifest.json" type="application/json">
   </head>
   <body>
-    <header id="navigation" class="p-navigation" style="background-color: #e1f5fe">
-      <div class="row">
+    <% if navigation[:enable_dark] %><%= javascript 'dark' %><% end %>
+    <header id="navigation" class="p-navigation">
+      <div class="p-navigation__row">
         <div class="p-navigation__banner">
           <div class="p-navigation__logo">
-            <a class="p-navigation__link" href="/">
+            <a class="p-navigation__item" href="/">
               <img src="/assets/logo.png" alt="" class="p-navigation__image">
             </a>
           </div>
@@ -57,15 +58,15 @@
           <span class="u-off-screen">
             <a href="#main-content">Jump to main content</a>
           </span>
-          <ul class="p-navigation__links" role="menu">
-            <li class="p-navigation__link <%= navigation[:articles] ? 'is-selected' : '' %>" role="menuitem"><a href="/article">新着議案</a></li>
-            <li class="p-navigation__link <%= navigation[:meeting] ? 'is-selected' : '' %>" role="menuitem"><a href="/meeting">ブロック会議</a></li>
-            <li class="p-navigation__link <%= navigation[:new_article] ? 'is-selected' : '' %>" role="menuitem"><a href="/article/new">議案投稿</a></li>
-            <li class="p-navigation__link <%= navigation[:download] ? 'is-selected' : '' %>" role="menuitem"><a href="/meeting/0/download">ダウンロード</a></li>
+          <ul class="p-navigation__items" role="menu">
+            <li class="p-navigation__item <%= navigation[:articles] ? 'is-selected' : '' %>" role="menuitem"><a class="p-navigation__link" href="/article">新着議案</a></li>
+            <li class="p-navigation__item <%= navigation[:meeting] ? 'is-selected' : '' %>" role="menuitem"><a class="p-navigation__link" href="/meeting">ブロック会議</a></li>
+            <li class="p-navigation__item <%= navigation[:new_article] ? 'is-selected' : '' %>" role="menuitem"><a class="p-navigation__link" href="/article/new">議案投稿</a></li>
+            <li class="p-navigation__item <%= navigation[:docs] ? 'is-selected' : '' %>" role="menuitem"><a class="p-navigation__link" href="/docs">資料置き場</a></li>
           </ul>
-          <ul class="p-navigation__links u-image-position--right" role="menu">
-            <li class="p-navigation__link <%= navigation[:login] ? 'is-selected' : '' %>" role="menuitem">
-              <a class="u-hide--small" href="/admin"><i class="p-icon--user icon-settings"></i></a>
+          <ul class="p-navigation__items u-image-position--right" role="menu">
+            <li class="p-navigation__item <%= navigation[:login] ? 'is-selected' : '' %>" role="menuitem">
+              <a class="p-navigation__link u-hide--small" href="/admin"><i class="p-icon--user icon-settings"></i></a>
             </li>
           </ul>
         </nav>
@@ -117,22 +118,30 @@
       <%= yield %>
     </div>
 
-    <footer class="p-strip--light is-shallow u-hide--small">
-      <a href="#" class="p-top__link p-button--neutral">ページの上部へ戻る ↑<i class="p-icon--contextual-menu"></i></a>
+    <footer id="footer" class="p-strip--light is-shallow u-hide--small">
+      <a href="#" class="p-top__link p-button--neutral">ページの上部へ戻る ↑</a>
       <div class="row">
-        <p class="full-width">
-          Copyright© 2019-2020 Kumano Dormitory IT Section <small>(Some rights reserved <a href="https://creativecommons.org/licenses/by-nd/4.0/" target="_blank">CC BY-ND 4.0</a>)</small>
-        </p>
-        <% if navigation[:root] %>
-        <p>This site is built with <a href="https://hanamirb.org/" class="p-link--external" target="_blank">hanami</a>, and <a href="https://github.com/kumano-dormitory/kumanodocs-hanami" class="p-link--external" target="_blank">source code</a> is public on GitHub</p>
-        <% end %>
-        <nav>
-          <ul class="p-inline-list--middot">
-            <li class="p-inline-list__item"><a href="/about">このサイトについて</a></li>
-            <li class="p-inline-list__item"><a href="https://kumano-ryo.com" class="p-link--external" target="_blank">熊野寮ホームページ</a></li>
-            <li class="p-inline-list__item"><a href="https://www.kumano-ryo.com/internal/index.html" class="p-link--external" target="_blank">寮生向け内部ページ</a></li>
-          </ul>
-        </nav>
+        <div class="col-8">
+          <p class="full-width">
+            Copyright© 2019-2020 Kumano Dormitory IT Section <small>(Some rights reserved <a href="https://creativecommons.org/licenses/by-nd/4.0/" target="_blank">CC BY-ND 4.0</a>)</small>
+          </p>
+          <% if navigation[:root] %>
+          <p>This site is built with <a href="https://hanamirb.org/" class="p-link--external" target="_blank">hanami</a>, and <a href="https://github.com/kumano-dormitory/kumanodocs-hanami" class="p-link--external" target="_blank">source code</a> is public on GitHub</p>
+          <% end %>
+          <nav>
+            <ul class="p-inline-list--middot">
+              <li class="p-inline-list__item"><a href="/about" class="p-link--soft">このサイトについて</a></li>
+              <li class="p-inline-list__item"><a href="https://kumano-ryo.com" class="p-link--external" target="_blank">熊野寮ホームページ</a></li>
+              <li class="p-inline-list__item"><a href="https://www.kumano-ryo.com/internal/index.html" class="p-link--external" target="_blank">寮生向け内部ページ</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="col-4" <% unless navigation[:enable_dark] %>style="display:none;"<% end %>>
+          <form class="p-form">
+            <input type="checkbox" id="theme-mode-btn">
+            <label for="theme-mode-btn">ダークテーマを有効にする</label>
+          </form>
+        </div>
       </div>
     </footer>
 
@@ -171,6 +180,10 @@
       </span>
     </nav>
     <%= javascript 'bottom_navigation' %>
+    <% end %>
+
+    <% if navigation[:enable_dark] %>
+    <%= javascript 'dark' %>
     <% end %>
   </body>
 </html>

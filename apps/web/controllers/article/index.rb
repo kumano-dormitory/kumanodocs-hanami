@@ -24,7 +24,7 @@ module Web::Controllers::Article
     end
 
     def navigation
-      @navigation = {articles: true}
+      @navigation = {articles: true, enable_dark: true}
     end
   end
 end
