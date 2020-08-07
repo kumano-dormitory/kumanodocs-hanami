@@ -31,7 +31,7 @@
       <% articles.each do |article| %>
       <div class="p-card--highlighted u-no-padding--bottom u-no-padding--top" style="margin-bottom:.8rem">
         <h2 class="p-card__title full-width">
-          <a href="<%= routes.article_path(id: article.id) %>" class="p-link--strong">
+          <a href="<%= routes.article_path(id: article.id) %>" class="p-link--soft">
             <%= article_formatted_title(article, number: false) %>
           </a>
         </h2>
@@ -42,79 +42,101 @@
     </div>
   </div>
 
-  <div class="row" style="margin-bottom:2rem;">
+  <div class="row" style="margin-top:1rem; margin-bottom:2rem;">
     <div class="col-12">
-      <footer class="p-pagination">
+      <ol class="p-pagination u-align--center">
         <% if page - 1 > 0 %>
-          <a href="?page=<%= page - 1 %>&amp;search_article[keywords]=<%= hu keywords %>" class="p-pagination__link--previous">
-            <span class="p-pagination__label">前のページ</span>
-          </a>
+          <li class="p-pagination__item">
+            <a href="?page=<%= page - 1 %>&amp;search_article[keywords]=<%= hu keywords %>" class="p-pagination__link--previous">
+              <i class="p-icon--contextual-menu"></i>　前のページ
+            </a>
+          </li>
         <% else %>
-          <span class="p-pagination__link--previous is-disabled"><span class="p-pagination__label">前のページ</span></span>
+          <li class="p-pagination__item">
+            <span class="p-pagination__link--previous is-disabled"><i class="p-icon--contextual-menu"></i>　前のページ</span>
+          </li>
         <% end %>
         <% if page - 3 > 1 %>
-          <a href="?page=1&amp;search_article[keywords]=<%= hu keywords %>" class="p-pagination__link u-hide--small">
-            <span class="p-pagination__label">1</span>
-          </a>
+          <li class="p-pagination__item">
+            <a href="?page=1&amp;search_article[keywords]=<%= hu keywords %>" class="p-pagination__link u-hide--small">
+              <span class="p-pagination__label">1</span>
+            </a>
+          </li>
         <% end %>
         <% if page - 3 > 2 %>
-          <span class="p-pagination__link u-hide--small">
-            <span class="p-pagination__label">&hellip;</span>
-          </span>
+          <li class="p-pagination__item p-pagination__item--truncation">&hellip;</li>
         <% end %>
         <% if page - 3 > 0 %>
-          <a href="?page=<%= page - 3 %>&amp;search_article[keywords]=<%= hu keywords %>" class="p-pagination__link u-hide--small">
-            <span class="p-pagination__label"><%= page - 3 %></span>
-          </a>
+          <li class="p-pagination__item">
+            <a href="?page=<%= page - 3 %>&amp;search_article[keywords]=<%= hu keywords %>" class="p-pagination__link u-hide--small">
+              <span class="p-pagination__label"><%= page - 3 %></span>
+            </a>
+          </li>
         <% end %>
         <% if page - 2 > 0 %>
-          <a href="?page=<%= page - 2 %>&amp;search_article[keywords]=<%= hu keywords %>" class="p-pagination__link u-hide--small">
-            <span class="p-pagination__label"><%= page - 2 %></span>
-          </a>
+          <li class="p-pagination__item">
+            <a href="?page=<%= page - 2 %>&amp;search_article[keywords]=<%= hu keywords %>" class="p-pagination__link u-hide--small">
+              <span class="p-pagination__label"><%= page - 2 %></span>
+            </a>
+          </li>
         <% end %>
         <% if page - 1 > 0 %>
-          <a href="?page=<%= page - 1 %>&amp;search_article[keywords]=<%= hu keywords %>" class="p-pagination__link u-hide--small">
-            <span class="p-pagination__label"><%= page - 1 %></span>
-          </a>
+          <li class="p-pagination__item">
+            <a href="?page=<%= page - 1 %>&amp;search_article[keywords]=<%= hu keywords %>" class="p-pagination__link u-hide--small">
+              <span class="p-pagination__label"><%= page - 1 %></span>
+            </a>
+          </li>
         <% end %>
-          <span class="p-pagination__link is-active" style="background-color: #ccc;">
-            <span class="p-pagination__label"><%= page %></span>
-          </span>
+          <li class="p-pagination__item">
+            <span class="p-pagination__link is-active" style="background-color: #ccc;">
+              <span class="p-pagination__label"><%= page %></span>
+            </span>
+          </li>
         <% if page + 1 <= max_page %>
-          <a href="?page=<%= page + 1 %>&amp;search_article[keywords]=<%= hu keywords %>" class="p-pagination__link u-hide--small">
-            <span class="p-pagination__label"><%= page + 1%></span>
-          </a>
+          <li class="p-pagination__item">
+            <a href="?page=<%= page + 1 %>&amp;search_article[keywords]=<%= hu keywords %>" class="p-pagination__link u-hide--small">
+              <span class="p-pagination__label"><%= page + 1%></span>
+            </a>
+          </li>
         <% end %>
         <% if page + 2 <= max_page %>
-          <a href="?page=<%= page + 2 %>&amp;search_article[keywords]=<%= hu keywords %>" class="p-pagination__link u-hide--small">
-            <span class="p-pagination__label"><%= page + 2 %></span>
-          </a>
+          <li class="p-pagination__item">
+            <a href="?page=<%= page + 2 %>&amp;search_article[keywords]=<%= hu keywords %>" class="p-pagination__link u-hide--small">
+              <span class="p-pagination__label"><%= page + 2 %></span>
+            </a>
+          </li>
         <% end %>
         <% if page + 3 <= max_page %>
-          <a href="?page=<%= page + 3 %>&amp;search_article[keywords]=<%= hu keywords %>" class="p-pagination__link u-hide--small">
-            <span class="p-pagination__label"><%= page + 3 %></span>
-          </a>
+          <li class="p-pagination__item">
+            <a href="?page=<%= page + 3 %>&amp;search_article[keywords]=<%= hu keywords %>" class="p-pagination__link u-hide--small">
+              <span class="p-pagination__label"><%= page + 3 %></span>
+            </a>
+          </li>
         <% end %>
         <% if page + 5 <= max_page %>
-          <span class="p-pagination__link u-hide--small">
-            <span class="p-pagination__label">&hellip;</span>
-          </span>
+          <li class="p-pagination__item p-pagination__item--truncation">&hellip;</li>
         <% end %>
         <% if page + 4 <= max_page %>
-          <a href="?page=<%= max_page %>&amp;search_article[keywords]=<%= hu keywords %>" class="p-pagination__link u-hide--small">
-            <span class="p-pagination__label"><%= max_page %></span>
-          </a>
+          <li class="p-pagination__item">
+            <a href="?page=<%= max_page %>&amp;search_article[keywords]=<%= hu keywords %>" class="p-pagination__link u-hide--small">
+              <span class="p-pagination__label"><%= max_page %></span>
+            </a>
+          </li>
         <% end %>
         <% if page + 1 <= max_page %>
-          <a href="?page=<%= page + 1 %>&amp;search_article[keywords]=<%= hu keywords %>" class="p-pagination__link--next">
-            <span class="p-pagination__label">次のページ</span>
-          </a>
+          <li class="p-pagination__item">
+            <a href="?page=<%= page + 1 %>&amp;search_article[keywords]=<%= hu keywords %>" class="p-pagination__link--next">
+              <span class="p-pagination__label">次のページ</span><i class="p-icon--contextual-menu"></i>
+            </a>
+          </li>
         <% else %>
-          <span class="p-pagination__link--next is-disabled">
-            <span class="p-pagination__label">次のページ</span>
-          </span>
+          <li class="p-pagination__item">
+            <span class="p-pagination__link--next is-disabled">
+              <span class="p-pagination__label">次のページ</span><i class="p-icon--contextual-menu"></i>
+            </span>
+          </li>
         <% end %>
-      </footer>
+      </ol>
     </div>
   </div>
 </div>

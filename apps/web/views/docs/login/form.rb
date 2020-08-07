@@ -6,21 +6,33 @@ module Web::Views::Docs
 
         form_for :user, routes.login_docs_path, method: :post,
                   class: "p-form p-form--stacked" do
-          div class: "p-form__group" do
-            label '部会・委員会', for: :name, class: "p-form__label"
-            div class: "p-form__control" do
-              select :name, values, required: ""
+          div class: "p-form__group row" do
+            div class: "col-2" do
+              label '部会・委員会', for: :name, class: "p-form__label"
+            end
+            div class: "col-9" do
+              div class: "p-form__control" do
+                select :name, values, required: ""
+              end
             end
           end
 
-          div class: "p-form__group" do
-            label 'パスワード', for: :password, class: "p-form__label"
-            div class: "p-form__control" do
-              password_field :password, required: ""
+          div class: "p-form__group row" do
+            div class: "col-2" do
+              label 'パスワード', for: :password, class: "p-form__label"
+            end
+            div class: "col-9" do
+              div class: "p-form__control" do
+                password_field :password, required: ""
+              end
             end
           end
 
-          submit 'ログイン', class: "p-button--positive u-float-right"
+          div class: "row" do
+            div class: "col-11" do
+              submit 'ログイン', class: "p-button--positive u-float-right"
+            end
+          end
         end
       end
     end

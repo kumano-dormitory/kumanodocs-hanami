@@ -1,35 +1,39 @@
-<div class="p-strip--image is-lighth is-shallow" style="background-image:url('/assets/header.jpg')">
+<div id="top-banner" class="p-strip--image is-lighth is-shallow">
   <div class="row">
     <div class="col-7" style="margin-top:4rem">
       <h1 class="p-heading--stylized">資料システム</h1>
       <a href="<%= routes.document_path %>?type=0" class="p-button--neutral"><h4 class="u-no-margin--bottom">利用方法</h4></a>
     </div>
     <div class="col-4 u-hide--small u-align--center">
-      <img src="/assets/abstruct.svg" alt="Main image">
+      <img id="top-img" src="/assets/abstruct.svg" alt="Main image">
     </div>
   </div>
 </div>
 <% if false #寮生大会中であるときのみ表示 %>
 <div class="p-strip--accent is-bordered">
   <div class="row">
-    <h2 class="u-no-margin--bottom">寮生大会の議事録</h2>
-    <p>寮生大会の議事録をリアルタイムで閲覧することができます</p>
-    <a href='<%= routes.gijirokus_path %>' class="p-button--neutral"><h3 class="u-no-margin--bottom">議事録の閲覧ページへ</h3></a>
-    <p>寮生大会の資料をPDFでダウンロードできます</p>
-    <a href='<%= routes.download_documents_path(id: "ryoseitaikai") %>' class="p-button--neutral" target="_blank"><h3 class="u-no-margin--bottom full-width">寮生大会資料のPDFダウンロード</h3></a>
-    <a href='<%= routes.download_documents_path(id: "ryoseitaikai2") %>' class="p-button--neutral" target="_blank"><h3 class="u-no-margin--bottom full-width">変更・返答まとめのPDFダウンロード</h3></a>
+    <div class="col-12">
+      <h2 class="u-no-margin--bottom">寮生大会の議事録</h2>
+      <p>寮生大会の議事録をリアルタイムで閲覧することができます</p>
+      <a href='<%= routes.gijirokus_path %>' class="p-button--neutral"><h3 class="u-no-margin--bottom">議事録の閲覧ページへ</h3></a>
+      <p>寮生大会の資料をPDFでダウンロードできます</p>
+      <a href='<%= routes.download_documents_path(id: "ryoseitaikai") %>' class="p-button--neutral" target="_blank"><h3 class="u-no-margin--bottom full-width">寮生大会資料のPDFダウンロード</h3></a>
+      <a href='<%= routes.download_documents_path(id: "ryoseitaikai2") %>' class="p-button--neutral" target="_blank"><h3 class="u-no-margin--bottom full-width">変更・返答まとめのPDFダウンロード</h3></a>
+    </div>
   </div>
 </div>
 <% end %>
 <% if false #代議員会中であるときのみ表示 %>
 <div class="p-strip--accent is-bordered">
   <div class="row">
-    <h2 class="u-no-margin--bottom">代議員会用の資料</h2>
-    <p>代議員会の資料をPDFでダウンロードできます</p>
-    <a href='<%= routes.download_documents_path(id: "daigi1") %>' class="p-button--neutral" target="_blank"><h3 class="u-no-margin--bottom full-width">代議員会資料（寮生大会提出予定の議案まとめ）のPDFダウンロード</h3></a>
-    <a href='<%= routes.download_documents_path(id: "daigi2") %>' class="p-button--neutral" target="_blank"><h3 class="u-no-margin--bottom full-width">ブロック会議からの変更点と返答まとめのPDFダウンロード</h3></a>
-    <p>過去のブロック会議の議事録まとめを閲覧できます</p>
-    <a href='<%= routes.summary_comment_path %>' class="p-button--neutral"><h3 class="u-no-margin--bottom">過去のブロック会議議事録まとめページへ</h3></a>
+    <div class="col-12">
+      <h2 class="u-no-margin--bottom">代議員会用の資料</h2>
+      <p>代議員会の資料をPDFでダウンロードできます</p>
+      <a href='<%= routes.download_documents_path(id: "daigi1") %>' class="p-button--neutral" target="_blank"><h3 class="u-no-margin--bottom full-width">代議員会資料（寮生大会提出予定の議案まとめ）のPDFダウンロード</h3></a>
+      <a href='<%= routes.download_documents_path(id: "daigi2") %>' class="p-button--neutral" target="_blank"><h3 class="u-no-margin--bottom full-width">ブロック会議からの変更点と返答まとめのPDFダウンロード</h3></a>
+      <p>過去のブロック会議の議事録まとめを閲覧できます</p>
+      <a href='<%= routes.summary_comment_path %>' class="p-button--neutral"><h3 class="u-no-margin--bottom">過去のブロック会議議事録まとめページへ</h3></a>
+    </div>
   </div>
 </div>
 <% end %>
@@ -68,18 +72,18 @@
       <ul class="p-list">
         <% if next_meeting %>
         <li>
-          <a href="<%= routes.meeting_path(id: next_meeting.id) %>" class="p-button--neutral button-recent-meeting">
+          <a href="<%= routes.meeting_path(id: next_meeting.id) %>" class="p-button--base button-recent-meeting">
             <h3 class="u-no-margin--bottom full-width"><%= next_meeting.formatted_date %> のブロック会議</h3>
           </a>
         </li>
         <% end %>
         <li>
-          <a href="<%= routes.articles_path %>" class="p-button--neutral button-articles">
+          <a href="<%= routes.articles_path %>" class="p-button--base button-articles">
             <h3 class="u-no-margin--bottom full-width">新着議案一覧</h3>
           </a>
         </li>
         <li>
-          <a href="<%= routes.meetings_path %>" class="p-button--neutral button-meetings">
+          <a href="<%= routes.meetings_path %>" class="p-button--base button-meetings">
             <h3 class="u-no-margin--bottom full-width">ブロック会議一覧</h3>
           </a>
         </li>
@@ -90,7 +94,7 @@
       <p>議案を新たに投稿する場合は、以下のボタンを押してください. 通常議案・追加議案ともに同じ投稿フォームから投稿できます. <br>詳しい投稿方法の説明は、資料システムの利用方法を参照してください.</p>
       <ul class="p-list">
         <li>
-          <a href="<%= routes.new_article_path %>" class="p-button--neutral button-post-article">
+          <a href="<%= routes.new_article_path %>" class="p-button--base button-post-article">
             <h3 class="u-no-margin--bottom">新規議案の投稿</h3>
           </a>
         </li>
@@ -101,17 +105,17 @@
       <p>下のボタンから、操作を選択してください.</p>
       <ul class="p-list">
         <li>
-          <a href="<%= routes.search_article_path %>" class="p-button--neutral button-other-action">
+          <a href="<%= routes.search_article_path %>" class="p-button--base button-other-action">
             <h3 class="u-no-margin--bottom">議案の検索</h3>
           </a>
         </li>
         <li>
-          <a href="<%= routes.diff_article_path %>" class="p-button--neutral button-other-action">
+          <a href="<%= routes.diff_article_path %>" class="p-button--base button-other-action">
             <h3 class="u-no-margin--bottom">議案の差分表示</h3>
           </a>
         </li>
         <li>
-          <a href="<%= routes.download_meeting_path(id: 0) %>" class="p-button--neutral button-other-action">
+          <a href="<%= routes.download_meeting_path(id: 0) %>" class="p-button--base button-other-action">
             <h3 class="u-no-margin--bottom">会議資料のPDF</h3>
           </a>
         </li>
@@ -125,7 +129,7 @@
       <p>部会・委員会の寮生向け資料置き場です.</p>
       <ul class="p-list">
         <li>
-          <a href="<%= routes.documents_path %>" class="p-button--neutral button-other-action">
+          <a href="<%= routes.documents_path %>" class="p-button--base button-other-action">
             <h3 class="u-no-margin--bottom">資料置き場</h3>
           </a>
         </li>
@@ -135,7 +139,7 @@
       <h3>資料委員会向け</h3>
       <ul class="p-list">
         <li>
-          <a href="/admin" class="p-button--neutral" style="width:100%;">
+          <a href="/admin" class="p-button--base" style="width:100%;">
             <h4 class="u-no-margin--bottom">資料システム 管理ページ</h4>
           </a>
         </li>
