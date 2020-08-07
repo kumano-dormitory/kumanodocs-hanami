@@ -3,14 +3,12 @@
     <div class="col-12">
       <h1><%= article_formatted_title(article, checked: (article.meeting.date >= Date.today), number: false) %></h1>
       <% if editable %>
-      <div class="row">
-        <a class="p-button--positive" href="<%= routes.edit_article_path(article.id) %>">議案の編集</a>
-        <%=
+      <a class="p-button--positive is-inline" href="<%= routes.edit_article_path(article.id) %>">議案の編集</a>
+      <%=
         form_for :article, routes.article_path(article.id), method: :delete, class: "p-form p-form--inline" do
           submit '議案の削除', class: "p-button--negative"
         end
-        %>
-      </div>
+      %>
       <% end %>
       <% if !article.checked %>
         <% if after_6pm(article, article.meeting) %>

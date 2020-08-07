@@ -16,290 +16,372 @@ module Web::Views::Article
                class: "p-form p-form--stacked" do
 
         if meetings_for_select.length == 0
-          div class: "p-form__group p-form-validation is-error" do
-            label  '日程', for: :meeting_id, class: "p-form__label u-align-text--right"
-            div class: "p-form__control" do
-              select :meeting_id, meetings_for_select
-              p class: "p-form-validation__message", role: "alert" do
-                i class: "p-icon--warning"
-                strong "ブロック会議の日程が表示されていない場合は、資料委員会へ連絡してください"
+          div class: "p-form__group row p-form-validation is-error" do
+            div class: "col-3" do
+              label  '日程', for: :meeting_id, class: "p-form__label u-align-text--right"
+            end
+            div class: "col-9" do
+              div class: "p-form__control" do
+                select :meeting_id, meetings_for_select
+                p class: "p-form-validation__message", role: "alert" do
+                  i class: "p-icon--warning"
+                  strong "ブロック会議の日程が表示されていない場合は、資料委員会へ連絡してください"
+                end
               end
             end
           end
         elsif !params.valid? && params.errors.dig(:article, :meeting_id)
-          div class: "p-form__group p-form-validation is-error" do
-            label  '日程', for: :meeting_id, class: "p-form__label u-align-text--right"
-            div class: "p-form__control" do
-              select :meeting_id, meetings_for_select, class: "p-form-validation__input", 'aria-invalid': "true"
-              p class: "p-form-validation__message", role: "alert" do
-                params.errors.dig(:article, :meeting_id).to_s
-              end
+          div class: "p-form__group row p-form-validation is-error" do
+            div class: "col-3" do
+              label  '日程', for: :meeting_id, class: "p-form__label u-align-text--right"
             end
-          end
-        else
-          div class: "p-form__group" do
-            label  '日程', for: :meeting_id, class: "p-form__label u-align-text--right"
-            div class: "p-form__control" do
-              select :meeting_id, meetings_for_select
-            end
-          end
-        end
-
-        if !params.valid? && params.errors.dig(:article, :categories)
-          div class: "p-form__group p-form-validation is-error u-vertically-center" do
-            label '議案の種別', for: 'categories', class: "p-form__label u-align-text--right"
-            div class: "p-form__control" do
-              categories.each do |category|
-                check_box :categories, name: 'article[categories][]', value: category.id, id: "category-#{category.id}", class: "p-form-validation__input"
-                label category.name, for: "category-#{category.id}"
-              end
-              p class: "p-form-validation__message", role: "alert" do
-                if params.errors.dig(:article, :categories).include?("size cannot be less than 1")
-                  i class: "p-icon--error"
-                  strong "少なくとも１つの種別を選択してください"
-                else
-                  "入力が不正です"
+            div class: "col-9" do
+              div class: "p-form__control" do
+                select :meeting_id, meetings_for_select, class: "p-form-validation__input", 'aria-invalid': "true"
+                p class: "p-form-validation__message", role: "alert" do
+                  params.errors.dig(:article, :meeting_id).to_s
                 end
               end
             end
           end
         else
-          div class: "p-form__group u-vertically-center" do
-            label '議案の種別', for: 'categories', class: "p-form__label u-align-text--right"
-            div class: "p-form__control" do
-              categories.each do |category|
-                check_box :categories, name: 'article[categories][]', value: category.id, id: "category-#{category.id}"
-                label category.name, for: "category-#{category.id}"
+          div class: "p-form__group row" do
+            div class: "col-3" do
+              label  '日程', for: :meeting_id, class: "p-form__label u-align-text--right"
+            end
+            div class: "col-9" do
+              div class: "p-form__control" do
+                select :meeting_id, meetings_for_select
+              end
+            end
+          end
+        end
+
+        if !params.valid? && params.errors.dig(:article, :categories)
+          div class: "p-form__group row p-form-validation is-error u-vertically-center" do
+            div class: "col-3" do
+              label '議案の種別', for: 'categories', class: "p-form__label u-align-text--right"
+            end
+            div class: "col-9" do
+              div class: "p-form__control" do
+                categories.each do |category|
+                  check_box :categories, name: 'article[categories][]', value: category.id, id: "category-#{category.id}", class: "p-form-validation__input"
+                  label category.name, for: "category-#{category.id}"
+                end
+                p class: "p-form-validation__message", role: "alert" do
+                  if params.errors.dig(:article, :categories).include?("size cannot be less than 1")
+                    i class: "p-icon--error"
+                    strong "少なくとも１つの種別を選択してください"
+                  else
+                    "入力が不正です"
+                  end
+                end
+              end
+            end
+          end
+        else
+          div class: "p-form__group row u-vertically-center" do
+            div class: "col-3" do
+              label '議案の種別', for: 'categories', class: "p-form__label u-align-text--right"
+            end
+            div class: "col-9" do
+              div class: "p-form__control" do
+                categories.each do |category|
+                  check_box :categories, name: 'article[categories][]', value: category.id, id: "category-#{category.id}"
+                  label category.name, for: "category-#{category.id}"
+                end
               end
             end
           end
         end
 
         if !params.valid? && params.errors.dig(:article, :title)
-          div class: "p-form__group p-form-validation is-error" do
-            label 'タイトル', for: :title, class: "p-form__label u-align-text--right"
-            div class: "p-form__control" do
-              text_field :title, class: "p-form-validation__input", 'aria-invalid': "true", required: ""
-              p class: "p-form-validation__message", role: "alert" do
-                if params.errors.dig(:article, :title).include?("must be filled")
-                  strong "この項目は必須です"
-                else
-                  "入力が不正です　文字列を入力してください"
+          div class: "p-form__group row p-form-validation is-error" do
+            div class: "col-3" do
+              label 'タイトル', for: :title, class: "p-form__label u-align-text--right"
+            end
+            div class: "col-9" do
+              div class: "p-form__control" do
+                text_field :title, class: "p-form-validation__input", 'aria-invalid': "true", required: ""
+                p class: "p-form-validation__message", role: "alert" do
+                  if params.errors.dig(:article, :title).include?("must be filled")
+                    strong "この項目は必須です"
+                  else
+                    "入力が不正です　文字列を入力してください"
+                  end
                 end
               end
             end
           end
         else
-          div class: "p-form__group" do
-            label 'タイトル', for: :title, class: "p-form__label u-align-text--right", required: ""
-            div class: "p-form__control" do
-              text_field :title
+          div class: "p-form__group row" do
+            div class: "col-3" do
+              label 'タイトル', for: :title, class: "p-form__label u-align-text--right", required: ""
+            end
+            div class: "col-9" do
+              div class: "p-form__control" do
+                text_field :title
+              end
             end
           end
         end
 
         fields_for :author do
           if !params.valid? && params.errors.dig(:article, :author, :name)
-            div class: "p-form__group p-form-validation is-error" do
-              label '文責者', for: :name, class: "p-form__label u-align-text--right"
-              div class: "p-form__control" do
-                text_field :name, class: "p-form-validation__input", 'aria-invalid': "true", required: ""
-                p class: "p-form-validation__message", role: "alert" do
-                  if params.errors.dig(:article, :author, :name).include?("must be filled")
-                    strong "この項目は必須です"
-                  else
-                    "入力が不正です　文字列を入力してください"
+            div class: "p-form__group row p-form-validation is-error" do
+              div class: "col-3" do
+                label '文責者', for: :name, class: "p-form__label u-align-text--right"
+              end
+              div class: "col-9" do
+                div class: "p-form__control" do
+                  text_field :name, class: "p-form-validation__input", 'aria-invalid': "true", required: ""
+                  p class: "p-form-validation__message", role: "alert" do
+                    if params.errors.dig(:article, :author, :name).include?("must be filled")
+                      strong "この項目は必須です"
+                    else
+                      "入力が不正です　文字列を入力してください"
+                    end
                   end
                 end
               end
             end
           else
-            div class: "p-form__group" do
-              label '文責者', for: :name, class: "p-form__label u-align-text--right"
-              div class: "p-form__control" do
-                text_field :name, required: ""
+            div class: "p-form__group row" do
+              div class: "col-3" do
+                label '文責者', for: :name, class: "p-form__label u-align-text--right"
+              end
+              div class: "col-9" do
+                div class: "p-form__control" do
+                  text_field :name, required: ""
+                end
               end
             end
           end
 
           if !params.valid? && params.errors.dig(:article, :author, :password)
-            div class: "p-form__group p-form-validation is-error" do
-              label 'パスワード', for: :password, class: "p-form__label u-align-text--right"
-              div class: "p-form__control" do
-                password_field :password, class: "p-form-validation__input", autocomplete: "new-password", 'aria-invalid': "true", required: ""
-                p class: "p-form-validation__message", role: "alert" do
-                  if params.errors.dig(:article, :author, :password).include?("must be filled")
-                    strong "この項目は必須です"
-                  else
-                    "入力が不正です　文字列を入力してください"
+            div class: "p-form__group row p-form-validation is-error" do
+              div class: "col-3" do
+                label 'パスワード', for: :password, class: "p-form__label u-align-text--right"
+              end
+              div class: "col-9" do
+                div class: "p-form__control" do
+                  password_field :password, class: "p-form-validation__input", autocomplete: "new-password", 'aria-invalid': "true", required: ""
+                  p class: "p-form-validation__message", role: "alert" do
+                    if params.errors.dig(:article, :author, :password).include?("must be filled")
+                      strong "この項目は必須です"
+                    else
+                      "入力が不正です　文字列を入力してください"
+                    end
                   end
                 end
               end
             end
           else
-            div class: "p-form__group" do
-              label 'パスワード', for: :password, class: "p-form__label u-align-text--right"
-              div class: "p-form__control" do
-                password_field :password, autocomplete: "new-password", required: ""
+            div class: "p-form__group row" do
+              div class: "col-3" do
+                label 'パスワード', for: :password, class: "p-form__label u-align-text--right"
+              end
+              div class: "col-9" do
+                div class: "p-form__control" do
+                  password_field :password, autocomplete: "new-password", required: ""
+                end
               end
             end
           end
 
           if !params.valid? && params.errors.dig(:article, :author, :password_confirmation)
-            div class: "p-form__group p-form-validation is-error" do
-              label 'パスワード（確認）', for: :password_confirmation, class: "p-form__label u-align-text--right"
-              div class: "p-form__control" do
-                password_field :password_confirmation, class: "p-form-validation__input", autocomplete: "new-password", 'aria-invalid': "true", required: ""
-                p class: "p-form-validation__message", role: "alert" do
-                  if params.errors.dig(:article, :author, :password_confirmation).include?("must be filled")
-                    strong "この項目は必須です"
-                  elsif params.errors.dig(:article, :author, :password_confirmation).at(0)&.include?("must be equal to")
-                    strong "入力されたパスワードが一致しませんでした. もう一度入力してください"
-                  else
-                    "入力が不正です　文字列を入力してください"
+            div class: "p-form__group row p-form-validation is-error" do
+              div class: "col-3" do
+                label 'パスワード（確認）', for: :password_confirmation, class: "p-form__label u-align-text--right"
+              end
+              div class: "col-9" do
+                div class: "p-form__control" do
+                  password_field :password_confirmation, class: "p-form-validation__input", autocomplete: "new-password", 'aria-invalid': "true", required: ""
+                  p class: "p-form-validation__message", role: "alert" do
+                    if params.errors.dig(:article, :author, :password_confirmation).include?("must be filled")
+                      strong "この項目は必須です"
+                    elsif params.errors.dig(:article, :author, :password_confirmation).at(0)&.include?("must be equal to")
+                      strong "入力されたパスワードが一致しませんでした. もう一度入力してください"
+                    else
+                      "入力が不正です　文字列を入力してください"
+                    end
                   end
                 end
               end
             end
           else
-            div class: "p-form__group" do
-              label 'パスワード（確認）', for: :password_confirmation, class: "p-form__label u-align-text--right"
-              div class: "p-form__control" do
-                password_field :password_confirmation, autocomplete: "new-password", required: ""
+            div class: "p-form__group row" do
+              div class: "col-3" do
+                label 'パスワード（確認）', for: :password_confirmation, class: "p-form__label u-align-text--right"
+              end
+              div class: "col-9" do
+                div class: "p-form__control" do
+                  password_field :password_confirmation, autocomplete: "new-password", required: ""
+                end
               end
             end
           end
         end
 
         if !params.valid? && params.errors.dig(:article, :format)
-          div class: "p-form__group p-form-validation is-error", style: "display:none" do
-            label '本文のフォーマット', for: :format, class: "p-form__label u-align-text--right"
-            div class: "p-form__control" do
-              label '', for: :format do
-                text '議案をMarkdown形式で投稿する（必要がなければオフのままにしてください）'
-                check_box :format, class: "p-switch p-form-validation__input", 'aria-invalid': "true"
-                div '', class: "p-switch__slider"
-              end
-              p class: "p-form-validation__message", role: "alert" do
-                if params.errors.dig(:article, :format).include?("must be filled")
-                  strong "この項目は必須です"
-                else
-                  "入力が不正です"
+          div class: "p-form__group row p-form-validation is-error", style: "display:none" do
+            div class: "col-3" do
+              label '本文のフォーマット', for: :format, class: "p-form__label u-align-text--right"
+            end
+            div class: "col-9" do
+              div class: "p-form__control" do
+                label '', for: :format do
+                  text '議案をMarkdown形式で投稿する（必要がなければオフのままにしてください）'
+                  check_box :format, class: "p-switch p-form-validation__input", 'aria-invalid': "true"
+                  div '', class: "p-switch__slider"
                 end
-              end
+                p class: "p-form-validation__message", role: "alert" do
+                  if params.errors.dig(:article, :format).include?("must be filled")
+                    strong "この項目は必須です"
+                  else
+                    "入力が不正です"
+                  end
+                end
 
+              end
             end
           end
         else
-          div class: "p-form__group", style: "display:none" do
-            label '本文のフォーマット', for: :format, class: "p-form__label u-align-text--right"
-            div class: "p-form__control" do
-              label '', for: :format do
-                text '議案をMarkdown形式で投稿する（必要がなければオフのままにしてください）'
-                check_box :format, class: "p-switch"
-                div '', class: "p-switch__slider"
+          div class: "p-form__group row", style: "display:none" do
+            div class: "col-3" do
+              label '本文のフォーマット', for: :format, class: "p-form__label u-align-text--right"
+            end
+            div class: "col-9" do
+              div class: "p-form__control" do
+                label '', for: :format do
+                  text '議案をMarkdown形式で投稿する（必要がなければオフのままにしてください）'
+                  check_box :format, class: "p-switch"
+                  div '', class: "p-switch__slider"
+                end
               end
             end
           end
         end
 
         if !params.valid? && params.errors.dig(:article, :body)
-          div class: "p-form__group p-form-validation is-error" do
-            label '本文', for: :body, class: "p-form__label u-align-text--right"
-            div class: "p-form__control" do
-              div id: "markdown-tab", style: "display:none;" do
-                nav class: "p-tabs" do
-                  ul class: "p-tabs__list u-no-margin--bottom", role: "tablist" do
-                    li class: "p-tabs__item", role: "presentation" do
-                      a 'Markdown形式での入力', id: "tab-write", href: "#write", class: "p-tabs__link", tabindex: 0, role: "tab", 'aria-controls': "article-body", 'aria-selected': "true"
-                    end
-                    li class: "p-tabs__item", role: "presentation" do
-                      a '本文のプレビュー', id: "tab-preview", href: "#preview", class: "p-tabs__link", tabindex: 0, role: "tab", 'aria-controls': "article-body"
+          div class: "p-form__group row p-form-validation is-error" do
+            div class: "col-3" do
+              label '本文', for: :body, class: "p-form__label u-align-text--right"
+            end
+            div class: "col-9" do
+              div class: "p-form__control" do
+                div id: "markdown-tab", style: "display:none;" do
+                  nav class: "p-tabs" do
+                    ul class: "p-tabs__list u-no-margin--bottom", role: "tablist" do
+                      li class: "p-tabs__item", role: "presentation" do
+                        a 'Markdown形式での入力', id: "tab-write", href: "#write", class: "p-tabs__link", tabindex: 0, role: "tab", 'aria-controls': "article-body", 'aria-selected': "true"
+                      end
+                      li class: "p-tabs__item", role: "presentation" do
+                        a '本文のプレビュー', id: "tab-preview", href: "#preview", class: "p-tabs__link", tabindex: 0, role: "tab", 'aria-controls': "article-body"
+                      end
                     end
                   end
                 end
-              end
-              text_area :body, rows: 30, class: "p-form-validation__input", 'aria-invalid': "true", required: ""
-              p class: "p-form-validation__message", role: "alert" do
-                if params.errors.dig(:article, :body).include?("must be filled")
-                  strong "この項目は必須です"
-                else
-                  "入力が不正です　文字列を入力してください"
+                text_area :body, rows: 30, class: "p-form-validation__input", 'aria-invalid': "true", required: ""
+                p class: "p-form-validation__message", role: "alert" do
+                  if params.errors.dig(:article, :body).include?("must be filled")
+                    strong "この項目は必須です"
+                  else
+                    "入力が不正です　文字列を入力してください"
+                  end
                 end
+                div '', id: "markdown-preview", class: "markdown"
               end
-              div '', id: "markdown-preview", class: "markdown"
             end
           end
         else
-          div class: "p-form__group" do
-            label '本文', for: :body, class: "p-form__label u-align-text--right"
-            div class: "p-form__control" do
-              div id: "markdown-tab", style: "display:none;" do
-                nav class: "p-tabs" do
-                  ul class: "p-tabs__list u-no-margin--bottom", role: "tablist" do
-                    li class: "p-tabs__item", role: "presentation" do
-                      a 'Markdown形式での入力', id: "tab-write", href: "#write", class: "p-tabs__link", tabindex: 0, role: "tab", 'aria-controls': "article-body", 'aria-selected': "true"
-                    end
-                    li class: "p-tabs__item", role: "presentation" do
-                      a '本文のプレビュー', id: "tab-preview", href: "#preview", class: "p-tabs__link", tabindex: 0, role: "tab", 'aria-controls': "article-body"
+          div class: "p-form__group row" do
+            div class: "col-3" do
+              label '本文', for: :body, class: "p-form__label u-align-text--right"
+            end
+            div class: "col-9" do
+              div class: "p-form__control" do
+                div id: "markdown-tab", style: "display:none;" do
+                  nav class: "p-tabs" do
+                    ul class: "p-tabs__list u-no-margin--bottom", role: "tablist" do
+                      li class: "p-tabs__item", role: "presentation" do
+                        a 'Markdown形式での入力', id: "tab-write", href: "#write", class: "p-tabs__link", tabindex: 0, role: "tab", 'aria-controls': "article-body", 'aria-selected': "true"
+                      end
+                      li class: "p-tabs__item", role: "presentation" do
+                        a '本文のプレビュー', id: "tab-preview", href: "#preview", class: "p-tabs__link", tabindex: 0, role: "tab", 'aria-controls': "article-body"
+                      end
                     end
                   end
                 end
+                text_area :body, rows: 30, required: ""
+                div '', id: "markdown-preview", class: "markdown"
               end
-              text_area :body, rows: 30, required: ""
-              div '', id: "markdown-preview", class: "markdown"
             end
           end
         end
 
         if !params.valid? && params.errors.dig(:article, :vote_content)
-          div class: "p-form__group p-form-validation is-error" do
-            label '採決項目（議案の種別に「採決」または「採決予定」が含まれていない場合には保存されません）', for: :vote_content, class: "p-form__label u-align-text--right"
-            div class: "p-form__control" do
-              text_area :vote_content, rows: 5, class: "p-form-validation__input", 'aria-invalid': "true"
-              p class: "p-form-validation__message", role: "alert" do
-                if params.errors.dig(:article, :vote_content).include?("must be filled")
-                  strong "この項目は必須です"
-                else
-                  "入力が不正です　文字列を入力してください"
+          div class: "p-form__group row p-form-validation is-error" do
+            div class: "col-3" do
+              label '採決項目（議案の種別に「採決」または「採決予定」が含まれていない場合には保存されません）', for: :vote_content, class: "p-form__label u-align-text--right"
+            end
+            div class: "col-9" do
+              div class: "p-form__control" do
+                text_area :vote_content, rows: 5, class: "p-form-validation__input", 'aria-invalid': "true"
+                p class: "p-form-validation__message", role: "alert" do
+                  if params.errors.dig(:article, :vote_content).include?("must be filled")
+                    strong "この項目は必須です"
+                  else
+                    "入力が不正です　文字列を入力してください"
+                  end
                 end
               end
             end
           end
         else
-          div class: "p-form__group" do
-            label '採決項目（議案の種別に「採決」または「採決予定」が含まれていない場合には保存されません）', for: :vote_content, class: "p-form__label u-align-text--right"
+          div class: "p-form__group row" do
+            div class: "col-3" do
+              label '採決項目（議案の種別に「採決」または「採決予定」が含まれていない場合には保存されません）', for: :vote_content, class: "p-form__label u-align-text--right"
+            end
+            div class: "col-9" do
+              div class: "p-form__control" do
+                text_area :vote_content, rows: 5
+              end
+            end
+          end
+        end
+
+        hr # horizontal line
+
+        div class: "p-form__group row u-vertically-center" do
+          div class: "col-3" do
+            label '', for: :same_refs_search, class: "p-form__label" do
+              text '過去のブロック会議の議案'
+              br
+              text '(過去のブロック会議に同じ議案を出している場合はその議案を選択してください)'
+            end
+          end
+          div class: "col-9" do
             div class: "p-form__control" do
-              text_area :vote_content, rows: 5
-            end
-          end
-        end
-
-        div class: "p-form__group" do
-          label '', for: :same_references, class: "p-form__label u-align-text--right" do
-            text '過去のブロック会議の議案'
-            br
-            text '(過去のブロック会議に同じ議案を出している場合はその議案を選択してください)'
-          end
-          div class: "p-form__control" do
-            div class: "p-search-box", style: 'margin-bottom: .8rem' do
-              input type: 'search', name: 'query', class: 'p-search-box__input', id: 'same-refs-search-input',
-                    placeholder: '議案の題名を入力して下の選択欄に表示される議案を絞ることができます'
-            end
-            select :same_references, recent_articles_for_select, multiple: true, style: 'height: 20rem', options: {selected: 0}
-            h4 '下に過去のブロック会議の議案として選択された議案が表示されます。選択を解除するには議案の『×』をクリックしてください。', class: "full-width"
-            ul id: 'same-refs-selected', class: "p-list--divided" do
-              if same_refs_selected.empty?
-                text ''
-              else
-                same_refs_selected.each do |article_id|
-                  li class: 'p-list__item is-ticked', style: 'padding-bottom: .25rem; padding-top: .25rem;' do
-                    article = recent_articles.find{|a| a.id == article_id}
-                    if article
-                      text "#{article.meeting.date}のBL会議...#{article_formatted_title(article, number: false)}"
-                      i class: 'p-icon--error', style: 'height:1.3rem;width:1.3rem;margin-left:1rem;'
+              div class: "p-search-box", style: 'margin-bottom: 3rem' do
+                input type: 'search', name: 'query', class: 'p-search-box__input', id: 'same-refs-search-input',
+                      placeholder: '議案の題名を入力して下の選択欄に表示される議案を絞ることができます'
+              end
+              select :same_references, recent_articles_for_select, multiple: true, style: 'height: 20rem', options: {selected: 0}
+              h4 '下に過去のブロック会議の議案として選択された議案が表示されます。選択を解除するには議案の『×』をクリックしてください。', class: "full-width"
+              ul id: 'same-refs-selected', class: "p-list--divided" do
+                if same_refs_selected.empty?
+                  text ''
+                else
+                  same_refs_selected.each do |article_id|
+                    li class: 'p-list__item is-ticked', style: 'padding-bottom: .25rem; padding-top: .25rem;' do
+                      article = recent_articles.find{|a| a.id == article_id}
+                      if article
+                        text "#{article.meeting.date}のBL会議...#{article_formatted_title(article, number: false)}"
+                        i class: 'p-icon--error', style: 'height:1.3rem;width:1.3rem;margin-left:1rem;'
+                      end
+                      input type: 'hidden', name: 'article[same_refs_selected][]', value: article_id
                     end
-                    input type: 'hidden', name: 'article[same_refs_selected][]', value: article_id
                   end
                 end
               end
@@ -309,31 +391,35 @@ module Web::Views::Article
 
         hr # horizontal line
 
-        div class: "p-form__group" do
-          label '', for: :other_references, class: "p-form__label u-align-text--right" do
-            text 'その他の関連議案'
-            br
-            text '(関連議案として参照しておきたい議案がある場合は選択してください)'
-          end
-          div class: "p-form__control" do
-            div class: "p-search-box", style: 'margin-bottom: .8rem' do
-              input type: 'search', name: 'query', class: 'p-search-box__input', id: 'other-refs-search-input',
-                    placeholder: '議案の題名を入力して下の選択欄に表示される議案を絞ることができます'
+        div class: "p-form__group row u-vertically-center" do
+          div class: "col-3" do
+            label '', for: :other_references, class: "p-form__label" do
+              text 'その他の関連議案'
+              br
+              text '(関連議案として参照しておきたい議案がある場合は選択してください)'
             end
-            select :other_references, recent_articles_for_select, multiple: true, style: 'height: 20rem', options: {selected: 0}
-            h4 '下に関連議案として選択された議案が表示されます。選択を解除するには議案の『×』をクリックしてください。', class: "full-width"
-            ul id: 'other-refs-selected', class: "p-list--divided" do
-              if other_refs_selected.empty?
-                text ''
-              else
-                other_refs_selected.each do |article_id|
-                  li class: 'p-list__item is-ticked', style: 'padding-bottom: .25rem; padding-top: .25rem;' do
-                    article = recent_articles.find{|a| a.id == article_id}
-                    if article
-                      text "#{article.meeting.date}のBL会議...#{article_formatted_title(article, number: false)}"
-                      i class: 'p-icon--error', style: 'height:1.3rem;width:1.3rem;margin-left:1rem;'
+          end
+          div class: "col-9" do
+            div class: "p-form__control" do
+              div class: "p-search-box", style: 'margin-bottom: 3rem' do
+                input type: 'search', name: 'query', class: 'p-search-box__input', id: 'other-refs-search-input',
+                      placeholder: '議案の題名を入力して下の選択欄に表示される議案を絞ることができます'
+              end
+              select :other_references, recent_articles_for_select, multiple: true, style: 'height: 20rem', options: {selected: 0}
+              h4 '下に関連議案として選択された議案が表示されます。選択を解除するには議案の『×』をクリックしてください。', class: "full-width"
+              ul id: 'other-refs-selected', class: "p-list--divided" do
+                if other_refs_selected.empty?
+                  text ''
+                else
+                  other_refs_selected.each do |article_id|
+                    li class: 'p-list__item is-ticked', style: 'padding-bottom: .25rem; padding-top: .25rem;' do
+                      article = recent_articles.find{|a| a.id == article_id}
+                      if article
+                        text "#{article.meeting.date}のBL会議...#{article_formatted_title(article, number: false)}"
+                        i class: 'p-icon--error', style: 'height:1.3rem;width:1.3rem;margin-left:1rem;'
+                      end
+                      input type: 'hidden', name: 'article[other_refs_selected][]', value: article_id
                     end
-                    input type: 'hidden', name: 'article[other_refs_selected][]', value: article_id
                   end
                 end
               end
@@ -343,12 +429,16 @@ module Web::Views::Article
 
         hr # horizontal line
 
-        div class: "p-form__group" do
-          div '', class: "p-form__label"
-          div class: "p-form__control" do
-            p '※以下のどちらかを選択してください.「議案のみを投稿」した場合でも、議案の編集ページから表を追加することができます.'
-            submit '議案のみを投稿する', class: "p-button--positive", name: "action", value: "post_article"
-            submit '議案を投稿して、投稿した議案に表を追加する', class: "p-button--positive", name: "action", value: "post_article_with_table"
+        div class: "p-form__group row" do
+          div class: "col-3" do
+            div '', class: "p-form__label"
+          end
+          div class: "col-9" do
+            div class: "p-form__control" do
+              p '※以下のどちらかを選択してください.「議案のみを投稿」した場合でも、議案の編集ページから表を追加することができます.'
+              submit '議案のみを投稿する', class: "p-button--positive", name: "action", value: "post_article"
+              submit '議案を投稿して、投稿した議案に表を追加する', class: "p-button--positive", name: "action", value: "post_article_with_table"
+            end
           end
         end
       end
@@ -386,103 +476,102 @@ module Web::Views::Article
                values: values do
 
         if get_lock
-          div class: "p-form__group p-form-validation is-caution" do
-            label 'パスワード', for: :password, class: "p-form__label"
-            div class: "p-form__control" do
-              password_field :password, class: "p-form-validation__input", autocomplete: "new-password", required: ""
+          div class: "p-form__group row p-form-validation is-caution" do
+            div class: "col-3" do
+              label 'パスワード', for: :password, class: "p-form__label u-align-text--right"
+            end
+            div class: "col-9" do
+              div class: "p-form__control" do
+                password_field :password, class: "p-form-validation__input", autocomplete: "new-password", required: ""
+              end
             end
           end
         end
 
         if !params.valid? && params.errors.dig(:article, :meeting_id)
-          div class: "p-form__group p-form-validation is-error" do
-            label  '日程', for: :meeting_id, class: "p-form__label"
-            div class: "p-form__control" do
-              select :meeting_id, meetings_for_select, options: { selected: meeting_selected },
-                  class: "p-form-validation__input", 'aria-invalid': "true"
-              p class: "p-form-validation__message", role: "alert" do
-                params.errors.dig(:article, :meeting_id).to_s
+          div class: "p-form__group row p-form-validation is-error" do
+            div class: "col-3" do
+              label  '日程', for: :meeting_id, class: "p-form__label u-align-text--right"
+            end
+            div class: "col-9" do
+              div class: "p-form__control" do
+                select :meeting_id, meetings_for_select, options: { selected: meeting_selected },
+                    class: "p-form-validation__input", 'aria-invalid': "true"
+                p class: "p-form-validation__message", role: "alert" do
+                  params.errors.dig(:article, :meeting_id).to_s
+                end
               end
             end
           end
         else
-          div class: "p-form__group" do
-            label  '日程', for: :meeting_id, class: "p-form__label"
-            div class: "p-form__control" do
-              select :meeting_id, meetings_for_select, options: { selected: meeting_selected }
+          div class: "p-form__group row" do
+            div class: "col-3" do
+              label  '日程', for: :meeting_id, class: "p-form__label u-align-text--right"
+            end
+            div class: "col-9" do
+              div class: "p-form__control" do
+                select :meeting_id, meetings_for_select, options: { selected: meeting_selected }
+              end
             end
           end
         end
 
         if !params.valid? && params.errors.dig(:article, :categories)
-          div class: "p-form__group p-form-validation is-error u-vertically-center" do
-            label '議案の種別', for: 'categories', class: "p-form__label"
-            div class: "p-form__control" do
-              categories.each do |category|
-                if article_categories_selected&.include?(category.id)
-                  check_box :categories, name: 'article[categories][]', value: category.id, id: "category-#{category.id}", checked: "checked", class: "p-form-validation__input"
-                else
-                  check_box :categories, name: 'article[categories][]', value: category.id, id: "category-#{category.id}", class: "p-form-validation__input"
+          div class: "p-form__group row p-form-validation is-error u-vertically-center" do
+            div class: "col-3" do
+              label '議案の種別', for: 'categories', class: "p-form__label u-align-text--right"
+            end
+            div class: "col-9" do
+              div class: "p-form__control" do
+                categories.each do |category|
+                  if article_categories_selected&.include?(category.id)
+                    check_box :categories, name: 'article[categories][]', value: category.id, id: "category-#{category.id}", checked: "checked", class: "p-form-validation__input"
+                  else
+                    check_box :categories, name: 'article[categories][]', value: category.id, id: "category-#{category.id}", class: "p-form-validation__input"
+                  end
+                  label category.name, for: "category-#{category.id}"
                 end
-                label category.name, for: "category-#{category.id}"
-              end
-              p class: "p-form-validation__message", role: "alert" do
-                if params.errors.dig(:article, :categories).include?("size cannot be less than 1")
-                  i class: "p-icon--error"
-                  strong "少なくとも１つの種別を選択してください"
-                else
-                  "入力が不正です"
+                p class: "p-form-validation__message", role: "alert" do
+                  if params.errors.dig(:article, :categories).include?("size cannot be less than 1")
+                    i class: "p-icon--error"
+                    strong "少なくとも１つの種別を選択してください"
+                  else
+                    "入力が不正です"
+                  end
                 end
               end
             end
           end
         else
-          div class: "p-form__group u-vertically-center" do
-            label '議案の種別', for: 'categories', class: "p-form__label"
-            div class: "p-form__control" do
-              categories.each do |category|
-                if article_categories_selected&.include?(category.id)
-                  check_box :categories, name: 'article[categories][]', value: category.id, id: "category-#{category.id}", checked: "checked"
-                else
-                  check_box :categories, name: 'article[categories][]', value: category.id, id: "category-#{category.id}"
+          div class: "p-form__group row u-vertically-center" do
+            div class: "col-3" do
+              label '議案の種別', for: 'categories', class: "p-form__label u-align-text--right"
+            end
+            div class: "col-9" do
+              div class: "p-form__control" do
+                categories.each do |category|
+                  if article_categories_selected&.include?(category.id)
+                    check_box :categories, name: 'article[categories][]', value: category.id, id: "category-#{category.id}", checked: "checked"
+                  else
+                    check_box :categories, name: 'article[categories][]', value: category.id, id: "category-#{category.id}"
+                  end
+                  label category.name, for: "category-#{category.id}"
                 end
-                label category.name, for: "category-#{category.id}"
               end
             end
           end
         end
 
         if !params.valid? && params.errors.dig(:article, :title)
-          div class: "p-form__group p-form-validation is-error" do
-            label 'タイトル', for: :title, class: "p-form__label"
-            div class: "p-form__control" do
-              text_field :title, class: "p-form-validation__input", 'aria-invalid': "true", required: ""
-              p class: "p-form-validation__message", role: "alert" do
-                if params.errors.dig(:article, :title).include?("must be filled")
-                  strong "この項目は必須です"
-                else
-                  "入力が不正です　文字列を入力してください"
-                end
-              end
+          div class: "p-form__group row p-form-validation is-error" do
+            div class: "col-3" do
+              label 'タイトル', for: :title, class: "p-form__label u-align-text--right"
             end
-          end
-        else
-          div class: "p-form__group" do
-            label 'タイトル', for: :title, class: "p-form__label"
-            div class: "p-form__control" do
-              text_field :title, required: ""
-            end
-          end
-        end
-
-        fields_for :author do
-          if !params.valid? && params.errors.dig(:article, :author, :name)
-            div class: "p-form__group p-form-validation is-error" do
-              label '文責者', for: :name, class: "p-form__label"
+            div class: "col-9" do
               div class: "p-form__control" do
-                text_field :name, class: "p-form-validation__input", 'aria-invalid': "true", required: ""
+                text_field :title, class: "p-form-validation__input", 'aria-invalid': "true", required: ""
                 p class: "p-form-validation__message", role: "alert" do
-                  if params.errors.dig(:article, :author, :name).include?("must be filled")
+                  if params.errors.dig(:article, :title).include?("must be filled")
                     strong "この項目は必須です"
                   else
                     "入力が不正です　文字列を入力してください"
@@ -490,145 +579,211 @@ module Web::Views::Article
                 end
               end
             end
-          else
-            div class: "p-form__group" do
-              label '文責者', for: :name, class: "p-form__label"
+          end
+        else
+          div class: "p-form__group row" do
+            div class: "col-3" do
+              label 'タイトル', for: :title, class: "p-form__label u-align-text--right"
+            end
+            div class: "col-9" do
               div class: "p-form__control" do
-                text_field :name, required: ""
+                text_field :title, required: ""
+              end
+            end
+          end
+        end
+
+        fields_for :author do
+          if !params.valid? && params.errors.dig(:article, :author, :name)
+            div class: "p-form__group row p-form-validation is-error" do
+              div class: "col-3" do
+                label '文責者', for: :name, class: "p-form__label u-align-text--right"
+              end
+              div class: "col-9" do
+                div class: "p-form__control" do
+                  text_field :name, class: "p-form-validation__input", 'aria-invalid': "true", required: ""
+                  p class: "p-form-validation__message", role: "alert" do
+                    if params.errors.dig(:article, :author, :name).include?("must be filled")
+                      strong "この項目は必須です"
+                    else
+                      "入力が不正です　文字列を入力してください"
+                    end
+                  end
+                end
+              end
+            end
+          else
+            div class: "p-form__group row" do
+              div class: "col-3" do
+                label '文責者', for: :name, class: "p-form__label u-align-text--right"
+              end
+              div class: "col-9" do
+                div class: "p-form__control" do
+                  text_field :name, required: ""
+                end
               end
             end
           end
         end
 
         if !params.valid? && params.errors.dig(:article, :format)
-          div class: "p-form__group p-form-validation is-error", style: "display:none" do
-            label '本文のフォーマット', for: :format, class: "p-form__label"
-            div class: "p-form__control" do
-              label '', for: :format do
-                text '議案をMarkdown形式で投稿する（必要がなければオフのままにしてください）'
-                check_box :format, class: "p-switch p-form-validation__input", 'aria-invalid': "true"
-                div '', class: "p-switch__slider"
-              end
-              p class: "p-form-validation__message", role: "alert" do
-                if params.errors.dig(:article, :format).include?("must be filled")
-                  strong "この項目は必須です"
-                else
-                  "入力が不正です"
+          div class: "p-form__group row p-form-validation is-error", style: "display:none" do
+            div class: "col-3" do
+              label '本文のフォーマット', for: :format, class: "p-form__label u-align-text--right"
+            end
+            div class: "col-9" do
+              div class: "p-form__control" do
+                label '', for: :format do
+                  text '議案をMarkdown形式で投稿する（必要がなければオフのままにしてください）'
+                  check_box :format, class: "p-switch p-form-validation__input", 'aria-invalid': "true"
+                  div '', class: "p-switch__slider"
+                end
+                p class: "p-form-validation__message", role: "alert" do
+                  if params.errors.dig(:article, :format).include?("must be filled")
+                    strong "この項目は必須です"
+                  else
+                    "入力が不正です"
+                  end
                 end
               end
-
             end
           end
         else
-          div class: "p-form__group", style: "display:none" do
-            label '本文のフォーマット', for: :format, class: "p-form__label"
-            div class: "p-form__control" do
-              label '', for: :format do
-                text '議案をMarkdown形式で投稿する（必要がなければオフのままにしてください）'
-                check_box :format, class: "p-switch"
-                div '', class: "p-switch__slider"
+          div class: "p-form__group row", style: "display:none" do
+            div class: "col-3" do
+              label '本文のフォーマット', for: :format, class: "p-form__label u-align-text--right"
+            end
+            div class: "col-9" do
+              div class: "p-form__control" do
+                label '', for: :format do
+                  text '議案をMarkdown形式で投稿する（必要がなければオフのままにしてください）'
+                  check_box :format, class: "p-switch"
+                  div '', class: "p-switch__slider"
+                end
               end
             end
           end
         end
 
         if !params.valid? && params.errors.dig(:article, :body)
-          div class: "p-form__group p-form-validation is-error" do
-            label '本文', for: :body, class: "p-form__label"
-            div class: "p-form__control" do
-              div id: "markdown-tab", style: "display:none;" do
-                nav class: "p-tabs" do
-                  ul class: "p-tabs__list u-no-margin--bottom", role: "tablist" do
-                    li class: "p-tabs__item", role: "presentation" do
-                      a 'Markdown形式での入力', id: "tab-write", href: "#write", class: "p-tabs__link", tabindex: 0, role: "tab", 'aria-controls': "article-body", 'aria-selected': "true"
-                    end
-                    li class: "p-tabs__item", role: "presentation" do
-                      a '本文のプレビュー', id: "tab-preview", href: "#preview", class: "p-tabs__link", tabindex: 0, role: "tab", 'aria-controls': "article-body"
+          div class: "p-form__group row p-form-validation is-error" do
+            div class: "col-3" do
+              label '本文', for: :body, class: "p-form__label u-align-text--right"
+            end
+            div class: "col-9" do
+              div class: "p-form__control" do
+                div id: "markdown-tab", style: "display:none;" do
+                  nav class: "p-tabs" do
+                    ul class: "p-tabs__list u-no-margin--bottom", role: "tablist" do
+                      li class: "p-tabs__item", role: "presentation" do
+                        a 'Markdown形式での入力', id: "tab-write", href: "#write", class: "p-tabs__link", tabindex: 0, role: "tab", 'aria-controls': "article-body", 'aria-selected': "true"
+                      end
+                      li class: "p-tabs__item", role: "presentation" do
+                        a '本文のプレビュー', id: "tab-preview", href: "#preview", class: "p-tabs__link", tabindex: 0, role: "tab", 'aria-controls': "article-body"
+                      end
                     end
                   end
                 end
-              end
-              text_area :body, rows: 30, class: "p-form-validation__input", 'aria-invalid': "true", required: ""
-              p class: "p-form-validation__message", role: "alert" do
-                if params.errors.dig(:article, :body).include?("must be filled")
-                  strong "この項目は必須です"
-                else
-                  "入力が不正です　文字列を入力してください"
+                text_area :body, rows: 30, class: "p-form-validation__input", 'aria-invalid': "true", required: ""
+                p class: "p-form-validation__message", role: "alert" do
+                  if params.errors.dig(:article, :body).include?("must be filled")
+                    strong "この項目は必須です"
+                  else
+                    "入力が不正です　文字列を入力してください"
+                  end
                 end
+                div '', id: "markdown-preview", class: "markdown"
               end
-              div '', id: "markdown-preview", class: "markdown"
             end
           end
         else
-          div class: "p-form__group" do
-            label '本文', for: :body, class: "p-form__label"
-            div class: "p-form__control" do
-              div id: "markdown-tab", style: "display:none;" do
-                nav class: "p-tabs" do
-                  ul class: "p-tabs__list u-no-margin--bottom", role: "tablist" do
-                    li class: "p-tabs__item", role: "presentation" do
-                      a 'Markdown形式での入力', id: "tab-write", href: "#write", class: "p-tabs__link", tabindex: 0, role: "tab", 'aria-controls': "article-body", 'aria-selected': "true"
-                    end
-                    li class: "p-tabs__item", role: "presentation" do
-                      a '本文のプレビュー', id: "tab-preview", href: "#preview", class: "p-tabs__link", tabindex: 0, role: "tab", 'aria-controls': "article-body"
+          div class: "p-form__group row" do
+            div class: "col-3" do
+              label '本文', for: :body, class: "p-form__label u-align-text--right"
+            end
+            div class: "col-9" do
+              div class: "p-form__control" do
+                div id: "markdown-tab", style: "display:none;" do
+                  nav class: "p-tabs" do
+                    ul class: "p-tabs__list u-no-margin--bottom", role: "tablist" do
+                      li class: "p-tabs__item", role: "presentation" do
+                        a 'Markdown形式での入力', id: "tab-write", href: "#write", class: "p-tabs__link", tabindex: 0, role: "tab", 'aria-controls': "article-body", 'aria-selected': "true"
+                      end
+                      li class: "p-tabs__item", role: "presentation" do
+                        a '本文のプレビュー', id: "tab-preview", href: "#preview", class: "p-tabs__link", tabindex: 0, role: "tab", 'aria-controls': "article-body"
+                      end
                     end
                   end
                 end
+                text_area :body, rows: 30, required: ""
+                div '', id: "markdown-preview", class: "markdown"
               end
-              text_area :body, rows: 30, required: ""
-              div '', id: "markdown-preview", class: "markdown"
             end
           end
         end
 
         if !params.valid? && params.errors.dig(:article, :vote_content)
-          div class: "p-form__group p-form-validation is-error" do
-            label '採決項目（議案の種別に「採決」または「採決予定」が含まれていない場合には保存されません）', for: :vote_content, class: "p-form__label"
-            div class: "p-form__control" do
-              text_area :vote_content, rows: 5, class: "p-form-validation__input", 'aria-invalid': "true"
-              p class: "p-form-validation__message", role: "alert" do
-                if params.errors.dig(:article, :vote_content).include?("must be filled")
-                  strong "この項目は必須です"
-                else
-                  "入力が不正です　文字列を入力してください"
+          div class: "p-form__group row p-form-validation is-error" do
+            div class: "col-3" do
+              label '採決項目（議案の種別に「採決」または「採決予定」が含まれていない場合には保存されません）', for: :vote_content, class: "p-form__label"
+            end
+            div class: "col-9" do
+              div class: "p-form__control" do
+                text_area :vote_content, rows: 5, class: "p-form-validation__input", 'aria-invalid': "true"
+                p class: "p-form-validation__message", role: "alert" do
+                  if params.errors.dig(:article, :vote_content).include?("must be filled")
+                    strong "この項目は必須です"
+                  else
+                    "入力が不正です　文字列を入力してください"
+                  end
                 end
               end
             end
           end
         else
-          div class: "p-form__group" do
-            label '採決項目（議案の種別に「採決」または「採決予定」が含まれていない場合には保存されません）', for: :vote_content, class: "p-form__label"
-            div class: "p-form__control" do
-              text_area :vote_content, rows: 5
+          div class: "p-form__group row" do
+            div class: "col-3" do
+              label '採決項目（議案の種別に「採決」または「採決予定」が含まれていない場合には保存されません）', for: :vote_content, class: "p-form__label"
+            end
+            div class: "col-9" do
+              div class: "p-form__control" do
+                text_area :vote_content, rows: 5
+              end
             end
           end
         end
 
-        div class: "p-form__group" do
-          label '', for: :same_references, class: "p-form__label u-align-text--right" do
-            text '過去のブロック会議の議案'
-            br
-            text '(過去のブロック会議に同じ議案を出している場合はその議案を選択してください)'
-          end
-          div class: "p-form__control" do
-            div class: "p-search-box", style: 'margin-bottom: .8rem' do
-              input type: 'search', name: 'query', class: 'p-search-box__input', id: 'same-refs-search-input',
-                    placeholder: '議案の題名を入力して下の選択欄に表示される議案を絞ることができます'
+        hr # horizontal line
+
+        div class: "p-form__group row u-vertically-center" do
+          div class: "col-3" do
+            label '', for: :same_references, class: "p-form__label" do
+              text '過去のブロック会議の議案'
+              br
+              text '(過去のブロック会議に同じ議案を出している場合はその議案を選択してください)'
             end
-            select :same_references, recent_articles_for_select, multiple: true, style: 'height: 20rem', options: {selected: 0}
-            h4 '下に過去のブロック会議の議案として選択された議案が表示されます。選択を解除するには議案の『×』をクリックしてください。', class: "full-width"
-            ul id: 'same-refs-selected', class: "p-list--divided" do
-              if same_refs_selected.empty?
-                text ''
-              else
-                same_refs_selected.each do |article_id|
-                  li class: 'p-list__item is-ticked', style: 'padding-bottom: .25rem; padding-top: .25rem;' do
-                    article = recent_articles.find{|a| a.id == article_id}
-                    if article
-                      text "#{article.meeting.date}のBL会議...#{article_formatted_title(article, number: false)}"
-                      i class: 'p-icon--error', style: 'height:1.3rem;width:1.3rem;margin-left:1rem;'
+          end
+          div class: "col-9" do
+            div class: "p-form__control" do
+              div class: "p-search-box", style: 'margin-bottom: 3rem' do
+                input type: 'search', name: 'query', class: 'p-search-box__input', id: 'same-refs-search-input',
+                      placeholder: '議案の題名を入力して下の選択欄に表示される議案を絞ることができます'
+              end
+              select :same_references, recent_articles_for_select, multiple: true, style: 'height: 20rem', options: {selected: 0}
+              h4 '下に過去のブロック会議の議案として選択された議案が表示されます。選択を解除するには議案の『×』をクリックしてください。', class: "full-width"
+              ul id: 'same-refs-selected', class: "p-list--divided" do
+                if same_refs_selected.empty?
+                  text ''
+                else
+                  same_refs_selected.each do |article_id|
+                    li class: 'p-list__item is-ticked', style: 'padding-bottom: .25rem; padding-top: .25rem;' do
+                      article = recent_articles.find{|a| a.id == article_id}
+                      if article
+                        text "#{article.meeting.date}のBL会議...#{article_formatted_title(article, number: false)}"
+                        i class: 'p-icon--error', style: 'height:1.3rem;width:1.3rem;margin-left:1rem;'
+                      end
+                      input type: 'hidden', name: 'article[same_refs_selected][]', value: article_id
                     end
-                    input type: 'hidden', name: 'article[same_refs_selected][]', value: article_id
                   end
                 end
               end
@@ -638,31 +793,35 @@ module Web::Views::Article
 
         hr # horizontal line
 
-        div class: "p-form__group" do
-          label '', for: :other_references, class: "p-form__label u-align-text--right" do
-            text 'その他の関連議案'
-            br
-            text '(参考議案として参照しておきたい議案がある場合は選択してください)'
-          end
-          div class: "p-form__control" do
-            div class: "p-search-box", style: 'margin-bottom: .8rem' do
-              input type: 'search', name: 'query', class: 'p-search-box__input', id: 'other-refs-search-input',
-                    placeholder: '議案の題名を入力して下の選択欄に表示される議案を絞ることができます'
+        div class: "p-form__group row u-vertically-center" do
+          div class: "col-3" do
+            label '', for: :other_references, class: "p-form__label" do
+              text 'その他の関連議案'
+              br
+              text '(参考議案として参照しておきたい議案がある場合は選択してください)'
             end
-            select :other_references, recent_articles_for_select, multiple: true, style: 'height: 20rem', options: {selected: 0}
-            h4 '下に関連議案として選択された議案が表示されます。選択を解除するには議案の『×』をクリックしてください。', class: "full-width"
-            ul id: 'other-refs-selected', class: "p-list--divided" do
-              if other_refs_selected.empty?
-                text ''
-              else
-                other_refs_selected.each do |article_id|
-                  li class: 'p-list__item is-ticked', style: 'padding-bottom: .25rem; padding-top: .25rem;' do
-                    article = recent_articles.find{|a| a.id == article_id}
-                    if article
-                      text "#{article.meeting.date}のBL会議...#{article_formatted_title(article, number: false)}"
-                      i class: 'p-icon--error', style: 'height:1.3rem;width:1.3rem;margin-left:1rem;'
+          end
+          div class: "col-9" do
+            div class: "p-form__control" do
+              div class: "p-search-box", style: 'margin-bottom: 3rem' do
+                input type: 'search', name: 'query', class: 'p-search-box__input', id: 'other-refs-search-input',
+                      placeholder: '議案の題名を入力して下の選択欄に表示される議案を絞ることができます'
+              end
+              select :other_references, recent_articles_for_select, multiple: true, style: 'height: 20rem', options: {selected: 0}
+              h4 '下に関連議案として選択された議案が表示されます。選択を解除するには議案の『×』をクリックしてください。', class: "full-width"
+              ul id: 'other-refs-selected', class: "p-list--divided" do
+                if other_refs_selected.empty?
+                  text ''
+                else
+                  other_refs_selected.each do |article_id|
+                    li class: 'p-list__item is-ticked', style: 'padding-bottom: .25rem; padding-top: .25rem;' do
+                      article = recent_articles.find{|a| a.id == article_id}
+                      if article
+                        text "#{article.meeting.date}のBL会議...#{article_formatted_title(article, number: false)}"
+                        i class: 'p-icon--error', style: 'height:1.3rem;width:1.3rem;margin-left:1rem;'
+                      end
+                      input type: 'hidden', name: 'article[other_refs_selected][]', value: article_id
                     end
-                    input type: 'hidden', name: 'article[other_refs_selected][]', value: article_id
                   end
                 end
               end
@@ -702,24 +861,40 @@ module Web::Views::Article
 
         form_for :search_article, routes.search_article_path + "?detail_search=true", method: :get, class: "p-form p-form--stacked", values: {keyword: keyword} do
           fieldset do
-            div class: "p-form__group" do
-              label '題名', for: :title, class: "p-form__label u-align-text--right"
-              text_field :title, class: "p-form__control"
+            div class: "p-form__group row" do
+              div class: "col-2" do
+                label '題名', for: :title, class: "p-form__label u-align-text--right"
+              end
+              div class: "col-10" do
+                text_field :title, class: "p-form__control"
+              end
             end
-            div class: "p-form__group" do
-              label '文責者', for: :author, class: "p-form__label u-align-text--right"
-              text_field :author, class: "p-form__control"
+            div class: "p-form__group row" do
+              div class: "col-2" do
+                label '文責者', for: :author, class: "p-form__label u-align-text--right"
+              end
+              div class: "col-10" do
+                text_field :author, class: "p-form__control"
+              end
             end
-            div class: "p-form__group" do
-              label '本文', for: :body, class: "p-form__label u-align-text--right"
-              text_field :body, class: "p-form__control"
+            div class: "p-form__group row" do
+              div class: "col-2" do
+                label '本文', for: :body, class: "p-form__label u-align-text--right"
+              end
+              div class: "col-10" do
+                text_field :body, class: "p-form__control"
+              end
             end
-            div class: "p-form__group u-vertically-center" do
-              label '議案の種別', for: 'categories', class: "p-form__label u-align-text--right"
-              div class: "p-form__control" do
-                categories.each do |category|
-                  check_box :categories, name: 'search_article[categories][]', value: category.id, id: "category-#{category.id}", checked: (selected_categories.find { |i| i == category.id.to_s })
-                  label category.name, for: "category-#{category.id}", style: "width: fit-content;margin-bottom:.3rem;"
+            div class: "p-form__group row u-vertically-center" do
+              div class: "col-2" do
+                label '議案の種別', for: 'categories', class: "p-form__label u-align-text--right"
+              end
+              div class: "col-10" do
+                div class: "p-form__control" do
+                  categories.each do |category|
+                    check_box :categories, name: 'search_article[categories][]', value: category.id, id: "category-#{category.id}", checked: (selected_categories.find { |i| i == category.id.to_s })
+                    label category.name, for: "category-#{category.id}", style: "width: fit-content;margin-bottom:.3rem;"
+                  end
                 end
               end
             end

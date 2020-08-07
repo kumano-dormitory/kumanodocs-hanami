@@ -31,8 +31,8 @@
   </div>
 
   <% if article || past_comments %>
-  <div class="row row-wide p-divider">
-    <div class="col-9 p-divider__block">
+  <div class="row row-wide">
+    <div class="col-9">
       <% if past_comments %>
         <h3 style="max-width: 100%;">(0) 前回のブロック会議から</h3>
         <dl>
@@ -52,7 +52,7 @@
       <% if article %>
         <h3 style="max-width: 100%;margin-bottom:0;"><%= article_formatted_title(article, checked: true) %></h3>
         <% if editable %>
-        <div class="row">
+        <div class="">
           <span class="u-hide--small" style="margin-left:2.5rem"></span>
           <a class="p-button--positive" href="<%= routes.edit_article_path(article.id) %>">議案の編集</a>
           <%=
@@ -185,60 +185,56 @@
         <% end %>
       <% end %>
 
-      <footer class="p-pagination">
+      <footer class="p-article-pagination" style="margin-bottom: 40px;">
         <% if page - 1 == 0 %>
-        <a class="p-pagination__link--previous" href="?page=0">
-          <span class="p-pagination__label">前の議案へ</span>
-          <span class="p-pagination__title">前回のブロック会議から</span>
+        <a class="p-article-pagination__link--previous" href="?page=0">
+          <span class="p-article-pagination__label">前の議案へ</span>
+          <span class="p-article-pagination__title">前回のブロック会議から</span>
         </a>
         <% elsif page - 1 > 0 %>
-        <a class="p-pagination__link--previous" href="?page=<%= page - 1 %>">
-          <span class="p-pagination__label">前の議案へ</span>
-          <span class="p-pagination__title"><%= h meeting.articles[page - 2].title %></span>
+        <a class="p-article-pagination__link--previous" href="?page=<%= page - 1 %>">
+          <span class="p-article-pagination__label">前の議案へ</span>
+          <span class="p-article-pagination__title"><%= h meeting.articles[page - 2].title %></span>
         </a>
         <% else %>
-        <span class="p-pagination__link--previous is-disabled">
+        <span class="p-article-pagination__link--previous is-disabled">
         </span>
         <% end %>
         <% if page + 1 <= max_page %>
-        <a class="p-pagination__link--next" href="?page=<%= page + 1 %>">
-          <span class="p-pagination__label">次の議案へ</span>
-          <span class="p-pagination__title"><%= h meeting.articles[page].title %></span>
+        <a class="p-article-pagination__link--next" href="?page=<%= page + 1 %>">
+          <span class="p-article-pagination__label">次の議案へ</span>
+          <span class="p-article-pagination__title"><%= h meeting.articles[page].title %></span>
         </a>
         <% else %>
-        <span class="p-pagination__link--next is-disabled">
+        <span class="p-article-pagination__link--next is-disabled">
         </span>
         <% end %>
       </footer>
     </div>
 
-    <div class="col-3 p-divider__block">
-      <div class="p-navigation--sidebar">
-        <div class="sidebar__content js-sidebar-toggle u-hide" aria-hidden="true">
-          <ul class="p-list u-no-margin--bottom">
-            <hr>
-            <li class="p-list__item">
-              <a href="<%= routes.meeting_path(id: meeting.id) %>?page=0" <%= article ? '' : 'style="font-weight:950;"' %>>
-                (0) 前回のブロック会議から
-              </a>
-            </li>
-            <% meeting.articles.each_with_index do |nav_article, i| %>
-              <hr>
-              <li class="p-list__item">
-                <% if nav_article.id == article&.id %>
-                <a href="<%= routes.meeting_path(id: meeting.id) %>?page=<%= i + 1 %>" style="font-weight:950;">
-                <%= article_numbered_title(nav_article) %>
-                </a>
-                <% else %>
-                <a href="<%= routes.meeting_path(id: meeting.id) %>?page=<%= i + 1 %>">
-                <%= article_numbered_title(nav_article) %>
-                </a>
-                <% end %>
-              </li>
+    <div class="col-3 u-hide--small">
+      <ul class="p-list u-no-margin--bottom">
+        <hr>
+        <li class="p-list__item">
+          <a href="<%= routes.meeting_path(id: meeting.id) %>?page=0" class="p-link--soft" <%= article ? '' : 'style="font-weight:950;"' %>>
+            (0) 前回のブロック会議から
+          </a>
+        </li>
+        <% meeting.articles.each_with_index do |nav_article, i| %>
+          <hr>
+          <li class="p-list__item">
+            <% if nav_article.id == article&.id %>
+            <a href="<%= routes.meeting_path(id: meeting.id) %>?page=<%= i + 1 %>" class="p-link--soft" style="font-weight:950;">
+            <%= article_numbered_title(nav_article) %>
+            </a>
+            <% else %>
+            <a href="<%= routes.meeting_path(id: meeting.id) %>?page=<%= i + 1 %>" class="p-link--soft">
+            <%= article_numbered_title(nav_article) %>
+            </a>
             <% end %>
-          </ul>
-        </div>
-      </div>
+          </li>
+        <% end %>
+      </ul>
     </div>
 
 
