@@ -31,7 +31,7 @@ module Web
         end
 
         def navigation
-          @navigation = {bottom_navigation: true}
+          @navigation = {bottom_navigation: true, enable_dark: true}
         end
       end
     end
