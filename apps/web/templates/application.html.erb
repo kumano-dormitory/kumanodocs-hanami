@@ -118,10 +118,10 @@
       <%= yield %>
     </div>
 
-    <footer id="footer" class="p-strip--light is-shallow u-hide--small">
-      <a href="#" class="p-top__link p-button--neutral">ページの上部へ戻る ↑</a>
+    <footer id="footer" class="p-strip--light is-shallow">
+      <a href="#" class="p-top__link p-button--neutral u-hide--small">ページの上部へ戻る ↑</a>
       <div class="row">
-        <div class="col-8">
+        <div class="col-8 u-hide--small">
           <p class="full-width">
             Copyright© 2019-2020 Kumano Dormitory IT Section <small>(Some rights reserved <a href="https://creativecommons.org/licenses/by-nd/4.0/" target="_blank">CC BY-ND 4.0</a>)</small>
           </p>
@@ -136,7 +136,7 @@
             </ul>
           </nav>
         </div>
-        <div class="col-4" <% unless navigation[:enable_dark] %>style="display:none;"<% end %>>
+        <div class="col-4" <% if navigation[:enable_dark] %>style="margin-bottom:56px;"<% else %>style="display:none;"<% end %>>
           <form class="p-form">
             <input type="checkbox" id="theme-mode-btn">
             <label for="theme-mode-btn">ダークテーマを有効にする</label>
