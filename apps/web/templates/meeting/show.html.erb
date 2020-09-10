@@ -35,18 +35,30 @@
     <div class="col-9">
       <% if past_comments %>
         <h3 style="max-width: 100%;">(0) 前回のブロック会議から</h3>
-        <dl>
-          <% past_comments.each do |article_id, comments| %>
-          <dt><%= h "(#{comments[0]&.dig(:article_number) || '番号なし'}) #{comments[0]&.dig(:title)}" %></dt>
+        <% past_comments.each do |article_id, comments| %>
+          <h4><%= h "(#{comments[0]&.dig(:article_number) || '番号なし'}) #{comments[0]&.dig(:title)}" %></h4>
           <% vote_result_sum = comments.select{|c| c[:agree] }.map{|c| [c[:agree], c[:disagree], c[:onhold]] }.transpose.map{ |count_ary| count_ary.sum } %>
           <% if vote_result_sum[0] %>
-          <dd>
+          <p>
             採決結果<br>総数:<%= vote_result_sum.sum %><br>賛成:<%= vote_result_sum[0] %><br>反対:<%= vote_result_sum[1] %><br>保留:<%= vote_result_sum[2] %>
-          </dd>
+          </p>
           <% end %>
-          <dd><pre><% comments.each do |comment| %><% if comment[:body] && !comment[:body].strip.empty? %><%= h "#{comment[:block_name]} - #{comment[:body]}\n" %><% if past_messages.fetch(comment[:id], false) %><% past_messages.fetch(comment[:id], []).each do |message| %><%= if message[:send_by_article_author] then "<< 議案提起者からの返答 >>\n" else "<< 議事録投稿者からの返答 >>\n" end %><%= h "#{message[:body]}\n" %><% end %><% end %><% elsif comment[:agree] %><%= h "#{comment[:block_name]}の採決結果\n賛成:#{comment[:agree]}\n反対:#{comment[:disagree]}\n保留:#{comment[:onhold]}\n" %><% end %><% end %></pre></dd>
-          <% end %>
-        </dl>
+          <dl>
+            <% blocks.each do |block| %>
+              <% comment = comments.find{ |c| c[:block_id] == block.id && c[:body] } %>
+              <% vote_result = comments.find{ |c| c[:block_id] == block.id && c[:agree] } %>
+              <% unless (comment.nil? || comment[:body]&.strip.empty?) && vote_result.nil? %>
+                <dt><%= block.name %>の議事録</dt>
+                <% if !comment.nil? && !comment[:body]&.strip.empty? %>
+                <dd class="u-no-margin--bottom"><pre class="u-no-margin--bottom"><%= h comment[:body] %><% if past_messages.fetch(comment[:id], false) %><% past_messages.fetch(comment[:id], []).each do |message| %><%= if message[:send_by_article_author] then "<< 議案提起者からの返答 >>\n" else "<< 議事録投稿者からの返答 >>\n" end %><%= h "#{message[:body]}\n\n" %><% end %><% end %></pre></dd>
+                <% end %>
+                <% if !vote_result.nil? && vote_result[:agree] %>
+                <dd class="u-no-margin--bottom"><pre><%= "#{vote_result[:block_name]}の採決結果\n賛成 : #{vote_result[:agree]}\n反対 : #{vote_result[:disagree]}\n保留 : #{vote_result[:onhold]}" %></pre></dd>
+                <% end %>
+              <% end %>
+            <% end %>
+          </dl>
+        <% end %>
       <% end %>
 
       <% if article %>
@@ -229,7 +241,7 @@
             </a>
             <% else %>
             <a href="<%= routes.meeting_path(id: meeting.id) %>?page=<%= i + 1 %>" class="p-link--soft">
-            <%= article_numbered_title(nav_article) %>
+            <%= article_formatted_title(nav_article) %>
             </a>
             <% end %>
           </li>
