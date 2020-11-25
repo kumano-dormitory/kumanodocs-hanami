@@ -48,7 +48,8 @@
         </ul>
         <dt>本文</dt>
         <% if article.format == 1 %>
-        <%= render partial: 'shared/markdown', locals: {str: article.body} %>
+        <% # render partial: 'shared/markdown', locals: {str: article.body} %>
+        <%= markdown_to_html(article.body) %>
         <% else %>
         <dd>
           <pre><%= h article.body %></pre>

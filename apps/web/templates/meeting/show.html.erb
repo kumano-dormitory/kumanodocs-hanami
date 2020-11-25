@@ -91,7 +91,9 @@
           <dd><%= h article.author.name %></dd>
           <dt>本文</dt>
           <% if article.format == 1 %>
-          <%= render partial: 'shared/markdown', locals: {str: article.body} %>
+          <div class="markdown">
+            <%= markdown_to_html(h article.body) %>
+          </div>
           <% else %>
           <dd>
             <pre><%= h article.body %></pre>

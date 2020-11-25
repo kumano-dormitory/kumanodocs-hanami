@@ -4,6 +4,8 @@
 # 一般向けページの全てのテンプレートファイル内で利用することのできるヘルパー関数
 # テンプレートファイル内に記述するには複雑な処理や頻繁に使用する処理をヘルパー関数としてまとめている
 
+require 'kramdown'
+
 module Web
   module Helpers
     module ArticleHelper
@@ -32,6 +34,10 @@ module Web
         date = meeting.date
         meeting_date_6pm = Time.new(date.year, date.mon, date.day, 18,0,0,"+09:00")
         article.created_at > meeting_date_6pm
+      end
+
+      def markdown_to_html(str)
+        raw Kramdown::Document.new(str, input: 'GFM', auto_ids: false).to_html
       end
     end
   end
