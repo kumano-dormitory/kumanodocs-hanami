@@ -1,3 +1,5 @@
+require 'kramdown'
+
 module Admin
   module Helpers
     module ArticleHelper
@@ -26,6 +28,10 @@ module Admin
         date = meeting.date
         meeting_date_6pm = Time.new(date.year, date.mon, date.day, 18,0,0,"+09:00")
         article.created_at > meeting_date_6pm
+      end
+
+      def markdown_to_html(str)
+        raw Kramdown::Document.new(str, input: 'GFM', auto_ids: false).to_html
       end
     end
   end
