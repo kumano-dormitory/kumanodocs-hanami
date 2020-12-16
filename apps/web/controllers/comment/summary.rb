@@ -14,7 +14,7 @@ module Web::Controllers::Comment
     end
 
     def call(params)
-      @meetings = @meeting_repo.desc_by_date(limit: 15).filter{ |m| m.date > Date.new(2019,12,22) }
+      @meetings = @meeting_repo.desc_by_date(limit: 15).filter{ |m| m.date > Date.new(2020,6,22) }
 
       @page = params[:page]&.to_i || 0
       @page = 0 if @page < 0
