@@ -31,5 +31,9 @@ module Web::Controllers::Comment
 
       @max_page = @meetings.length - 1
     end
+
+    def navigation
+      @navigation = {enable_dark: true}
+    end
   end
 end
