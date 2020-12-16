@@ -32,7 +32,7 @@ module Web::Views::Comment
 
           fieldset '', style: "margin-bottom:1.5rem;" do
             div do
-              label "#{article_formatted_title(article, checked: true, number: false)}への議事録", for: "meeting-articles-#{idx}-comment", class: "p-heading--four"
+              label "#{article_formatted_title(article, checked: true, number: true)}への議事録", for: "meeting-articles-#{idx}-comment", class: "p-heading--four"
             end
             div do
               text_area :comment,
