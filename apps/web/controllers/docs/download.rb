@@ -44,6 +44,13 @@ module Web::Controllers::Docs
           self.headers.merge!({'Content-Disposition' => "inline; filename*=UTF-8''#{encoded_filename}"})
           unsafe_send_file "/app/ryoseitaikai4.pdf"
         end
+      when "daigi0" then # 代議員会の手引き
+        if FileTest.exist?("/app/daigi0.pdf")
+          encoded_filename = URI.encode_www_form_component("代議員会の手引き.pdf")
+          self.format = :pdf
+          self.headers.merge!({'Content-Disposition' => "inline; filename*=UTF-8''#{encoded_filename}"})
+          unsafe_send_file "/app/daigi0.pdf"
+        end
       when "daigi1" then # 代議員会資料
         if FileTest.exist?("/app/daigi1.pdf")
           encoded_filename = URI.encode_www_form_component("代議員会資料.pdf")
