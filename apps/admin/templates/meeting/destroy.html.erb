@@ -2,22 +2,22 @@
   <div class="row">
     <ul class="p-breadcrumbs">
       <li class="p-breadcrumbs__item"><a href='<%= routes.root_path %>'>管理者向けページ</a></li>
-      <li class="p-breadcrumbs__item"><a href="<%= routes.meetings_path %>">ブロック会議一覧</a></li>
-      <li class="p-breadcrumbs__item"><a href="<%= routes.meeting_path(id: meeting.id) %>"><%= meeting.formatted_date %>のブロック会議</a></li>
-      <li class="p-breadcrumbs__item"><strong>ブロック会議日程の削除</strong></li>
+      <li class="p-breadcrumbs__item"><a href="<%= routes.meetings_path %>">会議日程一覧</a></li>
+      <li class="p-breadcrumbs__item"><a href="<%= routes.meeting_path(id: meeting.id) %>"><%= meeting.formatted_date %>の<%= meeting.type == 0 ? "ブロック会議" : "寮生大会" %></a></li>
+      <li class="p-breadcrumbs__item"><strong>会議日程の削除</strong></li>
     </ul>
     <hr/>
   </div>
 </div>
 <div class="p-strip is-shallow">
   <div class="row">
-    <h1><%= meeting.formatted_date %>のブロック会議日程の削除</h1>
+    <h1><%= meeting.formatted_date %>の<%= meeting.type == 0 ? "ブロック会議" : "寮生大会" %>日程の削除</h1>
     <div class="p-notification--negative">
       <p class="p-notification__response">
         <span class="p-notification__status">警告:</span>
         <h3>
-          ブロック会議日程を削除した場合、そのブロック会議に含まれる<u>すべての議案も</u>同時に削除されます.(元に戻すことはできません)<br/>
-          ブロック会議の日時や締め切りが間違っていて変更したい場合は、「削除」ではなく、「編集」をしてください.<br/>
+          会議日程を削除した場合、そのブロック会議に含まれる<u>すべての議案も</u>同時に削除されます.(元に戻すことはできません)<br/>
+          会議の日時や締め切りが間違っていて変更したい場合は、「削除」ではなく、「編集」をしてください.<br/>
           どうしても「削除」する必要がある場合には、複数の資料委員で確認をとってから削除してください
         </h3>
       </p>
@@ -26,7 +26,7 @@
     <%= form_for :meeting, routes.meeting_path(id: meeting.id),
     method: :delete, class: "delete_meeting", id: 'form' do
       hidden_field :confirm, value: true
-      button 'このブロック会議日程の削除', class: "p-button--negative p-modal__open-close" end %>
+      button 'この会議日程の削除', class: "p-button--negative p-modal__open-close" end %>
   </div>
 </div>
 
@@ -36,7 +36,7 @@
       <h2 class="p-modal__title" id="modal-title">確認</h2>
       <button class="p-modal__open-close" aria-label="Close active modal">Close</button>
     </header>
-    <p id="modal-description">注意をよく読んだ上で、本当にこのブロック会議を削除しますか？<br/>削除しない場合は右上の「Close」から戻ってください</p>
+    <p id="modal-description">注意をよく読んだ上で、本当にこの<%= meeting.type == 0 ? "ブロック会議" : "寮生大会" %>を削除しますか？<br/>削除しない場合は右上の「Close」から戻ってください</p>
     <p>
       <button id="submit" class="p-button--negative">削除する</button>
     </p>
