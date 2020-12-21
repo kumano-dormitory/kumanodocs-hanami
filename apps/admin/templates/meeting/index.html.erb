@@ -2,7 +2,7 @@
   <div class="row">
     <ul class="p-breadcrumbs">
       <li class="p-breadcrumbs__item"><a href='<%= routes.root_path %>'>管理者向けページ</a></li>
-      <li class="p-breadcrumbs__item"><strong>ブロック会議一覧</strong></li>
+      <li class="p-breadcrumbs__item"><strong>会議日程一覧</strong></li>
     </ul>
     <hr/>
   </div>
@@ -10,12 +10,12 @@
 <div class="p-strip is-shallow">
   <div class="row">
     <h1>
-      ブロック会議一覧
+      会議日程一覧
       <% if page > 1 %>
       <small>(<%= page %>ページ目)</small>
       <% end %>
     </h1>
-    <p><a href="<%= routes.new_meeting_path %>" class="p-button--positive">ブロック会議日程を新たに作成</a></p>
+    <p><a href="<%= routes.new_meeting_path %>" class="p-button--positive">会議日程を新たに作成</a></p>
     <% if meetings.length == 0 %>
       <p>最後のページです</p>
     <% end %>

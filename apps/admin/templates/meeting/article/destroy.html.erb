@@ -2,8 +2,8 @@
   <div class="row">
     <ul class="p-breadcrumbs">
       <li class="p-breadcrumbs__item"><a href='<%= routes.root_path %>'>管理者向けページ</a></li>
-      <li class="p-breadcrumbs__item"><a href="<%= routes.meetings_path %>">ブロック会議一覧</a></li>
-      <li class="p-breadcrumbs__item"><a href="<%= routes.meeting_path(id: article.meeting_id) %>"><%= article.meeting.formatted_date %>のブロック会議</a></li>
+      <li class="p-breadcrumbs__item"><a href="<%= routes.meetings_path %>">会議日程一覧</a></li>
+      <li class="p-breadcrumbs__item"><a href="<%= routes.meeting_path(id: article.meeting_id) %>"><%= article.meeting.formatted_date %>の<%= article.meeting.type == 0 ? "ブロック会議" : "寮生大会" %></a></li>
       <li class="p-breadcrumbs__item"><a href="<%= routes.meeting_articles_path(meeting_id: article.meeting_id) %>">議案一覧</a></li>
       <li class="p-breadcrumbs__item"><a href="<%= routes.meeting_article_path(meeting_id: article.meeting_id, id: article.id) %>">
         <%= article_formatted_title(article, checked: false, number: false) %>
@@ -30,7 +30,7 @@
       <dd><%= article.title %></dd>
       <dt>文責者</dt>
       <dd><%= article.author.name %></dd>
-      <dt>ブロック会議日程</dt>
+      <dt><%= article.meeting.type == 0 ? "ブロック会議" : "寮生大会" %>日程</dt>
       <dd><%= article.meeting.formatted_date %></dd>
     </dl>
     <p>上記の内容を読んだ上で削除する場合は以下のボタンを押してください</p>

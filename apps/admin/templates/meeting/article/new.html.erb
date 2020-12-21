@@ -2,8 +2,8 @@
   <div class="row">
     <ul class="p-breadcrumbs">
       <li class="p-breadcrumbs__item"><a href='<%= routes.root_path %>'>管理者向けページ</a></li>
-      <li class="p-breadcrumbs__item"><a href="<%= routes.meetings_path %>">ブロック会議一覧</a></li>
-      <li class="p-breadcrumbs__item"><a href="<%= routes.meeting_path(id: meeting.id) %>"><%= meeting.formatted_date %>のブロック会議</a></li>
+      <li class="p-breadcrumbs__item"><a href="<%= routes.meetings_path %>">会議日程一覧</a></li>
+      <li class="p-breadcrumbs__item"><a href="<%= routes.meeting_path(id: meeting.id) %>"><%= meeting.formatted_date %>の<%= meeting.type == 0 ? "ブロック会議" : "寮生大会" %></a></li>
       <li class="p-breadcrumbs__item"><a href="<%= routes.meeting_articles_path(meeting_id: meeting.id) %>">議案一覧</a></li>
       <li class="p-breadcrumbs__item"><strong>議案の新規作成</strong></li>
     </ul>

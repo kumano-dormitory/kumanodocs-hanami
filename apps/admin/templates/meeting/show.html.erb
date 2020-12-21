@@ -2,7 +2,7 @@
   <div class="row">
     <ul class="p-breadcrumbs">
       <li class="p-breadcrumbs__item"><a href='<%= routes.root_path %>'>管理者向けページ</a></li>
-      <li class="p-breadcrumbs__item"><a href='<%= routes.meetings_path %>'>ブロック会議一覧</a></li>
+      <li class="p-breadcrumbs__item"><a href='<%= routes.meetings_path %>'>会議日程一覧</a></li>
       <li class="p-breadcrumbs__item"><strong><%= meeting.formatted_date %>の<%= meeting.type == 0 ? "ブロック会議" : "寮生大会" %></strong></li>
     </ul>
     <hr/>
@@ -35,18 +35,18 @@
         </a>
       </li>
       <li class="p-list__item is-ticked">
-        <h4 class="full-width">印刷用のPDF（　ブロック会議資料や議事録一覧（報告会資料）　）<br/>をダウンロードする場合はこちら</h4>
+        <h4 class="full-width">印刷用のPDF（　会議資料や議事録一覧（報告会資料）　）<br/>をダウンロードする場合はこちら</h4>
         <a href='<%= routes.download_meeting_path(id: meeting.id) %>' class="p-button--brand">
           印刷用PDFのダウンロード
         </a>
       </li>
       <li class="p-list__item is-ticked">
-        <h4>このブロック会議日程の編集・削除する場合はこちら</h4>
+        <h4>この<%= meeting.type == 0 ? "ブロック会議" : "寮生大会" %>日程の編集・削除する場合はこちら</h4>
         <p>※編集・削除を行うと既に投稿された議案に対して大きな影響を及ぼす可能性があります。資料委員会で確認を取ってから編集・削除を行うようにしてください。</p>
-        <a href='<%= routes.edit_meeting_path(id: meeting.id) %>' class="p-button--positive">このブロック会議日程の編集</a>
+        <a href='<%= routes.edit_meeting_path(id: meeting.id) %>' class="p-button--positive">この<%= meeting.type == 0 ? "ブロック会議" : "寮生大会" %>日程の編集</a>
         <%= form_for :meeting, routes.meeting_path(id: meeting.id),
         method: :delete, class: "delete_meeting" do
-          submit 'このブロック会議日程の削除', class: "p-button--negative" end %>
+          submit 'この会議日程の削除', class: "p-button--negative" end %>
       </li>
     </ul>
   </div>

@@ -4,7 +4,7 @@
   <div class="row">
     <ul class="p-breadcrumbs">
       <li class="p-breadcrumbs__item"><a href='<%= routes.root_path %>'>管理者向けページ</a></li>
-      <li class="p-breadcrumbs__item"><strong>印刷用PDFのダウンロード（ブロック会議の選択）</strong></li>
+      <li class="p-breadcrumbs__item"><strong>印刷用PDFのダウンロード（会議日程の選択）</strong></li>
     </ul>
     <hr/>
   </div>
@@ -12,7 +12,7 @@
 <div class="p-strip is-shallow">
   <div class="row">
     <h2>印刷用PDFのダウンロード</h2>
-    <p>ブロック会議を選んでください</p>
+    <p>会議日程を選んでください</p>
     <ul class="p-list--divided">
       <% meetings.each do |meeting| %>
       <li class="p-list__item">
@@ -31,7 +31,7 @@
   <div class="row">
     <ul class="p-breadcrumbs">
       <li class="p-breadcrumbs__item"><a href='<%= routes.root_path %>'>管理者向けページ</a></li>
-      <li class="p-breadcrumbs__item"><a href='<%= routes.download_meeting_path(id: 0) %>'>印刷用PDFのダウンロード（ブロック会議の選択）</a></li>
+      <li class="p-breadcrumbs__item"><a href='<%= routes.download_meeting_path(id: 0) %>'>印刷用PDFのダウンロード（会議日程の選択）</a></li>
       <li class="p-breadcrumbs__item"><strong><%= meeting.formatted_date %>の<%= meeting.type == 0 ? "ブロック会議" : "寮生大会" %></strong></li>
     </ul>
     <hr/>
