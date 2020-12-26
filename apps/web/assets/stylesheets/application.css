@@ -1,6 +1,9 @@
 html {
   scroll-behavior: smooth;
 }
+html.is-dark {
+  background-color: #202020;
+}
 
 /*
 // body {

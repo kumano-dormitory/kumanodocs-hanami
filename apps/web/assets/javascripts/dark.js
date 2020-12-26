@@ -1,4 +1,5 @@
 function setDark() {
+  document.documentElement.classList.add('is-dark');
   document.body.classList.add('is-dark');
 
   var header = document.getElementById('navigation');
@@ -14,6 +15,7 @@ function setDark() {
 }
 
 function setLight() {
+  document.documentElement.classList.remove('is-dark');
   document.body.classList.remove('is-dark');
   var header = document.getElementById('navigation');
   if (header) { header.classList.remove('is-dark'); }
