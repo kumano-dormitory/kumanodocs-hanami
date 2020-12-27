@@ -6,7 +6,7 @@ var urlsToCache = [
   '/assets/header-dark.jpg',
   '/assets/favicon-baa44a4725761fc796e4cee42a6e0a19.ico',
   '/assets/logo.png',
-  '/assets/application-fb468f6bc8c8f866a0616db00bcfd152.css',
+  '/assets/application-cfc137f46b75595581b3d26bc7cef819.css',
   '/assets/login-dbdd349a7795e4d7c3fe0dce21ba316b.css',
   '/assets/top-720a8743b8098ccf98aa514469996c80.css',
   '/assets/article_reference-296bbe0b7e674a690e12351dce2412e8.js',
