@@ -61,4 +61,8 @@ class MeetingRepository < Hanami::Repository
       .reverse
       .to_a
   end
+
+  def count
+    meetings.count
+  end
 end

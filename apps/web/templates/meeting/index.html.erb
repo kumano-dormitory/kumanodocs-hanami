@@ -12,6 +12,104 @@
       <% end %>
     </ul>
   </div>
+
+  <div class="row">
+    <div class="col-12">
+      <ol class="p-pagination u-align--center">
+        <% if page - 1 > 0 %>
+          <li class="p-pagination__item">
+            <a href="?page=<%= page - 1 %>" class="p-pagination__link--previous">
+              <i class="p-icon--contextual-menu"></i>　前のページ
+            </a>
+          </li>
+        <% else %>
+          <li class="p-pagination__item">
+            <span class="p-pagination__link--previous is-disabled"><i class="p-icon--contextual-menu"></i>　前のページ</span>
+          </li>
+        <% end %>
+        <% if page - 3 > 1 %>
+          <li class="p-pagination__item">
+            <a href="?page=1" class="p-pagination__link u-hide--small">
+              <span class="p-pagination__label">1</span>
+            </a>
+          </li>
+        <% end %>
+        <% if page - 3 > 2 %>
+          <li class="p-pagination__item p-pagination__item--truncation">&hellip;</li>
+        <% end %>
+        <% if page - 3 > 0 %>
+          <li class="p-pagination__item">
+            <a href="?page=<%= page - 3 %>" class="p-pagination__link u-hide--small">
+              <span class="p-pagination__label"><%= page - 3 %></span>
+            </a>
+          </li>
+        <% end %>
+        <% if page - 2 > 0 %>
+          <li class="p-pagination__item">
+            <a href="?page=<%= page - 2 %>" class="p-pagination__link u-hide--small">
+              <span class="p-pagination__label"><%= page - 2 %></span>
+            </a>
+          </li>
+        <% end %>
+        <% if page - 1 > 0 %>
+          <li class="p-pagination__item">
+            <a href="?page=<%= page - 1 %>" class="p-pagination__link u-hide--small">
+              <span class="p-pagination__label"><%= page - 1 %></span>
+            </a>
+          </li>
+        <% end %>
+          <li class="p-pagination__item">
+            <span class="p-pagination__link is-active" style="background-color: #ccc;">
+              <span class="p-pagination__label"><%= page %></span>
+            </span>
+          </li>
+        <% if page + 1 <= max_page %>
+          <li class="p-pagination__item">
+            <a href="?page=<%= page + 1 %>" class="p-pagination__link u-hide--small">
+              <span class="p-pagination__label"><%= page + 1%></span>
+            </a>
+          </li>
+        <% end %>
+        <% if page + 2 <= max_page %>
+          <li class="p-pagination__item">
+            <a href="?page=<%= page + 2 %>" class="p-pagination__link u-hide--small">
+              <span class="p-pagination__label"><%= page + 2 %></span>
+            </a>
+          </li>
+        <% end %>
+        <% if page + 3 <= max_page %>
+          <li class="p-pagination__item">
+            <a href="?page=<%= page + 3 %>" class="p-pagination__link u-hide--small">
+              <span class="p-pagination__label"><%= page + 3 %></span>
+            </a>
+          </li>
+        <% end %>
+        <% if page + 5 <= max_page %>
+          <li class="p-pagination__item p-pagination__item--truncation">&hellip;</li>
+        <% end %>
+        <% if page + 4 <= max_page %>
+          <li class="p-pagination__item">
+            <a href="?page=<%= max_page %>" class="p-pagination__link u-hide--small">
+              <span class="p-pagination__label"><%= max_page %></span>
+            </a>
+          </li>
+        <% end %>
+        <% if page + 1 <= max_page %>
+          <li class="p-pagination__item">
+            <a href="?page=<%= page + 1 %>" class="p-pagination__link--next">
+              <span class="p-pagination__label">次のページ</span><i class="p-icon--contextual-menu"></i>
+            </a>
+          </li>
+        <% else %>
+          <li class="p-pagination__item">
+            <span class="p-pagination__link--next is-disabled">
+              <span class="p-pagination__label">次のページ</span><i class="p-icon--contextual-menu"></i>
+            </span>
+          </li>
+        <% end %>
+      </ol>
+    </div>
+  </div>
 </div>
 <div>
 </div>
