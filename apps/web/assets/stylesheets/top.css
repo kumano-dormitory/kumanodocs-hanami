@@ -73,6 +73,42 @@ body.is-dark .button-post-article:hover {
   background-color: #d81b60;
 }
 
+.button-shiryo-okiba {
+  background-color: #c5cae9;
+  width: 100%;
+  transition: all .5s;
+}
+.button-shiryo-okiba:hover {
+  background-color: #7986cb;
+}
+body.is-dark .button-shiryo-okiba {
+  color: #fafafa;
+  background-color: #283593;
+  width: 100%;
+  transition: all .5s;
+}
+body.is-dark .button-shiryo-okiba:hover {
+  background-color: #3f51b5;
+}
+
+.button-gijiroku {
+  background-color: #ffe0b2;
+  width: 100%;
+  transition: all .5s;
+}
+.button-gijiroku:hover {
+  background-color: #ffb74d;
+}
+body.is-dark .button-gijiroku {
+  color: #fafafa;
+  background-color: #b53d00;
+  width: 100%;
+  transition: all .5s;
+}
+body.is-dark .button-gijiroku:hover {
+  background-color: #e65100;
+}
+
 .button-other-action {
   background-color: #eceff1;
   width: 100%;
