@@ -137,6 +137,13 @@ And then, open [http://localhost:2300](http://localhost:2300).
 | body | String | markdown or filename or URL |
 | user_id | Foreign key | on delete cascade |
 
+### Gijiroku
+| attribute | type | |
+| ---- | ---- | ---- |
+| id | Primary key | |
+| body | String | |
+| description | String | |
+
 ## Lint
 
 Rubocop is ready to use!
