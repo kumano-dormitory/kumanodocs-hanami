@@ -9,7 +9,7 @@ require 'jwt'
 module Web::Controllers::Login
   class Create
     include Web::Action
-    expose :standalone
+    expose :standalone, :path
 
     params do
       required(:login).schema do
@@ -17,6 +17,7 @@ module Web::Controllers::Login
         required(:password).filled(:str?)
       end
       optional(:standalone).filled(:bool?)
+      optional(:path).filled(:str?)
     end
 
     def initialize(user_repo: UserRepository.new)
@@ -25,6 +26,7 @@ module Web::Controllers::Login
 
     def call(params)
       @standalone = !!params[:standalone]
+      @path = params[:path]
       if params.valid?
         user = @user_repo.find_by_name(params[:login][:username])
         if !user.nil? && user.authority == 0 && user.authenticate(params[:login][:password])
@@ -45,7 +47,12 @@ module Web::Controllers::Login
               path: '/',
               httponly: true
             }
-            redirect_to routes.root_path
+            if params[:path]
+              decoded_path = Base64.urlsafe_decode64(params[:path])
+              redirect_to decoded_path
+            else
+              redirect_to routes.root_path
+            end
           end
         end
       end
