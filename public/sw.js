@@ -14,7 +14,7 @@ var urlsToCache = [
   '/assets/bottom_navigation-aaa86278aa838b77fd487ee767678880.js',
   '/assets/clear_token-43c5db87b423df9117399a3c7cd1f5bc.js',
   '/assets/contextual_menu-3ddee2caebe357124863783158aff633.js',
-  '/assets/dark-756a8d80efaf11ee28812fc793ab2016.js',
+  '/assets/dark-5dd512c431d2986f1f60d96fa3c06148.js',
   '/assets/diff-4ef6300d34e87800ec7c0fc6f32e3cea.js',
   '/assets/markdown_preview-eac2ffc7a4be3fc3a4783f21ff46682e.js',
   '/assets/save_token-d2a06de682eb876c81c5bc106abc997f.js',
