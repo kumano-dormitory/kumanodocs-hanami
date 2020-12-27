@@ -1,0 +1,16 @@
+<div class="p-strip">
+  <div class="row">
+    <p>議事録：新規作成</p>
+    <p>入力に不備があり新規作成できませんでした</p>
+    <%=
+    form_for :gijiroku, routes.gijirokus_path, method: :post do
+      label '説明'
+      text_field :description
+
+      label '本文'
+      text_area :body, '', rows: "30", style: "font-size:12pt;line-height:1.2rem;"
+      submit '作成'
+    end
+    %>
+  </div>
+</div>
