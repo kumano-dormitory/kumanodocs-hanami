@@ -7,7 +7,7 @@
 module Web::Controllers::Login
   class Show
     include Web::Action
-    expose :standalone, :invalid_token
+    expose :standalone, :invalid_token, :path
 
     def initialize(authenticator: JwtAuthenticator.new)
       @authenticator = authenticator
@@ -19,6 +19,7 @@ module Web::Controllers::Login
       if @standalone && authenticated?
         redirect_to routes.root_path
       end
+      @path = params[:path]
     end
 
     def authenticate!
