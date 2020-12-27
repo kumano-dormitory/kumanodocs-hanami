@@ -1,6 +1,6 @@
 <div class="login-container">
   <div class="login-wrap">
-    <%= form_for :login, routes.login_path + (standalone ? '?standalone=true' : ''),
+    <%= form_for :login, routes.login_path + (standalone ? '?standalone=true' : (path && !path.empty? ? "?path=#{path}" : '')),
                   method: :post, class: 'login-form' do
 
           div class: 'login-title' do

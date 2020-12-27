@@ -21,7 +21,17 @@ module Web
         # PWAでのリダイレクトの場合はlocalstorageからtokenを削除する
         redirect_to (routes.login_path + '?standalone=true&invalid=true') unless authenticated?
       else
-        redirect_to routes.login_path unless authenticated?
+        unless authenticated?
+          if params.env['REQUEST_URI'] == '/' || params.env['REQUEST_URI'] == ''
+            # トップページへのアクセスの場合
+            redirect_to routes.login_path
+          else
+            # その他のページへのアクセスの場合
+            # リクエスト先のパスの情報を含めてリダイレクト
+            encoded_path = Base64.urlsafe_encode64(params.env['REQUEST_URI'].slice(0, 250))
+            redirect_to (routes.login_path + "?path=#{encoded_path}")
+          end
+        end
       end
     end
 
