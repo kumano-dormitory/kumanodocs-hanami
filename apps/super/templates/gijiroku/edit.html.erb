@@ -1,0 +1,15 @@
+<div class="p-strip">
+  <div class="row">
+    <h1>議事録：編集:<%= gijiroku.description %> <%= gijiroku.id %></h1>
+    <%=
+    form_for :gijiroku, routes.gijiroku_path(id: gijiroku.id), method: :patch do
+      label '説明'
+      text_field :description
+
+      label '本文'
+      text_area :body, gijiroku.body, rows: "30", style: "font-size:12pt;line-height:1.2rem;";
+      submit '保存'
+    end
+    %>
+  </div>
+</div>
