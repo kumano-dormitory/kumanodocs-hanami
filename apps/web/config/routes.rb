@@ -28,8 +28,7 @@ resource :login, only: [:show, :create]
 # 寮生集会・大会の議事録表示・編集
 get '/gijiroku/content', to: 'gijiroku#content', as: :content_gijiroku
 get '/gijiroku/list', to: 'gijiroku#list', as: :list_gijiroku
-get '/gijiroku/:id/delete', to: 'gijiroku#destroy', as: :destroy_gijiroku
-resources :gijiroku, only: [:index, :show, :new, :create, :edit, :update]
+resources :gijiroku, only: [:index, :show]
 # ブロック会議の議事録投稿
 get '/meeting/:meeting_id/block/:block_id/comment/edit', to: 'comment#edit', as: :edit_comment
 patch '/meeting/:meeting_id/block/:block_id/comment/', to: 'comment#update', as: :comments
