@@ -3,13 +3,9 @@
 # ====
 # 寮生大会議事録を新規作成するページを表示する
 
-module Web::Controllers::Gijiroku
+module Super::Controllers::Gijiroku
   class New
-    include Web::Action
-
-    def initialize(authenticator: JwtAuthenticator.new)
-      @authenticator = authenticator
-    end
+    include Super::Action
 
     def call(params)
     end

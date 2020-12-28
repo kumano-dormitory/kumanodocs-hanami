@@ -7,7 +7,7 @@ describe Web::Controllers::Meeting::Index do
     let(:params) { {} }
 
     it 'is successful' do
-      meeting_repo = MiniTest::Mock.new.expect(:desc_by_date, meetings, [Hash])
+      meeting_repo = MiniTest::Mock.new.expect(:desc_by_date, meetings, [Hash]).expect(:count, 1)
       action = Web::Controllers::Meeting::Index.new(meeting_repo: meeting_repo, authenticator: authenticator)
       response = action.call(params)
 

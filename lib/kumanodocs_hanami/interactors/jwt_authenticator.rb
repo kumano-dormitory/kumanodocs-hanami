@@ -4,6 +4,10 @@ class JwtAuthenticator
   include Hanami::Interactor
   expose :verification
 
+  def initialize(user: :all)
+    @user = user
+  end
+
   def call(token)
     @verification = authenticate(token)
   end
@@ -19,6 +23,13 @@ class JwtAuthenticator
       p e.message
       return false
     end
-    decoded_token[0]['version'] == ENV['KUMANODOCS_AUTH_TOKEN_VERSION']
+    # tokenのバージョンを確認
+    return false unless decoded_token[0]['version'] == ENV['KUMANODOCS_AUTH_TOKEN_VERSION']
+    # tokenのuserを確認
+    if @user != :all
+      return false unless decoded_token[0]['id'] == @user
+    end
+
+    true
   end
 end

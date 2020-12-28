@@ -3,15 +3,13 @@
 # ====
 # 寮生大会議事録を編集するページを表示する
 
-module Web::Controllers::Gijiroku
+module Super::Controllers::Gijiroku
   class Edit
-    include Web::Action
+    include Super::Action
     expose :gijiroku
 
-    def initialize(gijiroku_repo: GijirokuRepository.new,
-                   authenticator: JwtAuthenticator.new)
+    def initialize(gijiroku_repo: GijirokuRepository.new)
       @gijiroku_repo = gijiroku_repo
-      @authenticator = authenticator
     end
 
     def call(params)
