@@ -15,7 +15,7 @@ module Web::Controllers::Gijiroku
     end
 
     def call(params)
-      @gijirokus = @gijiroku_repo.all
+      @gijirokus = @gijiroku_repo.desc_by_created_at
     end
   end
 end
