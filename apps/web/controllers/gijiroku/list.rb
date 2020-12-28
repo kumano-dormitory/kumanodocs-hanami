@@ -17,5 +17,9 @@ module Web::Controllers::Gijiroku
     def call(params)
       @gijirokus = @gijiroku_repo.desc_by_created_at
     end
+
+    def navigation
+      @navigation = {enable_dark: true}
+    end
   end
 end
