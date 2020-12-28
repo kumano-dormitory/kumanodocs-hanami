@@ -8,7 +8,7 @@ module Api::Controllers::Gijiroku
     end
 
     def initialize(gijiroku_repo: GijirokuRepository.new,
-                   authenticator: JwtAuthenticator.new)
+                   authenticator: JwtAuthenticator.new(user: "gijiroku"))
       @gijiroku_repo = gijiroku_repo
       @authenticator = authenticator
     end
