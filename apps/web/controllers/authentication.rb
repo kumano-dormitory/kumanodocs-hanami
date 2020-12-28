@@ -22,7 +22,7 @@ module Web
         redirect_to (routes.login_path + '?standalone=true&invalid=true') unless authenticated?
       else
         unless authenticated?
-          if params.env['REQUEST_URI'] == '/' || params.env['REQUEST_URI'] == ''
+          if params.env['REQUEST_URI'].nil? || params.env['REQUEST_URI'] == '/' || params.env['REQUEST_URI'] == ''
             # トップページへのアクセスの場合
             redirect_to routes.login_path
           else
