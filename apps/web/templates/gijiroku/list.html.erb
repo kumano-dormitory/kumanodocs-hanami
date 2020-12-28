@@ -5,7 +5,10 @@
       <% gijirokus.each do |gijiroku| %>
       <li class="p-list__item">
         <a href='<%= routes.gijiroku_path(id: gijiroku.id) %>' class="p-button--base u-no-margin--bottom">
-          <h4 class="u-no-margin--bottom full-width">議事録<%= h gijiroku.id %> (文字数:<%= gijiroku.body.length %>) (更新日時:<%= gijiroku.updated_at %>)</h4>
+          <h4 class="u-no-margin--bottom u-align--left">
+            <% if gijiroku.description.nil? || gijiroku.description.empty? %>議事録<%= h gijiroku.id %><% else %><%= gijiroku.description %><% end %>
+          </h4>
+          <p class="u-no-margin--bottom u-no-padding--top"><small>最終更新日時:<%= gijiroku.updated_at %> (文字数:<%= gijiroku.body.length %>)</small></p>
         </a>
       </li>
       <% end %>
