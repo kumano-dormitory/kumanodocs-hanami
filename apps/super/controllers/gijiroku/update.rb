@@ -3,22 +3,21 @@
 # ====
 # 寮生大会議事録を更新する
 
-module Web::Controllers::Gijiroku
+module Super::Controllers::Gijiroku
   class Update
-    include Web::Action
+    include Super::Action
     expose :gijiroku
 
     params do
       required(:id).filled(:int?)
       required(:gijiroku).schema do
+        optional(:description).maybe(:str?)
         required(:body).filled(:str?)
       end
     end
 
-    def initialize(gijiroku_repo: GijirokuRepository.new,
-                   authenticator: JwtAuthenticator.new)
+    def initialize(gijiroku_repo: GijirokuRepository.new)
       @gijiroku_repo = gijiroku_repo
-      @authenticator = authenticator
     end
 
     def call(params)

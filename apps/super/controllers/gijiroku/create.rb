@@ -3,20 +3,19 @@
 # ====
 # 寮生大会議事録を新規作成する
 
-module Web::Controllers::Gijiroku
+module Super::Controllers::Gijiroku
   class Create
-    include Web::Action
+    include Super::Action
 
     params do
       required(:gijiroku).schema do
+        optional(:description).maybe(:str?)
         required(:body).filled(:str?)
       end
     end
 
-    def initialize(gijiroku_repo: GijirokuRepository.new,
-                   authenticator: JwtAuthenticator.new)
+    def initialize(gijiroku_repo: GijirokuRepository.new)
       @gijiroku_repo = gijiroku_repo
-      @authenticator = authenticator
     end
 
     def call(params)

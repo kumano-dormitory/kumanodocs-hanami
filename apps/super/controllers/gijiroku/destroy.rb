@@ -3,14 +3,12 @@
 # ====
 # 寮生大会議事録を削除する
 
-module Web::Controllers::Gijiroku
+module Super::Controllers::Gijiroku
   class Destroy
-    include Web::Action
+    include Super::Action
 
-    def initialize(gijiroku_repo: GijirokuRepository.new,
-                   authenticator: JwtAuthenticator.new)
+    def initialize(gijiroku_repo: GijirokuRepository.new)
       @gijiroku_repo = gijiroku_repo
-      @authenticator = authenticator
     end
 
     def call(params)
