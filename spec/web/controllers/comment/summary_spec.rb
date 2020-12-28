@@ -5,7 +5,7 @@ describe Web::Controllers::Comment::Summary do
 
   describe 'when user is logged in' do
     let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]) }
-    let(:meeting) { Meeting.new(id: rand(1..100), date: Date.new(2020,01,05)) }
+    let(:meeting) { Meeting.new(id: rand(1..100), date: Date.today) }
     let(:article) { Article.new(id: rand(1..100)) }
     let(:comment) { {id: rand(1..100), article_id: article.id} }
     let(:msg) { {id: rand(1..100), comment_id: comment[:id]} }
