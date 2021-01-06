@@ -10,7 +10,7 @@ module Web
   module Helpers
     module ArticleHelper
       def article_numbered_title(article)
-         "(#{article.number.nil? ? '番号なし' : article.number}) #{h article.title}"
+         "(#{article.number.nil? ? '番号なし' : article.number}) #{article.title}"
       end
 
       def article_formatted_title(article, checked: false, number: true)
