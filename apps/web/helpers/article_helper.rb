@@ -18,7 +18,7 @@ module Web
         categories_str = article&.categories&.map{ |category| "#{category.name}"}&.reduce{|ret, str| "#{ret}・#{str}"}
         if categories_str then categories_str = "【#{categories_str}】" end
         checked_str = if checked then (article.checked ? '' : '【追加議案】') else '' end
-        "#{number_str}#{checked_str}#{h article.title} #{categories_str}"
+        "#{number_str}#{checked_str}#{article.title} #{categories_str}"
       end
 
       def vote_content(article)
