@@ -13,20 +13,9 @@
       <% if meeting.deadline > Time.now %>
         <p>議案投稿の締め切り日時 : <%= meeting.formatted_deadline %></p>
       <% end %>
-      <span class="p-contextual-menu--left" style="width:100%;">
-          <a href="#" class="p-button--neutral p-contextual-menu__toggle" aria-controls="#menu" aria-expanded="false" aria-haspopup="true">議案の一覧を表示</a>
-          <span class="p-contextual-menu__dropdown" id="menu" aria-hidden="true" aria-label="submenu" style="max-width:32rem;">
-            <span class="p-contextual-menu__group">
-              <a href="<%= routes.meeting_path(id: meeting.id) %>?page=0" class="p-contextual-menu__link" style="margin:3px;">(0) 前回のブロック会議から</a>
-              <% meeting.articles.each_with_index do |article, i| %>
-                <a href="<%= routes.meeting_path(id: meeting.id) %>?page=<%= i + 1 %>" class="p-contextual-menu__link" style="margin:3px;">
-                  <%= article_numbered_title(article) %>
-                </a>
-              <% end %>
-            </span>
-          </span>
-      </span>
-      <%= javascript 'contextual_menu' %>
+      <a href="#" id="side-navigation-top-drawer" class="p-button--neutral has-icon js-drawer-toggle" aria-controls="side-navigation-drawer">
+        <i class="p-icon--chevron-down" style="transform: rotate(270deg);"></i><span>議案の一覧を表示</span>
+      </a>
     </div>
   </div>
 
@@ -227,31 +216,45 @@
       </footer>
     </div>
 
-    <div class="col-3 u-hide--small">
-      <ul class="p-list u-no-margin--bottom">
-        <hr>
-        <li class="p-list__item">
-          <a href="<%= routes.meeting_path(id: meeting.id) %>?page=0" class="p-link--soft" <%= article ? '' : 'style="font-weight:950;"' %>>
-            (0) 前回のブロック会議から
-          </a>
-        </li>
-        <% meeting.articles.each_with_index do |nav_article, i| %>
-          <hr>
-          <li class="p-list__item">
-            <% if nav_article.id == article&.id %>
-            <a href="<%= routes.meeting_path(id: meeting.id) %>?page=<%= i + 1 %>" class="p-link--soft" style="font-weight:950;">
-            <%= article_numbered_title(nav_article) %>
+    <aside class="col-3">
+      <div class="p-side-navigation is-sticky" id="side-navigation-drawer">
+        <div class="p-side-navigation__overlay js-drawer-toggle" aria-controls="side-navigation-drawer"></div>
+        <div class="p-side-navigation__drawer">
+          <div class="p-side-navigation__drawer-header">
+            <a href="#" class="p-side-navigation__toggle--in-drawer js-drawer-toggle" aria-controls="side-navigation-drawer">
+              議案の一覧を閉じる
             </a>
-            <% else %>
-            <a href="<%= routes.meeting_path(id: meeting.id) %>?page=<%= i + 1 %>" class="p-link--soft">
-            <%= article_formatted_title(nav_article) %>
-            </a>
-            <% end %>
-          </li>
-        <% end %>
-      </ul>
-    </div>
+          </div>
 
+          <ul class="p-side-navigation__list">
+            <li class="p-side-navigation__item--title">
+              <span class="p-side-navigation__link">目次</span>
+            </li>
+            <li class="p-side-navigation__item">
+              <a href="<%= routes.meeting_path(id: meeting.id) %>?page=0" class="p-side-navigation__link" <%= article ? '' : 'aria-current="page"' %>>
+                (0) 前回のブロック会議から
+              </a>
+            </li>
+            <% meeting.articles.each_with_index do |nav_article, i| %>
+              <hr class="u-no-margin">
+              <li class="p-side-navigation__item">
+                <% if nav_article.id == article&.id %>
+                <a href="<%= routes.meeting_path(id: meeting.id) %>?page=<%= i + 1 %>" class="p-side-navigation__link u-no-padding--right" aria-current="page">
+                <%= article_formatted_title(nav_article) %>
+                </a>
+                <% else %>
+                <a href="<%= routes.meeting_path(id: meeting.id) %>?page=<%= i + 1 %>" class="p-side-navigation__link u-no-padding--right">
+                <%= article_formatted_title(nav_article) %>
+                </a>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+
+      <%= javascript 'contextual_menu' %>
+    </aside>
 
   </div>
   <% end # if article || past_comments %>

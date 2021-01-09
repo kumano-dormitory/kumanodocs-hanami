@@ -73,6 +73,25 @@ body.is-dark .p-button--neutral:hover {
 body.is-dark .p-link--soft {
   color: #fafafa;
 }
+body.is-dark .p-side-navigation__list {
+  color: #fafafa;
+  background-color: #2a2a2a;
+}
+body.is-dark .p-side-navigation__item--title .p-side-navigation__link {
+  color: #fafafa;
+}
+body.is-dark .p-side-navigation__link {
+  color: #fafafa;
+}
+body.is-dark .p-side-navigation__item .p-side-navigation__link:hover {
+  color: #fff;
+  background-color: #444;
+}
+body.is-dark .p-side-navigation__link[aria-current='page'] {
+  color: #fff;
+  background-color: #444;
+  font-weight: bold;
+}
 body.is-dark .p-card--highlighted {
   color: #f5f5f5;
   background-color: #1a1a1a;
