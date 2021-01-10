@@ -73,6 +73,9 @@ body.is-dark .p-button--neutral:hover {
 body.is-dark .p-link--soft {
   color: #fafafa;
 }
+body.is-dark .p-side-navigation .p-side-navigation__drawer {
+  background-color: #222;
+}
 body.is-dark .p-side-navigation__list {
   color: #fafafa;
   background-color: #2a2a2a;
@@ -81,6 +84,9 @@ body.is-dark .p-side-navigation__item--title .p-side-navigation__link {
   color: #fafafa;
 }
 body.is-dark .p-side-navigation__link {
+  color: #fafafa;
+}
+body.is-dark .p-side-navigation__link:visited {
   color: #fafafa;
 }
 body.is-dark .p-side-navigation__item .p-side-navigation__link:hover {
