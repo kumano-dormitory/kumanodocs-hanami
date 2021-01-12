@@ -1,6 +1,36 @@
 <div class="p-strip">
-  <div class="row">
-    <div class="col-12">
+  <div class="row row-wide">
+    <aside class="col-3">
+      <div class="p-side-navigation is-sticky" id="drawer">
+        <a href="#drawer" class="p-side-navigation__toggle js-drawer-toggle" aria-controls="drawer">
+          議案の一覧を表示する
+        </a>
+        <div class="p-side-navigation__overlay js-drawer-toggle" aria-controls="drawer"></div>
+        <div class="p-side-navigation__drawer">
+          <div class="p-side-navigation__drawer-header">
+            <a href="#" class="p-side-navigation__toggle--in-drawer js-drawer-toggle" aria-controls="drawer">
+              議案の一覧を閉じる
+            </a>
+          </div>
+
+          <ul class="p-side-navigation__list">
+            <li class="p-side-navigation__item--title">
+              <span class="p-side-navigation__link">目次</span>
+            </li>
+            <% meeting.articles.each_with_index do |nav_article, i| %>
+              <hr class="u-no-margin">
+              <li class="p-side-navigation__item">
+                <a href="#article<%= i %>" class="p-side-navigation__link u-no-padding--right">
+                  <%= article_formatted_title(nav_article) %>
+                </a>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </aside>
+    <%= javascript 'comment_side_navigation' %>
+    <div class="col-9">
       <h3>議事録編集</h3>
       <%= form_update(meeting, block_id, requested_datas, requested_datas) %>
     </div>
