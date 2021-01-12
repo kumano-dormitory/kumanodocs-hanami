@@ -30,7 +30,7 @@ module Web::Views::Comment
           comment_data = comment_datas&.find{ |data| data[:article_id] == article.id }
           vote_result = vote_result_datas&.find{ |data| data[:article_id] == article.id }&.fetch(:vote_result, nil)
 
-          fieldset '', style: "margin-bottom:1.5rem;" do
+          fieldset '', style: "margin-bottom:1.5rem;", id: "article#{idx}" do
             div do
               label "#{article_formatted_title(article, checked: true, number: true)}への議事録", for: "meeting-articles-#{idx}-comment", class: "p-heading--four"
             end
