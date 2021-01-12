@@ -27,9 +27,11 @@ function setupSideNavigation(sideNavigation) {
     var toggles2 = [].slice.call(sideNavigation.querySelectorAll('a.p-side-navigation__link'));
     toggles2.forEach(function (toggle) {
         toggle.addEventListener('click', function (event) {
-            var sideNav = document.getElementById("drawer");
-            if (sideNav) {
-                toggleDrawer(sideNav, false);
+            if (window.innerWidth < 772) {
+                var sideNav = document.getElementById("drawer");
+                if (sideNav) {
+                    toggleDrawer(sideNav, false);
+                }
             }
         });
     });
