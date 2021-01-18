@@ -85,7 +85,7 @@
           </div>
           <% else %>
           <dd>
-            <pre><%= h article.body %></pre>
+            <pre><%= url_parse(h article.body) %></pre>
           </dd>
           <% end %>
           <% if article&.categories&.find{ |category| category.name == '採決' || category.name == '採決予定' } %>
