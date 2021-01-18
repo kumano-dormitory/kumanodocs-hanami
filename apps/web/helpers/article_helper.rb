@@ -39,6 +39,12 @@ module Web
       def markdown_to_html(str)
         raw Kramdown::Document.new(str, input: 'GFM', auto_ids: false).to_html
       end
+
+      def url_parse(str)
+        str.gsub(/(http:|https:)[^\(\)[:space:]（）、。]*/) { |url|
+          "<a href='#{hu url}'>#{url}</a>"
+        }
+      end
     end
   end
 end
