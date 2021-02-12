@@ -1,5 +1,6 @@
 require 'hanami/helpers'
 require 'hanami/assets'
+require_relative './controllers/authentication'
 
 module Apiv2
   class Application < Hanami::Application
@@ -95,7 +96,8 @@ module Apiv2
       # Default format for responses that don't consider the request format
       # Argument: A symbol representation of a mime type, defaults to :html
       #
-      # default_response_format :html
+      controller.format jsonapi: 'application/vnd.api+json'
+      default_response_format :jsonapi
 
       ##
       # TEMPLATES
@@ -248,6 +250,7 @@ module Apiv2
       controller.prepare do
         # include MyAuthentication # included in all the actions
         # before :authenticate!    # run an authentication before callback
+        include Authentication
       end
 
       # Configure the code that will yield each time Apiv2::View is included
