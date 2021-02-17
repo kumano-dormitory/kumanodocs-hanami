@@ -7,21 +7,21 @@ module Apiv2::Controllers::Articles
       required(:id) { filled? & int? & gt?(0) }
     end
 
-    def initialize(json_repo: JsonRepository.new,
+    def initialize(jsonapi_repo: JsonapiRepository.new,
                    authenticator: JwtAuthenticator.new)
-      @json_repo = json_repo
+      @jsonapi_repo = jsonapi_repo
       @authenticator = authenticator
     end
 
     def call(params)
       if params.valid?
-        article = @json_repo.article_details(params[:id])
+        article = @jsonapi_repo.article_details(params[:id])
         halt 404, '{}' unless article
         self.body = JSON.generate({
           data: {
             type: 'articles',
             id: article[:id],
-            attribute: article
+            attributes: article
           }
         })
         self.format = :jsonapi

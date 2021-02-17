@@ -8,12 +8,12 @@ module Apiv2::Controllers::Meetings
 
     params do
       optional(:limit) { filled? & int? & gt?(0) }
-      optional(:offset) { filled? & int? & gt?(0) }
+      optional(:offset) { filled? & int? & gteq?(0) }
     end
 
-    def initialize(json_repo: JsonRepository.new,
+    def initialize(jsonapi_repo: JsonRepository.new,
                    authenticator: JwtAuthenticator.new)
-      @json_repo = json_repo
+      @jsonapi_repo = jsonapi_repo
       @authenticator = authenticator
     end
 
@@ -23,7 +23,7 @@ module Apiv2::Controllers::Meetings
         limit = MAX_LIMIT if limit > MAX_LIMIT
         offset = params[:offset] || 0
 
-        meetings = @json_repo.meetings_list(limit: limit, offset: offset).map do |meeting|
+        meetings = @jsonapi_repo.meetings_list(limit: limit, offset: offset).map do |meeting|
           {
             type: 'meetings',
             id: meeting[:id],
