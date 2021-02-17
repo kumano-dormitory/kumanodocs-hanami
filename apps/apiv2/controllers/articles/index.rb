@@ -3,29 +3,34 @@ module Apiv2::Controllers::Articles
     include Apiv2::Action
     accept :jsonapi
 
-    DEFAULT_WITH_ARTICLE_COUNT = 3
+    DEFAULT_WITH_MEETING_COUNT = 3
 
     params do
       optional(:meeting_count) { filled? & int? & gt?(0) & lt?(6)}
     end
 
-    def initialize(json_repo: JsonRepository.new,
+    def initialize(jsonapi_repo: JsonapiRepository.new,
                    authenticator: JwtAuthenticator.new)
-      @json_repo = json_repo
+      @jsonapi_repo = jsonapi_repo
       @authenticator = authenticator
     end
 
     def call(params)
       if params.valid?
-        meetings = @json_repo.meetings_list(limit: 6)
-        meeting_count = params[:meeting_count] || DEFAULT_WITH_ARTICLE_COUNT
+        meetings = @jsonapi_repo.meetings_list(limit: 6)
+        meeting_count = params[:meeting_count] || DEFAULT_WITH_MEETING_COUNT
         data = meetings.map.with_index { |meeting, idx|
           if idx < meeting_count
-            @json_repo.articles_by_meeting(meeting[:id]).map do |article|
+            @jsonapi_repo.articles_by_meeting(meeting[:id]).map do |article|
               {
                 type: 'articles',
                 id: article[:id],
-                attributes: article.merge({meeting: meeting})
+                attributes: article.merge({
+                  meeting_id: meeting[:id],
+                  meeting_date: meeting[:date],
+                  meeting_deadline: meeting[:deadline],
+                  meeting_type: meeting[:type]
+                })
               }
             end
           else
