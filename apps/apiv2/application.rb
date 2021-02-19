@@ -239,6 +239,8 @@ module Apiv2
         media-src 'self'
       }
 
+      controller.default_headers "Access-Control-Allow-Origin" => "*"
+
       ##
       # FRAMEWORKS
       #
