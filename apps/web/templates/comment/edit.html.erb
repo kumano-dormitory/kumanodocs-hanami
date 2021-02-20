@@ -32,6 +32,13 @@
     <%= javascript 'comment_side_navigation' %>
     <div class="col-9">
       <h3>議事録編集</h3>
+      <div class="p-notification--caution">
+        <p class="p-notification__response p-heading--4">
+          <span class="p-notification__status p-heading--3">議事録投稿者の方へ</span><br>
+          前回の寮生大会で議論された、採決拒否の理由の投稿フォームを実装しました。
+          今日急ぎで実装したのでバグが残っている可能性があります。議事録を他のテキストエディタでとり、最後にまとめて投稿することをおすすめします。
+        </p>
+      </div>
       <%= form_update(meeting, block_id, comment_datas, vote_result_datas, nil) %>
     </div>
     <%= javascript 'comment_reject_vote' %>

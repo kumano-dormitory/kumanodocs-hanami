@@ -86,7 +86,11 @@ module Web::Views::Comment
                               min: 0, step: 1
                 end
                 div id: "article#{idx}-reject-vote-div", style: "display: none;" do
-                  p '採決拒否の理由'
+
+                div class: "p-notification--caution" do
+                  p '採決拒否をする場合は、その後の議論の円滑化のため採決拒否の理由を明確にし、以下に記載してください', class: "p-notification__response p-heading--4"
+                end
+                strong '採決拒否の理由'
                   text_area :vote_reject_reason,
                         "#{vote_reject_reason.nil? ? '' : vote_reject_reason}",
                         name: "meeting[articles][#{idx}][vote_reject_reason]",
