@@ -18,11 +18,13 @@ module Web::Controllers::Comment
             each {
               required(:article_id).filled(:int?)
               required(:comment).maybe(:str?)
+              optional(:vote_reject).filled(:str?)
               optional(:vote_result).schema do
                 required(:agree) { filled? & int? & gteq?(0) }
                 required(:disagree) { filled? & int? & gteq?(0) }
                 required(:onhold) { filled? & int? & gteq?(0) }
               end
+              optional(:vote_reject_reason).maybe(:str?)
             }
           }
         }
@@ -60,6 +62,12 @@ module Web::Controllers::Comment
         # 議事録データの取り出し
         params[:meeting][:articles].each do |data|
           props = {article_id: data[:article_id], block_id: params[:block_id], body: (data[:comment] || '')}
+          # 採決拒否の場合には採決拒否の理由を議事録に含める
+          if data[:vote_reject] && data[:vote_reject] == "reject"
+            if data[:vote_reject_reason] && !data[:vote_reject_reason].empty?
+              props[:body] = "#{props[:body]}\n\n採決拒否の理由\n#{data[:vote_reject_reason]}"
+            end
+          end
           comment = @comment_repo.find(props[:article_id], params[:block_id])
           if comment.nil?
             # 議事録が存在しなければ新規作成する。
