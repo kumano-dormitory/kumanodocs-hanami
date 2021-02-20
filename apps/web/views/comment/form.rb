@@ -1,6 +1,6 @@
 module Web::Views::Comment
   module Form
-    def form_update(meeting, block_id, comment_datas = nil, vote_result_datas = nil)
+    def form_update(meeting, block_id, comment_datas = nil, vote_result_datas = nil, vote_reject_data = nil)
 
       form_for :comments,
                routes.comments_path(meeting_id: meeting.id, block_id: block_id),
@@ -29,6 +29,8 @@ module Web::Views::Comment
         meeting.articles.each_with_index do |article, idx|
           comment_data = comment_datas&.find{ |data| data[:article_id] == article.id }
           vote_result = vote_result_datas&.find{ |data| data[:article_id] == article.id }&.fetch(:vote_result, nil)
+          vote_reject = vote_reject_data&.find{ |data| data[:article_id] == article.id }&.fetch(:vote_reject, nil)
+          vote_reject_reason = vote_reject_data&.find{ |data| data[:article_id] == article.id }&.fetch(:vote_reject_reason, nil)
 
           fieldset '', style: "margin-bottom:1.5rem;", id: "article#{idx}" do
             div do
@@ -47,22 +49,50 @@ module Web::Views::Comment
 
             if article.categories.find_index { |category| category.require_content && category.name == '採決' }
               div do
-                p '採決結果'
-                label '賛成', for: "meeting-articles-#{idx}-vote_result-agree"
-                number_field :agree, value: vote_result&.fetch(:agree),
-                             name: "meeting[articles][][vote_result][agree]",
-                             id: "meeting-articles-#{idx}-vote_result-agree",
-                             min: 0, step: 1, required: ""
-                label '反対', for: "meeting-articles-#{idx}-vote_result-disagree"
-                number_field :disagree, value: vote_result&.fetch(:disagree),
-                            name: "meeting[articles][][vote_result][disagree]",
-                            id: "meeting-articles-#{idx}-vote_result-disagree",
-                            min: 0, step: 1, required: ""
-                label '保留', for: "meeting-articles-#{idx}-vote_result-onhold"
-                number_field :onhold, value: vote_result&.fetch(:onhold),
-                             name: "meeting[articles][][vote_result][onhold]",
-                             id: "meeting-articles-#{idx}-vote_result-onhold",
-                             min: 0, step: 1, required: ""
+                div do
+                  tag :label, class: "p-radio" do
+                    tag :input, type: 'radio', name: "meeting[articles][][vote_reject]", class: "p-radio__input",
+                        id: "meeting-articles-#{idx}-vote_reject-no", value: "vote", required: "",
+                        'aria-labelledby': "article#{idx}RadioNotRejectVote", 'aria-controls': "#{idx}",
+                        checked: (vote_result&.fetch(:agree) || (vote_reject && vote_reject == "vote"))
+                    span "この議案の採決を行う", id: "article#{idx}RadioNotRejectVote", class: "p-radio__label"
+                  end
+
+                  tag :label, class: "p-radio" do
+                    tag :input, type: 'radio', name: "meeting[articles][][vote_reject]", class: "p-radio__input",
+                        id: "meeting-articles-#{idx}-vote_reject-yes", value: "reject", required: "",
+                        'aria-labelledby': "article#{idx}RadioRejectVote", 'aria-controls': "#{idx}",
+                        checked: (vote_reject && vote_reject == "reject")
+                    span "この議案の採決拒否を行う", id: "article#{idx}RadioRejectVote", class: "p-radio__label"
+                  end
+                end
+
+                div id: "article#{idx}-vote-div", style: "display: none;" do
+                  p '採決結果'
+                  label '賛成', for: "meeting-articles-#{idx}-vote_result-agree"
+                  number_field :agree, value: vote_result&.fetch(:agree),
+                              name: "meeting[articles][][vote_result][agree]",
+                              id: "meeting-articles-#{idx}-vote_result-agree",
+                              min: 0, step: 1
+                  label '反対', for: "meeting-articles-#{idx}-vote_result-disagree"
+                  number_field :disagree, value: vote_result&.fetch(:disagree),
+                              name: "meeting[articles][][vote_result][disagree]",
+                              id: "meeting-articles-#{idx}-vote_result-disagree",
+                              min: 0, step: 1
+                  label '保留', for: "meeting-articles-#{idx}-vote_result-onhold"
+                  number_field :onhold, value: vote_result&.fetch(:onhold),
+                              name: "meeting[articles][][vote_result][onhold]",
+                              id: "meeting-articles-#{idx}-vote_result-onhold",
+                              min: 0, step: 1
+                end
+                div id: "article#{idx}-reject-vote-div", style: "display: none;" do
+                  p '採決拒否の理由'
+                  text_area :vote_reject_reason,
+                        "#{vote_reject_reason.nil? ? '' : vote_reject_reason}",
+                        name: "meeting[articles][][vote_reject_reason]",
+                        id: "meeting-articles-#{idx}-vote_reject_reason",
+                        rows: 5
+                end
               end
             end
           end
