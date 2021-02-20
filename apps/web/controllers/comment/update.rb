@@ -11,30 +11,76 @@ module Web::Controllers::Comment
     include Web::Action
     expose :meeting, :block_id, :requested_datas
 
-    params do
-      required(:meeting).schema do
-        required(:articles) {
-          array? {
-            each {
-              required(:article_id).filled(:int?)
-              required(:comment).maybe(:str?)
-              optional(:vote_reject).filled(:str?)
-              optional(:vote_result).schema do
-                required(:agree) { filled? & int? & gteq?(0) }
-                required(:disagree) { filled? & int? & gteq?(0) }
-                required(:onhold) { filled? & int? & gteq?(0) }
-              end
-              optional(:vote_reject_reason).maybe(:str?)
-            }
-          }
-        }
+    params Class.new(Hanami::Action::Params) {
+      predicate(:valid_hash?, message: 'is not valid data'){ |current|
+        return false unless current.instance_of?(Hash)
+
+        current.each do |key, data|
+          p key
+          p data
+          # required(:article_id).filled(:int?)
+          if !data.key?("article_id") || !data["article_id"].match(/\d+|/)
+            return false
+          else
+            data[:article_id] = data["article_id"].to_i
+            data.delete("article_id")
+          end
+          # required(:comment).maybe(:str?)
+          if !data.key?("comment")
+            return false
+          else
+            data[:comment] = data["comment"]
+            data.delete("comment")
+          end
+          # optional(:vote_reject).filled(:str?)
+          if data.key?("vote_reject")
+            data[:vote_reject] = data["vote_reject"]
+            data.delete("vote_reject")
+          end
+          # optional(:vote_result)
+          if data.key?("vote_result")
+            vr = data["vote_result"]
+            if !vr&.key?("agree") || !vr["agree"].match(/\d+|/) || vr["agree"].to_i < 0
+              return false
+            else
+              vr[:agree] = vr["agree"].to_i
+              vr.delete("agree")
+            end
+            if !vr&.key?("disagree") || !vr["disagree"].match(/\d+|/) || vr["disagree"].to_i < 0
+              return false
+            else
+              vr[:disagree] = vr["disagree"].to_i
+              vr.delete("disagree")
+            end
+            if !vr&.key?("onhold") || !vr["onhold"].match(/\d+|/) || vr["onhold"].to_i < 0
+              return false
+            else
+              vr[:onhold] = vr["onhold"].to_i
+              vr.delete("onhold")
+            end
+            data[:vote_result] = data["vote_result"]
+            data.delete("vote_result")
+          end
+          # optional(:vote_reject_reason).maybe(:str?)
+          if data.key?("vote_reject_reason")
+            data[:vote_reject_reason] = data["vote_reject_reason"]
+            data.delete("vote_reject_reason")
+          end
+        end
+        return true
+      }
+
+      validations do
+        required(:meeting).schema do
+          required(:articles) { valid_hash? }
+        end
+        required(:meeting_id).filled(:int?)
+        required(:block_id).filled(:int?)
+        required(:comments).schema do
+          required(:password).filled(:str?)
+        end
       end
-      required(:meeting_id).filled(:int?)
-      required(:block_id).filled(:int?)
-      required(:comments).schema do
-        required(:password).filled(:str?)
-      end
-    end
+    }
 
     def initialize(meeting_repo: MeetingRepository.new,
                    comment_repo: CommentRepository.new,
@@ -60,7 +106,7 @@ module Web::Controllers::Comment
         not_during_meeting_err = !during_meeting?(meeting: @meeting)
 
         # 議事録データの取り出し
-        params[:meeting][:articles].each do |data|
+        params[:meeting][:articles].each do |idx, data|
           props = {article_id: data[:article_id], block_id: params[:block_id], body: (data[:comment] || '')}
           # 採決拒否の場合には採決拒否の理由を議事録に含める
           if data[:vote_reject] && data[:vote_reject] == "reject"
@@ -121,7 +167,7 @@ module Web::Controllers::Comment
       else
         # invalid params
         @block_id = params[:block_id]
-        @requested_datas = params[:meeting][:articles]
+        @requested_datas = params[:meeting][:articles]&.to_a&.map{|t| t[1]}
         @notifications = {error: {status: "Error:", message: "入力された項目に不備があります. もう一度確認してください"}}
         self.status = 422
       end
