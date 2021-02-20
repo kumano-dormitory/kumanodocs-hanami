@@ -16,8 +16,6 @@ module Web::Controllers::Comment
         return false unless current.instance_of?(Hash)
 
         current.each do |key, data|
-          p key
-          p data
           # required(:article_id).filled(:int?)
           if !data.key?("article_id") || !data["article_id"].match(/\d+|/)
             return false
