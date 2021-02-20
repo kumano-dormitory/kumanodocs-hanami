@@ -32,7 +32,8 @@
     <%= javascript 'comment_side_navigation' %>
     <div class="col-9">
       <h3>議事録編集</h3>
-      <%= form_update(meeting, block_id, comment_datas, vote_result_datas) %>
+      <%= form_update(meeting, block_id, comment_datas, vote_result_datas, nil) %>
     </div>
+    <%= javascript 'comment_reject_vote' %>
   </div>
 </div>
