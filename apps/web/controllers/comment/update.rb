@@ -145,12 +145,12 @@ module Web::Controllers::Comment
         # 制御処理
         if not_during_meeting_err # ブロック会議中ではないため投稿不可
           @notifications = {error: {status: "Error:", message: "ブロック会議の開催中ではないため、議事録を投稿できません"}}
-          @requested_datas = params[:meeting][:articles]
+          @requested_datas = params[:meeting][:articles]&.to_a&.map{|t| t[1]}
           @block_id = params[:block_id]
           self.status = 422
         elsif authentication_err # 議事録のパスワードエラー
           @block_id = params[:block_id]
-          @requested_datas = params[:meeting][:articles]
+          @requested_datas = params[:meeting][:articles]&.to_a&.map{|t| t[1]}
           @notifications = {error: {status: "Authentication Failed:", message: "議事録のパスワードが間違っています. 正しいパスワードを入力してください. また、今回が初めての投稿の場合は既に議事録が投稿されています"}}
           self.status = 422
         else
