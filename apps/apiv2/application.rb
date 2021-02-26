@@ -239,7 +239,11 @@ module Apiv2
         media-src 'self'
       }
 
-      controller.default_headers "Access-Control-Allow-Origin" => "*"
+      controller.default_headers({
+        "Access-Control-Allow-Origin" => "*",
+        "Access-Control-Allow-Methods" => 'POST, GET, OPTIONS',
+        "Access-Control-Allow-Headers" => 'authorization'
+      })
 
       ##
       # FRAMEWORKS
