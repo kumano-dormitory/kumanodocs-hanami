@@ -102,7 +102,7 @@ class JsonapiRepository < Hanami::Repository
     }.join(' AND ')
     search_query = "\
     SELECT articles.id, title, body, format, articles.created_at, articles.updated_at,\
-           checked, printed, number, authors.name as author_name, \
+           checked, printed, number, authors.name as author_name, meetings.id as meeting_id, meetings.type as meeting_type, \
            meetings.date as meeting_date, meetings.deadline as meeting_deadline, \
            string_agg(categories.name, '・') as category_name \
     from articles join authors on articles.author_id = authors.id \
@@ -114,6 +114,19 @@ class JsonapiRepository < Hanami::Repository
     order by meetings.date desc, articles.number asc, articles.id desc \
     limit #{limit} offset #{offset}"
     jsonapis.read(search_query).map.to_a
+  end
+
+  def search_articles_count(keywords: [''])
+    keywords_str = keywords.map { |keyword|
+      key = jsonapis.dataset.escape_like(keyword).gsub(/'/, "''")
+      "((title ILIKE '%#{key}%' ESCAPE '\\') OR (body ILIKE '%#{key}%' ESCAPE '\\') OR (authors.name ILIKE '%#{key}%' ESCAPE '\\'))"
+    }.join(' AND ')
+    search_query = "\
+    SELECT articles.id, title, body, format, articles.created_at, articles.updated_at,\
+           checked, printed, number, authors.name as author_name \
+    from articles join authors on articles.author_id = authors.id \
+    where (#{keywords_str})"
+    jsonapis.read(search_query).map.to_a.length
   end
 
   def comments_by_meeting(id)
