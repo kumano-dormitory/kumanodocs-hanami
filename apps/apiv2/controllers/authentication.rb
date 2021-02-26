@@ -9,7 +9,7 @@ module Apiv2
     private
 
     def authenticate!
-      # halt 403 unless authenticated?
+      halt 403 unless authenticated?
     end
 
     def authenticated?
