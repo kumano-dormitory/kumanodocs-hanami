@@ -15,6 +15,20 @@ module Admin
         "#{number_str}#{checked_str}#{article.title} #{categories_str}"
       end
 
+      def tex_article_formatted_title(article, checked: false, number: true)
+        tex_escape(article_formatted_title(article, checked: checked, number: number))
+      end
+
+      def tex_escape(str)
+        raw str.gsub(/&/, '\\\&')
+               .gsub(/%/, '\\%')
+               .gsub(/\$/, '\\$')
+               .gsub(/#/, '\\#')
+               .gsub(/_/, '\\_')
+               .gsub(/\{/, '\\{')
+               .gsub(/\}/, '\\}')
+      end
+
       def vote_content(article)
         vote_category = article&.categories&.find{ |category| category.name == '採決' || category.name == '採決予定' }
         if vote_category
