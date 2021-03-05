@@ -129,6 +129,76 @@ class JsonapiRepository < Hanami::Repository
     jsonapis.read(search_query).map.to_a.length
   end
 
+  def detail_search_articles(title_keywords: [''], author_keywords: [''], body_keywords: [''],
+                             category_ids: [], limit: 25, offset: 0)
+    title_query = title_keywords.map { |keyword|
+      key = jsonapis.dataset.escape_like(keyword).gsub(/'/, "''")
+      "(title ILIKE '%#{key}%' ESCAPE '\\')"
+    }.join(' AND ')
+    author_query = author_keywords.map { |keyword|
+      key = jsonapis.dataset.escape_like(keyword).gsub(/'/, "''")
+      "(authors.name ILIKE '%#{key}%' ESCAPE '\\')"
+    }.join(' AND ')
+    body_query = body_keywords.map { |keyword|
+      key = jsonapis.dataset.escape_like(keyword).gsub(/'/, "''")
+      "(body ILIKE '%#{key}%' ESCAPE '\\')"
+    }.join(' AND ')
+
+    category_query = category_ids.map { |id|
+      "(categories.id = #{id})"
+    }.join(' OR ')
+    if !category_query.empty?
+      category_query = "AND (#{category_query})"
+    end
+    search_query = "\
+    SELECT articles.id, title, body, format, articles.created_at, articles.updated_at,\
+           checked, printed, number, authors.name as author_name, meetings.id as meeting_id, meetings.type as meeting_type, \
+           meetings.date as meeting_date, meetings.deadline as meeting_deadline, \
+           string_agg(categories.name, '・') as category_name \
+    from articles join authors on articles.author_id = authors.id \
+                  join meetings on articles.meeting_id = meetings.id \
+                  join article_categories on articles.id = article_categories.article_id \
+                  join categories on article_categories.category_id = categories.id \
+    where (#{title_query} AND #{author_query} AND #{body_query} #{category_query}) \
+    group by articles.id, authors.id, meetings.id \
+    order by meetings.date desc, articles.number asc, articles.id desc \
+    limit #{limit} offset #{offset}"
+    jsonapis.read(search_query).map.to_a
+  end
+
+  def detail_search_articles_count(title_keywords: [''], author_keywords: [''], body_keywords: [''], category_ids: [])
+    title_query = title_keywords.map { |keyword|
+    key = jsonapis.dataset.escape_like(keyword).gsub(/'/, "''")
+    "(title ILIKE '%#{key}%' ESCAPE '\\')"
+    }.join(' AND ')
+    author_query = author_keywords.map { |keyword|
+    key = jsonapis.dataset.escape_like(keyword).gsub(/'/, "''")
+    "(authors.name ILIKE '%#{key}%' ESCAPE '\\')"
+    }.join(' AND ')
+    body_query = body_keywords.map { |keyword|
+    key = jsonapis.dataset.escape_like(keyword).gsub(/'/, "''")
+    "(body ILIKE '%#{key}%' ESCAPE '\\')"
+    }.join(' AND ')
+
+    category_query = category_ids.map { |id|
+    "(categories.id = #{id})"
+    }.join(' OR ')
+    if !category_query.empty?
+    category_query = "AND (#{category_query})"
+    end
+    search_query = "\
+    SELECT articles.id, title, body, format, articles.created_at, articles.updated_at,\
+           checked, printed, number, authors.name as author_name,
+           string_agg(categories.name, '・') as category_name \
+    from articles join authors on articles.author_id = authors.id \
+                  join meetings on articles.meeting_id = meetings.id \
+                  join article_categories on articles.id = article_categories.article_id \
+                  join categories on article_categories.category_id = categories.id \
+    where (#{title_query} AND #{author_query} AND #{body_query} #{category_query}) \
+    group by articles.id, authors.id, meetings.id"
+    jsonapis.read(search_query).map.to_a.length
+  end
+
   def comments_by_meeting(id)
     query = "\
     SELECT block_id, block_name, title, article_id, article_number, max(id) as id, string_agg(body, '') as body, \
