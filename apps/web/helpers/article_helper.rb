@@ -26,13 +26,13 @@ module Web
       end
 
       def tex_escape(str)
-        raw str.gsub(/&/, '\&')
-               .gsub(/%/, '\%')
-               .gsub(/\$/, '\$')
-               .gsub(/#/, '\#')
-               .gsub(/_/, '\_')
-               .gsub(/\{/, '\{')
-               .gsub(/\}/, '\}')
+        raw str.gsub(/&/, '\\\&')
+               .gsub(/%/, '\\%')
+               .gsub(/\$/, '\\$')
+               .gsub(/#/, '\\#')
+               .gsub(/_/, '\\_')
+               .gsub(/\{/, '\\{')
+               .gsub(/\}/, '\\}')
       end
 
       def vote_content(article)
