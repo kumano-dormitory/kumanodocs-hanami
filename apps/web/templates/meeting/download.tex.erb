@@ -34,8 +34,8 @@ breaklines=true
 
 <% articles.each do |article| %>
 
-\section*{ <%= article_formatted_title(article, checked: true) %> \\ \ \  \normalsize{ 文責：<%= article.author.name %> } }
-\addcontentsline{toc}{section}{\protect\numberline{} <%= article_formatted_title(article, checked: true) %> }%
+\section*{ <%= tex_article_formatted_title(article, checked: true) %> \\ \ \  \normalsize{ 文責：<%= tex_escape(article.author.name) %> } }
+\addcontentsline{toc}{section}{\protect\numberline{} <%= tex_article_formatted_title(article, checked: true) %> }%
 \begin{spverbatim}<%= article.body %>
 <% if !vote_content(article).empty? %>
 
