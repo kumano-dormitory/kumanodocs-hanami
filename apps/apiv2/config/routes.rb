@@ -11,3 +11,5 @@ options '/*', to: ->(env) {
     "Access-Control-Allow-Headers" => 'authorization'
   }, ['']]
 }
+get '/gijirokus', to: 'gijirokus#index'
+get '/gijirokus/:id', to: 'gijirokus#show'
