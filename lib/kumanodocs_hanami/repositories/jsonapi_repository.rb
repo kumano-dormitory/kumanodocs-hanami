@@ -234,8 +234,18 @@ class JsonapiRepository < Hanami::Repository
     jsonapis.read(query).map.to_a
   end
 
+  def gijirokus_list
+    query = "SELECT id, description, created_at, updated_at FROM gijirokus ORDER BY created_at"
+    jsonapis.read(query).map.to_a
+  end
+
+  def find_gijiroku(id)
+    query = "SELECT id, description, body, created_at, updated_at FROM gijirokus WHERE id = #{id}"
+    jsonapis.read(query).map.first
+  end
+
   def latest_gijiroku
-    query = "SELECT id, body FROM gijirokus ORDER BY created_at DESC LIMIT 1"
-    jsonapis.read(query).map.to_a.fetch(0, {id: 0, body: ''})
+    query = "SELECT id, description, body FROM gijirokus ORDER BY created_at DESC LIMIT 1"
+    jsonapis.read(query).map.to_a.fetch(0, {id: 0, description: '', body: ''})
   end
 end
