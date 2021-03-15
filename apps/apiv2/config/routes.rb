@@ -13,3 +13,5 @@ options '/*', to: ->(env) {
 }
 get '/gijirokus', to: 'gijirokus#index'
 get '/gijirokus/:id', to: 'gijirokus#show'
+get '/documents', to: 'documents#index'
+get '/documents/:id', to: 'documents#show'
