@@ -6,9 +6,11 @@ require_relative '../apps/super/application'
 require_relative '../apps/admin/application'
 require_relative '../apps/web/application'
 require_relative '../apps/api/application'
+require_relative '../apps/apiv2/application'
 
 Hanami.configure do
   mount Api::Application, at: '/api/v1'
+  mount Apiv2::Application, at: '/api/v2'
   mount Super::Application, at: '/super'
   mount Admin::Application, at: '/admin'
   mount Web::Application, at: '/'
