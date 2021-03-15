@@ -248,4 +248,20 @@ class JsonapiRepository < Hanami::Repository
     query = "SELECT id, description, body FROM gijirokus ORDER BY created_at DESC LIMIT 1"
     jsonapis.read(query).map.to_a.fetch(0, {id: 0, description: '', body: ''})
   end
+
+  def documents_list
+    query = "\
+    SELECT documents.id, title, body, type, number, users.name as author_name \
+    FROM documents JOIN users ON (documents.user_id = users.id) \
+    ORDER BY number ASC NULLS LAST"
+    jsonapis.read(query).map.to_a
+  end
+
+  def find_document(id)
+    query = "\
+    SELECT documents.id, title, body, type, number, users.name as author_name \
+    FROM documents JOIN users ON (documents.user_id = users.id) \
+    WHERE documents.id = #{id}"
+    jsonapis.read(query).map.first
+  end
 end
