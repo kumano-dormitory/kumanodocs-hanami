@@ -1,6 +1,7 @@
 get '/articles/search', to: 'articles#search'
 resources :meetings, only: [:index, :show]
 resources :articles, only: [:index, :show]
+get '/articles/:id/pdf', to: 'articles#pdf'
 get '/meetings/:meeting_id/comments', to: 'meetings/comments#index'
 get '/meetings/:id/pastMeeting', to: 'meetings#past'
 
