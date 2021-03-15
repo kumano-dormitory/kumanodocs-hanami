@@ -11,6 +11,7 @@ comment_repo = CommentRepository.new
 vote_result_repo = VoteResultRepository.new
 user_repo = UserRepository.new
 document_repo = DocumentRepository.new
+gijiroku_repo = GijirokuRepository.new
 
 [
   { name: 'A1' },
@@ -24,8 +25,8 @@ document_repo = DocumentRepository.new
   { name: 'C34' }
 ].each { |prop| block_repo.create(prop) }
 
-[2018].each do |year|
-  (7..12).each do |month|
+[2019, 2020, 2021].each do |year|
+  (1..12).each do |month|
     [5, 20].each do |day|
       date = Date.new(year, month, day)
       deadline = Time.new(year, month, day - 2, 22)
@@ -34,22 +35,14 @@ document_repo = DocumentRepository.new
   end
 end
 
-(1..12).each do |month|
-  [5, 20].each do |day|
-    date = Date.new(2019, month, day)
-    deadline = Time.new(2019, month, day - 2, 20)
-    meeting_rep.create(date: date, deadline: deadline)
-  end
-end
-
 blocks = block_repo.all
 
 meeting_rep.all.each do |meeting|
   rand(5..15).times do
-    author = author_rep.create(name: Faker::Name.name, crypt_password: Faker::Internet.password)
+    author = author_rep.create(name: Faker::Name.name, crypt_password: Author.crypt('pass'))
     article = article_rep.create(
       title: Faker::Lorem.sentence,
-      body: Faker::Lorem.paragraphs.inject(&:+) + "\n" + Faker::Lorem.paragraphs(12).inject(&:+) + "\n" + Faker::Lorem.paragraphs(8).inject(&:+),
+      body: Faker::Lorem.paragraphs.inject(&:+) + "\n" + Faker::Lorem.paragraphs(number: 12).inject(&:+) + "\n" + Faker::Lorem.paragraphs(number: 8).inject(&:+),
       checked: true,
       printed: true,
       author_id: author.id,
@@ -66,7 +59,7 @@ meeting_rep.all.each do |meeting|
       if rand(0..3) == 0
         comment_repo.create(
           body: Faker::Lorem.paragraphs.inject(&:+),
-          crypt_password: Faker::Internet.password,
+          crypt_password: Comment.crypt('pass'),
           article_id: article.id,
           block_id: block.id
         )
@@ -99,7 +92,7 @@ article_rep.all.each do |article|
         agree: rand(0..20),
         disagree: rand(0..20),
         onhold: rand(0..6),
-        crypt_password: Faker::Internet.password,
+        crypt_password: VoteResult.crypt('pass'),
         article_id: article.id,
         block_id: block.id
       }
@@ -108,6 +101,7 @@ article_rep.all.each do |article|
   end
 end
 
+# 部会・委員会の資料
 [
   { name: '文化部', crypt_password: BCrypt::Password.create('pass'), authority: 1 },
   { name: '炊事部', crypt_password: BCrypt::Password.create('pass'), authority: 1 },
@@ -129,6 +123,15 @@ rand(3..6).times do
   }
   document_repo.create(params)
   num = num + 1
+end
+
+# 寮生大会議事録
+10.times do
+  params = {
+    body: Faker::Lorem.paragraphs(number: 30).inject(&:+) + "\n" + Faker::Lorem.paragraphs(number: 20).inject(&:+) + "\n" + Faker::Lorem.paragraphs(number: 40).inject(&:+),
+    description: Faker::Lorem.sentence
+  }
+  gijiroku_repo.create(params)
 end
 
 user_repo.create(name: 'super', crypt_password: BCrypt::Password.create('pass'), authority: 3)
