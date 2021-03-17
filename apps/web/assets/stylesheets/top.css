@@ -126,3 +126,190 @@ body.is-dark .button-other-action {
 body.is-dark .button-other-action:hover {
   background-color: #607d8b;
 }
+
+.petal {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background-color: #ffa8b7;
+  border-radius: 150% 0 150% 0;
+}
+.petal::after {
+  content: "";
+  position: absolute;
+  top: -14%;
+  left: -10%;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: #ffb8c4;
+  border-radius: 100% 0 100% 0;
+  transform: rotate(15deg);
+}
+
+#top-banner {
+  overflow: hidden;
+}
+#top-banner span {
+  opacity: 0;
+  -webkit-transform-origin: 0px 0px;
+  -ms-transform-origin: 0px 0px;
+  transform-origin: 0px 0px;
+  -webkit-animation-name: Drop;
+  animation-name: Drop;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+}
+
+.petal.small {
+  width: 9px;
+  height: 9px;
+}
+.petal.mini {
+  width: 7px;
+  height: 7px;
+}
+.flake1 {
+  left: 58%;
+  -webkit-animation-duration: 2.5s;
+  animation-duration: 2.5s;
+}
+
+.flake2 {
+  left: 60%;
+  -webkit-animation-duration: 2.7s;
+  animation-duration: 2.7s;
+  -webkit-animation-delay: 0.2s;
+  animation-delay: 0.2s;
+}
+
+.flake3 {
+  left: 65%;
+  -webkit-animation-duration: 2.9s;
+  animation-duration: 2.9s;
+  -webkit-animation-delay: 0.4s;
+  animation-delay: 0.4s;
+}
+
+.flake4 {
+  left: 72%;
+  -webkit-animation-duration: 2.4s;
+  animation-duration: 2.4s;
+  -webkit-animation-delay: 0s;
+  animation-delay: 0s;
+}
+
+.flake5 {
+  left: 77%;
+  -webkit-animation-duration: 2.4s;
+  animation-duration: 2.4s;
+  -webkit-animation-delay: 1s;
+  animation-delay: 1s;
+}
+
+.flake6 {
+  left: 80%;
+  -webkit-animation-duration: 2.2s;
+  animation-duration: 2.2s;
+  -webkit-animation-delay: 1.2s;
+  animation-delay: 1.2s;
+}
+
+.flake7 {
+  left: 85%;
+  -webkit-animation-duration: 2.7s;
+  animation-duration: 2.7s;
+  -webkit-animation-delay: 1.2s;
+  animation-delay: 1.2s;
+}
+
+.flake8 {
+  left: 90%;
+  -webkit-animation-duration: 3s;
+  animation-duration: 3s;
+  -webkit-animation-delay: 1.4s;
+  animation-delay: 1.4s;
+}
+.flake9 {
+  left: 62%;
+  -webkit-animation-duration: 3.1s;
+  animation-duration: 3s;
+  -webkit-animation-delay: 2s;
+  animation-delay: 2s;
+}
+.flake10 {
+  left: 55%;
+  -webkit-animation-duration: 3.3s;
+  animation-duration: 3s;
+  -webkit-animation-delay: 1.5s;
+  animation-delay: 1.5s;
+}
+.flake11 {
+  left: 82%;
+  -webkit-animation-duration: 3.5s;
+  animation-duration: 3s;
+  -webkit-animation-delay: 1.4s;
+  animation-delay: 0.6s;
+}
+.flake12 {
+  left: 88%;
+  -webkit-animation-duration: 3.2s;
+  animation-duration: 3s;
+  -webkit-animation-delay: 1s;
+  animation-delay: 1s;
+}
+@-webkit-keyframes Drop {
+  0% {
+    -webkit-transform: translateY(0px);
+    transform: translateY(0px);
+    opacity: 0;
+  }
+
+  30% {
+    -webkit-transform: translateY(90px) rotate(25deg);
+    transform: translateY(90px) rotate(25deg);
+    opacity: 1;
+  }
+
+  50% {
+    -webkit-transform: translateY(135px) rotate(0deg);
+    transform: translateY(135px) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    -webkit-transform: translateY(280px) rotate(105deg);
+    transform: translateY(280px) rotate(105deg);
+    opacity: 0.3;
+  }
+}
+
+@keyframes Drop {
+  0% {
+    -webkit-transform: translateY(0px);
+    transform: translateY(0px);
+    opacity: 0;
+  }
+
+  30% {
+    -webkit-transform: translateY(90px) rotate(25deg);
+    transform: translateY(90px) rotate(25deg);
+    opacity: 1;
+  }
+
+  50% {
+    -webkit-transform: translateY(135px) rotate(0deg);
+    transform: translateY(135px) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    -webkit-transform: translateY(280px) rotate(110deg);
+    transform: translateY(280px) rotate(105deg);
+    opacity: 0.3;
+  }
+}
