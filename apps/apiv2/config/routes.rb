@@ -4,6 +4,7 @@ resources :articles, only: [:index, :show]
 get '/articles/:id/pdf', to: 'articles#pdf'
 get '/meetings/:meeting_id/comments', to: 'meetings/comments#index'
 get '/meetings/:id/pastMeeting', to: 'meetings#past'
+get '/meetings/:id/pdf', to: 'meetings#pdf'
 
 options '/*', to: ->(env) {
   [200, {
