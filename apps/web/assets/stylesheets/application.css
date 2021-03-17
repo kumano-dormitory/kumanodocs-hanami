@@ -36,7 +36,7 @@ body.is-dark fieldset {
   background-color: #333;
 }
 #navigation {
-  background-color: #e1f5fe;
+  background-color: #fce4ec;
 }
 body.is-dark #navigation {
   background-color: #121212;
@@ -48,7 +48,7 @@ body.is-dark #footer {
   background-color: #222;
 }
 #top-banner {
-  background-image: url("/assets/header.jpg");
+  background-image: url("/assets/header-sakura.svg");
 }
 body.is-dark #top-banner {
   background-image: url("/assets/header-dark.jpg")
