@@ -3,8 +3,8 @@ source 'https://rubygems.org'
 ruby '~> 2.6'
 
 gem 'activesupport', '>= 5.2.4.3'
-gem 'hanami', '~> 1.2'
-gem 'hanami-model', '~> 1.2'
+gem 'hanami', '1.3.4'
+gem 'hanami-model'
 
 gem 'pg'
 gem 'rake'
@@ -36,6 +36,6 @@ group :test do
 end
 
 group :production do
-  gem 'puma', ">= 4.3.5"
+  gem 'puma', ">= 5.3.1"
   gem 'tzinfo-data'
 end
