@@ -51,7 +51,7 @@ breaklines=true
         \begin{tabular}{<% table.data[0].each_with_index do |col, idx| %><% if idx == 0 %>l<% else %>|r<% end %><% end %>}
           \hline
           <% table.data.each_with_index do |row, row_idx| %>
-            <% row.each_with_index do |col, col_idx| %>\spverb <%= col %><% if row.length != col_idx + 1 %> & <% end %><% end %> \\ \hline
+            <% row.each_with_index do |col, col_idx| %>\spverb`<%= col %>`<% if row.length != col_idx + 1 %> & <% end %><% end %> \\ \hline
             <% if row_idx == 0 %> \hline <% end %>
           <% end %>
         \end{tabular}

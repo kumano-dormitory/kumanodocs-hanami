@@ -43,7 +43,7 @@ RUN ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases
         "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME"
 
 # Latex
-ENV PATH /usr/local/texlive/2019/bin/x86_64-linuxmusl:$PATH
+ENV PATH /usr/local/texlive/2021/bin/x86_64-linuxmusl:/usr/local/texlive/2019/bin/x86_64-linuxmusl:$PATH
 
 RUN apk --no-cache add perl wget xz tar fontconfig-dev freetype-dev && \
     mkdir /tmp/install-tl-unx && \
