@@ -78,6 +78,7 @@ module Web::Views::Docs
                routes.document_path(id: document.id),
                method: :patch,
                class: "p-form p-form--stacked",
+               enctype: 'multipart/form-data',
                values: values do
         div class: "p-form__group row" do
           div class: "col-2" do
