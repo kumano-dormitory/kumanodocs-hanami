@@ -8,10 +8,10 @@
   </head>
   <body>
     <header id="navigation" class="p-navigation" style="background-color: #eb9bff">
-      <div class="row">
+      <div class="p-navigation__row">
         <div class="p-navigation__banner">
           <div class="p-navigation__logo">
-            <a class="p-navigation__link" href="<%= routes.root_path %>">
+            <a class="p-navigation__item" href="<%= routes.root_path %>">
               <img src="/assets/logo.png" alt="" class="p-navigation__image">
             </a>
           </div>
@@ -22,11 +22,19 @@
           <span class="u-off-screen">
             <a href="#main-content">Jump to main content</a>
           </span>
-          <ul class="p-navigation__links" role="menu">
-            <li class="p-navigation__link" role="menuitem"><a href="<%= routes.users_path %>">ユーザ管理</a></li>
-            <li class="p-navigation__link" role="menuitem"><a href="<%= routes.logs_path %>">ログ表示</a></li>
-            <li class="p-navigation__link" role="menuitem"><a href="<%= routes.dbs_path %>">データベースアクセス</a></li>
-            <li class="p-navigation__link" role="menuitem"><a href="<%= routes.logout_path %>">一般向けページへ(ログアウト)</a></li>
+          <ul class="p-navigation__items" role="menu">
+            <li class="p-navigation__item" role="menuitem">
+              <a class="p-navigation__link" href="<%= routes.users_path %>">ユーザ管理</a>
+            </li>
+            <li class="p-navigation__item" role="menuitem">
+              <a class="p-navigation__link" href="<%= routes.logs_path %>">ログ表示</a>
+            </li>
+            <li class="p-navigation__item" role="menuitem">
+              <a class="p-navigation__link" href="<%= routes.dbs_path %>">データベースアクセス</a>
+            </li>
+            <li class="p-navigation__item" role="menuitem">
+              <a class="p-navigation__link" href="<%= routes.logout_path %>">一般向けページへ(ログアウト)</a>
+            </li>
           </ul>
         </nav>
       </div>
@@ -37,11 +45,15 @@
     </div>
 
     <footer class="p-strip--light is-shallow u-hide--small">
-      <a href="#" class="p-top__link p-button--neutral">ページの上部へ戻る ↑<i class="p-icon--contextual-menu"></i></a>
       <div class="row">
-        <p class="full-width">
-          Copyright© 2019-2021 Kumano Dormitory IT Section
-        </p>
+        <div class="col-8">
+          <p class="full-width">
+            Copyright© 2019-2021 Kumano Dormitory IT Section
+          </p>
+        </div>
+        <div class="col-4 u-align--right">
+          <a href="#" class="p-button is-dense"><span>ページの上部へ戻る</span><i class="p-icon--chevron-up"></i></a>
+        </div>
       </div>
     </footer>
   </body>

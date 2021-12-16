@@ -234,7 +234,7 @@ module Web
       #
       security.content_security_policy %(
         form-action 'self';
-        frame-ancestors 'self';
+        frame-ancestors 'self' http://localhost:4200;
         base-uri 'self';
         default-src 'none';
         manifest-src 'self';

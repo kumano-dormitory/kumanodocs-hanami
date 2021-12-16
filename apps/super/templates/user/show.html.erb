@@ -1,12 +1,14 @@
 <div class="p-strip">
   <div class="row">
     <h2>ユーザの詳細: <%= user.name %></h2>
-    <a href="<%= routes.edit_user_path(id: user.id) %>" class="p-button--positive">編集</a>
-    <%=
-      form_for :article, routes.user_path(id: user.id), method: :delete, class: "p-form p-form--inline" do
-        submit '削除', class: "p-button--negative"
-      end
-    %>
+    <div>
+      <a href="<%= routes.edit_user_path(id: user.id) %>" class="p-button--positive">編集</a>
+      <%=
+        form_for :article, routes.user_path(id: user.id), method: :delete, class: "p-form p-form--inline" do
+          submit '削除', class: "p-button--negative"
+        end
+      %>
+    </div>
 
     <dl>
       <dt>ユーザID</dt>
