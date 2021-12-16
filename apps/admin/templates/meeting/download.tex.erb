@@ -5,6 +5,7 @@
 \usepackage{spverbatim}
 \usepackage{tocloft}
 \usepackage{here}
+\usepackage{adjustbox}
 \usepackage[top=5truemm,bottom=15truemm,left=5truemm,right=5truemm]{geometry}
 
 \lstset{
@@ -47,8 +48,8 @@ breaklines=true
 <% if !article.tables.nil? %>
     <% article.tables.each do |table| %>
         \begin{table}[H]
-        \begin{center}
         \caption{ <%= table.caption %> }
+        \begin{adjustbox}{max width=\columnwidth,center}
         \begin{tabular}{<% table.data[0].each_with_index do |col, idx| %><% if idx == 0 %>l<% else %>|r<% end %><% end %>}
           \hline
           <% table.data.each_with_index do |row, row_idx| %>
@@ -56,7 +57,7 @@ breaklines=true
             <% if row_idx == 0 %> \hline <% end %>
           <% end %>
         \end{tabular}
-        \end{center}
+        \end{adjustbox}
         \end{table}
     <% end %>
 <% end %>
@@ -107,6 +108,7 @@ breaklines=true
 \usepackage{spverbatim}
 \usepackage{tocloft}
 \usepackage{here}
+\usepackage{adjustbox}
 \usepackage[top=5truemm,bottom=15truemm,left=5truemm,right=5truemm]{geometry}
 
 \lstset{
@@ -132,8 +134,8 @@ breaklines=true
 <% if !article.tables.nil? %>
     <% article.tables.each do |table| %>
         \begin{table}[H]
-        \begin{center}
         \caption{ <%= table.caption %> }
+        \begin{adjustbox}{max width=\columnwidth,center}
         \begin{tabular}{<% table.data[0].each_with_index do |col, idx| %><% if idx == 0 %>l<% else %>|r<% end %><% end %>}
           \hline
           <% table.data.each_with_index do |row, row_idx| %>
@@ -141,7 +143,7 @@ breaklines=true
             <% if row_idx == 0 %> \hline <% end %>
           <% end %>
         \end{tabular}
-        \end{center}
+        \end{adjustbox}
         \end{table}
     <% end %>
 <% end %>
@@ -153,6 +155,7 @@ breaklines=true
 \usepackage{spverbatim}
 \usepackage{tocloft}
 \usepackage{here}
+\usepackage{adjustbox}
 \usepackage[top=5truemm,bottom=15truemm,left=5truemm,right=5truemm]{geometry}
 
 \lstset{
@@ -168,8 +171,8 @@ breaklines=true
 
 <% if !table_data.nil? && !caption.nil? %>
     \begin{table}[H]
-    \begin{center}
     \caption{ <%= caption %> }
+    \begin{adjustbox}{max width=\columnwidth,center}
     \begin{tabular}{<% table_data[0].each_with_index do |col, idx| %><% if idx == 0 %>l<% else %>|r<% end %><% end %>}
       \hline
       <% table_data.each_with_index do |row, row_idx| %>
@@ -177,7 +180,7 @@ breaklines=true
         <% if row_idx == 0 %> \hline <% end %>
       <% end %>
     \end{tabular}
-    \end{center}
+    \end{adjustbox}
     \end{table}
 <% end %>
 
