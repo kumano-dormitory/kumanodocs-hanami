@@ -3,12 +3,12 @@
   <head>
     <title>Web</title>
     <%= favicon %>
-    <link rel="stylesheet" href="https://assets.ubuntu.com/v1/vanilla-framework-version-1.8.1.min.css" />
+    <link rel="stylesheet" href="https://www.kumano-ryo.com/assets/vanilla-framework-version-2.21.1.min.css" />
     <meta name="viewport" content="width=device-width">
   </head>
   <body>
     <header id="navigation" class="p-navigation" style="background-color: #e1f5fe">
-      <div class="row">
+      <div class="p-navigation__row">
         <div class="p-navigation__banner">
           <div class="p-navigation__logo">
             <a class="p-navigation__link" href="/">
@@ -27,13 +27,14 @@
           <span class="u-off-screen">
             <a href="#main-content">Jump to main content</a>
           </span>
-          <ul class="p-navigation__links" role="menu">
-            <li class="p-navigation__link" role="menuitem"><a href="/article">新着議案</a></li>
-            <li class="p-navigation__link" role="menuitem"><a href="/meeting">ブロック会議</a></li>
-            <li class="p-navigation__link" role="menuitem"><a href="/article/new">議案投稿</a></li>
+          <ul class="p-navigation__items" role="menu">
+            <li class="p-navigation__item" role="menuitem"><a href="/article" class="p-navigation__link">新着議案</a></li>
+            <li class="p-navigation__item" role="menuitem"><a href="/meeting" class="p-navigation__link">会議日程</a></li>
+            <li class="p-navigation__item" role="menuitem"><a href="/article/new" class="p-navigation__link">議案投稿</a></li>
+            <li class="p-navigation__item" role="menuitem"><a href="/docs" class="p-navigation__link">資料置き場</a></li>
           </ul>
-          <ul class="p-navigation__links u-image-position--right" role="menu">
-            <li class="p-navigation__link" role="menuitem"><a href="/admin"><i class="p-icon--user icon-settings"></i></a></li>
+          <ul class="p-navigation__items u-image-position--right" role="menu">
+            <li class="p-navigation__item" role="menuitem"><a href="/admin" class="p-navigation__link"><i class="p-icon--user icon-settings"></i></a></li>
           </ul>
         </nav>
       </div>
