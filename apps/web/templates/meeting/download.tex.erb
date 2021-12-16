@@ -4,7 +4,8 @@
 \usepackage{spverbatim}
 \usepackage{tocloft}
 \usepackage{here}
-\usepackage[top=30truemm,bottom=25truemm,left=25truemm,right=25truemm]{geometry}
+\usepackage{adjustbox}
+\usepackage[top=20truemm,bottom=15truemm,left=15truemm,right=15truemm]{geometry}
 
 \lstset{
 breaklines=true
@@ -46,8 +47,8 @@ breaklines=true
 <% if !article.tables.nil? %>
     <% article.tables.each do |table| %>
         \begin{table}[H]
-        \begin{center}
         \caption{ <%= table.caption %> }
+        \begin{adjustbox}{max totalsize={\columnwidth}{\textheight},center}
         \begin{tabular}{<% table.data[0].each_with_index do |col, idx| %><% if idx == 0 %>l<% else %>|r<% end %><% end %>}
           \hline
           <% table.data.each_with_index do |row, row_idx| %>
@@ -55,7 +56,7 @@ breaklines=true
             <% if row_idx == 0 %> \hline <% end %>
           <% end %>
         \end{tabular}
-        \end{center}
+        \end{adjustbox}
         \end{table}
     <% end %>
 <% end %>
