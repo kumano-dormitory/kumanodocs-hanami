@@ -1,9 +1,11 @@
 <div class="p-strip">
   <div class="row">
     <h2>ユーザの一覧</h2>
-    <a href="<%= routes.new_user_path %>" class="p-button--positive">
-      ユーザの追加
-    </a>
+    <div>
+      <a href="<%= routes.new_user_path %>" class="p-button--positive">
+        ユーザの追加
+      </a>
+    </div>
 
     <% users.group_by(&:authority).sort.each do |authority, user_group| %>
     <h3 class="u-no-margin--bottom"><%= user_role(authority) %>(権限レベル: <%= authority %>)</h3>
@@ -16,7 +18,6 @@
       </li>
     <% end %>
     </ul>
-    <hr>
     <% end %>
   </div>
 </div>
