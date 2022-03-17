@@ -25,7 +25,7 @@ gijiroku_repo = GijirokuRepository.new
   { name: 'C34' }
 ].each { |prop| block_repo.create(prop) }
 
-[2019, 2020, 2021].each do |year|
+[2021, 2022].each do |year|
   (1..12).each do |month|
     [5, 20].each do |day|
       date = Date.new(year, month, day)
