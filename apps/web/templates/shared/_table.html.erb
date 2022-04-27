@@ -1,11 +1,11 @@
 <% if table.data.length > 0 then %>
-<table>
+<table class="article-table">
 <caption><%= h table.caption %>
   <% if editable %>
-    <a href="<%= routes.edit_table_path(table.id) %>" class="p-button--positive">編集</a>
+    <a href="<%= routes.edit_table_path(table.id) %>" class="p-button--positive u-no-margin">編集</a>
     <%=
       form_for :table, routes.table_path(table.id), method: :delete, class: "p-form p-form--inline" do
-        submit '削除', class: "p-button--negative"
+        submit '削除', class: "p-button--negative u-no-margin"
       end
     %>
   <% end %>

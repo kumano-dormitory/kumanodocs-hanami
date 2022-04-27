@@ -1,25 +1,15 @@
 <div class="p-strip">
   <div class="row row-wide">
-    <div class="u-hide--small">
+    <div class="u-hide--medium u-hide--small">
       <h2 class="full-width">
         代議員会用資料（過去のブロック会議の議事録一覧）
       </h2>
     </div>
-    <div class="u-hide--large u-hide--medium">
-      <h2 class="u-no-margin--bottom">代議員会用資料（過去のブロック会議の議事録一覧</h2>
-      <span class="p-contextual-menu--left" style="width:100%;">
-          <a href="#" class="p-button--neutral p-contextual-menu__toggle" aria-controls="#menu" aria-expanded="false" aria-haspopup="true">議案の一覧を表示</a>
-          <span class="p-contextual-menu__dropdown" id="menu" aria-hidden="true" aria-label="submenu" style="max-width:32rem;">
-            <span class="p-contextual-menu__group">
-              <% meetings.each_with_index do |nav_meeting, i| %>
-                <a href="<%= routes.summary_comment_path %>?page=<%= i %>" class="p-contextual-menu__link" style="margin:3px;">
-                  <%= nav_meeting.formatted_date %>のブロック会議の議事録
-                </a>
-              <% end %>
-            </span>
-          </span>
-      </span>
-      <%= javascript 'contextual_menu' %>
+    <div class="u-hide--large u-show--medium u-show--small">
+      <h2 class="u-no-margin--bottom">代議員会用資料 (過去のブロック会議の議事録一覧)</h2>
+      <a href="#" id="side-navigation-top-drawer" class="p-button has-icon js-drawer-toggle" aria-controls="side-navigation-drawer">
+        <i class="p-icon--chevron-down" style="transform: rotate(270deg);"></i><span>ブロック会議の一覧を表示</span>
+      </a>
     </div>
   </div>
 
@@ -27,7 +17,7 @@
   <div class="row row-wide">
     <div class="col-9">
       <% if comments %>
-        <h3 style="max-width: 100%;">[<%= page + 1 %>] <a href='<%= routes.meeting_path(id: meeting.id) %>' target="_blank"><%= meeting.formatted_date %>のブロック会議</a>の議事録</h3>
+        <h3 style="max-width: 100%;">[<%= page + 1 %>] <a href='<%= routes.meeting_path(id: meeting.id) %>' class="dark-enable" target="_blank"><%= meeting.formatted_date %>のブロック会議</a>の議事録</h3>
         <dl>
           <% comments.each do |article_id, comments| %>
           <dt><%= h "(#{comments[0]&.dig(:article_number) || '番号なし'}) #{comments[0]&.dig(:title)}" %></dt>
@@ -65,24 +55,38 @@
     </div>
 
     <div class="col-3">
-      <ul class="p-list u-no-margin--bottom">
-        <% meetings.each_with_index do |nav_meeting, i| %>
-          <hr>
-          <li class="p-list__item">
-            <% if nav_meeting.id == meeting&.id %>
-            <a href="<%= routes.summary_comment_path %>?page=<%= i %>" class="p-link--soft" style="font-weight:950;">
-              [<%= i + 1 %>] <%= nav_meeting.formatted_date %>の議事録
+      <div class="p-side-navigation is-sticky" id="side-navigation-drawer">
+        <div class="p-side-navigation__overlay js-drawer-toggle" aria-controls="side-navigation-drawer"></div>
+        <div class="p-side-navigation__drawer">
+          <div class="p-side-navigation__drawer-header">
+            <a href="#" class="p-side-navigation__toggle--in-drawer js-drawer-toggle" aria-controls="side-navigation-drawer">
+              ブロック会議の一覧を閉じる
             </a>
-            <% else %>
-            <a href="<%= routes.summary_comment_path %>?page=<%= i %>" class="p-link--soft">
-              [<%= i + 1 %>] <%= nav_meeting.formatted_date %>の議事録
-            </a>
-            <% end %>
-          </li>
-        <% end %>
-      </ul>
-    </div>
+          </div>
 
+          <ul class="p-side-navigation__list">
+            <li class="p-side-navigation__item--title">
+              <span class="p-side-navigation__link">目次</span>
+            </li>
+            <% meetings.each_with_index do |nav_meeting, i| %>
+              <hr>
+              <li class="p-side-navigation__item">
+                <% if nav_meeting.id == meeting&.id %>
+                <a href="<%= routes.summary_comment_path %>?page=<%= i %>" class="p-side-navigation__link u-no-padding--right" style="font-weight:950;" aria-current="page">
+                  [<%= i + 1 %>] <%= nav_meeting.formatted_date %>の議事録
+                </a>
+                <% else %>
+                <a href="<%= routes.summary_comment_path %>?page=<%= i %>" class="p-side-navigation__link u-no-padding--right">
+                  [<%= i + 1 %>] <%= nav_meeting.formatted_date %>の議事録
+                </a>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <%= javascript 'contextual_menu' %>
 
   </div>
   <% end # if article || past_comments %>

@@ -19,12 +19,12 @@
         <% if page - 1 > 0 %>
           <li class="p-pagination__item">
             <a href="?page=<%= page - 1 %>" class="p-pagination__link--previous">
-              <i class="p-icon--contextual-menu"></i>　前のページ
+              <i class="p-icon--chevron-down"></i>　前のページ
             </a>
           </li>
         <% else %>
           <li class="p-pagination__item">
-            <span class="p-pagination__link--previous is-disabled"><i class="p-icon--contextual-menu"></i>　前のページ</span>
+            <span class="p-pagination__link--previous is-disabled"><i class="p-icon--chevron-down"></i>　前のページ</span>
           </li>
         <% end %>
         <% if page - 3 > 1 %>
@@ -97,13 +97,13 @@
         <% if page + 1 <= max_page %>
           <li class="p-pagination__item">
             <a href="?page=<%= page + 1 %>" class="p-pagination__link--next">
-              <span class="p-pagination__label">次のページ</span><i class="p-icon--contextual-menu"></i>
+              <span class="p-pagination__label">次のページ</span><i class="p-icon--chevron-down"></i>
             </a>
           </li>
         <% else %>
           <li class="p-pagination__item">
             <span class="p-pagination__link--next is-disabled">
-              <span class="p-pagination__label">次のページ</span><i class="p-icon--contextual-menu"></i>
+              <span class="p-pagination__label">次のページ</span><i class="p-icon--chevron-down"></i>
             </span>
           </li>
         <% end %>

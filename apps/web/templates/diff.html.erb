@@ -3,12 +3,11 @@
   <head>
     <title>資料システム</title>
     <%= favicon %>
-    <link rel="stylesheet" href="https://www.kumano-ryo.com/assets/vanilla-framework-version-2.21.1.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/diff2html/2.9.0/diff2html.min.css" />
+    <link rel="stylesheet" href="https://www.kumano-ryo.com/assets/vanilla-framework-version-3.2.0.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/diff2html@3.4.17/bundles/css/diff2html.min.css" />
     <%= stylesheet 'application' %>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsdiff/4.0.1/diff.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/diff2html/2.9.0/diff2html-ui.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/diff2html/2.9.0/diff2html.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/diff@5.0.0/dist/diff.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/diff2html@3.4.17/bundles/js/diff2html-ui-slim.min.js"></script>
     <%= javascript 'diff' %>
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -84,34 +83,34 @@
             <div class="col-12">
               <% if notifications[:error] %>
                 <div class="p-notification--negative">
-                  <p class="p-notification__response">
-                    <span class="p-notification__status"><%= notifications[:error][:status] %></span>
-                    <%= notifications[:error][:message] %>
-                  </p>
+                  <div class="p-notification__content">
+                    <h5 class="p-notification__title"><%= notifications[:error][:status] %></h5>
+                    <p class="p-notification__message"><%= notifications[:error][:message] %></p>
+                  </div>
                 </div>
               <% end %>
               <% if notifications[:caution] %>
                 <div class="p-notification--caution">
-                  <p class="p-notification__response">
-                    <span class="p-notification__status"><%= notifications[:caution][:status] %></span>
-                    <%= notifications[:caution][:message] %>
-                  </p>
+                  <div class="p-notification__content">
+                    <h5 class="p-notification__title"><%= notifications[:caution][:status] %></h5>
+                    <p class="p-notification__message"><%= notifications[:caution][:message] %></p>
+                  </div>
                 </div>
               <% end %>
               <% if notifications[:success] %>
                 <div class="p-notification--positive">
-                  <p class="p-notification__response">
-                    <span class="p-notification__status"><%= notifications[:success][:status] %></span>
-                    <%= notifications[:success][:message] %>
-                  </p>
+                  <div class="p-notification__content">
+                    <h5 class="p-notification__title"><%= notifications[:success][:status] %></h5>
+                    <p class="p-notification__message"><%= notifications[:success][:message] %></p>
+                  </div>
                 </div>
               <% end %>
               <% if notifications[:info] %>
                 <div class="p-notification--information">
-                  <p class="p-notification__response">
-                    <span class="p-notification__status"><%= notifications[:info][:status] %></span>
-                    <%= notifications[:info][:message] %>
-                  </p>
+                  <div class="p-notification__content">
+                    <h5 class="p-notification__title"><%= notifications[:info][:status] %></h5>
+                    <p class="p-notification__message"><%= notifications[:info][:message] %></p>
+                  </div>
                 </div>
               <% end %>
             </div>
@@ -122,20 +121,28 @@
       <%= yield %>
     </div>
 
-    <footer class="p-strip--light is-shallow u-hide--small">
-      <a href="#" class="p-top__link p-button--neutral">ページの上部へ戻る ↑<i class="p-icon--contextual-menu"></i></a>
+    <footer class="p-strip--light is-shallow u-no-padding--top u-hide--small">
+      <div class="p-top u-hide--small">
+        <a href="#" class="p-top__link">ページの上部へ戻る</a>
+      </div>
       <div class="row">
         <p class="full-width">
           Copyright© 2019-2022 Kumano Dormitory IT Section <small>(Some rights reserved <a href="https://creativecommons.org/licenses/by-nd/4.0/" target="_blank">CC BY-ND 4.0</a>)</small>
         </p>
         <% if navigation[:root] %>
-        <p>This site is built with <a href="https://hanamirb.org/" class="p-link--external" target="_blank">hanami</a>, and <a href="https://github.com/kumano-dormitory/kumanodocs-hanami" class="p-link--external" target="_blank">source code</a> is public on GitHub</p>
+        <p>This site is built with <a href="https://hanamirb.org/" target="_blank">hanami</a>, and <a href="https://github.com/kumano-dormitory/kumanodocs-hanami" target="_blank">source code</a> is public on GitHub</p>
         <% end %>
         <nav>
           <ul class="p-inline-list--middot">
-            <li class="p-inline-list__item"><a href="/about">このサイトについて</a></li>
-            <li class="p-inline-list__item"><a href="https://kumano-ryo.com" class="p-link--external" target="_blank">熊野寮ホームページ</a></li>
-            <li class="p-inline-list__item"><a href="https://www.kumano-ryo.com/internal/index.html" class="p-link--external" target="_blank">寮生向け内部ページ</a></li>
+            <li class="p-inline-list__item">
+              <a href="/about">このサイトについて</a>
+            </li>
+            <li class="p-inline-list__item">
+              <a href="https://kumano-ryo.com" target="_blank">熊野寮ホームページ</a>
+            </li>
+            <li class="p-inline-list__item">
+              <a href="https://www.kumano-ryo.com/internal/index.html" target="_blank">寮生向け内部ページ</a>
+            </li>
           </ul>
         </nav>
       </div>

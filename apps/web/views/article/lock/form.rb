@@ -10,7 +10,7 @@ module Web::Views::Article::Lock
               password_field :password, placeholder: "Password", autocomplete: "new-password"
             end
           end
-          submit '編集開始', class: "p-button--neutral"
+          submit '編集開始', class: "p-button"
         end
       else
         form_for :author, routes.article_lock_path(article_id: params[:article_id]), class: "p-form p-form--inline" do
@@ -19,7 +19,7 @@ module Web::Views::Article::Lock
               password_field :password, placeholder: "Password", autocomplete: "new-password"
             end
           end
-          submit '編集開始', class: "p-button--neutral"
+          submit '編集開始', class: "p-button"
         end
       end
     end

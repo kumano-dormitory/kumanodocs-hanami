@@ -53,11 +53,12 @@ function toggleDiffHtml(target, outputFormat, context) {
     }
   });
   var unifiedDiff = Diff.createPatch("", articleOldBody, articleNewBody, articleOldTitle, articleNewTitle, {context: parseInt(context, 10)});
-  var diffHtml = Diff2Html.getPrettyHtml(
+  var diff2HtmlUI = new Diff2HtmlUI(
+    target,
     unifiedDiff,
-    {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: outputFormat}
+    {inputFormat: 'diff', drawFileList: false, matching: 'none', outputFormat: outputFormat}
   );
-  target.innerHTML = diffHtml;
+  diff2HtmlUI.draw()
   if (outputFormat === 'side-by-side') {
     target.setAttribute('style', 'max-width: 95%;');
   } else {

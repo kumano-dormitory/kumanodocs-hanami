@@ -14,14 +14,17 @@ html.is-dark {
 */
 body.is-dark {
   color: #f5f5f5;
-  background-color: #2a2a2a;
+  background-color: #262626;
+}
+body.is-dark dl a, body.is-dark .markdown a, body.is-dark a.dark-enable {
+  color: #4e96df;
 }
 pre {
   white-space: pre-wrap ;
 }
 body.is-dark pre {
   color: #fafafa;
-  background-color: #343434;
+  background-color: #333;
 }
 body.is-dark label {
   color: #fafafa;
@@ -53,67 +56,41 @@ body.is-dark #footer {
 body.is-dark #top-banner {
   background-image: url("/assets/header-dark.jpg")
 }
-body.is-dark .p-button--base {
-  color: #fafafa;
-  background-color: #222;
-  transition: all .5s;
-}
-body.is-dark .p-button--base:hover {
-  background-color: #444;
-}
-body.is-dark .p-button--neutral {
-  color: #fafafa;
-  border-color: #efefef;
-  background-color: #121212;
-  transition: all .5s;
-}
-body.is-dark .p-button--neutral:hover {
-  background-color: #444;
+body.is-dark #footer a {
+  color: #6ad;
 }
 body.is-dark .p-link--soft {
   color: #fafafa;
-}
-body.is-dark .p-side-navigation .p-side-navigation__drawer {
-  background-color: #222;
-}
-body.is-dark .p-side-navigation__list {
-  color: #fafafa;
-  background-color: #2a2a2a;
-}
-body.is-dark .p-side-navigation__item--title .p-side-navigation__link {
-  color: #fafafa;
-}
-body.is-dark .p-side-navigation__link {
-  color: #fafafa;
-}
-body.is-dark .p-side-navigation__link:visited {
-  color: #fafafa;
-}
-body.is-dark .p-side-navigation__item .p-side-navigation__link:hover {
-  color: #fff;
-  background-color: #444;
-}
-body.is-dark .p-side-navigation__link[aria-current='page'] {
-  color: #fff;
-  background-color: #444;
-  font-weight: bold;
 }
 body.is-dark .p-card--highlighted {
   color: #f5f5f5;
   background-color: #1a1a1a;
 }
+body.is-dark .p-article-pagination__link--previous,
+body.is-dark .p-article-pagination__link--next {
+  background-color: #262626;
+}
+body.is-dark span.p-article-pagination__label,
+body.is-dark span.p-article-pagination__title,
+body.is-dark .p-article-pagination__link--previous::before,
+body.is-dark .p-article-pagination__link--next::after {
+  color: #fafafa;
+}
 body.is-dark .p-article-pagination a:hover {
   background-color: #444;
 }
-body.is-dark span.p-article-pagination__label {
+body.is-dark .p-strip--image.is-light {
   color: #fafafa;
 }
-body.is-dark span.p-article-pagination__title {
-  color: #fafafa;
+body.is-dark thead tr {
+  border-bottom: 1px solid rgba(255,255,255,0.5)
+}
+body.is-dark tbody tr:not(:first-child) {
+  border-top: 1px solid rgba(255,255,255,0.25);
 }
 
 .row-wide {
-  max-width: 87rem;
+  max-width: 89rem;
 }
 .full-width {
   max-width: 100%;
@@ -134,6 +111,9 @@ body.is-dark span.p-article-pagination__title {
 body.is-dark .markdown {
   background-color: #333;
   border: 1px solid #cdcdcd;
+}
+.article-table {
+  caption-side: top;
 }
 
 .bottom-navigation {

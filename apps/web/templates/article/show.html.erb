@@ -30,7 +30,9 @@
         <dd>
           <ul class="p-inline-list--middot">
             <% article.categories.each do |category| %>
-              <li class="p-inline-list__item"><%= category.name %></li>
+              <li class="p-inline-list__item">
+                <%= category.name %>
+              </li>
             <% end %>
           </ul>
         </dd>

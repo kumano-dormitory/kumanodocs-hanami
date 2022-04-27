@@ -3,7 +3,7 @@
   <head>
     <title>資料システム</title>
     <%= favicon %>
-    <link rel="stylesheet" href="https://www.kumano-ryo.com/assets/vanilla-framework-version-2.21.1.min.css" />
+    <link rel="stylesheet" href="https://www.kumano-ryo.com/assets/vanilla-framework-version-3.2.0.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
     <%= stylesheet 'application' %>
     <%= stylesheet 'about' %>
@@ -78,12 +78,14 @@
     </div>
 
     <footer class="p-strip--light is-shallow u-hide--small">
-      <a href="#" class="p-top__link p-button--neutral">ページの上部へ戻る ↑<i class="p-icon--contextual-menu"></i></a>
+      <div class="p-top u-hide--small">
+        <a href="#" class="p-top__link">ページの上部へ戻る</a>
+      </div>
       <div class="row">
         <p class="full-width">
           Copyright© 2019-2022 Kumano Dormitory IT Section <small>(Some rights reserved <a href="https://creativecommons.org/licenses/by-nd/4.0/" target="_blank">CC BY-ND 4.0</a>)</small>
         </p>
-        <p>This site is built with <a href="https://hanamirb.org/" class="p-link--external" target="_blank">hanami</a>, and <a href="https://github.com/kumano-dormitory/kumanodocs-hanami" class="p-link--external" target="_blank">source code</a> is public on GitHub</p>
+        <p>This site is built with <a href="https://hanamirb.org/" target="_blank">hanami</a>, and <a href="https://github.com/kumano-dormitory/kumanodocs-hanami" target="_blank">source code</a> is public on GitHub</p>
       </div>
     </footer>
   </body>

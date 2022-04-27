@@ -1,6 +1,6 @@
 <div class="p-strip">
   <div class="row row-wide">
-    <div class="u-hide--small">
+    <div class="u-show--large u-hide--medium u-hide--small">
       <h1 class="full-width">
         <%= meeting.formatted_date %>の<%= meeting.type == 0 ? "ブロック会議" : "寮生大会" %>
         <% if meeting.deadline > Time.now %>
@@ -8,12 +8,12 @@
         <% end %>
       </h1>
     </div>
-    <div class="u-hide--large u-hide--medium u-show--small">
+    <div class="u-hide--large u-show--medium u-show--small">
       <h2 class="u-no-margin--bottom"><%= meeting.formatted_date %>の<%= meeting.type == 0 ? "ブロック会議" : "寮生大会" %></h2>
       <% if meeting.deadline > Time.now %>
         <p>議案投稿の締め切り日時 : <%= meeting.formatted_deadline %></p>
       <% end %>
-      <a href="#" id="side-navigation-top-drawer" class="p-button--neutral has-icon js-drawer-toggle" aria-controls="side-navigation-drawer">
+      <a href="#" id="side-navigation-top-drawer" class="p-button has-icon js-drawer-toggle" aria-controls="side-navigation-drawer">
         <i class="p-icon--chevron-down" style="transform: rotate(270deg);"></i><span>議案の一覧を表示</span>
       </a>
     </div>
@@ -55,7 +55,7 @@
         <h3 style="max-width: 100%;margin-bottom:0;"><%= article_formatted_title(article, checked: true) %></h3>
         <% if editable %>
         <div class="">
-          <span class="u-hide--small" style="margin-left:2.5rem"></span>
+          <span class="u-hide--small u-hide--medium" style="margin-left:2.5rem"></span>
           <a class="p-button--positive" href="<%= routes.edit_article_path(article.id) %>">議案の編集</a>
           <%=
           form_for :article, routes.article_path(article.id), method: :delete, class: "p-form p-form--inline" do
@@ -119,7 +119,7 @@
               <% ref = if article_ref.article_old_id == article.id then article_ref.article_new else article_ref.article_old end %>
               <li class="p-list__item">
                 <div style="display: flex;justify-content: space-between;">
-                  <a href="<%= routes.article_path(id: ref.id) %>" class="p-heading--four p-link--strong u-no-margin--bottom full-width">
+                  <a href="<%= routes.article_path(id: ref.id) %>" class="p-heading--4 u-no-margin--bottom full-width">
                     【<%= ref.meeting.formatted_date %>】<%= article_formatted_title(ref, number: false) %>
                   </a>
                   <% if article_ref.same %>

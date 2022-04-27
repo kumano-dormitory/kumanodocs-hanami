@@ -16,15 +16,14 @@ module Web::Views::Article
                class: "p-form p-form--stacked" do
 
         if meetings_for_select.length == 0
-          div class: "p-form__group row p-form-validation is-error" do
-            div class: "col-3" do
-              label  '日程', for: :meeting_id, class: "p-form__label u-align-text--right"
+          div class: "p-form__group row p-form-validation is-caution" do
+            div class: "col-3 u-align--right" do
+              label  '日程', for: :meeting_id, class: "p-form__label"
             end
             div class: "col-9" do
               div class: "p-form__control" do
                 select :meeting_id, meetings_for_select
                 p class: "p-form-validation__message", role: "alert" do
-                  i class: "p-icon--warning"
                   strong "ブロック会議の日程が表示されていない場合は、資料委員会へ連絡してください"
                 end
               end
@@ -32,8 +31,8 @@ module Web::Views::Article
           end
         elsif !params.valid? && params.errors.dig(:article, :meeting_id)
           div class: "p-form__group row p-form-validation is-error" do
-            div class: "col-3" do
-              label  '日程', for: :meeting_id, class: "p-form__label u-align-text--right"
+            div class: "col-3 u-align--right" do
+              label  '日程', for: :meeting_id, class: "p-form__label"
             end
             div class: "col-9" do
               div class: "p-form__control" do
@@ -46,8 +45,8 @@ module Web::Views::Article
           end
         else
           div class: "p-form__group row" do
-            div class: "col-3" do
-              label  '日程', for: :meeting_id, class: "p-form__label u-align-text--right"
+            div class: "col-3 u-align--right" do
+              label  '日程', for: :meeting_id, class: "p-form__label"
             end
             div class: "col-9" do
               div class: "p-form__control" do
@@ -59,18 +58,19 @@ module Web::Views::Article
 
         if !params.valid? && params.errors.dig(:article, :categories)
           div class: "p-form__group row p-form-validation is-error u-vertically-center" do
-            div class: "col-3" do
-              label '議案の種別', for: 'categories', class: "p-form__label u-align-text--right"
+            div class: "col-3 u-align--right" do
+              label '議案の種別', for: 'categories', class: "p-form__label"
             end
             div class: "col-9" do
               div class: "p-form__control" do
                 categories.each do |category|
-                  check_box :categories, name: 'article[categories][]', value: category.id, id: "category-#{category.id}", class: "p-form-validation__input"
-                  label category.name, for: "category-#{category.id}"
+                  label for: "article-categories-#{category.id}", class: 'p-checkbox' do
+                    check_box :categories, name: 'article[categories][]', value: category.id, id: "article-categories-#{category.id}", class: "p-checkbox__input p-form-validation__input"
+                    span category.name, id: "category-label-#{category.id}", class: 'p-checkbox__label'
+                  end
                 end
                 p class: "p-form-validation__message", role: "alert" do
                   if params.errors.dig(:article, :categories).include?("size cannot be less than 1")
-                    i class: "p-icon--error"
                     strong "少なくとも１つの種別を選択してください"
                   else
                     "入力が不正です"
@@ -81,14 +81,16 @@ module Web::Views::Article
           end
         else
           div class: "p-form__group row u-vertically-center" do
-            div class: "col-3" do
-              label '議案の種別', for: 'categories', class: "p-form__label u-align-text--right"
+            div class: "col-3 u-align--right" do
+              label '議案の種別', for: 'categories', class: "p-form__label"
             end
             div class: "col-9" do
               div class: "p-form__control" do
                 categories.each do |category|
-                  check_box :categories, name: 'article[categories][]', value: category.id, id: "category-#{category.id}"
-                  label category.name, for: "category-#{category.id}"
+                  label for: "article-categories-#{category.id}", class: 'p-checkbox' do
+                    check_box :categories, name: 'article[categories][]', value: category.id, id: "article-categories-#{category.id}", class: 'p-checkbox__input'
+                    span category.name, id: "category-label-#{category.id}", class: 'p-checkbox__label'
+                  end
                 end
               end
             end
@@ -97,8 +99,8 @@ module Web::Views::Article
 
         if !params.valid? && params.errors.dig(:article, :title)
           div class: "p-form__group row p-form-validation is-error" do
-            div class: "col-3" do
-              label 'タイトル', for: :title, class: "p-form__label u-align-text--right"
+            div class: "col-3 u-align--right" do
+              label 'タイトル', for: :title, class: "p-form__label"
             end
             div class: "col-9" do
               div class: "p-form__control" do
@@ -115,8 +117,8 @@ module Web::Views::Article
           end
         else
           div class: "p-form__group row" do
-            div class: "col-3" do
-              label 'タイトル', for: :title, class: "p-form__label u-align-text--right", required: ""
+            div class: "col-3 u-align--right" do
+              label 'タイトル', for: :title, class: "p-form__label", required: ""
             end
             div class: "col-9" do
               div class: "p-form__control" do
@@ -129,8 +131,8 @@ module Web::Views::Article
         fields_for :author do
           if !params.valid? && params.errors.dig(:article, :author, :name)
             div class: "p-form__group row p-form-validation is-error" do
-              div class: "col-3" do
-                label '文責者', for: :name, class: "p-form__label u-align-text--right"
+              div class: "col-3 u-align--right" do
+                label '文責者', for: :name, class: "p-form__label"
               end
               div class: "col-9" do
                 div class: "p-form__control" do
@@ -147,8 +149,8 @@ module Web::Views::Article
             end
           else
             div class: "p-form__group row" do
-              div class: "col-3" do
-                label '文責者', for: :name, class: "p-form__label u-align-text--right"
+              div class: "col-3 u-align--right" do
+                label '文責者', for: :name, class: "p-form__label"
               end
               div class: "col-9" do
                 div class: "p-form__control" do
@@ -160,8 +162,8 @@ module Web::Views::Article
 
           if !params.valid? && params.errors.dig(:article, :author, :password)
             div class: "p-form__group row p-form-validation is-error" do
-              div class: "col-3" do
-                label 'パスワード', for: :password, class: "p-form__label u-align-text--right"
+              div class: "col-3 u-align--right" do
+                label 'パスワード', for: :password, class: "p-form__label"
               end
               div class: "col-9" do
                 div class: "p-form__control" do
@@ -178,8 +180,8 @@ module Web::Views::Article
             end
           else
             div class: "p-form__group row" do
-              div class: "col-3" do
-                label 'パスワード', for: :password, class: "p-form__label u-align-text--right"
+              div class: "col-3 u-align--right" do
+                label 'パスワード', for: :password, class: "p-form__label"
               end
               div class: "col-9" do
                 div class: "p-form__control" do
@@ -191,8 +193,8 @@ module Web::Views::Article
 
           if !params.valid? && params.errors.dig(:article, :author, :password_confirmation)
             div class: "p-form__group row p-form-validation is-error" do
-              div class: "col-3" do
-                label 'パスワード（確認）', for: :password_confirmation, class: "p-form__label u-align-text--right"
+              div class: "col-3 u-align--right" do
+                label 'パスワード（確認）', for: :password_confirmation, class: "p-form__label"
               end
               div class: "col-9" do
                 div class: "p-form__control" do
@@ -211,8 +213,8 @@ module Web::Views::Article
             end
           else
             div class: "p-form__group row" do
-              div class: "col-3" do
-                label 'パスワード（確認）', for: :password_confirmation, class: "p-form__label u-align-text--right"
+              div class: "col-3 u-align--right" do
+                label 'パスワード（確認）', for: :password_confirmation, class: "p-form__label"
               end
               div class: "col-9" do
                 div class: "p-form__control" do
@@ -225,8 +227,8 @@ module Web::Views::Article
 
         if !params.valid? && params.errors.dig(:article, :format)
           div class: "p-form__group row p-form-validation is-error", style: "display:none" do
-            div class: "col-3" do
-              label '本文のフォーマット', for: :format, class: "p-form__label u-align-text--right"
+            div class: "col-3 u-align--right" do
+              label '本文のフォーマット', for: :format, class: "p-form__label"
             end
             div class: "col-9" do
               div class: "p-form__control" do
@@ -248,8 +250,8 @@ module Web::Views::Article
           end
         else
           div class: "p-form__group row", style: "display:none" do
-            div class: "col-3" do
-              label '本文のフォーマット', for: :format, class: "p-form__label u-align-text--right"
+            div class: "col-3 u-align--right" do
+              label '本文のフォーマット', for: :format, class: "p-form__label"
             end
             div class: "col-9" do
               div class: "p-form__control" do
@@ -265,8 +267,8 @@ module Web::Views::Article
 
         if !params.valid? && params.errors.dig(:article, :body)
           div class: "p-form__group row p-form-validation is-error" do
-            div class: "col-3" do
-              label '本文', for: :body, class: "p-form__label u-align-text--right"
+            div class: "col-3 u-align--right" do
+              label '本文', for: :body, class: "p-form__label"
             end
             div class: "col-9" do
               div class: "p-form__control" do
@@ -296,8 +298,8 @@ module Web::Views::Article
           end
         else
           div class: "p-form__group row" do
-            div class: "col-3" do
-              label '本文', for: :body, class: "p-form__label u-align-text--right"
+            div class: "col-3 u-align--right" do
+              label '本文', for: :body, class: "p-form__label"
             end
             div class: "col-9" do
               div class: "p-form__control" do
@@ -321,13 +323,13 @@ module Web::Views::Article
         end
 
         if !params.valid? && params.errors.dig(:article, :vote_content)
-          div class: "p-form__group row p-form-validation is-error" do
-            div class: "col-3" do
-              label '採決項目（議案の種別に「採決」または「採決予定」が含まれていない場合には保存されません）', for: :vote_content, class: "p-form__label u-align-text--right"
+          div class: "p-form__group row u-vertically-center p-form-validation is-error" do
+            div class: "col-3t" do
+              label '採決項目（議案の種別に「採決」または「採決予定」が含まれていない場合には保存されません）', for: :vote_content, class: "p-form__label"
             end
             div class: "col-9" do
               div class: "p-form__control" do
-                text_area :vote_content, rows: 5, class: "p-form-validation__input", 'aria-invalid': "true"
+                text_area :vote_content, rows: 6, class: "p-form-validation__input", 'aria-invalid': "true"
                 p class: "p-form-validation__message", role: "alert" do
                   if params.errors.dig(:article, :vote_content).include?("must be filled")
                     strong "この項目は必須です"
@@ -339,13 +341,13 @@ module Web::Views::Article
             end
           end
         else
-          div class: "p-form__group row" do
+          div class: "p-form__group row u-vertically-center" do
             div class: "col-3" do
-              label '採決項目（議案の種別に「採決」または「採決予定」が含まれていない場合には保存されません）', for: :vote_content, class: "p-form__label u-align-text--right"
+              label '採決項目（議案の種別に「採決」または「採決予定」が含まれていない場合には保存されません）', for: :vote_content, class: "p-form__label"
             end
             div class: "col-9" do
               div class: "p-form__control" do
-                text_area :vote_content, rows: 5
+                text_area :vote_content, rows: 6
               end
             end
           end
@@ -477,8 +479,8 @@ module Web::Views::Article
 
         if get_lock
           div class: "p-form__group row p-form-validation is-caution" do
-            div class: "col-3" do
-              label 'パスワード', for: :password, class: "p-form__label u-align-text--right"
+            div class: "col-3 u-align--right" do
+              label 'パスワード', for: :password, class: "p-form__label"
             end
             div class: "col-9" do
               div class: "p-form__control" do
@@ -490,8 +492,8 @@ module Web::Views::Article
 
         if !params.valid? && params.errors.dig(:article, :meeting_id)
           div class: "p-form__group row p-form-validation is-error" do
-            div class: "col-3" do
-              label  '日程', for: :meeting_id, class: "p-form__label u-align-text--right"
+            div class: "col-3 u-align--right" do
+              label  '日程', for: :meeting_id, class: "p-form__label"
             end
             div class: "col-9" do
               div class: "p-form__control" do
@@ -505,8 +507,8 @@ module Web::Views::Article
           end
         else
           div class: "p-form__group row" do
-            div class: "col-3" do
-              label  '日程', for: :meeting_id, class: "p-form__label u-align-text--right"
+            div class: "col-3 u-align--right" do
+              label  '日程', for: :meeting_id, class: "p-form__label"
             end
             div class: "col-9" do
               div class: "p-form__control" do
@@ -518,22 +520,23 @@ module Web::Views::Article
 
         if !params.valid? && params.errors.dig(:article, :categories)
           div class: "p-form__group row p-form-validation is-error u-vertically-center" do
-            div class: "col-3" do
-              label '議案の種別', for: 'categories', class: "p-form__label u-align-text--right"
+            div class: "col-3 u-align--right" do
+              label '議案の種別', for: 'categories', class: "p-form__label"
             end
             div class: "col-9" do
               div class: "p-form__control" do
                 categories.each do |category|
-                  if article_categories_selected&.include?(category.id)
-                    check_box :categories, name: 'article[categories][]', value: category.id, id: "category-#{category.id}", checked: "checked", class: "p-form-validation__input"
-                  else
-                    check_box :categories, name: 'article[categories][]', value: category.id, id: "category-#{category.id}", class: "p-form-validation__input"
+                  label for: "article-categories-#{category.id}", class: 'p-checkbox' do
+                    if article_categories_selected&.include?(category.id)
+                      check_box :categories, name: 'article[categories][]', value: category.id, id: "article-categories-#{category.id}", checked: "checked", class: 'p-checkbox__input p-form-validation__input'
+                    else
+                      check_box :categories, name: 'article[categories][]', value: category.id, id: "article-categories-#{category.id}", class: 'p-checkbox__input p-form-validation__input'
+                    end
+                    span category.name, id: "category-label-#{category.id}", class: 'p-checkbox__label'
                   end
-                  label category.name, for: "category-#{category.id}"
                 end
                 p class: "p-form-validation__message", role: "alert" do
                   if params.errors.dig(:article, :categories).include?("size cannot be less than 1")
-                    i class: "p-icon--error"
                     strong "少なくとも１つの種別を選択してください"
                   else
                     "入力が不正です"
@@ -544,18 +547,20 @@ module Web::Views::Article
           end
         else
           div class: "p-form__group row u-vertically-center" do
-            div class: "col-3" do
-              label '議案の種別', for: 'categories', class: "p-form__label u-align-text--right"
+            div class: "col-3 u-align--right" do
+              label '議案の種別', for: 'categories', class: "p-form__label"
             end
             div class: "col-9" do
               div class: "p-form__control" do
                 categories.each do |category|
-                  if article_categories_selected&.include?(category.id)
-                    check_box :categories, name: 'article[categories][]', value: category.id, id: "category-#{category.id}", checked: "checked"
-                  else
-                    check_box :categories, name: 'article[categories][]', value: category.id, id: "category-#{category.id}"
+                  label for: "article-categories-#{category.id}", class: 'p-checkbox' do
+                    if article_categories_selected&.include?(category.id)
+                      check_box :categories, name: 'article[categories][]', value: category.id, id: "article-categories-#{category.id}", checked: "checked", class: 'p-checkbox__input'
+                    else
+                      check_box :categories, name: 'article[categories][]', value: category.id, id: "article-categories-#{category.id}", class: 'p-checkbox__input'
+                    end
+                    span category.name, id: "category-label-#{category.id}", class: 'p-checkbox__label'
                   end
-                  label category.name, for: "category-#{category.id}"
                 end
               end
             end
@@ -564,8 +569,8 @@ module Web::Views::Article
 
         if !params.valid? && params.errors.dig(:article, :title)
           div class: "p-form__group row p-form-validation is-error" do
-            div class: "col-3" do
-              label 'タイトル', for: :title, class: "p-form__label u-align-text--right"
+            div class: "col-3 u-align--right" do
+              label 'タイトル', for: :title, class: "p-form__label"
             end
             div class: "col-9" do
               div class: "p-form__control" do
@@ -582,8 +587,8 @@ module Web::Views::Article
           end
         else
           div class: "p-form__group row" do
-            div class: "col-3" do
-              label 'タイトル', for: :title, class: "p-form__label u-align-text--right"
+            div class: "col-3 u-align--right" do
+              label 'タイトル', for: :title, class: "p-form__label"
             end
             div class: "col-9" do
               div class: "p-form__control" do
@@ -596,8 +601,8 @@ module Web::Views::Article
         fields_for :author do
           if !params.valid? && params.errors.dig(:article, :author, :name)
             div class: "p-form__group row p-form-validation is-error" do
-              div class: "col-3" do
-                label '文責者', for: :name, class: "p-form__label u-align-text--right"
+              div class: "col-3 u-align--right" do
+                label '文責者', for: :name, class: "p-form__label"
               end
               div class: "col-9" do
                 div class: "p-form__control" do
@@ -614,8 +619,8 @@ module Web::Views::Article
             end
           else
             div class: "p-form__group row" do
-              div class: "col-3" do
-                label '文責者', for: :name, class: "p-form__label u-align-text--right"
+              div class: "col-3 u-align--right" do
+                label '文責者', for: :name, class: "p-form__label"
               end
               div class: "col-9" do
                 div class: "p-form__control" do
@@ -628,8 +633,8 @@ module Web::Views::Article
 
         if !params.valid? && params.errors.dig(:article, :format)
           div class: "p-form__group row p-form-validation is-error", style: "display:none" do
-            div class: "col-3" do
-              label '本文のフォーマット', for: :format, class: "p-form__label u-align-text--right"
+            div class: "col-3 u-align--right" do
+              label '本文のフォーマット', for: :format, class: "p-form__label"
             end
             div class: "col-9" do
               div class: "p-form__control" do
@@ -650,8 +655,8 @@ module Web::Views::Article
           end
         else
           div class: "p-form__group row", style: "display:none" do
-            div class: "col-3" do
-              label '本文のフォーマット', for: :format, class: "p-form__label u-align-text--right"
+            div class: "col-3 u-align--right" do
+              label '本文のフォーマット', for: :format, class: "p-form__label"
             end
             div class: "col-9" do
               div class: "p-form__control" do
@@ -667,8 +672,8 @@ module Web::Views::Article
 
         if !params.valid? && params.errors.dig(:article, :body)
           div class: "p-form__group row p-form-validation is-error" do
-            div class: "col-3" do
-              label '本文', for: :body, class: "p-form__label u-align-text--right"
+            div class: "col-3 u-align--right" do
+              label '本文', for: :body, class: "p-form__label"
             end
             div class: "col-9" do
               div class: "p-form__control" do
@@ -698,8 +703,8 @@ module Web::Views::Article
           end
         else
           div class: "p-form__group row" do
-            div class: "col-3" do
-              label '本文', for: :body, class: "p-form__label u-align-text--right"
+            div class: "col-3 u-align--right" do
+              label '本文', for: :body, class: "p-form__label"
             end
             div class: "col-9" do
               div class: "p-form__control" do
@@ -723,13 +728,13 @@ module Web::Views::Article
         end
 
         if !params.valid? && params.errors.dig(:article, :vote_content)
-          div class: "p-form__group row p-form-validation is-error" do
+          div class: "p-form__group row u-vertically-center p-form-validation is-error" do
             div class: "col-3" do
               label '採決項目（議案の種別に「採決」または「採決予定」が含まれていない場合には保存されません）', for: :vote_content, class: "p-form__label"
             end
             div class: "col-9" do
               div class: "p-form__control" do
-                text_area :vote_content, rows: 5, class: "p-form-validation__input", 'aria-invalid': "true"
+                text_area :vote_content, rows: 6, class: "p-form-validation__input", 'aria-invalid': "true"
                 p class: "p-form-validation__message", role: "alert" do
                   if params.errors.dig(:article, :vote_content).include?("must be filled")
                     strong "この項目は必須です"
@@ -741,13 +746,13 @@ module Web::Views::Article
             end
           end
         else
-          div class: "p-form__group row" do
+          div class: "p-form__group row u-vertically-center" do
             div class: "col-3" do
               label '採決項目（議案の種別に「採決」または「採決予定」が含まれていない場合には保存されません）', for: :vote_content, class: "p-form__label"
             end
             div class: "col-9" do
               div class: "p-form__control" do
-                text_area :vote_content, rows: 5
+                text_area :vote_content, rows: 6
               end
             end
           end

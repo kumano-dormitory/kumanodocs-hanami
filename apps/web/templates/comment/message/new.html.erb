@@ -33,12 +33,12 @@
     </div>
     <ul class="p-list">
       <li>
-        <a href="<%= routes.new_comment_message_path(comment_id: comment.id) %>?role=article-author" class="p-button--neutral">
+        <a href="<%= routes.new_comment_message_path(comment_id: comment.id) %>?role=article-author" class="p-button">
           <h3 class="u-no-margin--bottom">議案の提起者として返答</h3>
         </a>
       </li>
       <li>
-        <a href="<%= routes.new_comment_message_path(comment_id: comment.id) %>?role=comment-author" class="p-button--neutral">
+        <a href="<%= routes.new_comment_message_path(comment_id: comment.id) %>?role=comment-author" class="p-button">
           <h3 class="u-no-margin--bottom"><%= comment.block.name %> 議事録の投稿者として返答</h3>
         </a>
       </li>
