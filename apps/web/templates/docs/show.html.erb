@@ -11,14 +11,14 @@
     <% elsif document.type == 1 %>
     <div class="">
       <p>資料はPDFファイルです. 以下のボタンからダウンロード出来ます</p>
-      <a href="/docs/download/<%= document.id %>" class="p-button--neutral">PDFファイルのダウンロード</a>
+      <a href="/docs/download/<%= document.id %>" class="p-button">PDFファイルのダウンロード</a>
     </div>
     <div class="u-hide--small">
       <iframe src="/docs/download/<%= document.id %>" type="application/pdf" width="100%" height="700px"></iframe>
     </div>
     <% elsif document.type == 2 %>
     <h3 class="u-no-padding">
-      <a class="p-link--external" href="<%= ha document.body %>"><%= h document.body %></a>
+      <a class="dark-enable" href="<%= ha document.body %>"><%= h document.body %></a>
     </h3>
     <p>※外部サイトへのリンクです. リンクをクリックすると外部サイトが開きます.</p>
     <% end %>

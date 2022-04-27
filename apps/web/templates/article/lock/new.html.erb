@@ -3,12 +3,14 @@
     <div class="col-12">
       <% if locked %>
       <div class="p-notification--caution">
-        <p class="p-notification__response">
-          <span class="p-notification__status">Warning:</span>
-          他の人がこの記事を編集中の可能性があります。
-          他の人が編集中である場合、その人の編集内容が失われることがあります。<br/>
-          それでもよければパスワードを入力して編集を開始してください。
-        </p>
+        <div class="p-notification__content">
+          <h5 class="p-notification__title">Warning:</h5>
+          <p class="p-notification__message">
+            他の人がこの記事を編集中の可能性があります。
+            他の人が編集中である場合、その人の編集内容が失われることがあります。<br/>
+            それでもよければパスワードを入力して編集を開始してください。
+          </p>
+        </div>
       </div>
       <% end %>
       <h4 class="full-width">議案【<%= title %>】<%= if for_table then "の表" end %>を編集します</h4>

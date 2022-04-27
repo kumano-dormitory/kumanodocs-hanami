@@ -1,6 +1,6 @@
 <div class="p-strip">
   <div class="row row-wide">
-    <h1>議案の差分表示(Diff) <small><a href="/article/diff" class="p-button--neutral u-no-margin--bottom">他の議案を比較</a></small></h1>
+    <h1>議案の差分表示(Diff) <small><a href="/article/diff" class="p-button u-no-margin--bottom">他の議案を比較</a></small></h1>
     <% if article_old && article_new %>
       <h4 class="full-width u-no-margin--bottom">
         旧版：<a href="<%= routes.article_path(id: article_old.id) %>">
@@ -14,10 +14,13 @@
         </a>
       </h4>
       <div class="p-notification--caution">
-        <p class="p-notification__response">
-          <span class="p-notification__status">注意:</span>下記の差分表示は、差分を見やすくするために、元の議案と完全には表示が一致しない場合があります。<br>
-          （見やすさのために改行が適宜追加されています） ご了承ください。
-        </p>
+        <div class="p-notification__content">
+          <h5 class="p-notification__title">注意:</h5>
+          <p class="p-notification__message">
+            下記の差分表示は、差分を見やすくするために、元の議案と完全には表示が一致しない場合があります。<br>
+            （見やすさのために改行が適宜追加されています） ご了承ください。
+          </p>
+        </div>
       </div>
       <form class="p-form p-form--inline">
         <div class="p-form__group">

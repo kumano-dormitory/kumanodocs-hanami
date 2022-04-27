@@ -37,7 +37,7 @@ module Web::Controllers::Article
         @recent_meetings_with_articles = @article_repo.group_by_meeting(16, months: 6)
       end
       self.headers.merge!({
-        'Content-Security-Policy' => "form-action 'self'; frame-ancestors 'self'; base-uri 'self'; default-src 'none'; manifest-src 'self'; script-src 'self' https://cdnjs.cloudflare.com/ajax/libs/jsdiff/ https://cdnjs.cloudflare.com/ajax/libs/diff2html/; connect-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https:; font-src 'self'; object-src 'none'; plugin-types application/pdf; child-src 'self'; frame-src 'self'; media-src 'self'"
+        'Content-Security-Policy' => "form-action 'self'; frame-ancestors 'self'; base-uri 'self'; default-src 'none'; manifest-src 'self'; script-src 'self' https://cdn.jsdelivr.net/npm/diff@5.0.0/ https://cdn.jsdelivr.net/npm/diff2html@3.4.17/; connect-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https:; font-src 'self'; object-src 'none'; plugin-types application/pdf; child-src 'self'; frame-src 'self'; media-src 'self'"
         })
     end
 
