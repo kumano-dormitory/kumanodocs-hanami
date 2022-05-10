@@ -7,7 +7,7 @@ module Apiv2::Controllers::Meetings
         required(:meeting_id) { filled? & int? & gt?(0) }
       end
 
-      def initialize(json_repo: JsonapiRepository.new,
+      def initialize(jsonapi_repo: JsonapiRepository.new,
                      authenticator: JwtAuthenticator.new)
         @jsonapi_repo = jsonapi_repo
         @authenticator = authenticator
