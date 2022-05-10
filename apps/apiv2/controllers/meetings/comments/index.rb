@@ -20,7 +20,7 @@ module Apiv2::Controllers::Meetings
           messages = @jsonapi_repo.messages_by_meeting(params[:meeting_id])
 
           ret = {
-            id: meeting.id,
+            id: meeting[:id],
             type: 'meetings',
             attributes: meeting.merge(comments: comments).merge(messages: messages)
           }
