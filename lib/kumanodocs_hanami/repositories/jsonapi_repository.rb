@@ -9,6 +9,11 @@ class JsonapiRepository < Hanami::Repository
     jsonapis.read(query).map.to_a
   end
 
+  def meetings_count
+      query = "select count(*) from meetings"
+      jsonapis.read(query).map.first[:count]
+  end
+
   def find_past_meeting(meeting_id)
     query = "select id, type, date, deadline from meetings \
     where date < (select date from meetings where id = #{meeting_id}) \
