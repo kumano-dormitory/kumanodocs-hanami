@@ -23,6 +23,7 @@ module Apiv2::Controllers::Meetings
         limit = MAX_LIMIT if limit > MAX_LIMIT
         offset = params[:offset] || 0
 
+        total = @jsonapi_repo.meetings_count
         meetings = @jsonapi_repo.meetings_list(limit: limit, offset: offset).map do |meeting|
           {
             type: 'meetings',
@@ -31,7 +32,8 @@ module Apiv2::Controllers::Meetings
           }
         end
         self.body = JSON.generate({
-          data: meetings
+          data: meetings,
+          meta: { total: total }
         })
         self.format = :jsonapi
       else
