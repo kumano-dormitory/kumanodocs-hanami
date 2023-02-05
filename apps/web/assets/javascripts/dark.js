@@ -6,7 +6,7 @@ function setDark() {
   if (header) { header.classList.add('is-dark'); }
   var topimg = document.getElementById('top-img');
   if (topimg) {
-    topimg.src = "/assets/abstruct-happy2023-dark.svg";
+    topimg.src = "/assets/abstruct-dark.svg";
   }
   var side_navs = document.getElementsByClassName('p-side-navigation');
   for (var i = 0; i < side_navs.length; i++) { side_navs[i].classList.add('is-dark'); }
@@ -41,7 +41,7 @@ function setLight() {
   if (header) { header.classList.remove('is-dark'); }
   var topimg = document.getElementById('top-img');
   if (topimg) {
-    topimg.src = "/assets/abstruct-happy2023.svg";
+    topimg.src = "/assets/abstruct.svg";
   }
   var side_navs = document.getElementsByClassName('p-side-navigation');
   for (var i = 0; i < side_navs.length; i++) { side_navs[i].classList.remove('is-dark'); }
