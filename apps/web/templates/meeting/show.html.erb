@@ -24,17 +24,6 @@
     <div class="col-9">
       <% if past_comments %>
         <h3 style="max-width: 100%;">(0) 前回のブロック会議から</h3>
-        <!-- happy new year 2023 -->
-        <div class="p-strip--suru">
-          <div class="row">
-            <div class="col-12">
-                <h1>新年明けましておめでとうございます</h1>
-                <h2>今年も資料システムと共に寮自治への参加をどうぞよろしくお願いいたします。</h2>
-            </div>
-          </div>
-        </div>
-        <!-- end of happy new year 2023 -->
-
         <% past_comments.each do |article_id, comments| %>
 	  <hr/>
           <h4><%= h "(#{comments[0]&.dig(:article_number) || '番号なし'}) #{comments[0]&.dig(:title)}" %></h4>
