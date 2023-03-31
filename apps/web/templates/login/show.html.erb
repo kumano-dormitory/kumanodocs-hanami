@@ -1,5 +1,23 @@
 <div class="login-container">
-  <div class="login-wrap">
+  <div id="service-msg" class="login-wrap">
+    <div class="login-form">
+      <div class="login-title">
+        <h5 style="margin: 0px">サービス終了のお知らせ</h5>
+      </div>
+      <div>
+        <p>
+        熊野寮資料システムは2023年3月31日をもちましてサービス終了いたしました。
+        </p>
+        <p>
+        約4年間、資料システムをご活用・ご愛顧いただき誠にありがとうございました。
+        </p>
+      </div>
+      <div class="login-button-container">
+        <button id="close-msg-btn" class="login-button" style="height:40px"><small>メッセージを閉じる</small></button>
+      </div>
+    </div>
+  </div>
+  <div id="login-form" class="login-wrap" style="display: none">
     <%= form_for :login, routes.login_path + (standalone ? '?standalone=true' : (path && !path.empty? ? "?path=#{path}" : '')),
                   method: :post, class: 'login-form' do
 
@@ -37,6 +55,16 @@
       end %>
   </div>
 </div>
+
+<script nonce="6c9adf328e">
+  let closeMsgBtn = document.getElementById("close-msg-btn")
+  closeMsgBtn.addEventListener("click", function() {
+    let loginForm = document.getElementById("login-form");
+    let serviceMsg = document.getElementById("service-msg");
+    loginForm.style.display = "flex";
+    serviceMsg.style.display = "none";
+  });
+</script>
 
 <%= javascript 'login' %>
 
