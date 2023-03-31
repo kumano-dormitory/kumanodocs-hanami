@@ -238,7 +238,7 @@ module Web
         base-uri 'self';
         default-src 'none';
         manifest-src 'self';
-        script-src 'self';
+        script-src 'self' 'nonce-6c9adf328e';
         connect-src 'self';
         img-src 'self' https: data:;
         style-src 'self' 'unsafe-inline' https:;
