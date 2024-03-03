@@ -41,9 +41,10 @@ module Web::Controllers::Login
             }
             redirect_to routes.root_path + '?loggedin=true'
           else
-            # 通常のウェブブラウザなどからのログイン時は7日間有効なトークンを渡す
+            # 通常のウェブブラウザなどからのログイン時は1時間有効なトークンを渡す
+
             cookies[:token] = {
-              value: generate_token(user.name, ENV['KUMANODOCS_AUTH_TOKEN_VERSION']),
+              value: generate_token(user.name, ENV['KUMANODOCS_AUTH_TOKEN_VERSION'], 0.0417),
               path: '/',
               httponly: true
             }
@@ -62,7 +63,7 @@ module Web::Controllers::Login
     # 有効なJWTを作成する関数
     def generate_token(name, version, exp_day = 7)
       rsa_private = OpenSSL::PKey::RSA.new(KUMANODOCS_AUTH_TOKEN_PKEY)
-      exp = Time.now.to_i + (exp_day * 24 * 3600)
+      exp = Time.now.to_i + (exp_day * 24 * 3600).to_i
       payload = {
         id: name,
         version: version,

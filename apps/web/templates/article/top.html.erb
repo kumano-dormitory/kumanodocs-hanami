@@ -15,10 +15,11 @@
     <div class="col-12">
       <h2 class="u-no-margin--bottom">寮生大会の議事録</h2>
       <p>寮生大会の議事録をリアルタイムで閲覧することができます</p>
-      <a href='<%= routes.gijirokus_path %>' class="p-button"><h3 class="u-no-margin--bottom">議事録の閲覧ページへ</h3></a>
+      <a href='<%= routes.download_documents_path(id: "ryoseitaikaigiji") %>' class="p-button"><h3 class="u-no-margin--bottom">議事録の閲覧ページへ</h3></a>
       <p>寮生大会の資料をPDFでダウンロードできます</p>
       <a href='<%= routes.download_documents_path(id: "ryoseitaikai") %>' class="p-button" target="_blank"><h3 class="u-no-margin--bottom full-width">寮生大会資料のPDFダウンロード</h3></a>
       <a href='<%= routes.download_documents_path(id: "ryoseitaikai2") %>' class="p-button" target="_blank"><h3 class="u-no-margin--bottom full-width">変更・返答まとめのPDFダウンロード</h3></a>
+      <a href='<%= routes.download_documents_path(id: "ryoseitaikai3") %>' class="p-button" target="_blank"><h3 class="u-no-margin--bottomfull-width">寮祭企画総括のPDFダウンロード</h3></a>
     </div>
   </div>
 </div>

@@ -1,0 +1,53 @@
+.parentheader{
+  background-color:black
+}
+.header{
+  text-align:center;
+  font-size:90;
+  font-family:"HGS創英角ﾎﾟｯﾌﾟ体";
+  padding-bottom:40;
+  padding-top:20;
+  -webkit-text-stroke: 1px #FFF;
+  -webkit-text-fill-color: transparent;
+  width: 50%;
+  margin:0 auto;
+}
+.main{
+  width:80%;
+  padding-top:40px;
+  margin-left:5%;
+  margin-right:5%;
+  font-size: 14px;
+}
+.header {
+  /* 横長で虹色を作る */
+  background: linear-gradient(to right, Magenta, yellow, Cyan, Magenta) 0% center/200%;
+  animation: header 2s linear infinite;
+  -webkit-background-clip: text;
+}
+@keyframes header {
+  /* backgroundを移動させる */
+  100% { background-position-x: 200%; }
+}
+
+
+.table {
+  display:table;
+}
+.cell {
+  display:table-cell;
+  border:0px solid;
+}
+.cell1{
+  margin-top:5px;
+  padding-top:5px;
+}
+
+.reflesh {
+  margin-left: 0;
+  width: 10%;
+  border-radius: 4px;
+  padding-left: 10px;
+  height:30;
+  padding-top:3px;
+}

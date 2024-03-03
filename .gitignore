@@ -12,3 +12,10 @@
 #Ignore db export csv files
 /db/kumanodocs/*.sqlite3
 /db/kumanodocs/*.csv
+
+#Ignore memo
+./shimada-memo
+
+#Ignore docs files
+/docs
+/giji

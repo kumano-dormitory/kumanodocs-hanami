@@ -7,7 +7,7 @@ module Super::Controllers::User
         required(:name).filled(:str?)
         required(:password).filled(:str?).confirmation
         required(:password_confirmation).filled(:str?)
-        required(:authority).filled(:int?, included_in?: 0..2)
+        required(:authority).filled(:int?, included_in?: 0..3)
       end
     end
 
