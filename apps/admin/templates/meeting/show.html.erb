@@ -3,14 +3,37 @@
     <ul class="p-breadcrumbs">
       <li class="p-breadcrumbs__item"><a href='<%= routes.root_path %>'>管理者向けページ</a></li>
       <li class="p-breadcrumbs__item"><a href='<%= routes.meetings_path %>'>会議日程一覧</a></li>
-      <li class="p-breadcrumbs__item"><strong><%= meeting.formatted_date %>の<%= meeting.type == 0 ? "ブロック会議" : "寮生大会" %></strong></li>
+      <li class="p-breadcrumbs__item"><strong><%= meeting.formatted_date %>の<% if meeting.type == 0 %>
+      <%= "ブロック会議" %>
+    <% elsif meeting.type == 1%>
+      <%= "寮生大会" %>
+    <% elsif meeting.type == 2%>
+      <%= "代議委員会" %>
+    <% elsif meeting.type == 3%>
+      <%= "寮生集会" %>
+    <% elsif meeting.type == 4%>
+      <%= "万年大会" %>
+    <% end %>
+    </strong></li>
     </ul>
     <hr/>
   </div>
 </div>
 <div class="p-strip is-shallow">
   <div class="row">
-    <h1><%= meeting.formatted_date %>の<%= meeting.type == 0 ? "ブロック会議" : "寮生大会" %></h1>
+    <h1><%= meeting.formatted_date %>の
+    <% if meeting.type == 0 %>
+          <%= "ブロック会議" %>
+        <% elsif meeting.type == 1%>
+          <%= "寮生大会" %>
+        <% elsif meeting.type == 2%>
+          <%= "代議委員会" %>
+        <% elsif meeting.type == 3%>
+          <%= "寮生集会" %>
+        <% elsif meeting.type == 4%>
+          <%= "万年大会" %>
+        <% end %>
+        </h1>
     <p>議案投稿の締め切り日時 : <%= meeting.formatted_deadline %></p>
 
     <h3>操作一覧</h3>
@@ -41,7 +64,19 @@
         </a>
       </li>
       <li class="p-list__item is-ticked">
-        <h4>この<%= meeting.type == 0 ? "ブロック会議" : "寮生大会" %>日程の編集・削除する場合はこちら</h4>
+        <h4>この
+        <% if meeting.type == 0 %>
+          <%= "ブロック会議" %>
+        <% elsif meeting.type == 1%>
+          <%= "寮生大会" %>
+        <% elsif meeting.type == 2%>
+          <%= "代議委員会" %>
+        <% elsif meeting.type == 3%>
+          <%= "寮生集会" %>
+        <% elsif meeting.type == 4%>
+          <%= "万年大会" %>
+        <% end %>
+        日程の編集・削除する場合はこちら</h4>
         <p>※編集・削除を行うと既に投稿された議案に対して大きな影響を及ぼす可能性があります。資料委員会で確認を取ってから編集・削除を行うようにしてください。</p>
         <a href='<%= routes.edit_meeting_path(id: meeting.id) %>' class="p-button--positive">この<%= meeting.type == 0 ? "ブロック会議" : "寮生大会" %>日程の編集</a>
         <%= form_for :meeting, routes.meeting_path(id: meeting.id),

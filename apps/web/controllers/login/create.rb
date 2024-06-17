@@ -41,10 +41,10 @@ module Web::Controllers::Login
             }
             redirect_to routes.root_path + '?loggedin=true'
           else
-            # 通常のウェブブラウザなどからのログイン時は1時間有効なトークンを渡す
+            # 通常のウェブブラウザなどからのログイン時は10時間有効なトークンを渡す
 
             cookies[:token] = {
-              value: generate_token(user.name, ENV['KUMANODOCS_AUTH_TOKEN_VERSION'], 0.0417),
+              value: generate_token(user.name, ENV['KUMANODOCS_AUTH_TOKEN_VERSION'], 0.417),
               path: '/',
               httponly: true
             }
