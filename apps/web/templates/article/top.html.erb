@@ -79,7 +79,7 @@
         <% if next_meeting %>
         <li>
           <a href="<%= routes.meeting_path(id: next_meeting.id) %>" class="p-button--base button-recent-meeting">
-            <h3 class="u-no-margin--bottom full-width"><%= next_meeting.formatted_date %> の<% if next_meeting.type == 1 %>寮生大会<% else %>ブロック会議<% end %></h3>
+            <h3 class="u-no-margin--bottom full-width"><%= next_meeting.formatted_date %> の<% if next_meeting.type == 1 %>寮生大会<% elsif next_meeting.type == 2 %>代議員会<% elsif next_meeting.type == 3 %>寮生集会<% elsif next_meeting.type == 4 %>万年大会<% else %>ブロック会議<% end %></h3>
           </a>
         </li>
         <% end %>

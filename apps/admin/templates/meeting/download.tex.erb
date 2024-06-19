@@ -13,7 +13,7 @@ breaklines=true
 1;2802;0c}
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
 
-\title{ <%= meeting.date %> ブロック会議 }
+\title{ <%= meeting.date %> <% if meeting.type == 0 %>ブロック会議<% elsif meeting.type == 1%>寮生大会<% elsif meeting.type == 2%>代議員会<% elsif meeting.type == 3%>寮生集会<% elsif meeting.type == 4%>万年大会<% end %> }
 \date{}
 \author{}
 
@@ -22,18 +22,19 @@ breaklines=true
 \vspace{-10ex}
 \tableofcontents
 
-\section*{(0) 前回のブロック会議から}
-\addcontentsline{toc}{section}{\protect\numberline{} {(0) 前回のブロック会議から} }%
-<% past_comments.each do |article_id, comments| %>
-\begin{spverbatim}
-<%= "(#{comments[0]&.dig(:article_number) || '番号なし'}) #{comments[0]&.dig(:title)}" %>
+<% if meeting.type == 0 %> <%#ブロック会議のときのみ前回からを表示 %>
+  \section*{(0) 前回のブロック会議から}
+  \addcontentsline{toc}{section}{\protect\numberline{} {(0) 前回のブロック会議から} }%
+  <% past_comments.each do |article_id, comments| %>
+  \begin{spverbatim}
+  <%= "(#{comments[0]&.dig(:article_number) || '番号なし'}) #{comments[0]&.dig(:title)}" %>
 
-<% comments.each do |comment| %><% if comment[:body] && !comment[:body].strip.empty? %><%= "#{comment[:block_name]} - #{comment[:body]}\n" %>
-<% if past_messages.fetch(comment[:id], false) %><% past_messages.fetch(comment[:id], []).each do |message| %><%= if message[:send_by_article_author] then "<< 議案提起者からの返答 >>\n" else "<< 議事録投稿者からの返答 >>\n" end %><%= "#{message[:body]}\n" %><% end %><% end %>
-<% elsif comment[:agree] %><%= "#{comment[:block_name]}の採決結果\n賛成:#{comment[:agree]}\n反対:#{comment[:disagree]}\n保留:#{comment[:onhold]}\n" %><% end %><% end %>
-\end{spverbatim}
+  <% comments.each do |comment| %><% if comment[:body] && !comment[:body].strip.empty? %><%= "#{comment[:block_name]} - #{comment[:body]}\n" %>
+  <% if past_messages.fetch(comment[:id], false) %><% past_messages.fetch(comment[:id], []).each do |message| %><%= if message[:send_by_article_author] then "<< 議案提起者からの返答 >>\n" else "<< 議事録投稿者からの返答 >>\n" end %><%= "#{message[:body]}\n" %><% end %><% end %>
+  <% elsif comment[:agree] %><%= "#{comment[:block_name]}の採決結果\n賛成:#{comment[:agree]}\n反対:#{comment[:disagree]}\n保留:#{comment[:onhold]}\n" %><% end %><% end %>
+  \end{spverbatim}
+  <% end %>
 <% end %>
-
 <% articles.each do |article| %>
 
 \section*{ <%= tex_article_formatted_title(article, checked: true) %> \\ \ \  \normalsize{ 文責：<%= tex_escape(article.author.name) %> } }

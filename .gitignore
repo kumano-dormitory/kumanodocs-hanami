@@ -20,3 +20,6 @@
 /docs
 /giji
 /shiryo
+
+#Ignore log files
+/logs

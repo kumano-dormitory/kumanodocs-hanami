@@ -47,8 +47,8 @@ module Admin::Views::Meeting
           label "特別な会議の場合はチェックを入れてください。↓複数チェックを入れた場合は一番上のものになります"
           check_box :ryoseitaikai
           label '寮生大会', for: :ryoseitaikai
-          check_box :daigiiinkai
-          label '代議委員会', for: :daigiiinkai
+          check_box :daigiinkai
+          label '代議員会', for: :daigiinkai
           check_box :ryoseishukai
           label '寮生集会', for: :ryoseishukai
         end
@@ -110,8 +110,8 @@ module Admin::Views::Meeting
           label "特別な会議の場合はチェックを入れてください。↓複数チェックを入れた場合は一番上のものになります"
           check_box :ryoseitaikai
           label '寮生大会', for: :ryoseitaikai
-          check_box :daigiiinkai
-          label '代議委員会', for: :daigiiinkai
+          check_box :daigiinkai
+          label '代議員会', for: :daigiinkai
           check_box :ryoseishukai
           label '寮生集会', for: :ryoseishukai
         end

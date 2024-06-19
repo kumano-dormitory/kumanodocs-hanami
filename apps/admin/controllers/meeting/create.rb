@@ -7,7 +7,7 @@ module Admin::Controllers::Meeting
         required(:date).filled(:date?)
         required(:deadline).filled(:date_time?)
         required(:ryoseitaikai).filled(:bool?)
-        required(:daigiiinkai).filled(:bool?)
+        required(:daigiinkai).filled(:bool?)
         required(:ryoseishukai).filled(:bool?)
       end
     end
@@ -28,14 +28,14 @@ module Admin::Controllers::Meeting
           deadline: params[:meeting][:deadline].to_s.gsub(/\+00:00/, "+09:00"),
           type: 
           if (params[:meeting][:ryoseitaikai] == TRUE) then
-            if(params[:meeting][:daigiiinkai] == TRUE) then
+            if(params[:meeting][:daigiinkai] == TRUE) then
               if(params[:meeting][:ryoseishukai] == TRUE) then
                 4
               end
             else
               1
             end
-          elsif(params[:meeting][:daigiiinkai] == TRUE) then
+          elsif(params[:meeting][:daigiinkai] == TRUE) then
             2
           elsif(params[:meeting][:ryoseishukai] == TRUE) then
             3
