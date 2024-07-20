@@ -29,15 +29,17 @@
   <div class="row">
     <div class="col-12">
       <% articles.each do |article| %>
-      <div class="p-card--highlighted u-no-padding--bottom u-no-padding--top" style="margin-bottom:.8rem">
-        <h2 class="p-card__title full-width">
-          <a href="<%= routes.article_path(id: article.id) %>" class="p-link--soft">
-            <%= article_formatted_title(article, number: false) %>
-          </a>
-        </h2>
-        <p class="p-card__content" style="max-width: none;"><%= h article.body[0, 130] %></p>
-        <p class="p-card__content" style="margin-bottom:.3rem"><strong><% if article.meeting.type == 0 %>ブロック会議<% elsif article.meeting.type == 1 %>寮生大会<% elsif article.meeting.type == 2 %>代議員会<% elsif article.meeting.type == 3 %>寮生集会<% elsif article.meeting.type == 4 %>万年大会<% else %>寮生大会<% end %>：<%= article.meeting.formatted_date %> . 文責者：<%= h article.author.name %></strong></p>
-      </div>
+        <% if ENV['VAULT'] != "true" || (article.meeting.date + ENV['VAULT_LIMIT'].to_i > Date.today)%>
+          <div class="p-card--highlighted u-no-padding--bottom u-no-padding--top" style="margin-bottom:.8rem">
+            <h2 class="p-card__title full-width">
+              <a href="<%= routes.article_path(id: article.id) %>" class="p-link--soft">
+                <%= article_formatted_title(article, number: false) %>
+              </a>
+            </h2>
+            <p class="p-card__content" style="max-width: none;"><%= h article.body[0, 130] %></p>
+            <p class="p-card__content" style="margin-bottom:.3rem"><strong><% if article.meeting.type == 0 %>ブロック会議<% elsif article.meeting.type == 1 %>寮生大会<% elsif article.meeting.type == 2 %>代議員会<% elsif article.meeting.type == 3 %>寮生集会<% else %>寮生大会<% end %>：<%= article.meeting.formatted_date %> . 文責者：<%= h article.author.name %></strong></p>
+          </div>
+        <% end %>
       <% end %>
     </div>
   </div>

@@ -17,7 +17,7 @@
       <% meetings.each do |meeting| %>
       <li class="p-list__item">
         <a href='<%= routes.download_meeting_path(id: meeting.id) %>' class="p-button--base u-no-margin--bottom">
-          <h4 class="u-no-margin--bottom"><%= meeting.formatted_date %>の<% if meeting.type == 0 %>ブロック会議<% elsif meeting.type == 1%>寮生大会<% elsif meeting.type == 2%>代議員会<% elsif meeting.type == 3%>寮生集会<% elsif meeting.type == 4%>万年大会<% end %></h4>
+          <h4 class="u-no-margin--bottom"><%= meeting.formatted_date %>の<% if meeting.type == 0 %>ブロック会議<% elsif meeting.type == 1%>寮生大会<% elsif meeting.type == 2%>代議員会<% elsif meeting.type == 3%>寮生集会<% end %></h4>
         </a>
       </li>
       <% end %>
@@ -32,7 +32,7 @@
     <ul class="p-breadcrumbs">
       <li class="p-breadcrumbs__item"><a href='<%= routes.root_path %>'>管理者向けページ</a></li>
       <li class="p-breadcrumbs__item"><a href='<%= routes.download_meeting_path(id: 0) %>'>印刷用PDFのダウンロード（会議日程の選択）</a></li>
-      <li class="p-breadcrumbs__item"><strong><%= meeting.formatted_date %>の<% if meeting.type == 0 %>ブロック会議<% elsif meeting.type == 1%>寮生大会<% elsif meeting.type == 2%>代議員会<% elsif meeting.type == 3%>寮生集会<% elsif meeting.type == 4%>万年大会<% end %></strong></li>
+      <li class="p-breadcrumbs__item"><strong><%= meeting.formatted_date %>の<% if meeting.type == 0 %>ブロック会議<% elsif meeting.type == 1%>寮生大会<% elsif meeting.type == 2%>代議員会<% elsif meeting.type == 3%>寮生集会<% end %></strong></li>
     </ul>
     <hr/>
   </div>
@@ -40,12 +40,12 @@
 <div class="p-strip is-shallow">
   <div class="row">
     <h2>印刷用PDFのダウンロード</h2>
-    <h3><%= meeting.formatted_date %>の<% if meeting.type == 0 %>ブロック会議<% elsif meeting.type == 1%>寮生大会<% elsif meeting.type == 2%>代議員会<% elsif meeting.type == 3%>寮生集会<% elsif meeting.type == 4%>万年大会<% end %></h3>
+    <h3><%= meeting.formatted_date %>の<% if meeting.type == 0 %>ブロック会議<% elsif meeting.type == 1%>寮生大会<% elsif meeting.type == 2%>代議員会<% elsif meeting.type == 3%>寮生集会<% end %></h3>
     <p>印刷する資料の種類を選んでください</p>
     <ul class="p-list">
       <li class="p-list__item">
         <a href='<%= routes.edit_article_number_path(id: meeting.id) %>?download=true' class="p-button--positive">
-          <h4 class="u-no-margin--bottom"><% if meeting.type == 0 %>ブロック会議<% elsif meeting.type == 1%>寮生大会<% elsif meeting.type == 2%>代議員会<% elsif meeting.type == 3%>寮生集会<% elsif meeting.type == 4%>万年大会<% end %>資料</h4>
+          <h4 class="u-no-margin--bottom"><% if meeting.type == 0 %>ブロック会議<% elsif meeting.type == 1%>寮生大会<% elsif meeting.type == 2%>代議員会<% elsif meeting.type == 3%>寮生集会<% end %>資料</h4>
         </a>
       </li>
       <li class="p-list__item">

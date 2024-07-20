@@ -8,7 +8,7 @@
           <div class="p-card--highlighted">
             <h1 class="p-card__title u-no-margin--bottom">
               <a href='<%= routes.meeting_path(id: meeting.id) %>' class="p-link--soft">
-                <%= meeting.formatted_date %>の<% if meeting.type == 0 %>ブロック会議<% elsif meeting.type == 1%>寮生大会<% elsif meeting.type == 2%>代議員会<% elsif meeting.type == 3%>寮生集会<% elsif meeting.type == 4%>万年大会<% end %>
+                <%= meeting.formatted_date %>の<% if meeting.type == 0 %>ブロック会議<% elsif meeting.type == 1%>寮生大会<% elsif meeting.type == 2%>代議員会<% elsif meeting.type == 3%>寮生集会<% end %>
               </a>
             </h1>
             <hr>

@@ -13,7 +13,7 @@ breaklines=true
 1;2802;0c}
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
 
-\title{ <%= meeting.date %> <% if meeting.type == 0 %>ブロック会議<% elsif meeting.type == 1%>寮生大会<% elsif meeting.type == 2%>代議員会<% elsif meeting.type == 3%>寮生集会<% elsif meeting.type == 4%>万年大会<% end %> }
+\title{ <%= meeting.date %> <% if meeting.type == 0 %>ブロック会議<% elsif meeting.type == 1%>寮生大会<% elsif meeting.type == 2%>代議員会<% elsif meeting.type == 3%>寮生集会<% end %> }
 \date{}
 \author{}
 
@@ -36,10 +36,12 @@ breaklines=true
   <% end %>
 <% end %>
 <% articles.each do |article| %>
-
 \section*{ <%= tex_article_formatted_title(article, checked: true) %> \\ \ \  \normalsize{ 文責：<%= tex_escape(article.author.name) %> } }
 \addcontentsline{toc}{section}{\protect\numberline{} <%= tex_article_formatted_title(article, checked: true) %> }%
-\begin{spverbatim}<%= article.body %>
+\begin{spverbatim}
+
+<%= article.body %>
+
 <% if !vote_content(article).empty? %>
 
 採決項目：
