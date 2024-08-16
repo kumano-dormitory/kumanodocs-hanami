@@ -44,10 +44,14 @@ module Admin::Views::Meeting
         end
 
         div do
+          label "特別な会議の場合はチェックを入れてください。↓複数チェックを入れた場合は一番上のものになります"
           check_box :ryoseitaikai
-          label '寮生大会か', for: :ryoseitaikai
+          label '寮生大会', for: :ryoseitaikai
+          check_box :daigiinkai
+          label '代議員会', for: :daigiinkai
+          check_box :ryoseishukai
+          label '寮生集会', for: :ryoseishukai
         end
-
         submit '作成', class: "p-button--positive"
       end
     end
@@ -103,8 +107,13 @@ module Admin::Views::Meeting
         end
 
         div do
+          label "特別な会議の場合はチェックを入れてください。↓複数チェックを入れた場合は一番上のものになります"
           check_box :ryoseitaikai
-          label '寮生大会か', for: :ryoseitaikai
+          label '寮生大会', for: :ryoseitaikai
+          check_box :daigiinkai
+          label '代議員会', for: :daigiinkai
+          check_box :ryoseishukai
+          label '寮生集会', for: :ryoseishukai
         end
 
         submit '保存', class: "p-button--positive"

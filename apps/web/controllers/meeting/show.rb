@@ -35,16 +35,17 @@ module Web::Controllers::Meeting
 
       @page = params[:page]&.to_i || 0
       @page = 0 if @page < 0
+      @page = 1 if @page == 0 && @meeting.type != 0 #ブロック会議以外なら０番を表示しない
       @page = @meeting.articles.length if @page > @meeting.articles.length
 
 
       if @page == 0
-        # ブロック会議の０番（前回のブロック会議から）
-        @past_meeting = @meeting_repo.find_past_meeting(@meeting.id)
-        @past_comments = @comment_repo.by_meeting(@past_meeting.id)
-                                      .group_by{|comment| comment[:article_id]}
-        @past_messages = @message_repo.by_meeting(@past_meeting.id)
-                                      .group_by{|message| message[:comment_id]}
+          # ブロック会議の０番（前回のブロック会議から）
+          @past_meeting = @meeting_repo.find_past_meeting(@meeting.id)
+          @past_comments = @comment_repo.by_meeting(@past_meeting.id)
+                                        .group_by{|comment| comment[:article_id]}
+          @past_messages = @message_repo.by_meeting(@past_meeting.id)
+                                        .group_by{|message| message[:comment_id]}
       else
         if @meeting.articles.length > 0 # ブロック会議に議案が存在する場合
           @article = @article_repo.find_with_relations(@meeting.articles[@page - 1].id)

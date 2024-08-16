@@ -3,7 +3,7 @@
     <ul class="p-breadcrumbs">
       <li class="p-breadcrumbs__item"><a href='<%= routes.root_path %>'>管理者向けページ</a></li>
       <li class="p-breadcrumbs__item"><a href="<%= routes.meetings_path %>">会議日程一覧</a></li>
-      <li class="p-breadcrumbs__item"><a href="<%= routes.meeting_path(id: article.meeting_id) %>"><%= article.meeting.formatted_date %>の<%= article.meeting.type == 1 ? "寮生大会" : "ブロック会議" %></a></li>
+      <li class="p-breadcrumbs__item"><a href="<%= routes.meeting_path(id: article.meeting_id) %>"><%= article.meeting.formatted_date %>の<% if article.meeting.type == 0 %>ブロック会議<% elsif article.meeting.type == 1%>寮生大会<% elsif article.meeting.type == 2%>代議員会<% elsif article.meeting.type == 3%>寮生集会<% end %></a></li>
       <li class="p-breadcrumbs__item"><a href="<%= routes.meeting_articles_path(meeting_id: article.meeting_id) %>">議案一覧</a></li>
       <li class="p-breadcrumbs__item"><strong><%= article_formatted_title(article, number: false) %></strong></li>
     </ul>
@@ -26,7 +26,7 @@
       <dl>
         <dt>文責者</dt>
         <dd><%= h article.author.name %></dd>
-        <dt><%= article.meeting.type == 0 ? "ブロック会議" : "寮生大会" %>日時</dt>
+        <dt><% if article.meeting.type == 0 %>ブロック会議<% elsif article.meeting.type == 1%>寮生大会<% elsif article.meeting.type == 2%>代議員会<% elsif article.meeting.type == 3%>寮生集会<% end %>日時</dt>
         <dd><a href="<%= routes.meeting_path(id: article.meeting_id) %>" class="p-button--base u-no-margin--bottom"><%= article.meeting.formatted_date %></a></dd>
         <dt>議案の種別</dt>
         <dd>

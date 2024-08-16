@@ -3,12 +3,18 @@ require 'hanami/setup'
 require 'hanami/model'
 require_relative '../lib/kumanodocs_hanami'
 require_relative '../apps/super/application'
+require_relative '../apps/super/application'
 require_relative '../apps/admin/application'
 require_relative '../apps/web/application'
 require_relative '../apps/api/application'
 require_relative '../apps/apiv2/application'
+require_relative '../apps/api/application'
+require_relative '../apps/apiv2/application'
 
 Hanami.configure do
+  mount Api::Application, at: '/api/v1'
+  mount Apiv2::Application, at: '/api/v2'
+  mount Super::Application, at: '/super'
   mount Api::Application, at: '/api/v1'
   mount Apiv2::Application, at: '/api/v2'
   mount Super::Application, at: '/super'
@@ -48,7 +54,7 @@ Hanami.configure do
   end
 
   environment :production do
-    logger level: :info, formatter: :json, filter: %w[password password_confirmation token]
+    logger level: :debug, formatter: :json, filter: %w[password password_confirmation token content], stream: 'logs/hanami.log'
 
     mailer do
       delivery :smtp, address: ENV['SMTP_HOST'], port: ENV['SMTP_PORT']

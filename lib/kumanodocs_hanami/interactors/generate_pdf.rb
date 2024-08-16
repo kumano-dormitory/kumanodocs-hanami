@@ -151,7 +151,8 @@ class GeneratePdf
           f.puts(@tex_str)
         end
         # PDFのコンパイル
-        unless IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| $? == 0 }
+        IO.popen("ptex2pdf -u -l -output-directory #{tmp_folderpath} #{tmp_folderpath}#{tmp_filename}.tex") { |io| io.close }
+        unless $? == 0
           puts "Error (GeneratePdf) : generating pdf failed!\n    generate_type :table, table_caption: #{@caption}, path: #{tmp_folderpath}#{tmp_filename}.tex"
           error! 'latex err'
         end
