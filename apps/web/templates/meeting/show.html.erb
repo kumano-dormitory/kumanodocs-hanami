@@ -2,14 +2,15 @@
   <div class="row row-wide">
     <div class="u-show--large u-hide--medium u-hide--small">
       <h1 class="full-width">
-        <%= meeting.formatted_date %>の<%= meeting.type == 0 ? "ブロック会議" : "寮生大会" %>
+        <%= meeting.formatted_date %>の<% if meeting.type == 0 %>ブロック会議<% elsif meeting.type == 1%>寮生大会<% elsif meeting.type == 2%>代議員会<% elsif meeting.type == 3%>寮生集会<% end %>
         <% if meeting.deadline > Time.now %>
         <small>(議案投稿の締め切り日時 : <%= meeting.formatted_deadline %>)</small>
         <% end %>
       </h1>
     </div>
     <div class="u-hide--large u-show--medium u-show--small">
-      <h2 class="u-no-margin--bottom"><%= meeting.formatted_date %>の<%= meeting.type == 0 ? "ブロック会議" : "寮生大会" %></h2>
+      <h2 class="u-no-margin--bottom"><%= meeting.formatted_date %>の<% if meeting.type == 0 %>ブロック会議<% elsif meeting.type == 1%>寮生大会<% elsif meeting.type == 2%>代議員会<% elsif meeting.type == 3%>寮生集会<% end %>
+      </h2>
       <% if meeting.deadline > Time.now %>
         <p>議案投稿の締め切り日時 : <%= meeting.formatted_deadline %></p>
       <% end %>
@@ -230,11 +231,13 @@
             <li class="p-side-navigation__item--title">
               <span class="p-side-navigation__link">目次</span>
             </li>
-            <li class="p-side-navigation__item">
-              <a href="<%= routes.meeting_path(id: meeting.id) %>?page=0" class="p-side-navigation__link" <%= article ? '' : 'aria-current="page"' %>>
-                (0) 前回のブロック会議から
-              </a>
-            </li>
+            <% if meeting.type == 0 %><%#ブロック会議の時のみ０番を表示 %>
+              <li class="p-side-navigation__item">
+                <a href="<%= routes.meeting_path(id: meeting.id) %>?page=0" class="p-side-navigation__link" <%= article ? '' : 'aria-current="page"' %>>
+                  (0) 前回のブロック会議から
+                </a>
+              </li>
+            <% end %>
             <% meeting.articles.each_with_index do |nav_article, i| %>
               <hr class="u-no-margin">
               <li class="p-side-navigation__item">
