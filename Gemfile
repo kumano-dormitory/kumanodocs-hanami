@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '~> 2.6'
+ruby '~> 2.7'
 
 gem 'activesupport', '>= 5.2.4.3'
 gem 'hanami', '1.3.5'
@@ -9,7 +9,7 @@ gem 'hanami-model'
 gem 'pg'
 gem 'rake'
 gem 'sass'
-gem 'tzinfo'
+gem 'tzinfo' , "~>1.0"
 gem 'bcrypt'
 gem 'jwt'
 gem 'openssl', '~> 2.1'
