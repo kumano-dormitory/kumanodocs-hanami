@@ -2,12 +2,12 @@ require_relative '../../../spec_helper'
 
 describe Web::Controllers::Table::New do
   describe 'when user is logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]) }
     let(:articles) { [Article.new(id: rand(1..5))] }
     let(:params) { {} }
 
     it 'is successful' do
-      article_repo = MiniTest::Mock.new.expect(:before_deadline, articles)
+      article_repo = Minitest::Mock.new.expect(:before_deadline, articles)
       action = Web::Controllers::Table::New.new(article_repo: article_repo, authenticator: authenticator)
       response = action.call(params)
 
@@ -18,7 +18,7 @@ describe Web::Controllers::Table::New do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, false), [nil]) }
     let(:action) { Web::Controllers::Table::New.new(authenticator: authenticator) }
 
     it 'is redirected' do

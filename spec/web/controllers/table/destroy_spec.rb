@@ -16,11 +16,11 @@ describe Web::Controllers::Table::Destroy do
     }}
 
     it 'is successful' do
-      table_repo = MiniTest::Mock.new.expect(:find_with_relations, table, [table.id])
+      table_repo = Minitest::Mock.new.expect(:find_with_relations, table, [table.id])
                                      .expect(:delete, nil, [table.id])
       action = Web::Controllers::Table::Destroy.new(
         table_repo: table_repo,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil])
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil])
       )
       response = action.call(valid_params)
 
@@ -29,10 +29,10 @@ describe Web::Controllers::Table::Destroy do
     end
 
     it 'is required confirmation' do
-      table_repo = MiniTest::Mock.new.expect(:find_with_relations, table, [table.id])
+      table_repo = Minitest::Mock.new.expect(:find_with_relations, table, [table.id])
       action = Web::Controllers::Table::Destroy.new(
         table_repo: table_repo,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil])
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil])
       )
       params_without_confirm = valid_params.deep_merge({table: {confirm: nil}})
       response = action.call(params_without_confirm)
@@ -43,10 +43,10 @@ describe Web::Controllers::Table::Destroy do
     end
 
     it 'is rejected by auth failure' do
-      table_repo = MiniTest::Mock.new.expect(:find_with_relations, table, [table.id])
+      table_repo = Minitest::Mock.new.expect(:find_with_relations, table, [table.id])
       action = Web::Controllers::Table::Destroy.new(
         table_repo: table_repo,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil])
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil])
       )
       params_with_invalid_pass = valid_params.deep_merge({table: {article_passwd: Faker::Internet.password}})
       response = action.call(params_with_invalid_pass)
@@ -58,7 +58,7 @@ describe Web::Controllers::Table::Destroy do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, false), [nil]) }
     let(:action) { Web::Controllers::Table::Destroy.new(authenticator: authenticator) }
 
     it 'is redirected' do

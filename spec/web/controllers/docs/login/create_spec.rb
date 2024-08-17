@@ -2,7 +2,7 @@ require_relative '../../../../spec_helper'
 
 describe Web::Controllers::Docs::Login::Create do
   describe 'when user is logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]) }
     let(:password) { Faker::Internet.password }
     let(:wrong_password) { Faker::Internet.password }
     let(:user) { User.new(id: rand(1..10), authority: 1, crypt_password: BCrypt::Password.create(password), name: Faker::Name.name) }
@@ -14,7 +14,7 @@ describe Web::Controllers::Docs::Login::Create do
     }}
 
     it 'is successful login' do
-      user_repo = MiniTest::Mock.new.expect(:find_by_name, user, [user.name])
+      user_repo = Minitest::Mock.new.expect(:find_by_name, user, [user.name])
       action = Web::Controllers::Docs::Login::Create.new(
         user_repo: user_repo, authenticator: authenticator
       )
@@ -24,7 +24,7 @@ describe Web::Controllers::Docs::Login::Create do
     end
 
     it 'is rejected by wrong password' do
-      user_repo = MiniTest::Mock.new.expect(:find_by_name, user, [user.name])
+      user_repo = Minitest::Mock.new.expect(:find_by_name, user, [user.name])
       action = Web::Controllers::Docs::Login::Create.new(
         user_repo: user_repo, authenticator: authenticator
       )
@@ -35,7 +35,7 @@ describe Web::Controllers::Docs::Login::Create do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, false), [nil]) }
     let(:action) {
       Web::Controllers::Docs::Login::Create.new(
         user_repo: nil, authenticator: authenticator

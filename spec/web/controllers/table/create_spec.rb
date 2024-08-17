@@ -25,14 +25,14 @@ describe Web::Controllers::Table::Create do
     let(:spec) { Specifications::Pdf.new(type: :table, data: {caption: valid_params[:table][:caption], csv: valid_params[:table][:tsv]}) }
 
     it 'is successful create table' do
-      article_repo = MiniTest::Mock.new.expect(:find_with_relations, article, [article.id])
-      table_repo = MiniTest::Mock.new.expect(:create, nil, [valid_params_check])
-      generate_pdf = MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:failure?, false), [spec])
+      article_repo = Minitest::Mock.new.expect(:find_with_relations, article, [article.id])
+      table_repo = Minitest::Mock.new.expect(:create, nil, [valid_params_check])
+      generate_pdf = Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:failure?, false), [spec])
       action = Web::Controllers::Table::Create.new(
         article_repo: article_repo, table_repo: table_repo,
-        author_repo: MiniTest::Mock.new.expect(:release_lock, nil, [author.id]),
+        author_repo: Minitest::Mock.new.expect(:release_lock, nil, [author.id]),
         generate_pdf_interactor: generate_pdf,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]),
       )
       response = action.call(valid_params)
 
@@ -43,11 +43,11 @@ describe Web::Controllers::Table::Create do
     end
 
     it 'is rejected by auth failure' do
-      article_repo = MiniTest::Mock.new.expect(:find_with_relations, article, [article.id])
+      article_repo = Minitest::Mock.new.expect(:find_with_relations, article, [article.id])
                                        .expect(:before_deadline, articles)
       action = Web::Controllers::Table::Create.new(
         article_repo: article_repo, table_repo: nil, author_repo: nil, generate_pdf_interactor: nil,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]),
       )
       params_with_wrong_pass = valid_params.deep_merge({table: {article_passwd: Faker::Internet.password}})
       response = action.call(params_with_wrong_pass)
@@ -58,10 +58,10 @@ describe Web::Controllers::Table::Create do
     end
 
     it 'is validation error' do
-      article_repo = MiniTest::Mock.new.expect(:before_deadline, articles)
+      article_repo = Minitest::Mock.new.expect(:before_deadline, articles)
       action = Web::Controllers::Table::Create.new(
         article_repo: article_repo, table_repo: nil, author_repo: nil, generate_pdf_interactor: nil,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]),
       )
       invalid_params = valid_params.deep_merge({table: {caption: ""}})
       response = action.call(invalid_params)
@@ -73,7 +73,7 @@ describe Web::Controllers::Table::Create do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, false), [nil]) }
 
     it 'is redirected' do
       action = Web::Controllers::Table::Create.new(

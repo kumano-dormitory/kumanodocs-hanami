@@ -5,11 +5,11 @@ describe Admin::Controllers::Meeting::Article::Create do
   describe 'when user is logged in' do
     def assert_invalid_params(invalid_params_merged)
       action = Admin::Controllers::Meeting::Article::Create.new(
-        meeting_repo: MiniTest::Mock.new.expect(:find, meeting, [meeting.id]),
-        category_repo: MiniTest::Mock.new.expect(:all, [Category.new(id: rand(1..5))]),
-        article_repo: MiniTest::Mock.new.expect(:of_recent, [Article.new(id: rand(1..100))], [Hash]),
+        meeting_repo: Minitest::Mock.new.expect(:find, meeting, [meeting.id]),
+        category_repo: Minitest::Mock.new.expect(:all, [Category.new(id: rand(1..5))]),
+        article_repo: Minitest::Mock.new.expect(:of_recent, [Article.new(id: rand(1..100))], [Hash]),
         article_reference_repo: nil, admin_history_repo: nil,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, User.new), [nil]),
       )
       invalid_params = valid_params.deep_merge(invalid_params_merged)
 
@@ -44,7 +44,7 @@ describe Admin::Controllers::Meeting::Article::Create do
 
     it 'is successful' do
       article = Article.new(id: rand(1..5), meeting_id: valid_params[:article][:meeting_id])
-      article_repo = MiniTest::Mock.new.expect(
+      article_repo = Minitest::Mock.new.expect(
         :create_with_related_entities, article,
         [
           valid_params[:article][:author],
@@ -52,17 +52,17 @@ describe Admin::Controllers::Meeting::Article::Create do
           valid_params[:article].except(:author, :categories).merge(format: (valid_params[:article][:format] ? 1 : 0))
         ]
       )
-      article_ref_repo = MiniTest::Mock.new.expect(
+      article_ref_repo = Minitest::Mock.new.expect(
         :create_refs, nil, [article.id, valid_params[:article][:same_refs_selected], {same: true}]
       ).expect(
         :create_refs, nil, [article.id, valid_params[:article][:other_refs_selected], {same: false}]
       )
       action = Admin::Controllers::Meeting::Article::Create.new(
         article_repo: article_repo, meeting_repo: nil,
-        category_repo: MiniTest::Mock.new.expect(:find, Category.new(id: 1), [1]).expect(:find, Category.new(id: 3), [3]),
+        category_repo: Minitest::Mock.new.expect(:find, Category.new(id: 1), [1]).expect(:find, Category.new(id: 3), [3]),
         article_reference_repo: article_ref_repo,
-        admin_history_repo: MiniTest::Mock.new.expect(:add, nil, [:article_create, String]),
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
+        admin_history_repo: Minitest::Mock.new.expect(:add, nil, [:article_create, String]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, User.new), [nil]),
       )
       response = action.call(valid_params)
 
@@ -88,8 +88,8 @@ describe Admin::Controllers::Meeting::Article::Create do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil])
-                                            .expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, nil), [nil])
+                                            .expect(:call, Minitest::Mock.new.expect(:user, nil), [nil]) }
     let(:params) { Hash[] }
     it 'is redirected' do
       action = Admin::Controllers::Meeting::Article::Create.new(

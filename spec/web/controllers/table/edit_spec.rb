@@ -9,10 +9,10 @@ describe Web::Controllers::Table::Edit do
     let(:params) { {id: table.id} }
 
     it 'is successful' do
-      table_repo = MiniTest::Mock.new.expect(:find_with_relations, table, [table.id])
+      table_repo = Minitest::Mock.new.expect(:find_with_relations, table, [table.id])
       action = Web::Controllers::Table::Edit.new(
         table_repo: table_repo,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil])
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil])
       )
       params_with_lock_key = params.merge("HTTP_COOKIE"=>"article_lock_key=#{lock_key}")
       response = action.call(params_with_lock_key)
@@ -23,10 +23,10 @@ describe Web::Controllers::Table::Edit do
     end
 
     it 'is redirected to get lock key' do
-      table_repo = MiniTest::Mock.new.expect(:find_with_relations, table, [table.id])
+      table_repo = Minitest::Mock.new.expect(:find_with_relations, table, [table.id])
       action = Web::Controllers::Table::Edit.new(
         table_repo: table_repo,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil])
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil])
       )
       params_without_lock_key = params.merge("HTTP_COOKIE"=>"")
       response = action.call(params_without_lock_key)
@@ -37,7 +37,7 @@ describe Web::Controllers::Table::Edit do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, false), [nil]) }
     let(:action) { Web::Controllers::Table::Edit.new(authenticator: authenticator) }
 
     it 'is redirected' do

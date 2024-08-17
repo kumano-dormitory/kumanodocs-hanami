@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '~> 2.7'
 
-gem 'activesupport', '6.1.7.5'
+gem 'activesupport', '>=5.2.4.3'
 gem 'hanami', '1.3.5'
 gem 'hanami-model'
 
@@ -26,13 +26,13 @@ end
 
 group :test, :development do
   gem 'dotenv', '~> 2.0'
-  gem 'faker'
 end
 
 group :test do
   gem 'capybara'
   gem 'factory_bot'
   gem 'minitest'
+  gem 'faker'
 end
 
 group :production do

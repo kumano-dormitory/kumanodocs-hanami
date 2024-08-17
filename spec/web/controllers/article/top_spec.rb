@@ -8,9 +8,9 @@ describe Web::Controllers::Article::Top do
 
     it 'is successful' do
       action = Web::Controllers::Article::Top.new(
-        meeting_repo: MiniTest::Mock.new.expect(:find_most_recent, meeting, []),
-        block_repo: MiniTest::Mock.new.expect(:by_meeting_with_comment_vote_count, blocks, [meeting.id]),
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        meeting_repo: Minitest::Mock.new.expect(:find_most_recent, meeting, []),
+        block_repo: Minitest::Mock.new.expect(:by_meeting_with_comment_vote_count, blocks, [meeting.id]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]),
       )
       response = action.call(params)
       _(response[0]).must_equal 200
@@ -23,9 +23,9 @@ describe Web::Controllers::Article::Top do
     let(:params_pwa) { {loggedin: true} }
     it 'is successful for PWA' do
       action = Web::Controllers::Article::Top.new(
-        meeting_repo: MiniTest::Mock.new.expect(:find_most_recent, meeting, []),
-        block_repo: MiniTest::Mock.new.expect(:by_meeting_with_comment_vote_count, blocks, [meeting.id]),
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        meeting_repo: Minitest::Mock.new.expect(:find_most_recent, meeting, []),
+        block_repo: Minitest::Mock.new.expect(:by_meeting_with_comment_vote_count, blocks, [meeting.id]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]),
       )
       response = action.call(params_pwa)
       _(response[0]).must_equal 200
@@ -35,7 +35,7 @@ describe Web::Controllers::Article::Top do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, false), [nil]) }
     it 'is redirected' do
       action = Web::Controllers::Article::Top.new(
         meeting_repo: nil, block_repo: nil, authenticator: authenticator

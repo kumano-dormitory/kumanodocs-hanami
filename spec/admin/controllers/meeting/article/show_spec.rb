@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Admin::Controllers::Meeting::Article::Show do
   describe 'when user is logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, User.new), [nil]) }
     let(:article) { Article.new(id: rand(1..100)) }
     let(:blocks) { [Block.new(id: rand(1..10))] }
     let(:comment) { Comment.new(id: rand(1..100)) }
@@ -12,10 +12,10 @@ describe Admin::Controllers::Meeting::Article::Show do
 
     it 'is successful' do
       action = Admin::Controllers::Meeting::Article::Show.new(
-        article_repo: MiniTest::Mock.new.expect(:find_with_relations, article, [article.id]),
-        block_repo: MiniTest::Mock.new.expect(:all, blocks),
-        message_repo: MiniTest::Mock.new.expect(:by_article, messages, [article.id]),
-        article_reference_repo: MiniTest::Mock.new.expect(:find_refs, article_refs, [article.id]),
+        article_repo: Minitest::Mock.new.expect(:find_with_relations, article, [article.id]),
+        block_repo: Minitest::Mock.new.expect(:all, blocks),
+        message_repo: Minitest::Mock.new.expect(:by_article, messages, [article.id]),
+        article_reference_repo: Minitest::Mock.new.expect(:find_refs, article_refs, [article.id]),
         authenticator: authenticator,
       )
       response = action.call(params)
@@ -28,8 +28,8 @@ describe Admin::Controllers::Meeting::Article::Show do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil])
-                                            .expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, nil), [nil])
+                                            .expect(:call, Minitest::Mock.new.expect(:user, nil), [nil]) }
     let(:params) { Hash[] }
     it 'is redirected' do
       action = Admin::Controllers::Meeting::Article::Show.new(

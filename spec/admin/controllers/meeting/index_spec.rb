@@ -8,8 +8,8 @@ describe Admin::Controllers::Meeting::Index do
 
   it 'is successful' do
     action = Admin::Controllers::Meeting::Index.new(
-      authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, true), [nil]),
-      meeting_repo: MiniTest::Mock.new.expect(:desc_by_date, meetings, [{limit: 15, offset: 0}]),
+      authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, true), [nil]),
+      meeting_repo: Minitest::Mock.new.expect(:desc_by_date, meetings, [{limit: 15, offset: 0}]),
     )
     response = action.call(params)
     _(response[0]).must_equal 200
@@ -19,8 +19,8 @@ describe Admin::Controllers::Meeting::Index do
 
   it 'is redirected' do
     action = Admin::Controllers::Meeting::Index.new(
-      authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil])
-                                       .expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil]),
+      authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, nil), [nil])
+                                       .expect(:call, Minitest::Mock.new.expect(:user, nil), [nil]),
       meeting_repo: nil,
     )
     response = action.call(params)

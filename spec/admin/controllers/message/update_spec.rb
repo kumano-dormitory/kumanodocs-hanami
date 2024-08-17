@@ -4,11 +4,11 @@ describe Admin::Controllers::Message::Update do
   describe 'when user is logged in' do
     def assert_invalid_params(invalid_params_merged)
       action = Admin::Controllers::Message::Update.new(
-        comment_repo: MiniTest::Mock.new.expect(:find_with_relations, comment, [comment.id]),
-        message_repo: MiniTest::Mock.new.expect(:find, msg, [msg.id])
+        comment_repo: Minitest::Mock.new.expect(:find_with_relations, comment, [comment.id]),
+        message_repo: Minitest::Mock.new.expect(:find, msg, [msg.id])
                                         .expect(:by_article, [msg], [article.id]),
         article_repo: nil, admin_history_repo: nil,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, User.new), [nil]),
       )
       invalid_params = valid_params.deep_merge(invalid_params_merged)
       response = action.call(invalid_params)
@@ -35,14 +35,14 @@ describe Admin::Controllers::Message::Update do
     let(:check_params) { valid_params[:message] }
 
     it 'is successful' do
-      message_repo = MiniTest::Mock.new.expect(:find, msg, [msg.id])
+      message_repo = Minitest::Mock.new.expect(:find, msg, [msg.id])
                                        .expect(:update, msg, [msg.id, check_params])
       action = Admin::Controllers::Message::Update.new(
-        article_repo: MiniTest::Mock.new.expect(:find, article, [article.id]),
-        comment_repo: MiniTest::Mock.new.expect(:find_with_relations, comment, [comment.id]),
+        article_repo: Minitest::Mock.new.expect(:find, article, [article.id]),
+        comment_repo: Minitest::Mock.new.expect(:find_with_relations, comment, [comment.id]),
         message_repo: message_repo,
-        admin_history_repo: MiniTest::Mock.new.expect(:add, nil, [:message_update, String]),
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
+        admin_history_repo: Minitest::Mock.new.expect(:add, nil, [:message_update, String]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, User.new), [nil]),
       )
       response = action.call(valid_params)
       _(response[0]).must_equal 302
@@ -61,8 +61,8 @@ describe Admin::Controllers::Message::Update do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil])
-                                            .expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, nil), [nil])
+                                            .expect(:call, Minitest::Mock.new.expect(:user, nil), [nil]) }
     let(:params) { Hash[] }
     it 'is redirected' do
       action = Admin::Controllers::Message::Update.new(

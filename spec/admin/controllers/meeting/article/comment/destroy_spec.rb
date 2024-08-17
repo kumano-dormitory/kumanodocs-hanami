@@ -13,14 +13,14 @@ describe Admin::Controllers::Meeting::Article::Comment::Destroy do
     let(:params_without_confirm) {{ article_id: comment.article_id, block_id: comment.block_id }}
 
     it 'is successful delete comment' do
-      comment_repo = MiniTest::Mock.new.expect(:find, comment, [comment.article_id, comment.block_id])
+      comment_repo = Minitest::Mock.new.expect(:find, comment, [comment.article_id, comment.block_id])
                                        .expect(:delete, nil, [comment.id])
       action = Admin::Controllers::Meeting::Article::Comment::Destroy.new(
-        article_repo: MiniTest::Mock.new.expect(:find_with_relations, article, [comment.article_id, Hash]),
-        block_repo: MiniTest::Mock.new.expect(:find, block, [comment.block_id]),
+        article_repo: Minitest::Mock.new.expect(:find_with_relations, article, [comment.article_id, Hash]),
+        block_repo: Minitest::Mock.new.expect(:find, block, [comment.block_id]),
         comment_repo: comment_repo,
-        admin_history_repo: MiniTest::Mock.new.expect(:add, nil, [:comment_destroy, String]),
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
+        admin_history_repo: Minitest::Mock.new.expect(:add, nil, [:comment_destroy, String]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, User.new), [nil]),
       )
       response = action.call(valid_params)
       _(response[0]).must_equal 302
@@ -29,12 +29,12 @@ describe Admin::Controllers::Meeting::Article::Comment::Destroy do
     end
 
     it 'is successful for confirm' do
-      comment_repo = MiniTest::Mock.new.expect(:find, comment, [comment.article_id, comment.block_id])
+      comment_repo = Minitest::Mock.new.expect(:find, comment, [comment.article_id, comment.block_id])
       action = Admin::Controllers::Meeting::Article::Comment::Destroy.new(
-        article_repo: MiniTest::Mock.new.expect(:find_with_relations, article, [comment.article_id, Hash]),
-        block_repo: MiniTest::Mock.new.expect(:find, block, [comment.block_id]),
+        article_repo: Minitest::Mock.new.expect(:find_with_relations, article, [comment.article_id, Hash]),
+        block_repo: Minitest::Mock.new.expect(:find, block, [comment.block_id]),
         comment_repo: comment_repo, admin_history_repo: nil,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, User.new), [nil]),
       )
       response = action.call(params_without_confirm)
       _(response[0]).must_equal 200
@@ -44,8 +44,8 @@ describe Admin::Controllers::Meeting::Article::Comment::Destroy do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil])
-                                            .expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, nil), [nil])
+                                            .expect(:call, Minitest::Mock.new.expect(:user, nil), [nil]) }
     let(:params) { Hash[] }
     it 'is redirected' do
       action = Admin::Controllers::Meeting::Article::Comment::Destroy.new(

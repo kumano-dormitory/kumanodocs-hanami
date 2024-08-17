@@ -2,12 +2,12 @@ require_relative '../../../spec_helper'
 
 describe Web::Controllers::Meeting::Index do
   describe 'when user is logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]) }
     let(:meetings) { [Meeting.new(id: rand(1..5))] }
     let(:params) { {} }
 
     it 'is successful' do
-      meeting_repo = MiniTest::Mock.new.expect(:desc_by_date, meetings, [Hash]).expect(:count, 1)
+      meeting_repo = Minitest::Mock.new.expect(:desc_by_date, meetings, [Hash]).expect(:count, 1)
       action = Web::Controllers::Meeting::Index.new(meeting_repo: meeting_repo, authenticator: authenticator)
       response = action.call(params)
 
@@ -18,7 +18,7 @@ describe Web::Controllers::Meeting::Index do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, false), [nil]) }
     let(:action) { Web::Controllers::Meeting::Index.new(authenticator: authenticator) }
 
     it 'is redirected' do

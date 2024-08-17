@@ -2,12 +2,12 @@ require_relative '../../../spec_helper'
 
 describe Web::Controllers::Gijiroku::Index do
   describe 'when user is logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]) }
     let(:gijiroku) { Gijiroku.new(id: rand(1..50), body: Faker::Lorem.paragraphs.join) }
     let(:params) { {} }
 
     it 'is successful' do
-      gijiroku_repo = MiniTest::Mock.new.expect(:find_latest, gijiroku)
+      gijiroku_repo = Minitest::Mock.new.expect(:find_latest, gijiroku)
       action = Web::Controllers::Gijiroku::Index.new(gijiroku_repo: gijiroku_repo, authenticator: authenticator)
       response = action.call(params)
 
@@ -18,7 +18,7 @@ describe Web::Controllers::Gijiroku::Index do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, false), [nil]) }
     let(:action) { Web::Controllers::Gijiroku::Index.new(gijiroku_repo: nil, authenticator: authenticator) }
 
     it 'is redirected' do

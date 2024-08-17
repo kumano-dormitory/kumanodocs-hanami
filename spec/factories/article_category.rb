@@ -1,3 +1,4 @@
+require 'factory_bot'
 FactoryBot.define do
   factory :article_category do
     article_id { create(:article).id }

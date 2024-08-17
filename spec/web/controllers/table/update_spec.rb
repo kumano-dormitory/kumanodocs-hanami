@@ -26,14 +26,14 @@ describe Web::Controllers::Table::Update do
     let(:spec) { Specifications::Pdf.new(type: :table, data: {caption: valid_params[:table][:caption], csv: valid_params[:table][:tsv]}) }
 
     it 'is successful update table' do
-      table_repo = MiniTest::Mock.new.expect(:find_with_relations, table, [table.id])
+      table_repo = Minitest::Mock.new.expect(:find_with_relations, table, [table.id])
                                      .expect(:update, nil, [table.id, check_params])
-      generate_pdf = MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:failure?, false), [spec])
+      generate_pdf = Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:failure?, false), [spec])
       action = Web::Controllers::Table::Update.new(
         table_repo: table_repo,
-        author_repo: MiniTest::Mock.new.expect(:release_lock, nil, [author.id]),
+        author_repo: Minitest::Mock.new.expect(:release_lock, nil, [author.id]),
         generate_pdf_interactor: generate_pdf,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]),
       )
       params_with_lock_key = valid_params.merge("HTTP_COOKIE"=>"article_lock_key=#{lock_key}")
       response = action.call(params_with_lock_key)
@@ -44,14 +44,14 @@ describe Web::Controllers::Table::Update do
     end
 
     it 'is successful get lock and update' do
-      table_repo = MiniTest::Mock.new.expect(:find_with_relations, table, [table.id])
+      table_repo = Minitest::Mock.new.expect(:find_with_relations, table, [table.id])
                                      .expect(:update, nil, [table.id, check_params])
-      generate_pdf = MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:failure?, false), [spec])
+      generate_pdf = Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:failure?, false), [spec])
       action = Web::Controllers::Table::Update.new(
         table_repo: table_repo,
-        author_repo: MiniTest::Mock.new.expect(:release_lock, nil, [author.id]),
+        author_repo: Minitest::Mock.new.expect(:release_lock, nil, [author.id]),
         generate_pdf_interactor: generate_pdf,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]),
       )
       response = action.call(params_for_get_lock)
 
@@ -61,11 +61,11 @@ describe Web::Controllers::Table::Update do
     end
 
     it 'is rejected by auth failure' do
-      table_repo = MiniTest::Mock.new.expect(:find_with_relations, table, [table.id])
+      table_repo = Minitest::Mock.new.expect(:find_with_relations, table, [table.id])
                                      .expect(:find_with_relations, table, [table.id])
       action = Web::Controllers::Table::Update.new(
         table_repo: table_repo, author_repo: nil, generate_pdf_interactor: nil,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]),
       )
       invalid_pass_params = params_for_get_lock.deep_merge({table: {article_passwd: Faker::Internet.password}})
       response = action.call(invalid_pass_params)
@@ -76,10 +76,10 @@ describe Web::Controllers::Table::Update do
     end
 
     it 'is validation error' do
-      table_repo = MiniTest::Mock.new.expect(:find_with_relations, table, [table.id])
+      table_repo = Minitest::Mock.new.expect(:find_with_relations, table, [table.id])
       action = Web::Controllers::Table::Update.new(
         table_repo: table_repo, author_repo: nil, generate_pdf_interactor: nil,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]),
       )
       invalid_params = valid_params.deep_merge({table: {caption: ""}})
       response = action.call(invalid_params)
@@ -91,7 +91,7 @@ describe Web::Controllers::Table::Update do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, false), [nil]) }
 
     it 'is redirected' do
       action = Web::Controllers::Table::Update.new(
