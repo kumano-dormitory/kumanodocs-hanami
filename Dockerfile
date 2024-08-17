@@ -1,4 +1,4 @@
-FROM ruby:2.6-alpine
+FROM ruby:2.7.2-alpine
 
 ENV LANG=C.UTF-8
 
@@ -43,8 +43,7 @@ RUN ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases
         "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME"
 
 # Latex
-ENV PATH /usr/local/texlive/2021/bin/x86_64-linuxmusl:/usr/local/texlive/2019/bin/x86_64-linuxmusl:$PATH
-
+ENV PATH /usr/local/texlive/2024/bin/x86_64-linuxmusl:/usr/local/texlive/2021/bin/x86_64-linuxmusl:/usr/local/texlive/2019/bin/x86_64-linuxmusl:$PATH
 RUN apk --no-cache add perl wget xz tar fontconfig-dev freetype-dev && \
     mkdir /tmp/install-tl-unx && \
     wget -qO - http://ftp.jaist.ac.jp/pub/CTAN/systems/texlive/tlnet/install-tl-unx.tar.gz | \
@@ -84,9 +83,8 @@ RUN apk --no-cache add postgresql-client
 WORKDIR /app
 ADD ./Gemfile ./
 ADD ./Gemfile.lock ./
-RUN gem install bundler:2.0.1
+RUN gem install bundler -v 2.4.22
 RUN bundle install
-
 EXPOSE 2300
 
 CMD HANAMI_ENV=production bundle exec puma -C puma.rb 
