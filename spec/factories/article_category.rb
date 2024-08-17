@@ -1,3 +1,5 @@
+require 'factory_bot'
+require 'faker'
 FactoryBot.define do
   factory :article_category do
     article_id { create(:article).id }

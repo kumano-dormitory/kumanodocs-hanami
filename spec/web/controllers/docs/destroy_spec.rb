@@ -2,7 +2,7 @@ require_relative '../../../spec_helper'
 
 describe Web::Controllers::Docs::Destroy do
   describe 'when user is logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]) }
     let(:user) { User.new(id: rand(1..100), authority: 1) }
     let(:invalid_user) { User.new(id: rand(101..200), authority: 1) }
     let(:document) { Document.new(id: rand(1..100), user_id: user.id) }
@@ -18,8 +18,8 @@ describe Web::Controllers::Docs::Destroy do
     let(:params_without_editor_session) { Hash[] }
 
     it 'is successful for logged in editor' do
-      user_repo = MiniTest::Mock.new.expect(:find, user, [user.id])
-      document_repo = MiniTest::Mock.new.expect(:find, document, [document.id])
+      user_repo = Minitest::Mock.new.expect(:find, user, [user.id])
+      document_repo = Minitest::Mock.new.expect(:find, document, [document.id])
         .expect(:delete, nil, [document.id])
       action = Web::Controllers::Docs::Destroy.new(
         document_repo: document_repo, user_repo: user_repo, authenticator: authenticator
@@ -32,8 +32,8 @@ describe Web::Controllers::Docs::Destroy do
     end
 
     it 'displays confirmation page' do
-      user_repo = MiniTest::Mock.new.expect(:find, user, [user.id])
-      document_repo = MiniTest::Mock.new.expect(:find, document, [document.id])
+      user_repo = Minitest::Mock.new.expect(:find, user, [user.id])
+      document_repo = Minitest::Mock.new.expect(:find, document, [document.id])
       action = Web::Controllers::Docs::Destroy.new(
         document_repo: document_repo, user_repo: user_repo, authenticator: authenticator
       )
@@ -45,8 +45,8 @@ describe Web::Controllers::Docs::Destroy do
     end
 
     it 'is rejected for invalid editor' do
-      user_repo = MiniTest::Mock.new.expect(:find, invalid_user, [invalid_user.id])
-      document_repo = MiniTest::Mock.new.expect(:find, document, [document.id])
+      user_repo = Minitest::Mock.new.expect(:find, invalid_user, [invalid_user.id])
+      document_repo = Minitest::Mock.new.expect(:find, document, [document.id])
       action = Web::Controllers::Docs::Destroy.new(
         document_repo: document_repo, user_repo: user_repo, authenticator: authenticator
       )
@@ -66,7 +66,7 @@ describe Web::Controllers::Docs::Destroy do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, false), [nil]) }
     let(:action) {
       Web::Controllers::Docs::Destroy.new(
         document_repo: nil, user_repo: nil, authenticator: authenticator

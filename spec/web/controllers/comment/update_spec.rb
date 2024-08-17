@@ -2,7 +2,7 @@ require_relative '../../../spec_helper'
 
 describe Web::Controllers::Comment::Update do
   describe 'when user is logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]) }
 
     # TODO: during_meeting?サービスを実装してからテスト実装すること
     it 'is successful' do
@@ -14,7 +14,7 @@ describe Web::Controllers::Comment::Update do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, false), [nil]) }
 
     it 'is redirected' do
       action = Web::Controllers::Comment::Update.new(

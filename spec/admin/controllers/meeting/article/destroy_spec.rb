@@ -7,16 +7,16 @@ describe Admin::Controllers::Meeting::Article::Destroy do
   let(:article) { create(:article) }
   let(:params) { {meeting_id: article.meeting_id, id: article.id} }
   describe 'when user is logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, User.new), [nil]) }
     let(:article) { Article.new(id: rand(1..100), article_categories: [], categories: [], comments: [], tables: [], vote_results: []) }
     let(:params) { {id: article.id, meeting_id: rand(1..50), article: {confirm: true} } }
     let(:params_without_confirm) { {id: article.id, meeting_id: rand(1..50)} }
 
     it 'is successful delete article' do
       action = Admin::Controllers::Meeting::Article::Destroy.new(
-        article_repo: MiniTest::Mock.new.expect(:find_with_relations, article, [article.id])
+        article_repo: Minitest::Mock.new.expect(:find_with_relations, article, [article.id])
                         .expect(:delete, nil, [article.id]),
-        admin_history_repo: MiniTest::Mock.new.expect(:add, nil, [:article_destroy, String]),
+        admin_history_repo: Minitest::Mock.new.expect(:add, nil, [:article_destroy, String]),
         authenticator: authenticator,
       )
       response = action.call(params)
@@ -25,7 +25,7 @@ describe Admin::Controllers::Meeting::Article::Destroy do
 
     it 'is successful for confirmation' do
       action = Admin::Controllers::Meeting::Article::Destroy.new(
-        article_repo: MiniTest::Mock.new.expect(:find_with_relations, article, [article.id]),
+        article_repo: Minitest::Mock.new.expect(:find_with_relations, article, [article.id]),
         admin_history_repo: nil, authenticator: authenticator,
       )
       response = action.call(params_without_confirm)
@@ -35,8 +35,8 @@ describe Admin::Controllers::Meeting::Article::Destroy do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil])
-                                            .expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, nil), [nil])
+                                            .expect(:call, Minitest::Mock.new.expect(:user, nil), [nil]) }
     let(:params) { Hash[] }
     it 'is redirected' do
       action = Admin::Controllers::Meeting::Article::Destroy.new(

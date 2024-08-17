@@ -12,9 +12,9 @@ describe Admin::Controllers::Sessions::Create do
   }}
 
   it 'is successful create session' do
-    admin_history_repo = MiniTest::Mock.new.expect(:add, nil, [:sessions_create, String])
+    admin_history_repo = Minitest::Mock.new.expect(:add, nil, [:sessions_create, String])
     action = Admin::Controllers::Sessions::Create.new(
-      user_repo: MiniTest::Mock.new.expect(:find_by_name, user, [user.name]),
+      user_repo: Minitest::Mock.new.expect(:find_by_name, user, [user.name]),
       admin_history_repo: admin_history_repo,
     )
     response = action.call(valid_params)
@@ -27,7 +27,7 @@ describe Admin::Controllers::Sessions::Create do
   }}
 
   it 'is wrong password' do
-    user_repo = MiniTest::Mock.new.expect(:find_by_name, user, [user.name])
+    user_repo = Minitest::Mock.new.expect(:find_by_name, user, [user.name])
     action = Admin::Controllers::Sessions::Create.new(
       user_repo: user_repo, admin_history_repo: nil,
     )

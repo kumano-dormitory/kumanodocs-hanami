@@ -35,25 +35,25 @@ describe Web::Controllers::Article::Create do
     # TODO: 議案の作成処理をサービスとして実装してから、時間に関するロジックでテストを分ける
     it 'is successful' do
       categories_params = valid_params[:article][:categories].map{ |id| {category_id: id, extra_content: nil} }
-      meeting_repo = MiniTest::Mock.new.expect(:find, meeting, [meeting.id])
-      category_repo = MiniTest::Mock.new.expect(:find, categories[0], [valid_params[:article][:categories][0]])
+      meeting_repo = Minitest::Mock.new.expect(:find, meeting, [meeting.id])
+      category_repo = Minitest::Mock.new.expect(:find, categories[0], [valid_params[:article][:categories][0]])
                                         .expect(:find, categories[1], [valid_params[:article][:categories][1]])
                                         .expect(:find, categories[0], [valid_params[:article][:categories][0]])
                                         .expect(:find, categories[1], [valid_params[:article][:categories][1]])
-      author_repo = MiniTest::Mock.new.expect(
+      author_repo = Minitest::Mock.new.expect(
         :create_with_plain_password, author, [author_params[:name], author_params[:password]]
       )
-      article_repo = MiniTest::Mock.new.expect(
+      article_repo = Minitest::Mock.new.expect(
         :create, article, [article_check_params]
       ).expect(
         :add_categories, nil, [article, categories_params]
       )
-      article_ref_repo = MiniTest::Mock.new.expect(:create_refs, nil, [article.id, nil, {same: true}])
+      article_ref_repo = Minitest::Mock.new.expect(:create_refs, nil, [article.id, nil, {same: true}])
                                            .expect(:create_refs, nil, [article.id, nil, {same: false}])
       action = Web::Controllers::Article::Create.new(
         meeting_repo: meeting_repo, category_repo: category_repo,
         author_repo: author_repo, article_repo: article_repo, article_reference_repo: article_ref_repo,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]),
       )
       response = action.call(valid_params)
 
@@ -65,15 +65,15 @@ describe Web::Controllers::Article::Create do
     end
 
     it 'is rejected' do
-      meeting_repo = MiniTest::Mock.new.expect(:in_time, meetings)
+      meeting_repo = Minitest::Mock.new.expect(:in_time, meetings)
                                        .expect(:find_most_recent, meeting)
-      category_repo = MiniTest::Mock.new.expect(:all, categories)
+      category_repo = Minitest::Mock.new.expect(:all, categories)
       action = Web::Controllers::Article::Create.new(
         meeting_repo: meeting_repo,
         category_repo: category_repo,
-        article_repo: MiniTest::Mock.new.expect(:of_recent, [article], [Hash]),
+        article_repo: Minitest::Mock.new.expect(:of_recent, [article], [Hash]),
         author_repo: nil, article_reference_repo: nil,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]),
       )
       response = action.call(valid_params.merge({action: nil}))
 
@@ -87,7 +87,7 @@ describe Web::Controllers::Article::Create do
   end
 
   describe 'when user is not loggedin' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, false), [nil]) }
     it 'is redirected' do
       action = Web::Controllers::Article::Create.new(
         meeting_repo: nil, category_repo: nil, article_repo: nil, author_repo: nil,

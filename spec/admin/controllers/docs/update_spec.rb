@@ -6,7 +6,7 @@ describe Admin::Controllers::Docs::Update do
   describe 'when user is logged in' do
     describe 'user authority is 1 (documents editor)' do
       let(:user) { User.new(id: rand(1..100), authority: 1) }
-      let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]) }
+      let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, User.new), [nil]) }
       let(:props) {{
         title: document.title, type: document.type, body: document.body
       }}
@@ -27,7 +27,7 @@ describe Admin::Controllers::Docs::Update do
       }}
 
       it 'is successful update doc' do
-        document_repo = MiniTest::Mock.new.expect(:find_with_relations, document, [document.id])
+        document_repo = Minitest::Mock.new.expect(:find_with_relations, document, [document.id])
           .expect(:update, nil, [document.id, props])
         action = Admin::Controllers::Docs::Update.new(
           document_repo: document_repo, authenticator: authenticator
@@ -39,7 +39,7 @@ describe Admin::Controllers::Docs::Update do
       end
 
       it 'is invalid params' do
-        document_repo = MiniTest::Mock.new.expect(:find_with_relations, document, [document.id])
+        document_repo = Minitest::Mock.new.expect(:find_with_relations, document, [document.id])
         action = Admin::Controllers::Docs::Update.new(
           document_repo: document_repo, authenticator: authenticator
         )
@@ -57,8 +57,8 @@ describe Admin::Controllers::Docs::Update do
         )
       }
       let(:user) { User.new(id: rand(1..100), authority: [0, 2, 3].sample) }
-      let(:document_repo) { MiniTest::Mock.new.expect(:find_with_relations, document, [document.id]) }
-      let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]) }
+      let(:document_repo) { Minitest::Mock.new.expect(:find_with_relations, document, [document.id]) }
+      let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, User.new), [nil]) }
       let(:params) {{ id: document.id, document: {} }}
 
       it 'is redirected' do
@@ -72,8 +72,8 @@ describe Admin::Controllers::Docs::Update do
 
   describe 'when user is not logged in' do
     let(:document_repo) { nil }
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil])
-                                            .expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, nil), [nil])
+                                            .expect(:call, Minitest::Mock.new.expect(:user, nil), [nil]) }
     let(:action) { Admin::Controllers::Docs::Update.new(
       document_repo: document_repo, authenticator: authenticator
     )}

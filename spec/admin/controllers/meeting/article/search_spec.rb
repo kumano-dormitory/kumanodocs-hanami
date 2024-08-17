@@ -4,9 +4,9 @@ describe Admin::Controllers::Meeting::Article::Search do
   describe 'when user is logged in' do
     def assert_successful(query, keywords_array, query_ret)
       action = Admin::Controllers::Meeting::Article::Search.new(
-        article_repo: MiniTest::Mock.new.expect(:search_count, search_count, [keywords_array])
+        article_repo: Minitest::Mock.new.expect(:search_count, search_count, [keywords_array])
                         .expect(:search, articles, [keywords_array, page, limit]),
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, User.new), [nil]),
         limit: limit,
       )
       response = action.call({query: query, page: page})
@@ -33,8 +33,8 @@ describe Admin::Controllers::Meeting::Article::Search do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil])
-                                            .expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, nil), [nil])
+                                            .expect(:call, Minitest::Mock.new.expect(:user, nil), [nil]) }
     let(:params) { Hash[] }
     it 'is redirected' do
       action = Admin::Controllers::Meeting::Article::Search.new(

@@ -1,15 +1,15 @@
 source 'https://rubygems.org'
 
-ruby '~> 2.6'
+ruby '~> 2.7'
 
-gem 'activesupport', '>= 5.2.4.3'
+gem 'activesupport', '>=5.2.4.3'
 gem 'hanami', '1.3.5'
 gem 'hanami-model'
 
 gem 'pg'
 gem 'rake'
 gem 'sass'
-gem 'tzinfo'
+gem 'tzinfo' , "~>1.0"
 gem 'bcrypt'
 gem 'jwt'
 gem 'openssl', '~> 2.1'
@@ -26,13 +26,13 @@ end
 
 group :test, :development do
   gem 'dotenv', '~> 2.0'
-  gem 'faker'
 end
 
 group :test do
   gem 'capybara'
-  gem 'factory_bot'
+  gem 'factory_bot', '6.4.4'
   gem 'minitest'
+  gem 'faker'
 end
 
 group :production do

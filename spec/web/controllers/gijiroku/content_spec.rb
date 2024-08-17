@@ -2,12 +2,12 @@ require_relative '../../../spec_helper'
 
 describe Web::Controllers::Gijiroku::Content do
   describe 'when user is logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]) }
     let(:gijiroku) { {body: Faker::Lorem.paragraphs.join} }
     let(:params) { {} }
 
     it 'is successful' do
-      json_repo = MiniTest::Mock.new.expect(:latest_gijiroku, gijiroku)
+      json_repo = Minitest::Mock.new.expect(:latest_gijiroku, gijiroku)
       action = Web::Controllers::Gijiroku::Content.new(json_repo: json_repo, authenticator: authenticator)
       response = action.call(params)
 
@@ -19,7 +19,7 @@ describe Web::Controllers::Gijiroku::Content do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, false), [nil]) }
     let(:action) { Web::Controllers::Gijiroku::Content.new(authenticator: authenticator) }
 
     it 'is redirected' do

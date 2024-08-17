@@ -5,8 +5,8 @@ describe Web::Controllers::Docs::Download do
   let(:params) { Hash[] }
 
   describe 'when user is logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]) }
-    let(:document_repo) { MiniTest::Mock.new.expect(:find, document, [document.id]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]) }
+    let(:document_repo) { Minitest::Mock.new.expect(:find, document, [document.id]) }
     let(:document) { Document.new(id: rand(1..10)) }
     let(:params) { {id: document.id} }
 
@@ -22,7 +22,7 @@ describe Web::Controllers::Docs::Download do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, false), [nil]) }
     let(:action) {
       Web::Controllers::Docs::Download.new(
         document_repo: nil, authenticator: authenticator

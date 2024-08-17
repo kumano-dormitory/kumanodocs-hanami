@@ -6,10 +6,10 @@ describe Admin::Controllers::Docs::Destroy do
   let(:params_with_confirm) { {id: document.id, document: {confirm: true} } }
 
   describe 'when user is logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, User.new), [nil]) }
 
     it 'is successful confirm' do
-      document_repo = MiniTest::Mock.new.expect(:find_with_relations, document, [params[:id]])
+      document_repo = Minitest::Mock.new.expect(:find_with_relations, document, [params[:id]])
       action = Admin::Controllers::Docs::Destroy.new(
           document_repo: document_repo, authenticator: authenticator
       )
@@ -22,7 +22,7 @@ describe Admin::Controllers::Docs::Destroy do
     end
 
     it 'is successful confirm' do
-      document_repo = MiniTest::Mock.new.expect(:find_with_relations, document, [params[:id]])
+      document_repo = Minitest::Mock.new.expect(:find_with_relations, document, [params[:id]])
         .expect(:delete, nil, [document.id])
       action = Admin::Controllers::Docs::Destroy.new(
           document_repo: document_repo, authenticator: authenticator
@@ -37,8 +37,8 @@ describe Admin::Controllers::Docs::Destroy do
 
   describe 'when user is not logged in' do
     let(:document_repo) { nil }
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil])
-                                            .expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, nil), [nil])
+                                            .expect(:call, Minitest::Mock.new.expect(:user, nil), [nil]) }
     let(:action) {
       Admin::Controllers::Docs::Destroy.new(
           document_repo: document_repo, authenticator: authenticator

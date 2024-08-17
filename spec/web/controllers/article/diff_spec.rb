@@ -12,14 +12,14 @@ describe Web::Controllers::Article::Diff do
     }}
 
     it 'is successful diff page' do
-      article_repo = MiniTest::Mock.new.expect(
+      article_repo = Minitest::Mock.new.expect(
         :find_with_relations, old_article, [old_article.id]
       ).expect(
         :find_with_relations, new_article, [new_article.id]
       )
       action = Web::Controllers::Article::Diff.new(
         article_repo: article_repo,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]),
       )
       response = action.call(valid_params)
 
@@ -32,10 +32,10 @@ describe Web::Controllers::Article::Diff do
     let(:article) { Article.new(id: rand(1..100)) }
     let(:meeting) { Meeting.new(id: rand(1..50), articles: [article]) }
     it 'is successful select articles page' do
-      article_repo = MiniTest::Mock.new.expect(:group_by_meeting, [meeting], [Integer, Hash])
+      article_repo = Minitest::Mock.new.expect(:group_by_meeting, [meeting], [Integer, Hash])
       action = Web::Controllers::Article::Diff.new(
         article_repo: article_repo,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]),
       )
       empty_params = {}
       response = action.call(empty_params)
@@ -46,7 +46,7 @@ describe Web::Controllers::Article::Diff do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, false), [nil]) }
     it 'is redirected' do
       action = Web::Controllers::Article::Diff.new(
         article_repo: nil, authenticator: authenticator

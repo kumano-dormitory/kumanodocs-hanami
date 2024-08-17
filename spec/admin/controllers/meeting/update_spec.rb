@@ -4,8 +4,8 @@ describe Admin::Controllers::Meeting::Update do
   describe 'when user is logged in' do
     def assert_invalid_params(invalid_params)
       action = Admin::Controllers::Meeting::Update.new(
-        meeting_repo: MiniTest::Mock.new.expect(:find, old_meeting, [meeting.id]), admin_history_repo: nil,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
+        meeting_repo: Minitest::Mock.new.expect(:find, old_meeting, [meeting.id]), admin_history_repo: nil,
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, User.new), [nil]),
       )
       response = action.call(invalid_params)
       _(response[0]).must_equal 422
@@ -32,10 +32,10 @@ describe Admin::Controllers::Meeting::Update do
 
     it 'is successful create meeting' do
       action = Admin::Controllers::Meeting::Update.new(
-        meeting_repo: MiniTest::Mock.new.expect(:find, old_meeting, [meeting.id])
+        meeting_repo: Minitest::Mock.new.expect(:find, old_meeting, [meeting.id])
                         .expect(:update, meeting, [meeting.id, check_params]),
-        admin_history_repo: MiniTest::Mock.new.expect(:add, nil, [:meeting_update, String]),
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
+        admin_history_repo: Minitest::Mock.new.expect(:add, nil, [:meeting_update, String]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, User.new), [nil]),
       )
       response = action.call(valid_params)
       _(response[0]).must_equal 302
@@ -50,8 +50,8 @@ describe Admin::Controllers::Meeting::Update do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil])
-                                            .expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, nil), [nil])
+                                            .expect(:call, Minitest::Mock.new.expect(:user, nil), [nil]) }
     let(:params) { Hash[] }
 
     it 'is redirected' do

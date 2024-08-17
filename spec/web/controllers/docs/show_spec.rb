@@ -2,8 +2,8 @@ require_relative '../../../spec_helper'
 
 describe Web::Controllers::Docs::Show do
   describe 'when user is logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]) }
-    let(:document_repo) { MiniTest::Mock.new.expect(:find_with_relations, document, [id]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]) }
+    let(:document_repo) { Minitest::Mock.new.expect(:find_with_relations, document, [id]) }
     let(:document) { Document.new(id: id) }
     let(:id) { rand(1..10) }
     let(:params) { {id: id} }
@@ -19,7 +19,7 @@ describe Web::Controllers::Docs::Show do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, false), [nil]) }
     let(:action) {
       Web::Controllers::Docs::Show.new(
         document_repo: nil, authenticator: authenticator

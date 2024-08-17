@@ -11,9 +11,9 @@ describe Admin::Controllers::Meeting::Download do
 
     it 'is successful for select meeting' do
       action = Admin::Controllers::Meeting::Download.new(
-        meeting_repo: MiniTest::Mock.new.expect(:desc_by_date, [meeting], [Hash]),
+        meeting_repo: Minitest::Mock.new.expect(:desc_by_date, [meeting], [Hash]),
         generate_pdf_interactor: nil,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, User.new), [nil]),
       )
       response = action.call({})
       _(response[0]).must_equal 200
@@ -23,9 +23,9 @@ describe Admin::Controllers::Meeting::Download do
 
     it 'is successful for select download type' do
       action = Admin::Controllers::Meeting::Download.new(
-        meeting_repo: MiniTest::Mock.new.expect(:find, meeting, [meeting.id]),
+        meeting_repo: Minitest::Mock.new.expect(:find, meeting, [meeting.id]),
         generate_pdf_interactor: nil,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, User.new), [nil]),
       )
       response = action.call(params)
       _(response[0]).must_equal 200
@@ -34,13 +34,13 @@ describe Admin::Controllers::Meeting::Download do
     end
 
     it 'is successful for download articles pdf' do
-      interactor_result = MiniTest::Mock.new.expect(:failure?, false).expect(:path, path)
+      interactor_result = Minitest::Mock.new.expect(:failure?, false).expect(:path, path)
       specification = Specifications::Pdf.new(type: :admin_articles, meeting_id: meeting.id, after_6pm: false)
-      generate_pdf = MiniTest::Mock.new.expect(:call, interactor_result, [specification])
+      generate_pdf = Minitest::Mock.new.expect(:call, interactor_result, [specification])
       action = Admin::Controllers::Meeting::Download.new(
-        meeting_repo: MiniTest::Mock.new.expect(:find, meeting, [meeting.id]),
+        meeting_repo: Minitest::Mock.new.expect(:find, meeting, [meeting.id]),
         generate_pdf_interactor: generate_pdf,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, User.new), [nil]),
       )
       response = action.call(params_for_articles)
 
@@ -52,13 +52,13 @@ describe Admin::Controllers::Meeting::Download do
     end
 
     it 'is successful for download comments pdf' do
-      interactor_result = MiniTest::Mock.new.expect(:failure?, false).expect(:path, path)
+      interactor_result = Minitest::Mock.new.expect(:failure?, false).expect(:path, path)
       specification = Specifications::Pdf.new(type: :admin_comments, meeting_id: meeting.id)
-      generate_pdf = MiniTest::Mock.new.expect(:call, interactor_result, [specification])
+      generate_pdf = Minitest::Mock.new.expect(:call, interactor_result, [specification])
       action = Admin::Controllers::Meeting::Download.new(
-        meeting_repo: MiniTest::Mock.new.expect(:find, meeting, [meeting.id]),
+        meeting_repo: Minitest::Mock.new.expect(:find, meeting, [meeting.id]),
         generate_pdf_interactor: generate_pdf,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, User.new), [nil]),
       )
       response = action.call(params_for_comments)
 
@@ -71,8 +71,8 @@ describe Admin::Controllers::Meeting::Download do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil])
-                                            .expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, nil), [nil])
+                                            .expect(:call, Minitest::Mock.new.expect(:user, nil), [nil]) }
     let(:params) { Hash[] }
     it 'is redirected' do
       action = Admin::Controllers::Meeting::Download.new(

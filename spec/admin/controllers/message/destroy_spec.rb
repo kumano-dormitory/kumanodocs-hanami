@@ -13,15 +13,15 @@ describe Admin::Controllers::Message::Destroy do
     }}
 
     it 'is successful' do
-      message_repo = MiniTest::Mock.new.expect(:by_article, [msg], [article.id])
+      message_repo = Minitest::Mock.new.expect(:by_article, [msg], [article.id])
                                        .expect(:find, msg, [msg.id])
                                        .expect(:delete, nil, [msg.id])
       action = Admin::Controllers::Message::Destroy.new(
-        article_repo: MiniTest::Mock.new.expect(:find, article, [article.id]),
-        comment_repo: MiniTest::Mock.new.expect(:find_with_relations, comment, [comment.id]),
+        article_repo: Minitest::Mock.new.expect(:find, article, [article.id]),
+        comment_repo: Minitest::Mock.new.expect(:find_with_relations, comment, [comment.id]),
         message_repo: message_repo,
-        admin_history_repo: MiniTest::Mock.new.expect(:add, nil, [:message_destroy, String]),
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
+        admin_history_repo: Minitest::Mock.new.expect(:add, nil, [:message_destroy, String]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, User.new), [nil]),
       )
       response = action.call(valid_params)
       _(response[0]).must_equal 302
@@ -31,10 +31,10 @@ describe Admin::Controllers::Message::Destroy do
     it 'needs destroy confirmation' do
       action = Admin::Controllers::Message::Destroy.new(
         article_repo: nil, admin_history_repo: nil,
-        comment_repo: MiniTest::Mock.new.expect(:find_with_relations, comment, [comment.id]),
-        message_repo: MiniTest::Mock.new.expect(:by_article, [msg], [article.id])
+        comment_repo: Minitest::Mock.new.expect(:find_with_relations, comment, [comment.id]),
+        message_repo: Minitest::Mock.new.expect(:by_article, [msg], [article.id])
                                         .expect(:find, msg, [msg.id]),
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, User.new), [nil]),
       )
       params_without_confirm = valid_params.merge({message: nil})
       response = action.call(params_without_confirm)
@@ -48,12 +48,12 @@ describe Admin::Controllers::Message::Destroy do
     let(:other_comment) { Comment.new(id: rand(200..300), article_id: article.id) }
     it 'is invalid params (does not match article & comment & message IDs)' do
       action = Admin::Controllers::Message::Destroy.new(
-        article_repo: MiniTest::Mock.new.expect(:find, article, [article.id]),
-        comment_repo: MiniTest::Mock.new.expect(:find_with_relations, other_comment, [other_comment.id]),
-        message_repo: MiniTest::Mock.new.expect(:by_article, [msg], [article.id])
+        article_repo: Minitest::Mock.new.expect(:find, article, [article.id]),
+        comment_repo: Minitest::Mock.new.expect(:find_with_relations, other_comment, [other_comment.id]),
+        message_repo: Minitest::Mock.new.expect(:by_article, [msg], [article.id])
                                         .expect(:find, msg, [msg.id]),
         admin_history_repo: nil,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, User.new), [nil]),
       )
       invalid_params = valid_params.merge({comment_id: other_comment.id})
       response = action.call(invalid_params)
@@ -63,8 +63,8 @@ describe Admin::Controllers::Message::Destroy do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil])
-                                            .expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, nil), [nil])
+                                            .expect(:call, Minitest::Mock.new.expect(:user, nil), [nil]) }
     let(:params) { Hash[] }
     it 'is redirected' do
       action = Admin::Controllers::Message::Destroy.new(

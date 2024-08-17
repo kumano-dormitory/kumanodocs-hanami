@@ -3,14 +3,14 @@ require_relative '../../../spec_helper'
 describe Web::Controllers::Article::Search do
   describe 'when user is logged in' do
     def assert_successful_normal(query, keywords_array, query_ret)
-      article_repo = MiniTest::Mock.new.expect(
+      article_repo = Minitest::Mock.new.expect(
         :search_count, search_count, [keywords_array]
       ).expect(
         :search, articles, [keywords_array, page, limit]
       )
       action = Web::Controllers::Article::Search.new(
-        article_repo: article_repo, category_repo: MiniTest::Mock.new.expect(:all, categories),
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        article_repo: article_repo, category_repo: Minitest::Mock.new.expect(:all, categories),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]),
         limit: limit,
       )
       response = action.call({search_article: {keywords: query}, page: page})
@@ -25,14 +25,14 @@ describe Web::Controllers::Article::Search do
     end
 
     def assert_successful_detail(query, keywords)
-      article_repo = MiniTest::Mock.new.expect(
+      article_repo = Minitest::Mock.new.expect(
         :search_count, search_count, [keywords, {detail_search: true}]
       ).expect(
         :search, articles, [keywords, page, limit, {detail_search: true}]
       )
       action = Web::Controllers::Article::Search.new(
-        article_repo: article_repo, category_repo: MiniTest::Mock.new.expect(:all, categories),
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        article_repo: article_repo, category_repo: Minitest::Mock.new.expect(:all, categories),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]),
         limit: limit,
       )
       params = {page: page, search_article: {**query, detail_search: true}}
@@ -71,7 +71,7 @@ describe Web::Controllers::Article::Search do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, false), [nil]) }
 
     it 'is redirected' do
       action = Web::Controllers::Article::Search.new(
