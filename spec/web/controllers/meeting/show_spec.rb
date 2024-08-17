@@ -12,14 +12,14 @@ describe Web::Controllers::Meeting::Show do
     let(:params) { {id: meeting.id, page: 1} }
 
     it 'is successful' do
-      article_repo = MiniTest::Mock.new.expect(:find_with_relations, article_with_relations, [article.id])
+      article_repo = Minitest::Mock.new.expect(:find_with_relations, article_with_relations, [article.id])
       action = Web::Controllers::Meeting::Show.new(
-        meeting_repo: MiniTest::Mock.new.expect(:find_with_articles, meeting, [meeting.id]),
+        meeting_repo: Minitest::Mock.new.expect(:find_with_articles, meeting, [meeting.id]),
         article_repo: article_repo, comment_repo: nil,
-        block_repo: MiniTest::Mock.new.expect(:all, blocks),
-        message_repo: MiniTest::Mock.new.expect(:by_article, [msg], [article.id]),
-        article_reference_repo: MiniTest::Mock.new.expect(:find_refs, article_refs, [article.id]),
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        block_repo: Minitest::Mock.new.expect(:all, blocks),
+        message_repo: Minitest::Mock.new.expect(:by_article, [msg], [article.id]),
+        article_reference_repo: Minitest::Mock.new.expect(:find_refs, article_refs, [article.id]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]),
       )
       response = action.call(params)
       _(response[0]).must_equal 200
@@ -35,15 +35,15 @@ describe Web::Controllers::Meeting::Show do
     let(:comment) { {id: rand(1..100), article_id: article.id} }
     let(:msg_hash) { {id: rand(1..100), comment_id: comment[:id]} }
     it 'is successful display comments of past meeting' do
-      meeting_repo = MiniTest::Mock.new.expect(:find_with_articles, meeting, [meeting.id])
+      meeting_repo = Minitest::Mock.new.expect(:find_with_articles, meeting, [meeting.id])
                                        .expect(:find_past_meeting, past_meeting, [meeting.id])
       action = Web::Controllers::Meeting::Show.new(
         meeting_repo: meeting_repo,
-        block_repo: MiniTest::Mock.new.expect(:all, blocks),
-        comment_repo: MiniTest::Mock.new.expect(:by_meeting, [comment], [past_meeting.id]),
-        message_repo: MiniTest::Mock.new.expect(:by_meeting, [msg_hash], [past_meeting.id]),
+        block_repo: Minitest::Mock.new.expect(:all, blocks),
+        comment_repo: Minitest::Mock.new.expect(:by_meeting, [comment], [past_meeting.id]),
+        message_repo: Minitest::Mock.new.expect(:by_meeting, [msg_hash], [past_meeting.id]),
         article_repo: nil, article_reference_repo: nil,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]),
       )
       response = action.call(params.merge(page: 0))
       _(response[0]).must_equal 200
@@ -57,7 +57,7 @@ describe Web::Controllers::Meeting::Show do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, false), [nil]) }
     let(:action) { Web::Controllers::Meeting::Index.new(authenticator: authenticator) }
 
     it 'is redirected' do

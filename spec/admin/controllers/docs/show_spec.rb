@@ -10,8 +10,8 @@ describe Admin::Controllers::Docs::Show do
   let(:params) { {id: document.id} }
 
   describe 'when user is logged in' do
-    let(:document_repo) { MiniTest::Mock.new.expect(:find_with_relations, document, [document.id]) }
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]) }
+    let(:document_repo) { Minitest::Mock.new.expect(:find_with_relations, document, [document.id]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, User.new), [nil]) }
     it 'is successful' do
       response = action.call(params)
       _(response[0]).must_equal 200
@@ -23,8 +23,8 @@ describe Admin::Controllers::Docs::Show do
 
   describe 'when user is not logged in' do
     let(:document_repo) { nil }
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil])
-                                            .expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, nil), [nil])
+                                            .expect(:call, Minitest::Mock.new.expect(:user, nil), [nil]) }
     it 'is redirected' do
       response = action.call(params)
       _(response[0]).must_equal 302

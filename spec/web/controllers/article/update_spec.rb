@@ -4,13 +4,13 @@ require_relative '../../../../apps/web/controllers/article/update'
 describe Web::Controllers::Article::Update do
   describe 'when user is logged in' do
     def assert_invalid_params(invalid_params_merged)
-      article_repo_mock = MiniTest::Mock.new.expect(:of_recent, [article], [Hash])
-      meeting_repo_mock = MiniTest::Mock.new.expect(:in_time, [Meeting.new(id: rand(1..5))])
-      category_repo_mock = MiniTest::Mock.new.expect(:all, [Category.new(id: rand(1..5))])
+      article_repo_mock = Minitest::Mock.new.expect(:of_recent, [article], [Hash])
+      meeting_repo_mock = Minitest::Mock.new.expect(:in_time, [Meeting.new(id: rand(1..5))])
+      category_repo_mock = Minitest::Mock.new.expect(:all, [Category.new(id: rand(1..5))])
       action = Web::Controllers::Article::Update.new(
         article_repo: article_repo_mock, author_repo: nil, meeting_repo: meeting_repo_mock,
         category_repo: category_repo_mock, article_reference_repo: nil,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]),
       )
       invalid_params = valid_params.deep_merge(invalid_params_merged)
 
@@ -47,25 +47,25 @@ describe Web::Controllers::Article::Update do
 
     it 'is successful' do
       category_params = valid_params[:article][:categories].map{ |id| {category_id: id, extra_content: nil} }
-      article_repo_mock = MiniTest::Mock.new.expect(
+      article_repo_mock = Minitest::Mock.new.expect(
         :find_with_relations, article, [article.id]
       ).expect(
         :update_categories, nil, [article, category_params]
       ).expect(
         :update, nil, [article.id, valid_params[:article].merge(format: format_number)]
       )
-      author_repo_mock = MiniTest::Mock.new.expect(
+      author_repo_mock = Minitest::Mock.new.expect(
         :update, nil, [article.author_id, valid_params[:article][:author]]
       ).expect(
         :release_lock, nil, [article.author_id]
       )
       action = Web::Controllers::Article::Update.new(
         article_repo: article_repo_mock, author_repo: author_repo_mock,
-        meeting_repo: MiniTest::Mock.new.expect(:find_most_recent, meeting),
-        category_repo: MiniTest::Mock.new.expect(:find, categories[0], [categories[0].id])
+        meeting_repo: Minitest::Mock.new.expect(:find_most_recent, meeting),
+        category_repo: Minitest::Mock.new.expect(:find, categories[0], [categories[0].id])
                                          .expect(:find, categories[1], [categories[1].id]),
-        article_reference_repo: MiniTest::Mock.new.expect(:update_refs, nil, [article.id, nil, nil]),
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        article_reference_repo: Minitest::Mock.new.expect(:update_refs, nil, [article.id, nil, nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]),
       )
       params = valid_params.merge("HTTP_COOKIE"=>"article_lock_key=#{lock_key}")
       response = action.call(params)
@@ -78,25 +78,25 @@ describe Web::Controllers::Article::Update do
     it 'is successful get lock' do
       category_params = valid_params[:article][:categories].map{ |id| {category_id: id, extra_content: nil} }
       params = valid_params.deep_merge({ article: { get_lock: true, password: password } })
-      article_repo_mock = MiniTest::Mock.new.expect(
+      article_repo_mock = Minitest::Mock.new.expect(
         :find_with_relations, article, [article.id]
       ).expect(
         :update_categories, nil, [article, category_params]
       ).expect(
         :update, nil, [article.id, params[:article].merge(format: format_number)]
       )
-      author_repo_mock = MiniTest::Mock.new.expect(
+      author_repo_mock = Minitest::Mock.new.expect(
         :update, nil, [article.author_id, params[:article][:author]]
       ).expect(
         :release_lock, nil, [article.author_id]
       )
       action = Web::Controllers::Article::Update.new(
         article_repo: article_repo_mock, author_repo: author_repo_mock,
-        meeting_repo: MiniTest::Mock.new.expect(:find_most_recent, meeting),
-        category_repo: MiniTest::Mock.new.expect(:find, categories[0], [categories[0].id])
+        meeting_repo: Minitest::Mock.new.expect(:find_most_recent, meeting),
+        category_repo: Minitest::Mock.new.expect(:find, categories[0], [categories[0].id])
                                          .expect(:find, categories[1], [categories[1].id]),
-        article_reference_repo: MiniTest::Mock.new.expect(:update_refs, nil, [article.id, nil, nil]),
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        article_reference_repo: Minitest::Mock.new.expect(:update_refs, nil, [article.id, nil, nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]),
       )
       response = action.call(params)
 
@@ -108,14 +108,14 @@ describe Web::Controllers::Article::Update do
     it 'is authentication error' do
       category_params = valid_params[:article][:categories].map{ |id| {category_id: id, extra_content: nil} }
       params = valid_params.deep_merge({ article: { get_lock: true, password: Faker::Internet.password } })
-      article_repo_mock = MiniTest::Mock.new.expect(:find_with_relations, article, [article.id])
+      article_repo_mock = Minitest::Mock.new.expect(:find_with_relations, article, [article.id])
                                             .expect(:of_recent, [article], [Hash])
-      meeting_repo_mock = MiniTest::Mock.new.expect(:in_time, [Meeting.new(id: rand(1..5))])
-      category_repo_mock = MiniTest::Mock.new.expect(:all, [Category.new(id: rand(1..5))])
+      meeting_repo_mock = Minitest::Mock.new.expect(:in_time, [Meeting.new(id: rand(1..5))])
+      category_repo_mock = Minitest::Mock.new.expect(:all, [Category.new(id: rand(1..5))])
       action = Web::Controllers::Article::Update.new(
         article_repo: article_repo_mock, author_repo: nil, meeting_repo: meeting_repo_mock,
         category_repo: category_repo_mock, article_reference_repo: nil,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]),
       )
       response = action.call(params)
 
@@ -141,7 +141,7 @@ describe Web::Controllers::Article::Update do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, false), [nil]) }
 
     it 'is redirected' do
       action = Web::Controllers::Article::Update.new(

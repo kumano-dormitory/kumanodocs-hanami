@@ -2,14 +2,14 @@ require_relative '../../../spec_helper'
 
 describe Web::Controllers::Docs::New do
   describe 'when user is logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]) }
     let(:user) { User.new(id: rand(1..100)) }
     let(:session) { {user_id: user.id} }
     let(:params_with_editor_session) { {'rack.session' => session} }
     let(:params_without_editor_session) { Hash[] }
 
     it 'is successful for logged in editor' do
-      user_repo = MiniTest::Mock.new.expect(:find, user, [user.id])
+      user_repo = Minitest::Mock.new.expect(:find, user, [user.id])
       action = Web::Controllers::Docs::New.new(
         user_repo: user_repo, authenticator: authenticator
       )
@@ -29,7 +29,7 @@ describe Web::Controllers::Docs::New do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, false), [nil]) }
     let(:action) {
       Web::Controllers::Docs::New.new(
         user_repo: nil, authenticator: authenticator

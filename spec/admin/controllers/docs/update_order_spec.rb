@@ -6,7 +6,7 @@ describe Admin::Controllers::Docs::UpdateOrder do
   let(:document3) { Document.new(id: rand(21..30)) }
 
   describe 'when user is logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, User.new), [nil]) }
     let(:documents) { [document1, document2, document3] }
     let(:props) { params[:document][:order] }
     let(:params) {{
@@ -29,7 +29,7 @@ describe Admin::Controllers::Docs::UpdateOrder do
     }}
 
     it 'is successful' do
-      document_repo = MiniTest::Mock.new.expect(:update_number, nil, [props])
+      document_repo = Minitest::Mock.new.expect(:update_number, nil, [props])
       action = Admin::Controllers::Docs::UpdateOrder.new(
         document_repo: document_repo, authenticator: authenticator
       )
@@ -40,7 +40,7 @@ describe Admin::Controllers::Docs::UpdateOrder do
     end
 
     it 'is rejected' do
-      document_repo = MiniTest::Mock.new.expect(:order_by_number, documents)
+      document_repo = Minitest::Mock.new.expect(:order_by_number, documents)
       action = Admin::Controllers::Docs::UpdateOrder.new(
         document_repo: document_repo, authenticator: authenticator
       )
@@ -56,8 +56,8 @@ describe Admin::Controllers::Docs::UpdateOrder do
     let(:action) { Admin::Controllers::Docs::UpdateOrder.new(
       document_repo: nil, authenticator: authenticator
     ) }
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil])
-                                            .expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, nil), [nil])
+                                            .expect(:call, Minitest::Mock.new.expect(:user, nil), [nil]) }
     let(:params) { Hash[] }
 
     it 'is redirected' do

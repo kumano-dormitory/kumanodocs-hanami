@@ -6,10 +6,10 @@ describe Admin::Controllers::Docs::Create do
   describe 'when user is logged in' do
     describe 'user authority is 1 (documents editor)' do
       let(:user) { User.new(id: rand(1..100), authority: 1) }
-      let(:user_repo) { MiniTest::Mock.new.expect(:by_authority, [user], [1])
+      let(:user_repo) { Minitest::Mock.new.expect(:by_authority, [user], [1])
                           .expect(:find, user, [user.id])
       }
-      let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]) }
+      let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, User.new), [nil]) }
       let(:props) {{
         title: document.title, user_id: user.id, type: document.type, body: document.body
         }}
@@ -28,7 +28,7 @@ describe Admin::Controllers::Docs::Create do
       }}
 
       it 'is successful create doc' do
-        document_repo = MiniTest::Mock.new.expect(:create, document, [props])
+        document_repo = Minitest::Mock.new.expect(:create, document, [props])
         action = Admin::Controllers::Docs::Create.new(
           document_repo: document_repo, user_repo: user_repo, authenticator: authenticator
         )
@@ -59,10 +59,10 @@ describe Admin::Controllers::Docs::Create do
       }
       let(:user) { User.new(id: rand(1..100), authority: [0, 2, 3].sample) }
       let(:document_repo) { nil }
-      let(:user_repo) { MiniTest::Mock.new.expect(:by_authority, [user], [1])
+      let(:user_repo) { Minitest::Mock.new.expect(:by_authority, [user], [1])
                           .expect(:find, user, [user.id])
       }
-      let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]) }
+      let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, User.new), [nil]) }
       let(:params) {{
         document: {
           title: document.title,
@@ -88,8 +88,8 @@ describe Admin::Controllers::Docs::Create do
     }
     let(:document_repo) { nil }
     let(:user_repo) { nil }
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil])
-                                            .expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, nil), [nil])
+                                            .expect(:call, Minitest::Mock.new.expect(:user, nil), [nil]) }
     let(:params) { Hash[] }
 
     it 'is redirected' do

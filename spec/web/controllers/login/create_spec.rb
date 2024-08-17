@@ -8,7 +8,7 @@ describe Web::Controllers::Login::Create do
   let(:params) { {login: {username: user.name, password: password}} }
 
   it 'is successful login' do
-    user_repo = MiniTest::Mock.new.expect(:find_by_name, user, [user.name])
+    user_repo = Minitest::Mock.new.expect(:find_by_name, user, [user.name])
     action = Web::Controllers::Login::Create.new(user_repo: user_repo)
     response = action.call(params)
 
@@ -18,7 +18,7 @@ describe Web::Controllers::Login::Create do
 
   let(:invalid_params) {{ login: {username: user.name, password: Faker::Internet.password} }}
   it 'is rejected by authentication failure' do
-    user_repo = MiniTest::Mock.new.expect(:find_by_name, user, [user.name])
+    user_repo = Minitest::Mock.new.expect(:find_by_name, user, [user.name])
     action = Web::Controllers::Login::Create.new(user_repo: user_repo)
     response = action.call(invalid_params)
 

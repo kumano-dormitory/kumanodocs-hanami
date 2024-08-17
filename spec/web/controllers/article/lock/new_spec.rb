@@ -3,7 +3,7 @@ require_relative '../../../../../apps/web/controllers/article/lock/new'
 
 describe Web::Controllers::Article::Lock::New do
   describe 'when user is logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]) }
     let(:author) { Author.new(id: rand(1..5), lock_key: [nil, lock_key].sample) }
     let(:lock_key) { Author.generate_lock_key }
     let(:article) { Article.new(id: rand(1..5), author_id: author.id, author: author) }
@@ -13,7 +13,7 @@ describe Web::Controllers::Article::Lock::New do
     }}
 
     it 'is successful' do
-      article_repo = MiniTest::Mock.new.expect(:find_with_relations, article, [article.id])
+      article_repo = Minitest::Mock.new.expect(:find_with_relations, article, [article.id])
       action = Web::Controllers::Article::Lock::New.new(
         article_repo: article_repo, authenticator: authenticator,
       )
@@ -32,7 +32,7 @@ describe Web::Controllers::Article::Lock::New do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, false), [nil]) }
 
     it 'is redirected' do
       action = Web::Controllers::Article::Lock::New.new(article_repo: nil, authenticator: authenticator)

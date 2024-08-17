@@ -23,16 +23,16 @@ describe Web::Controllers::Article::Edit do
 
     # TODO: 追加議案の編集期間であるかを判断するサービスを実装してからテストを分けて書くこと
     it 'is successful' do
-      article_repo = MiniTest::Mock.new.expect(:find_with_relations, article, [article.id])
+      article_repo = Minitest::Mock.new.expect(:find_with_relations, article, [article.id])
                                        .expect(:of_recent, [article], [Hash])
-      meeting_repo = MiniTest::Mock.new.expect(:in_time, [meeting])
-      category_repo = MiniTest::Mock.new.expect(:all, categories)
+      meeting_repo = Minitest::Mock.new.expect(:in_time, [meeting])
+      category_repo = Minitest::Mock.new.expect(:all, categories)
       action = Web::Controllers::Article::Edit.new(
         article_repo: article_repo,
         meeting_repo: meeting_repo,
         category_repo: category_repo,
-        article_reference_repo: MiniTest::Mock.new.expect(:find_refs, [article_ref], [article.id, Hash]),
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        article_reference_repo: Minitest::Mock.new.expect(:find_refs, [article_ref], [article.id, Hash]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]),
       )
       params_with_lock_key = params.merge("HTTP_COOKIE"=>"article_lock_key=#{lock_key}")
       response = action.call(params_with_lock_key)
@@ -48,10 +48,10 @@ describe Web::Controllers::Article::Edit do
     end
 
     it 'is redirected by auth failure' do
-      article_repo = MiniTest::Mock.new.expect(:find_with_relations, article, [article.id])
+      article_repo = Minitest::Mock.new.expect(:find_with_relations, article, [article.id])
       action = Web::Controllers::Article::Edit.new(
         article_repo: article_repo, meeting_repo: nil, category_repo: nil, article_reference_repo: nil,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]),
       )
       invalid_params = params.merge("HTTP_COOKIE"=>"article_lock_key=#{Faker::Internet.password}")
       response = action.call(invalid_params)
@@ -61,7 +61,7 @@ describe Web::Controllers::Article::Edit do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, false), [nil]) }
     let(:action) {  }
 
     it 'is redirected' do

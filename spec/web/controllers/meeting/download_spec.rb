@@ -4,17 +4,17 @@ describe Web::Controllers::Meeting::Download do
   describe 'when user is logged in' do
     let(:meeting) { Meeting.new(id: rand(1..50), date: (Date.today)) }
     let(:meetings) { [meeting] }
-    let(:interactor_result) { MiniTest::Mock.new.expect(:failure?, false).expect(:path, path)}
+    let(:interactor_result) { Minitest::Mock.new.expect(:failure?, false).expect(:path, path)}
     let(:path) { '/tmp/hogehoge' }
     let(:params) { {id: meeting.id} }
 
     it 'is successful download meeting' do
       specification = Specifications::Pdf.new(type: :web_articles, meeting_id: meeting.id)
-      generate_pdf = MiniTest::Mock.new.expect(:call, interactor_result, [specification])
+      generate_pdf = Minitest::Mock.new.expect(:call, interactor_result, [specification])
       action = Web::Controllers::Meeting::Download.new(
-        meeting_repo: MiniTest::Mock.new.expect(:find, meeting, [meeting.id]),
+        meeting_repo: Minitest::Mock.new.expect(:find, meeting, [meeting.id]),
         generate_pdf_interactor: generate_pdf,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]),
       )
       response = action.call(params)
 
@@ -25,10 +25,10 @@ describe Web::Controllers::Meeting::Download do
     end
 
     it 'is successful display select meeting page' do
-      meeting_repo = MiniTest::Mock.new.expect(:desc_by_date, meetings, [Hash])
+      meeting_repo = Minitest::Mock.new.expect(:desc_by_date, meetings, [Hash])
       action = Web::Controllers::Meeting::Download.new(
         meeting_repo: meeting_repo, generate_pdf_interactor: nil,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]),
       )
       response = action.call({})
 
@@ -39,7 +39,7 @@ describe Web::Controllers::Meeting::Download do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, false), [nil]) }
 
     it 'is redirected' do
       action = Web::Controllers::Meeting::Download.new(

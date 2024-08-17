@@ -2,8 +2,8 @@ require_relative '../../../spec_helper'
 
 describe Web::Controllers::Article::Index do
   describe 'when user is logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]) }
-    let(:article_repo) { MiniTest::Mock.new.expect(:group_by_meeting, [meeting]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]) }
+    let(:article_repo) { Minitest::Mock.new.expect(:group_by_meeting, [meeting]) }
     let(:meeting) { Meeting.new(id: rand(1..50)) }
     let(:params) { {loggedin: [nil, true].sample} }
 
@@ -17,7 +17,7 @@ describe Web::Controllers::Article::Index do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, false), [nil]) }
     let(:action) { Web::Controllers::Article::Index.new(authenticator: authenticator) }
 
     it 'is redirected' do

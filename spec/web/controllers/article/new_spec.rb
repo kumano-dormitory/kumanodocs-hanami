@@ -3,7 +3,7 @@ require_relative '../../../../apps/web/controllers/article/new'
 
 describe Web::Controllers::Article::New do
   describe 'when user is logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]) }
     let(:article) { Article.new(id: rand(1..100)) }
     let(:meetings) { [Meeting.new(id: rand(1..5))] }
     let(:categories) { [Category.new(id: rand(1..5))] }
@@ -11,11 +11,11 @@ describe Web::Controllers::Article::New do
 
     # TODO: 会議中か判定するサービスを実装したあとにテストを詳細に定義すること
     it 'is successful' do
-      article_repo = MiniTest::Mock.new.expect(:of_recent, [article], [Hash])
+      article_repo = Minitest::Mock.new.expect(:of_recent, [article], [Hash])
       action = Web::Controllers::Article::New.new(
-        meeting_repo: MiniTest::Mock.new.expect(:in_time, meetings),
+        meeting_repo: Minitest::Mock.new.expect(:in_time, meetings),
         article_repo: article_repo,
-        category_repo: MiniTest::Mock.new.expect(:all, categories),
+        category_repo: Minitest::Mock.new.expect(:all, categories),
         authenticator: authenticator,
       )
       response = action.call(params)
@@ -30,7 +30,7 @@ describe Web::Controllers::Article::New do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, false), [nil]) }
 
     it 'is redirected' do
       action = Web::Controllers::Article::New.new(

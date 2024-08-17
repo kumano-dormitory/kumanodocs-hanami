@@ -9,14 +9,14 @@ describe Web::Controllers::Article::Destroy do
     let(:crypt_password) { Digest::SHA256.hexdigest(password) }
 
     it 'is successful destroy article' do
-      article_repo = MiniTest::Mock.new.expect(
+      article_repo = Minitest::Mock.new.expect(
         :find_with_relations, article, [article.id]
       ).expect(
         :delete, nil, [article.id]
       )
       action = Web::Controllers::Article::Destroy.new(
         article_repo: article_repo,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]),
       )
       params = { id: article.id, article: {password: password} }
       response = action.call(params)
@@ -26,10 +26,10 @@ describe Web::Controllers::Article::Destroy do
     end
 
     it 'is rejected by auth failure' do
-      article_repo = MiniTest::Mock.new.expect(:find_with_relations, article, [article.id])
+      article_repo = Minitest::Mock.new.expect(:find_with_relations, article, [article.id])
       action = Web::Controllers::Article::Destroy.new(
         article_repo: article_repo,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]),
       )
       params = { id: article.id, article: {password: password + "hoge"} }
       response = action.call(params)
@@ -40,7 +40,7 @@ describe Web::Controllers::Article::Destroy do
 
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, false), [nil]) }
     it 'is redirected' do
       action = Web::Controllers::Article::Destroy.new(
         article_repo: nil, authenticator: authenticator

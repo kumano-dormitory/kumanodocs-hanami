@@ -5,9 +5,9 @@ describe Admin::Controllers::ArticleStatus::Update do
   describe 'when user is logged in' do
     def assert_invalid_params(invalid_params_merged)
       action = Admin::Controllers::ArticleStatus::Update.new(
-        meeting_repo: MiniTest::Mock.new.expect(:find_with_articles, meeting, [params[:id]]),
+        meeting_repo: Minitest::Mock.new.expect(:find_with_articles, meeting, [params[:id]]),
         article_repo: nil, admin_history_repo: nil,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, User.new), [nil]),
       )
       invalid_params = params.deep_merge(invalid_params_merged)
       response = action.call(invalid_params)
@@ -28,11 +28,11 @@ describe Admin::Controllers::ArticleStatus::Update do
     }
 
     it 'is successful' do
-      article_repo = MiniTest::Mock.new.expect(:update_status, nil, [articles_status])
+      article_repo = Minitest::Mock.new.expect(:update_status, nil, [articles_status])
       action = Admin::Controllers::ArticleStatus::Update.new(
         article_repo: article_repo, meeting_repo: nil,
-        admin_history_repo: MiniTest::Mock.new.expect(:add, nil, [:article_status_update, String]),
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
+        admin_history_repo: Minitest::Mock.new.expect(:add, nil, [:article_status_update, String]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, User.new), [nil]),
       )
       response = action.call(params)
 
@@ -51,8 +51,8 @@ describe Admin::Controllers::ArticleStatus::Update do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil])
-                                            .expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, nil), [nil])
+                                            .expect(:call, Minitest::Mock.new.expect(:user, nil), [nil]) }
     let(:params) { Hash[] }
     it 'is redirected' do
       action = Admin::Controllers::ArticleStatus::Update.new(

@@ -11,7 +11,7 @@ describe Web::Controllers::Login::Show do
 
   let(:params_pwa) { {standalone: true} }
   it 'is redirected when logged in from pwa' do
-    authenticator = MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil])
+    authenticator = Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil])
     action = Web::Controllers::Login::Show.new(authenticator: authenticator)
     response = action.call(params_pwa)
 

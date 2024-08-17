@@ -5,7 +5,7 @@ describe Admin::Controllers::Meeting::New do
   let(:params) { Hash[] }
 
   describe 'when user is logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, User.new), [nil]) }
     it 'is successful' do
       response = action.call(params)
       _(response[0]).must_equal 200
@@ -13,8 +13,8 @@ describe Admin::Controllers::Meeting::New do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil])
-                                            .expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, nil), [nil])
+                                            .expect(:call, Minitest::Mock.new.expect(:user, nil), [nil]) }
     it 'is redirected' do
       response = action.call(params)
       _(response[0]).must_equal 302

@@ -8,10 +8,10 @@ describe Admin::Controllers::Message::Edit do
 
     it 'is successful' do
       action = Admin::Controllers::Message::Edit.new(
-        comment_repo: MiniTest::Mock.new.expect(:find_with_relations, comment, [comment.id]),
-        message_repo: MiniTest::Mock.new.expect(:find, msg, [msg.id])
+        comment_repo: Minitest::Mock.new.expect(:find_with_relations, comment, [comment.id]),
+        message_repo: Minitest::Mock.new.expect(:find, msg, [msg.id])
                                         .expect(:by_article, [msg], [comment.article_id]),
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, User.new), [nil]),
       )
       response = action.call(params)
       _(response[0]).must_equal 200
@@ -23,7 +23,7 @@ describe Admin::Controllers::Message::Edit do
     it 'is invalid params error' do
       action = Admin::Controllers::Message::Edit.new(
         comment_repo: nil, message_repo: nil,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, User.new), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, User.new), [nil]),
       )
       response = action.call(params.merge([{id: nil},{comment_id: nil}].sample))
       _(response[0]).must_equal 400
@@ -31,8 +31,8 @@ describe Admin::Controllers::Message::Edit do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil])
-                                            .expect(:call, MiniTest::Mock.new.expect(:user, nil), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:user, nil), [nil])
+                                            .expect(:call, Minitest::Mock.new.expect(:user, nil), [nil]) }
     let(:params) { Hash[] }
     it 'is redirected' do
       action = Admin::Controllers::Message::Edit.new(

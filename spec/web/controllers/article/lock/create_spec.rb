@@ -18,12 +18,12 @@ describe Web::Controllers::Article::Lock::Create do
     }
 
     it 'is successful' do
-      article_repo = MiniTest::Mock.new.expect(:find_with_relations, article, [valid_params[:article_id]])
-      author_repo = MiniTest::Mock.new.expect(:lock, lock_key, [author.id, valid_params[:author][:password]])
+      article_repo = Minitest::Mock.new.expect(:find_with_relations, article, [valid_params[:article_id]])
+      author_repo = Minitest::Mock.new.expect(:lock, lock_key, [author.id, valid_params[:author][:password]])
       action = Web::Controllers::Article::Lock::Create.new(
         article_repo: article_repo,
         author_repo: author_repo,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]),
       )
       response = action.call(valid_params)
 
@@ -34,10 +34,10 @@ describe Web::Controllers::Article::Lock::Create do
     end
 
     it 'is rejected' do
-      article_repo = MiniTest::Mock.new.expect(:find_with_relations, article, [valid_params[:article_id]])
+      article_repo = Minitest::Mock.new.expect(:find_with_relations, article, [valid_params[:article_id]])
       action = Web::Controllers::Article::Lock::Create.new(
         article_repo: article_repo, author_repo: nil,
-        authenticator: MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, true), [nil]),
+        authenticator: Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, true), [nil]),
       )
       invalid_params = valid_params.deep_merge({ author: {password: Faker::Internet.password} })
       response = action.call(invalid_params)
@@ -48,7 +48,7 @@ describe Web::Controllers::Article::Lock::Create do
   end
 
   describe 'when user is not logged in' do
-    let(:authenticator) { MiniTest::Mock.new.expect(:call, MiniTest::Mock.new.expect(:verification, false), [nil]) }
+    let(:authenticator) { Minitest::Mock.new.expect(:call, Minitest::Mock.new.expect(:verification, false), [nil]) }
     let(:action) {  }
 
     it 'is redirected' do
