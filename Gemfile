@@ -30,7 +30,7 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'factory_bot'
+  gem 'factory_bot', '6.4.4'
   gem 'minitest'
   gem 'faker'
 end
