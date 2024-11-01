@@ -67,7 +67,8 @@ module Web::Controllers::Article
             # 追加議案の投稿受理期間
             if meeting.id == @meeting_repo.find_most_recent&.id
               # 正常な保存処理
-              save(params, checked: false)
+              #追加議案廃止によりchecked:trueとなっている
+              save(params, checked: true)
             else
               # 指定されたブロック会議が追加議案を受理するブロック会議ではない場合
               @meetings = [@meeting_repo.find_most_recent]
