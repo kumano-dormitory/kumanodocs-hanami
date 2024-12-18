@@ -75,13 +75,7 @@ module Web::Controllers::Table
         self.status = 422
       end
 
-      if after_deadline?
-        # 締め切り後なので追加議案にのみ表が追加できる
-        @articles = @article_repo.not_checked_for_next_meeting
-      else
-        # 締め切り前なので、締切を過ぎていない議案全てに表が投稿できる
-        @articles = @article_repo.before_deadline
-      end
+      @articles = @article_repo.before_deadline
     end
 
     def notifications
