@@ -43,10 +43,9 @@ module Web::Controllers::Table
     def call(params)
       if params.valid?
         article = @article_repo.find_with_relations(params[:table][:article_id])
-        # 議案が締め切りを過ぎていないか、または締め切り後かつ追加議案であるかを判定
+        # 議案が締め切りを過ぎていないかを判定
         meeting_date = Time.new(article.meeting.date.year, article.meeting.date.mon, article.meeting.date.day,22,0,0,"+09:00")
-        if (article.meeting.deadline > Time.now) || \
-           (after_deadline? && meeting_date > Time.now && !article.checked && !article.printed)
+        if (article.meeting.deadline > Time.now)
           begin
             CSV.parse(params[:table][:tsv], col_sep: "\t")
             if article.author.authenticate(params[:table][:article_passwd])
@@ -75,13 +74,7 @@ module Web::Controllers::Table
         self.status = 422
       end
 
-      if after_deadline?
-        # 締め切り後なので追加議案にのみ表が追加できる
-        @articles = @article_repo.not_checked_for_next_meeting
-      else
-        # 締め切り前なので、締切を過ぎていない議案全てに表が投稿できる
-        @articles = @article_repo.before_deadline
-      end
+      @articles = @article_repo.before_deadline
     end
 
     def notifications

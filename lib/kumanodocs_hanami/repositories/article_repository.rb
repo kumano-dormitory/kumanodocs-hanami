@@ -152,7 +152,7 @@ class ArticleRepository < Hanami::Repository
   def not_checked_for_next_meeting(now: Time.now)
     meeting = MeetingRepository.new.find_most_recent(today: now)
     articles
-      .where(meeting_id: meeting.id, checked: false)
+      .where(meeting_id: meeting.id, checked: true)
       .order(articles[:number].asc(nulls: :last), articles[:id].asc)
       .to_a
   end

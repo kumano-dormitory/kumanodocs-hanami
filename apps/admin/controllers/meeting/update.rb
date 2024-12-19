@@ -45,9 +45,9 @@ module Admin::Controllers::Meeting
     def valid_deadline?(params)
       date = params[:meeting][:date]
       deadline = DateTime.parse(params[:meeting][:deadline].to_s.gsub(/\+00:00/, "+09:00"))
-      meeting_date = Time.new(date.year, date.month, date.day, 20, 0, 0, "+09:00")
+      meeting_date = Time.new(date.year, date.month, date.day, 22, 0, 0, "+09:00")
       meeting_deadline = deadline.to_time
-      meeting_deadline < meeting_date
+      meeting_deadline <= meeting_date
     end
 
     def notifications

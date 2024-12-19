@@ -32,7 +32,7 @@ module Web::Controllers::Article
         if after_deadline?
           # 追加議案のみ編集可の期間
           # TODO: 次のブロック会議以降の議案も編集可にする
-          if @meeting_repo.find_most_recent.id == @article.meeting.id && !@article.checked && !@article.printed
+          if @meeting_repo.find_most_recent.id == @article.meeting.id
             @meetings = [@meeting_repo.find_most_recent]
           else
             flash[:notifications] = {error: {status: "Error:", message: "ブロック会議の締め切りを過ぎているか、追加議案であっても資料委員会が印刷済みのため議案の編集ができません（編集したい場合は資料委員会に相談してください）. 次のブロック会議以降のブロック会議に含まれる議案を編集したい場合は、次のブロック会議終了後に編集してください."}}
