@@ -6,7 +6,7 @@
 module Web::Controllers::Article
   class Top
     include Web::Action
-    expose :save_token, :during_meeting, :next_meeting, :blocks
+    expose :save_token, :during_meeting, :next_meeting, :blocks, :meeting
 
     # Dependency injection
     # authenticatorは認証モジュールで必須(../authentication.rb)
@@ -20,6 +20,7 @@ module Web::Controllers::Article
 
     def call(params)
       @next_meeting = @meeting_repo.find_most_recent
+      @meeting = @meeting_repo.find_with_articles(@next_meeting.id)
       # 議事録作成リンクの表示
       # TODO: 次の会議が寮生大会のときは、議事録作成リンクを表示させない
       if during_meeting?

@@ -239,6 +239,7 @@ GEM
 
 PLATFORMS
   x86_64-linux-musl
+  x86_64-linux-musl
 
 DEPENDENCIES
   activesupport (>= 5.2.4.3)
