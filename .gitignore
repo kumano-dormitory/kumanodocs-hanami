@@ -19,7 +19,7 @@
 #Ignore docs files
 /docs
 /giji
-/shiryo
+/shiryo/*
 /others
 #Ignore log files
 /logs

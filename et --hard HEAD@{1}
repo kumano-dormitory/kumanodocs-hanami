@@ -1,0 +1,192 @@
+[33mb8e34f4[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: pull: Fast-forward
+[33mda196da[m HEAD@{1}: checkout: moving from 7b4ae6dbcfb257fb4a905687f45ce0f8b3d22f03 to master
+[33m7b4ae6d[m HEAD@{2}: checkout: moving from remove_additional_article to origin
+[33m665b38b[m[33m ([m[1;31morigin/remove_additional_article[m[33m, [m[1;32mremove_additional_article[m[33m)[m HEAD@{3}: commit: fix bug
+[33me2cd695[m HEAD@{4}: commit: fix bug
+[33m27eeb27[m HEAD@{5}: commit: fix not_checked_for_next_meeting at article?repository
+[33m9ae5f4b[m HEAD@{6}: commit: fix bug about table
+[33mba08690[m HEAD@{7}: commit: fix bug about table
+[33m9c85317[m HEAD@{8}: commit: fix about attaching tables
+[33m9153033[m HEAD@{9}: commit: fix bug about posting tables
+[33m58e1a52[m HEAD@{10}: checkout: moving from 653c5662a4d37a4e6f4dccf60ac7762d95cfe560 to remove_additional_article
+[33m653c566[m HEAD@{11}: commit: fix bug about additional article
+[33m7b4ae6d[m HEAD@{12}: checkout: moving from remove_additional_article to origin
+[33m58e1a52[m HEAD@{13}: commit: some fix
+[33m7b4ae6d[m HEAD@{14}: pull origin master: Fast-forward
+[33m3b077af[m HEAD@{15}: commit: set article.checked always true
+[33mac9b1dc[m[33m ([m[1;32mruby_update[m[33m)[m HEAD@{16}: checkout: moving from ruby_update to remove_additional_article
+[33mac9b1dc[m[33m ([m[1;32mruby_update[m[33m)[m HEAD@{17}: pull origin master: Fast-forward
+[33m6323f35[m HEAD@{18}: filter-branch: rewrite
+[33mde8a1b3[m HEAD@{19}: commit: something
+[33m545064f[m HEAD@{20}: commit: fix something so tests work correctly.
+[33m944bd25[m HEAD@{21}: commit: downgrade activesupport
+[33m73be6f9[m HEAD@{22}: checkout: moving from update_nokogiri to ruby_update
+[33meef0bc3[m[33m ([m[1;31morigin/update_nokogiri[m[33m, [m[1;32mupdate_nokogiri[m[33m)[m HEAD@{23}: pull origin master: Fast-forward
+[33m73be6f9[m HEAD@{24}: checkout: moving from ruby_update to update_nokogiri
+[33m73be6f9[m HEAD@{25}: commit: update activesupport version
+[33m8fb1f7b[m HEAD@{26}: commit: update activesupport
+[33m4c69d2f[m HEAD@{27}: commit: update activesupport
+[33m2bbebfc[m HEAD@{28}: pull origin master: Fast-forward
+[33mc8d7472[m HEAD@{29}: commit: update ruby version to 2.7.2
+[33mda196da[m HEAD@{30}: checkout: moving from master to ruby_update
+[33mda196da[m HEAD@{31}: pull origin master: Fast-forward
+[33ma312da7[m HEAD@{32}: reset: moving to HEAD
+[33ma312da7[m HEAD@{33}: pull origin master: Fast-forward
+[33m9da9a1a[m HEAD@{34}: checkout: moving from update1 to master
+[33m0ccfe5b[m[33m ([m[1;31morigin/update1[m[33m, [m[1;32mupdate1[m[33m)[m HEAD@{35}: commit (merge): fix for merge
+[33m9da9a1a[m HEAD@{36}: checkout: moving from master to update1
+[33m9da9a1a[m HEAD@{37}: filter-branch: rewrite
+[33m40758be[m HEAD@{38}: commit: some changes
+[33md31b959[m HEAD@{39}: commit: some changes
+[33m95fbae5[m HEAD@{40}: commit: fix gitignore
+[33m94c2e7d[m HEAD@{41}: commit: fixed something
+[33m4f97805[m HEAD@{42}: commit: deleted 'previous BLK' feature when it's not BLK
+[33m45f5dcd[m HEAD@{43}: commit: add daigi-meating feature
+[33m93b7367[m HEAD@{44}: commit: edit session expire time
+[33m9657497[m HEAD@{45}: pull: Fast-forward
+[33m8f16108[m HEAD@{46}: pull: Fast-forward
+[33m849d4a5[m HEAD@{47}: pull: Fast-forward
+[33m6bb2521[m HEAD@{48}: pull: Fast-forward
+[33m891330d[m HEAD@{49}: pull: Fast-forward
+[33m5238fd7[m HEAD@{50}: reset: moving to HEAD
+[33m5238fd7[m HEAD@{51}: pull: Fast-forward
+[33m7f6315e[m HEAD@{52}: pull: Fast-forward
+[33maed226c[m HEAD@{53}: pull: Fast-forward
+[33m91afcf1[m HEAD@{54}: pull: Fast-forward
+[33m7c65c59[m HEAD@{55}: pull: Fast-forward
+[33mc7bc0ba[m HEAD@{56}: pull: Fast-forward
+[33mf4d7ec2[m HEAD@{57}: commit: update sw.js
+[33mb7ac86e[m HEAD@{58}: pull: Fast-forward
+[33mbf081a3[m HEAD@{59}: pull: Fast-forward
+[33m8b173cf[m HEAD@{60}: pull: Fast-forward
+[33me8475a9[m HEAD@{61}: commit: use adjustbox for tables in latex
+[33md6f628d[m HEAD@{62}: commit: serve vanillaframework from kumano-ryo.com
+[33madd520a[m HEAD@{63}: commit: bugfix: file update for docs
+[33m904cc97[m HEAD@{64}: commit: update latex
+[33m4ae6154[m HEAD@{65}: pull: Fast-forward
+[33m5d48db9[m HEAD@{66}: pull: Fast-forward
+[33mad845be[m HEAD@{67}: pull: Fast-forward
+[33mf68b179[m HEAD@{68}: pull: Fast-forward
+[33mbbce060[m HEAD@{69}: pull: Fast-forward
+[33m19e1b68[m HEAD@{70}: pull: Fast-forward
+[33m62b0532[m HEAD@{71}: commit: remove comment edit notification
+[33m061a64c[m HEAD@{72}: pull: Fast-forward
+[33m62b465d[m HEAD@{73}: pull: Fast-forward
+[33m1616ee6[m HEAD@{74}: pull: Fast-forward
+[33m8449d0c[m HEAD@{75}: pull: Fast-forward
+[33m22b1bc9[m HEAD@{76}: pull: Fast-forward
+[33mc892abf[m HEAD@{77}: pull: Fast-forward
+[33m160c2a9[m HEAD@{78}: pull: Fast-forward
+[33m89070d2[m HEAD@{79}: pull: Fast-forward
+[33m4d6641a[m HEAD@{80}: pull: Fast-forward
+[33m73fd591[m HEAD@{81}: pull: Fast-forward
+[33m9db3955[m HEAD@{82}: pull: Fast-forward
+[33mb337556[m HEAD@{83}: pull: Fast-forward
+[33m6499d50[m HEAD@{84}: pull: Fast-forward
+[33mf66c33e[m HEAD@{85}: pull: Fast-forward
+[33mca06332[m HEAD@{86}: pull: Fast-forward
+[33m814015d[m HEAD@{87}: pull: Fast-forward
+[33ma1c4fbc[m HEAD@{88}: pull: Fast-forward
+[33m1325908[m HEAD@{89}: pull: Fast-forward
+[33m22c78fb[m HEAD@{90}: pull: Fast-forward
+[33m8c27f78[m HEAD@{91}: pull: Fast-forward
+[33mf44acae[m HEAD@{92}: pull: Fast-forward
+[33mc1c0998[m HEAD@{93}: pull: Fast-forward
+[33me700079[m HEAD@{94}: pull: Fast-forward
+[33m57bce3a[m HEAD@{95}: commit: 代議員会の手引きへのリンクを追加
+[33md5e750e[m HEAD@{96}: pull: Fast-forward
+[33m5113bec[m HEAD@{97}: pull: Fast-forward
+[33m5df204b[m HEAD@{98}: pull: Fast-forward
+[33m0931ad8[m HEAD@{99}: commit: 2020年12月16日代議員会
+[33m6420183[m HEAD@{100}: pull: Fast-forward
+[33m9852f62[m HEAD@{101}: commit: fix some
+[33ma2b8881[m HEAD@{102}: pull: Fast-forward
+[33md97f722[m HEAD@{103}: pull: Fast-forward
+[33m66ebecf[m HEAD@{104}: pull: Fast-forward
+[33m60c4326[m HEAD@{105}: pull: Fast-forward
+[33m27b5ec4[m HEAD@{106}: pull: Fast-forward
+[33mc800f30[m HEAD@{107}: pull: Fast-forward
+[33m776da1e[m HEAD@{108}: pull: Fast-forward
+[33mb6fe847[m HEAD@{109}: pull: Fast-forward
+[33m7e98bc6[m HEAD@{110}: commit: fix typo
+[33m853b5e7[m HEAD@{111}: pull: Fast-forward
+[33mff25e13[m HEAD@{112}: pull: Fast-forward
+[33m61643ec[m HEAD@{113}: pull: Fast-forward
+[33m217285d[m HEAD@{114}: pull: Fast-forward
+[33meea1af4[m HEAD@{115}: pull: Fast-forward
+[33m42c237a[m HEAD@{116}: pull: Fast-forward
+[33m77dcd9f[m HEAD@{117}: pull: Fast-forward
+[33m9e7aa42[m HEAD@{118}: pull: Fast-forward
+[33mf2bb8d3[m HEAD@{119}: pull: Fast-forward
+[33m7b67e5b[m HEAD@{120}: pull: Fast-forward
+[33mbc597c1[m HEAD@{121}: pull: Fast-forward
+[33mbf85479[m HEAD@{122}: pull: Fast-forward
+[33ma3066d0[m HEAD@{123}: pull: Fast-forward
+[33m12cba95[m HEAD@{124}: pull: Fast-forward
+[33mf4abe76[m HEAD@{125}: pull: Fast-forward
+[33m92e3d4c[m HEAD@{126}: pull: Fast-forward
+[33m805147b[m HEAD@{127}: pull: Fast-forward
+[33m2d7b06f[m HEAD@{128}: pull: Fast-forward
+[33mc4a87b2[m HEAD@{129}: pull: Fast-forward
+[33ma0ebcd2[m HEAD@{130}: pull: Fast-forward
+[33m8c70b7f[m HEAD@{131}: pull: Fast-forward
+[33mf5e1f9f[m HEAD@{132}: pull: Fast-forward
+[33m34d9a07[m HEAD@{133}: commit: bugfix ; aggregate function
+[33m7f19bd6[m HEAD@{134}: pull: Fast-forward
+[33m312cab2[m HEAD@{135}: pull: Fast-forward
+[33m8d6366a[m HEAD@{136}: pull: Fast-forward
+[33m2c70397[m HEAD@{137}: pull: Fast-forward
+[33md7769cf[m HEAD@{138}: pull: Fast-forward
+[33m94c6b09[m HEAD@{139}: pull: Fast-forward
+[33m229b427[m HEAD@{140}: pull: Fast-forward
+[33m91dd005[m HEAD@{141}: pull: Fast-forward
+[33m65d80d0[m HEAD@{142}: pull: Fast-forward
+[33md3f552e[m HEAD@{143}: pull: Fast-forward
+[33mad26083[m HEAD@{144}: pull: Fast-forward
+[33m3d8ca35[m HEAD@{145}: pull: Fast-forward
+[33mb0d2a4a[m HEAD@{146}: pull: Fast-forward
+[33m07573b3[m HEAD@{147}: pull: Fast-forward
+[33m693a04e[m HEAD@{148}: pull: Fast-forward
+[33mb65d4c9[m HEAD@{149}: pull: Fast-forward
+[33m46f99ef[m HEAD@{150}: pull: Fast-forward
+[33m380ead5[m HEAD@{151}: pull: Fast-forward
+[33m77410f5[m HEAD@{152}: pull: Fast-forward
+[33m82dace4[m HEAD@{153}: pull: Fast-forward
+[33m8d3a1da[m HEAD@{154}: pull: Fast-forward
+[33mc54ba32[m HEAD@{155}: pull: Fast-forward
+[33me6315b0[m HEAD@{156}: pull: Merge made by the 'recursive' strategy.
+[33m9610728[m HEAD@{157}: commit: fix: show next_meeting's deadline
+[33m4914065[m HEAD@{158}: pull: Fast-forward
+[33m50e8b6a[m HEAD@{159}: pull: Fast-forward
+[33m08ecd66[m HEAD@{160}: pull: Fast-forward
+[33m4cc6306[m HEAD@{161}: pull: Fast-forward
+[33m063fa62[m HEAD@{162}: pull: Fast-forward
+[33ma87600b[m HEAD@{163}: pull: Fast-forward
+[33m7be0964[m HEAD@{164}: pull: Fast-forward
+[33me6e8621[m HEAD@{165}: pull: Fast-forward
+[33m63a01c2[m HEAD@{166}: pull origin meeting-type: Fast-forward
+[33m6a66a46[m HEAD@{167}: pull origin meeting-type: Fast-forward
+[33m18ea3d4[m HEAD@{168}: pull: Fast-forward
+[33m8816011[m HEAD@{169}: pull: Fast-forward
+[33m9ce8d18[m HEAD@{170}: pull: Fast-forward
+[33m4cc6f3b[m HEAD@{171}: pull: Fast-forward
+[33mcb6b0ac[m HEAD@{172}: pull: Fast-forward
+[33ma2b2ee2[m HEAD@{173}: commit: fix: meeting#download tex template
+[33m8776e52[m HEAD@{174}: pull: Fast-forward
+[33m12c81cc[m HEAD@{175}: pull: Fast-forward
+[33m7d0566b[m HEAD@{176}: pull: Fast-forward
+[33m454d554[m HEAD@{177}: pull: Fast-forward
+[33m30ea019[m HEAD@{178}: pull: Fast-forward
+[33mfdeff6a[m HEAD@{179}: commit: fix database query error
+[33m2115a34[m HEAD@{180}: pull: Fast-forward
+[33mfa34bfd[m HEAD@{181}: commit: modify api token get
+[33m5be6115[m HEAD@{182}: pull: Fast-forward
+[33m5af5b6c[m HEAD@{183}: checkout: moving from da48af83cff16e0b92daf825b4a4a1780ff8d47a to master
+[33mda48af8[m HEAD@{184}: checkout: moving from master to da48af83cff16e0b92daf825b4a4a1780ff8d47a
+[33m5af5b6c[m HEAD@{185}: pull: Fast-forward
+[33mda48af8[m HEAD@{186}: commit: change unix domain socket directory
+[33me71b210[m HEAD@{187}: pull: Fast-forward
+[33m3802487[m HEAD@{188}: checkout: moving from e71b210c16c163734254d5fde1fc22350e329593 to master
+[33me71b210[m HEAD@{189}: commit: use puma in production
+[33m3802487[m HEAD@{190}: checkout: moving from master to 38024878dcd49b09e44105baba33b39c7cb02471
+[33m3802487[m HEAD@{191}: clone: from https://github.com/kumano-dormitory/kumanodocs-hanami.git
