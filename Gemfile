@@ -2,11 +2,7 @@ source 'https://rubygems.org'
 
 ruby '~> 2.7'
 
-<<<<<<< HEAD
 gem 'activesupport', '>=5.2.4.3'
-=======
-gem 'activesupport', '6.1.7.5'
->>>>>>> update_nokogiri
 gem 'hanami', '1.3.5'
 gem 'hanami-model'
 

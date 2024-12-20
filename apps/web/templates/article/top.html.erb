@@ -83,11 +83,10 @@
         <% if next_meeting %>
         <li>
           <a href="<%= routes.meeting_path(id: next_meeting.id) %>" class="p-button--base button-recent-meeting">
-            <h3 class="u-no-margin--bottom full-width"><%= next_meeting.formatted_date %> の<% if next_meeting.type == 1 %>寮生大会<% elsif next_meeting.type == 2 %>代議員会<% elsif next_meeting.type == 3 %>寮生集会<% else %>ブロック会議<% end %></h3>
+            <h3 class="u-no-margin--bottom full-width"><%= next_meeting.formatted_date %> の<% if meeting.type == 1 %>寮生大会<% elsif meeting.type == 2 %>代議員会<% elsif meeting.type == 3 %>寮生集会<% else %>ブロック会議<% end %></h3>
           </a>
         </li>
         <% end %>
-        <script>console.log(<%= next_meeting %>)</script>
         <li>
           <a href="<%= routes.articles_path %>" class="p-button--base button-articles">
             <h3 class="u-no-margin--bottom full-width">新着議案一覧</h3>
