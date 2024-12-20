@@ -8,6 +8,7 @@
 /public/assets*
 /tmp
 .env
+/lib/kumanodocs_hanami/jwt_public_key.rb
 #Ignore db export csv files
 /db/kumanodocs/*.sqlite3
 /db/kumanodocs/*.csv
