@@ -16,8 +16,9 @@ module Web::Controllers::Docs
 
     def call(params)
       case params[:id]
+      
       when "ryoseisyukai" then # 寮生集会資料
-        if FileTest.exist?("/app/ryoseisyukai.pdf")
+        if FileTest.exist?("/shiryo/ryoseisyukai.pdf")
           encoded_filename = URI.encode_www_form_component("20210709寮生集会_経緯まとめ.pdf")
           self.format = :pdf
           self.headers.merge!({'Content-Disposition' => "inline; filename*=UTF-8''#{encoded_filename}"})
@@ -74,32 +75,32 @@ module Web::Controllers::Docs
           unsafe_send_file "/app/others/shuchi.mp4"
         end
       when "ryoseitaikai" then # 寮生大会資料
-        if FileTest.exist?("/app/ryoseitaikai.pdf")
+        if FileTest.exist?("/app/shiryo/ryoseitaikai.pdf")
           encoded_filename = URI.encode_www_form_component("20221217寮生大会議案書.pdf")
           self.format = :pdf
           self.headers.merge!({'Content-Disposition' => "inline; filename*=UTF-8''#{encoded_filename}"})
-          unsafe_send_file "/app/ryoseitaikai.pdf"
+          unsafe_send_file "/app/shiryo/ryoseitaikai.pdf"
         end
       when "ryoseitaikai2" then #寮生大会資料
-        if FileTest.exist?("/app/ryoseitaikai2.pdf")
+        if FileTest.exist?("/app/shiryo/ryoseitaikai2.pdf")
           encoded_filename = URI.encode_www_form_component("大学改革アピール.pdf")
           self.format = :pdf
           self.headers.merge!({'Content-Disposition' => "inline; filename*=UTF-8''#{encoded_filename}"})
-          unsafe_send_file "/app/ryoseitaikai2.pdf"
+          unsafe_send_file "/app/shiryo/ryoseitaikai2.pdf"
         end
       when "ryoseitaikai3" then #変更点まとめ
-        if FileTest.exist?("/app/ryoseitaikai3.pdf")
+        if FileTest.exist?("/app/shiryo/ryoseitaikai3.pdf")
           encoded_filename = URI.encode_www_form_component("論文謝辞アピール.pdf")
           self.format = :pdf
           self.headers.merge!({'Content-Disposition' => "inline; filename*=UTF-8''#{encoded_filename}"})
-          unsafe_send_file "/app/ryoseitaikai3.pdf"
+          unsafe_send_file "/app/shiryo/ryoseitaikai3.pdf"
         end
       when "ryoseitaikai4" then # 返答まとめ
-        if FileTest.exist?("/app/ryoseitaikai4.pdf")
+        if FileTest.exist?("/app/shiryo/ryoseitaikai4.pdf")
           encoded_filename = URI.encode_www_form_component("週刊　工学部自治会を作る.pdf")
           self.format = :pdf
           self.headers.merge!({'Content-Disposition' => "inline; filename*=UTF-8''#{encoded_filename}"})
-          unsafe_send_file "/app/ryoseitaikai4.pdf"
+          unsafe_send_file "/app/shiryo/ryoseitaikai4.pdf"
         end
       when "ryoseitaikai5" then # 自由討論
         if FileTest.exist?("/app/ryoseitaikai5.pdf")

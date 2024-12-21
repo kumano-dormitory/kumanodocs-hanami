@@ -9,6 +9,8 @@ module Admin::Controllers::Meeting
         required(:date).filled(:date?)
         required(:deadline).filled(:date_time?)
         required(:ryoseitaikai).filled(:bool?)
+        required(:daigiinkai).filled(:bool?)
+        required(:ryoseishukai).filled(:bool?)
       end
     end
 
@@ -27,7 +29,16 @@ module Admin::Controllers::Meeting
         meeting_attr = {
           date: params[:meeting][:date],
           deadline: params[:meeting][:deadline].to_s.gsub(/\+00:00/, "+09:00"),
-          type: (params[:meeting][:ryoseitaikai] ? 1 : 0)
+          type:           
+          if (params[:meeting][:ryoseitaikai] == TRUE) then
+            1
+          elsif(params[:meeting][:daigiinkai] == TRUE) then
+            2
+          elsif(params[:meeting][:ryoseishukai] == TRUE) then
+            3
+          else
+            0
+          end
         }
         meeting = @meeting_repo.update(@meeting.id, meeting_attr)
         @admin_history_repo.add(:meeting_update,
