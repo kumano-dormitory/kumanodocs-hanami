@@ -29,13 +29,7 @@ module Admin::Controllers::Meeting
           #特別な会議かどうか
           type: 
           if (params[:meeting][:ryoseitaikai] == TRUE) then
-            if(params[:meeting][:daigiinkai] == TRUE) then
-              if(params[:meeting][:ryoseishukai] == TRUE) then
-                4
-              end
-            else
-              1
-            end
+            1
           elsif(params[:meeting][:daigiinkai] == TRUE) then
             2
           elsif(params[:meeting][:ryoseishukai] == TRUE) then
